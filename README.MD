@@ -1,6 +1,6 @@
 # SabreTools.Hashing
 
-This library comprises of methods and helpers to simplify the process of getting checksums and checksums from both files and streams. See the following table for information about where each of the various components comes from:
+This library comprises of methods and helpers to simplify the process of getting checksums and hashes from both files and streams. See the following table for information about where each of the various components comes from:
 
 | Source | Hash / Checksum Types | Notes |
 | --- | --- | --- |
