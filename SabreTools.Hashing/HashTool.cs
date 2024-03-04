@@ -24,7 +24,8 @@ namespace SabreTools.Hashing
             crc32 = null; md5 = null; sha1 = null;
 
             // Get all file hashes
-            var fileHashes = GetFileHashesAndSize(filename, out size);
+            HashType[] standardHashTypes = [HashType.CRC32, HashType.MD5, HashType.SHA1];
+            var fileHashes = GetFileHashesAndSize(filename, standardHashTypes, out size);
             if (fileHashes == null)
                 return false;
 
