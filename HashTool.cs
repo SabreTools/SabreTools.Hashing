@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 #if NET40_OR_GREATER || NETCOREAPP
 using System.Threading.Tasks;
 #endif
+using Compress.ThreadReaders;
 
 namespace SabreTools.Hashing
 {
@@ -16,13 +18,13 @@ namespace SabreTools.Hashing
         /// </summary>
         /// <param name="filename">Path to the input file</param>
         /// <returns>True if hashing was successful, false otherwise</returns>
-        public static bool GetFileHashes(string filename, out long size, out string? crc32, out string? md5, out string? sha1)
+        public static bool GetStandardHashes(string filename, out long size, out string? crc32, out string? md5, out string? sha1)
         {
             // Set all initial values
             crc32 = null; md5 = null; sha1 = null;
 
             // Get all file hashes
-            var fileHashes = GetFileHashes(filename, out size);
+            var fileHashes = GetFileHashesAndSize(filename, out size);
             if (fileHashes == null)
                 return false;
 
@@ -33,14 +35,29 @@ namespace SabreTools.Hashing
             return true;
         }
 
-        // TODO: Add variants of the two following that take either a list or array of HashType that should be used
-
         /// <summary>
         /// Get hashes from an input file path
         /// </summary>
         /// <param name="filename">Path to the input file</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
-        public static Dictionary<HashType, string?>? GetFileHashes(string filename, out long size)
+        public static Dictionary<HashType, string?>? GetFileHashes(string filename)
+            => GetFileHashesAndSize(filename, out _);
+
+        /// <summary>
+        /// Get hashes from an input file path
+        /// </summary>
+        /// <param name="filename">Path to the input file</param>
+        /// <param name="hashTypes">Array of hash types to get from the file</param>
+        /// <returns>Dictionary containing hashes on success, null on error</returns>
+        public static Dictionary<HashType, string?>? GetFileHashes(string filename, HashType[] hashTypes)
+            => GetFileHashesAndSize(filename, hashTypes, out _);
+
+        /// <summary>
+        /// Get hashes and size from an input file path
+        /// </summary>
+        /// <param name="filename">Path to the input file</param>
+        /// <returns>Dictionary containing hashes on success, null on error</returns>
+        public static Dictionary<HashType, string?>? GetFileHashesAndSize(string filename, out long size)
         {
             // If the file doesn't exist, we can't do anything
             if (!File.Exists(filename))
@@ -60,11 +77,51 @@ namespace SabreTools.Hashing
         }
 
         /// <summary>
+        /// Get hashes and size from an input file path
+        /// </summary>
+        /// <param name="filename">Path to the input file</param>
+        /// <param name="hashTypes">Array of hash types to get from the file</param>
+        /// <returns>Dictionary containing hashes on success, null on error</returns>
+        public static Dictionary<HashType, string?>? GetFileHashesAndSize(string filename, HashType[] hashTypes, out long size)
+        {
+            // If the file doesn't exist, we can't do anything
+            if (!File.Exists(filename))
+            {
+                size = -1;
+                return null;
+            }
+
+            // Set the file size
+            size = new FileInfo(filename).Length;
+
+            // Open the input file
+            var input = File.OpenRead(filename);
+
+            // Return the hashes from the stream
+            return GetStreamHashes(input, hashTypes);
+        }
+
+        /// <summary>
         /// Get hashes from an input Stream
         /// </summary>
         /// <param name="input">Stream to hash</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
         public static Dictionary<HashType, string?>? GetStreamHashes(Stream input)
+        {
+            // Create a hash array for all entries
+            HashType[] hashTypes = (HashType[])Enum.GetValues(typeof(HashType));
+
+            // Get the output hashes
+            return GetStreamHashes(input, hashTypes);
+        }
+
+        /// <summary>
+        /// Get hashes from an input Stream
+        /// </summary>
+        /// <param name="input">Stream to hash</param>
+        /// <param name="hashTypes">Array of hash types to get from the file</param>
+        /// <returns>Dictionary containing hashes on success, null on error</returns>
+        public static Dictionary<HashType, string?>? GetStreamHashes(Stream input, HashType[] hashTypes)
         {
             // Create the output dictionary
             var hashDict = new Dictionary<HashType, string?>();
@@ -72,23 +129,13 @@ namespace SabreTools.Hashing
             try
             {
                 // Get a list of hashers to run over the buffer
-                var hashers = new Dictionary<HashType, HashWrapper>
+                var hashers = new Dictionary<HashType, HashWrapper>();
+
+                // Add hashers based on requested types
+                foreach (HashType hashType in hashTypes)
                 {
-                    { HashType.CRC32, new HashWrapper(HashType.CRC32) },
-#if NET6_0_OR_GREATER
-                    { HashType.CRC64, new HashWrapper(HashType.CRC64) },
-#endif
-                    { HashType.MD5, new HashWrapper(HashType.MD5) },
-                    { HashType.SHA1, new HashWrapper(HashType.SHA1) },
-                    { HashType.SHA256, new HashWrapper(HashType.SHA256) },
-                    { HashType.SHA384, new HashWrapper(HashType.SHA384) },
-                    { HashType.SHA512, new HashWrapper(HashType.SHA512) },
-                    { HashType.SpamSum, new HashWrapper(HashType.SpamSum) },
-#if NET6_0_OR_GREATER
-                    { HashType.XxHash32, new HashWrapper(HashType.XxHash32) },
-                    { HashType.XxHash64, new HashWrapper(HashType.XxHash64) },
-#endif
-                };
+                    hashers[hashType] = new HashWrapper(hashType);
+                }
 
                 // Initialize the hashing helpers
                 var loadBuffer = new ThreadLoadBuffer(input);
@@ -154,20 +201,10 @@ namespace SabreTools.Hashing
 #endif
 
                 // Get the results
-                hashDict[HashType.CRC32] = hashers[HashType.CRC32].CurrentHashString;
-#if NET6_0_OR_GREATER
-                hashDict[HashType.CRC64] = hashers[HashType.CRC64].CurrentHashString;
-#endif
-                hashDict[HashType.MD5] = hashers[HashType.MD5].CurrentHashString;
-                hashDict[HashType.SHA1] = hashers[HashType.SHA1].CurrentHashString;
-                hashDict[HashType.SHA256] = hashers[HashType.SHA256].CurrentHashString;
-                hashDict[HashType.SHA384] = hashers[HashType.SHA384].CurrentHashString;
-                hashDict[HashType.SHA512] = hashers[HashType.SHA512].CurrentHashString;
-                hashDict[HashType.SpamSum] = hashers[HashType.SpamSum].CurrentHashString;
-#if NET6_0_OR_GREATER
-                hashDict[HashType.XxHash32] = hashers[HashType.XxHash32].CurrentHashString;
-                hashDict[HashType.XxHash64] = hashers[HashType.XxHash64].CurrentHashString;
-#endif
+                foreach (var hasher in hashers)
+                {
+                    hashDict[hasher.Key] = hasher.Value.CurrentHashString;
+                }
 
                 // Dispose of the hashers
                 loadBuffer.Dispose();

@@ -2,8 +2,7 @@
 using System.IO;
 using System.Threading;
 
-//namespace Compress.ThreadReaders
-namespace SabreTools.Hashing
+namespace Compress.ThreadReaders
 {
     internal sealed class ThreadLoadBuffer : IDisposable
     {
