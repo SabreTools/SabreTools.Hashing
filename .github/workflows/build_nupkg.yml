@@ -20,6 +20,12 @@ jobs:
         
     - name: Restore dependencies
       run: dotnet restore
+
+    - name: Build library
+      run: dotnet build
+
+    - name: Run tests
+      run: dotnet test
       
     - name: Pack
       run: dotnet pack
@@ -28,13 +34,13 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: 'Nuget Package'
-        path: 'bin/Release/*.nupkg'
+        path: 'SabreTools.Hashing/bin/Release/*.nupkg'
 
     - name: Upload to rolling
       uses: ncipollo/release-action@v1.14.0
       with:
         allowUpdates: True
-        artifacts: 'bin/Release/*.nupkg'
+        artifacts: 'SabreTools.Hashing/bin/Release/*.nupkg'
         body: 'Last built commit: ${{ github.sha }}'
         name: 'Rolling Release'
         prerelease: True
