@@ -137,14 +137,8 @@ namespace SabreTools.Hashing
                     break;
 
                 case IChecksum ic:
-#if NET452_OR_GREATER || NETCOREAPP
-                    var icBufferSpan = new ReadOnlySpan<byte>(buffer, offset, size);
-                    byte[] trimmedBuffer = icBufferSpan.ToArray();
-#else
-                    byte[] trimmedBuffer = new byte[size];
-                    Array.Copy(buffer, offset, trimmedBuffer, 0, size);
-#endif
-                    ic.Update(trimmedBuffer);
+                    byte[] icBuffer = GetArraySegment(buffer, offset, size);
+                    ic.Update(icBuffer);
                     break;
 
 #if NET462_OR_GREATER || NETCOREAPP
@@ -206,6 +200,21 @@ namespace SabreTools.Hashing
             {
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Get a segment from the array based on an offset and size
+        /// </summary>
+        private static byte[] GetArraySegment(byte[] buffer, int offset, int size)
+        {
+#if NET452_OR_GREATER || NETCOREAPP
+            var icBufferSpan = new ReadOnlySpan<byte>(buffer, offset, size);
+            byte[] trimmedBuffer = icBufferSpan.ToArray();
+#else
+            byte[] trimmedBuffer = new byte[size];
+            Array.Copy(buffer, offset, trimmedBuffer, 0, size);
+#endif
+            return trimmedBuffer;
         }
 
         #endregion
