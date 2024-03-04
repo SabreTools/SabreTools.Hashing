@@ -248,11 +248,11 @@ namespace SabreTools.Hashing
                     // Run hashers sequentially on each chunk
                     foreach (var h in hashers)
                     {
-                        h.Value.Process(buffer, current);
+                        h.Value.Process(buffer, 0, current);
                     }
 #else
                     // Run hashers in parallel on each chunk
-                    Parallel.ForEach(hashers, h => h.Value.Process(buffer, current));
+                    Parallel.ForEach(hashers, h => h.Value.Process(buffer, 0, current));
 #endif
 
                     // Wait for the load buffer worker, if needed

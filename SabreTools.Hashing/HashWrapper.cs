@@ -2,7 +2,7 @@ using System;
 #if NET462_OR_GREATER || NETCOREAPP
 using System.IO.Hashing;
 #endif
-#if NET35_OR_GREATER || NETCOREAPP
+#if NET462_OR_GREATER || NETCOREAPP
 using System.Linq;
 #endif
 using System.Security.Cryptography;
@@ -128,26 +128,33 @@ namespace SabreTools.Hashing
         /// <summary>
         /// Process a buffer of some length with the internal hash algorithm
         /// </summary>
-        public void Process(byte[] buffer, int size)
+        public void Process(byte[] buffer, int offset, int size)
         {
             switch (_hasher)
             {
                 case HashAlgorithm ha:
-                    ha.TransformBlock(buffer, 0, size, null, 0);
+                    ha.TransformBlock(buffer, offset, size, null, 0);
                     break;
 
                 case IChecksum ic:
-                    ic.Update(buffer);
+#if NET452_OR_GREATER || NETCOREAPP
+                    var icBufferSpan = new ReadOnlySpan<byte>(buffer, offset, size);
+                    byte[] trimmedBuffer = icBufferSpan.ToArray();
+#else
+                    byte[] trimmedBuffer = new byte[size];
+                    Array.Copy(buffer, offset, trimmedBuffer, 0, size);
+#endif
+                    ic.Update(trimmedBuffer);
                     break;
 
 #if NET462_OR_GREATER || NETCOREAPP
                 case NonCryptographicHashAlgorithm ncha:
-                    var bufferSpan = new ReadOnlySpan<byte>(buffer, 0, size);
-                    ncha.Append(bufferSpan);
+                    var nchaBufferSpan = new ReadOnlySpan<byte>(buffer, offset, size);
+                    ncha.Append(nchaBufferSpan);
                     break;
 #else
                 case OptimizedCRC.OptimizedCRC oc:
-                    oc.Update(buffer, 0, size);
+                    oc.Update(buffer, offset, size);
                     break;
 #endif
             }
