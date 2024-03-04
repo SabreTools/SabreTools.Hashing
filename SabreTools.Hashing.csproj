@@ -28,6 +28,9 @@
     <PackageReference Include="MinTasksExtensionsBridge" Version="0.3.4" />
     <PackageReference Include="MinThreadingBridge" Version="0.11.4" />
   </ItemGroup>
+  <ItemGroup Condition="$(TargetFramework.StartsWith(`net45`)) OR $(TargetFramework.StartsWith(`net46`)) OR $(TargetFramework.StartsWith(`net47`)) OR $(TargetFramework.StartsWith(`net48`))">
+    <PackageReference Include="System.Memory" Version="4.5.5" />
+  </ItemGroup>
   <ItemGroup Condition="$(TargetFramework.StartsWith(`net6`)) OR $(TargetFramework.StartsWith(`net7`)) OR $(TargetFramework.StartsWith(`net8`))">
     <PackageReference Include="System.IO.Hashing" Version="8.0.0" />
   </ItemGroup>

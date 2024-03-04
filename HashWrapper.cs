@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
 #if NET6_0_OR_GREATER
 using System.IO.Hashing;
 #endif
@@ -8,7 +6,8 @@ using System.IO.Hashing;
 using System.Linq;
 #endif
 using System.Security.Cryptography;
-using System.Threading.Tasks;
+using Aaru.Checksums;
+using Aaru.CommonTypes.Interfaces;
 
 namespace SabreTools.Hashing
 {
@@ -35,9 +34,10 @@ namespace SabreTools.Hashing
         {
             get
             {
-                return (_hasher) switch
+                return _hasher switch
                 {
                     HashAlgorithm ha => ha.Hash,
+                    IChecksum ic => ic.Final(),
 #if NET6_0_OR_GREATER
                     NonCryptographicHashAlgorithm ncha => ncha.GetCurrentHash().Reverse().ToArray(),
 #endif
@@ -49,7 +49,17 @@ namespace SabreTools.Hashing
         /// <summary>
         /// Current hash as a string
         /// </summary>
-        public string? CurrentHashString => ByteArrayToString(CurrentHashBytes);
+        public string? CurrentHashString
+        {
+            get
+            {
+                return _hasher switch
+                {
+                    IChecksum ic => ic.End(),
+                    _ => ByteArrayToString(CurrentHashBytes),
+                };
+            }
+        }
 
         #endregion
 
@@ -86,14 +96,14 @@ namespace SabreTools.Hashing
                 HashType.CRC32 => new Crc32(),
                 HashType.CRC64 => new Crc64(),
 #else
-                HashType.CRC32 => new OptimizedCRC(),
+                HashType.CRC32 => new OptimizedCRC.OptimizedCRC(),
 #endif
                 HashType.MD5 => MD5.Create(),
                 HashType.SHA1 => SHA1.Create(),
                 HashType.SHA256 => SHA256.Create(),
                 HashType.SHA384 => SHA384.Create(),
                 HashType.SHA512 => SHA512.Create(),
-                //HashType.SpamSum => new SpamSumContext(), // TODO: Port
+                HashType.SpamSum => new SpamSumContext(),
 #if NET6_0_OR_GREATER
                 HashType.XxHash32 => new XxHash32(),
                 HashType.XxHash64 => new XxHash64(),
@@ -124,10 +134,18 @@ namespace SabreTools.Hashing
                     ha.TransformBlock(buffer, 0, size, null, 0);
                     break;
 
+                case IChecksum ic:
+                    ic.Update(buffer);
+                    break;
+
 #if NET6_0_OR_GREATER
                 case NonCryptographicHashAlgorithm ncha:
                     var bufferSpan = new ReadOnlySpan<byte>(buffer, 0, size);
                     ncha.Append(bufferSpan);
+                    break;
+#else
+                case OptimizedCRC.OptimizedCRC oc:
+                    oc.Update(buffer, 0, size);
                     break;
 #endif
             }
@@ -145,6 +163,12 @@ namespace SabreTools.Hashing
                 case HashAlgorithm ha:
                     ha.TransformFinalBlock(emptyBuffer, 0, 0);
                     break;
+
+#if NET20_OR_GREATER || NETCOREAPP3_1 || NET5_0
+                case OptimizedCRC.OptimizedCRC oc:
+                    oc.Update([], 0, 0);
+                    break;
+#endif
             }
         }
 

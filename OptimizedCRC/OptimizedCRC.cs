@@ -24,7 +24,7 @@
 
 using System;
 
-namespace SabreTools.Hashing
+namespace OptimizedCRC
 {
     internal class OptimizedCRC : IDisposable
     {

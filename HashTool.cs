@@ -83,7 +83,7 @@ namespace SabreTools.Hashing
                     { HashType.SHA256, new HashWrapper(HashType.SHA256) },
                     { HashType.SHA384, new HashWrapper(HashType.SHA384) },
                     { HashType.SHA512, new HashWrapper(HashType.SHA512) },
-                    // TODO: Add SpamSum
+                    { HashType.SpamSum, new HashWrapper(HashType.SpamSum) },
 #if NET6_0_OR_GREATER
                     { HashType.XxHash32, new HashWrapper(HashType.XxHash32) },
                     { HashType.XxHash64, new HashWrapper(HashType.XxHash64) },
@@ -163,7 +163,7 @@ namespace SabreTools.Hashing
                 hashDict[HashType.SHA256] = hashers[HashType.SHA256].CurrentHashString;
                 hashDict[HashType.SHA384] = hashers[HashType.SHA384].CurrentHashString;
                 hashDict[HashType.SHA512] = hashers[HashType.SHA512].CurrentHashString;
-                // TODO: Add SpamSum
+                hashDict[HashType.SpamSum] = hashers[HashType.SpamSum].CurrentHashString;
 #if NET6_0_OR_GREATER
                 hashDict[HashType.XxHash32] = hashers[HashType.XxHash32].CurrentHashString;
                 hashDict[HashType.XxHash64] = hashers[HashType.XxHash64].CurrentHashString;
