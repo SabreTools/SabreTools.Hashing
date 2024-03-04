@@ -123,6 +123,45 @@ namespace SabreTools.Hashing
 
         #endregion
 
+        #region Byte Array Hashes
+
+        /// <summary>
+        /// Get hashes from an input byte array
+        /// </summary>
+        /// <param name="input">Byte array to hash</param>
+        /// <returns>Dictionary containing hashes on success, null on error</returns>
+        public static Dictionary<HashType, string?>? GetByteArrayHashes(byte[] input)
+        {
+            // Create a hash array for all entries
+            HashType[] hashTypes = (HashType[])Enum.GetValues(typeof(HashType));
+
+            // Return the hashes from the stream
+            return GetStreamHashes(new MemoryStream(input), hashTypes);
+        }
+
+        /// <summary>
+        /// Get a hash from an input byte array
+        /// </summary>
+        /// <param name="input">Byte array to hash</param>
+        /// <param name="hashType">Hash type to get from the file</param>
+        /// <returns>Dictionary containing hashes on success, null on error</returns>
+        public static string? GetByteArrayHash(byte[] input, HashType hashType)
+        {
+            var hashes = GetStreamHashes(new MemoryStream(input), [hashType]);
+            return hashes?[hashType];
+        }
+
+        /// <summary>
+        /// Get hashes from an input byte array
+        /// </summary>
+        /// <param name="input">Byte array to hash</param>
+        /// <param name="hashTypes">Array of hash types to get from the file</param>
+        /// <returns>Dictionary containing hashes on success, null on error</returns>
+        public static Dictionary<HashType, string?>? GetByteArrayHashes(byte[] input, HashType[] hashTypes)
+            => GetStreamHashes(new MemoryStream(input), hashTypes);
+
+        #endregion
+
         #region Stream Hashes
 
         /// <summary>
