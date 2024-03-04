@@ -46,17 +46,27 @@ namespace SabreTools.Hashing
         /// spamsum fuzzy hash
         /// </summary>
         SpamSum,
-#if NET6_0_OR_GREATER
 
+#if NET6_0_OR_GREATER
         /// <summary>
-        /// xxHash 32-bit hash
+        /// xxHash32 hash
         /// </summary>
         XxHash32,
 
         /// <summary>
-        /// xxHash 64-bit hash
+        /// xxHash64 hash
         /// </summary>
         XxHash64,
+
+        /// <summary>
+        /// XXH3 64-bit hash
+        /// </summary>
+        XxHash3,
+
+        /// <summary>
+        /// XXH128 128-bit hash
+        /// </summary>
+        XxHash128,
 #endif
     }
 }

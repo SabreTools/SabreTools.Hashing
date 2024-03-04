@@ -107,6 +107,8 @@ namespace SabreTools.Hashing
 #if NET462_OR_GREATER || NETCOREAPP
                 HashType.XxHash32 => new XxHash32(),
                 HashType.XxHash64 => new XxHash64(),
+                HashType.XxHash3 => new XxHash3(),
+                HashType.XxHash128 => new XxHash128(),
 #endif
                 _ => null,
             };
