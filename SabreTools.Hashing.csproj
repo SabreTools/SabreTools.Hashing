@@ -22,6 +22,10 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="" />
+  </ItemGroup>
+
   <!-- Support for old .NET versions -->
   <ItemGroup Condition="$(TargetFramework.StartsWith(`net2`)) OR $(TargetFramework.StartsWith(`net3`)) OR $(TargetFramework.StartsWith(`net40`))">
     <PackageReference Include="MinAsyncBridge" Version="0.12.4" />
@@ -31,7 +35,7 @@
   <ItemGroup Condition="$(TargetFramework.StartsWith(`net45`)) OR $(TargetFramework.StartsWith(`net46`)) OR $(TargetFramework.StartsWith(`net47`)) OR $(TargetFramework.StartsWith(`net48`))">
     <PackageReference Include="System.Memory" Version="4.5.5" />
   </ItemGroup>
-  <ItemGroup Condition="$(TargetFramework.StartsWith(`net6`)) OR $(TargetFramework.StartsWith(`net7`)) OR $(TargetFramework.StartsWith(`net8`))">
+  <ItemGroup Condition="!$(TargetFramework.StartsWith(`net2`)) AND !$(TargetFramework.StartsWith(`net3`)) AND !$(TargetFramework.StartsWith(`net40`)) AND !$(TargetFramework.StartsWith(`net45`))">
     <PackageReference Include="System.IO.Hashing" Version="8.0.0" />
   </ItemGroup>
 

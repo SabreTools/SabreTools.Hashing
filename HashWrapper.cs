@@ -1,5 +1,5 @@
 using System;
-#if NET6_0_OR_GREATER
+#if NET462_OR_GREATER || NETCOREAPP
 using System.IO.Hashing;
 #endif
 #if NET35_OR_GREATER || NETCOREAPP
@@ -38,7 +38,7 @@ namespace SabreTools.Hashing
                 {
                     HashAlgorithm ha => ha.Hash,
                     IChecksum ic => ic.Final(),
-#if NET6_0_OR_GREATER
+#if NET462_OR_GREATER || NETCOREAPP
                     NonCryptographicHashAlgorithm ncha => ncha.GetCurrentHash().Reverse().ToArray(),
 #endif
                     _ => null,
@@ -92,7 +92,7 @@ namespace SabreTools.Hashing
         {
             _hasher = HashType switch
             {
-#if NET6_0_OR_GREATER
+#if NET462_OR_GREATER || NETCOREAPP
                 HashType.CRC32 => new Crc32(),
                 HashType.CRC64 => new Crc64(),
 #else
@@ -104,7 +104,7 @@ namespace SabreTools.Hashing
                 HashType.SHA384 => SHA384.Create(),
                 HashType.SHA512 => SHA512.Create(),
                 HashType.SpamSum => new SpamSumContext(),
-#if NET6_0_OR_GREATER
+#if NET462_OR_GREATER || NETCOREAPP
                 HashType.XxHash32 => new XxHash32(),
                 HashType.XxHash64 => new XxHash64(),
 #endif
@@ -138,7 +138,7 @@ namespace SabreTools.Hashing
                     ic.Update(buffer);
                     break;
 
-#if NET6_0_OR_GREATER
+#if NET462_OR_GREATER || NETCOREAPP
                 case NonCryptographicHashAlgorithm ncha:
                     var bufferSpan = new ReadOnlySpan<byte>(buffer, 0, size);
                     ncha.Append(bufferSpan);
