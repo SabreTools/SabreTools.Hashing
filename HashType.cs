@@ -9,8 +9,8 @@ namespace SabreTools.Hashing
         /// CRC 32-bit checksum
         /// </summary>
         CRC32,
-#if NET6_0_OR_GREATER
 
+#if NET462_OR_GREATER || NETCOREAPP
         /// <summary>
         /// CRC 64-bit checksum
         /// </summary>
@@ -47,7 +47,7 @@ namespace SabreTools.Hashing
         /// </summary>
         SpamSum,
 
-#if NET6_0_OR_GREATER
+#if NET462_OR_GREATER || NETCOREAPP
         /// <summary>
         /// xxHash32 hash
         /// </summary>
