@@ -35,6 +35,8 @@ namespace SabreTools.Hashing
             return true;
         }
 
+        #region File Hashes Without Size
+
         /// <summary>
         /// Get hashes from an input file path
         /// </summary>
@@ -42,6 +44,18 @@ namespace SabreTools.Hashing
         /// <returns>Dictionary containing hashes on success, null on error</returns>
         public static Dictionary<HashType, string?>? GetFileHashes(string filename)
             => GetFileHashesAndSize(filename, out _);
+
+        /// <summary>
+        /// Get a hash from an input file path
+        /// </summary>
+        /// <param name="filename">Path to the input file</param>
+        /// <param name="hashType">Hash type to get from the file</param>
+        /// <returns>Dictionary containing hashes on success, null on error</returns>
+        public static string? GetFileHash(string filename, HashType hashType)
+        {
+            var hashes = GetFileHashes(filename, [hashType]);
+            return hashes?[hashType];
+        }
 
         /// <summary>
         /// Get hashes from an input file path
@@ -52,6 +66,10 @@ namespace SabreTools.Hashing
         public static Dictionary<HashType, string?>? GetFileHashes(string filename, HashType[] hashTypes)
             => GetFileHashesAndSize(filename, hashTypes, out _);
 
+        #endregion
+
+        #region File Hashes With Size
+
         /// <summary>
         /// Get hashes and size from an input file path
         /// </summary>
@@ -59,21 +77,23 @@ namespace SabreTools.Hashing
         /// <returns>Dictionary containing hashes on success, null on error</returns>
         public static Dictionary<HashType, string?>? GetFileHashesAndSize(string filename, out long size)
         {
-            // If the file doesn't exist, we can't do anything
-            if (!File.Exists(filename))
-            {
-                size = -1;
-                return null;
-            }
-
-            // Set the file size
-            size = new FileInfo(filename).Length;
-
-            // Open the input file
-            var input = File.OpenRead(filename);
+            // Create a hash array for all entries
+            HashType[] hashTypes = (HashType[])Enum.GetValues(typeof(HashType));
 
             // Return the hashes from the stream
-            return GetStreamHashes(input);
+            return GetFileHashesAndSize(filename, hashTypes, out size);
+        }
+
+        /// <summary>
+        /// Get a hash and size from an input file path
+        /// </summary>
+        /// <param name="filename">Path to the input file</param>
+        /// <param name="hashType">Hash type to get from the file</param>
+        /// <returns>Dictionary containing hashes on success, null on error</returns>
+        public static string? GetFileHashAndSize(string filename, HashType hashType, out long size)
+        {
+            var hashes = GetFileHashesAndSize(filename, [hashType], out size);
+            return hashes?[hashType];
         }
 
         /// <summary>
@@ -101,6 +121,10 @@ namespace SabreTools.Hashing
             return GetStreamHashes(input, hashTypes);
         }
 
+        #endregion
+
+        #region Stream Hashes
+
         /// <summary>
         /// Get hashes from an input Stream
         /// </summary>
@@ -113,6 +137,18 @@ namespace SabreTools.Hashing
 
             // Get the output hashes
             return GetStreamHashes(input, hashTypes);
+        }
+
+        /// <summary>
+        /// Get a hash and size from an input Stream
+        /// </summary>
+        /// <param name="input">Stream to hash</param>
+        /// <param name="hashType">Hash type to get from the file</param>
+        /// <returns>Dictionary containing hashes on success, null on error</returns>
+        public static string? GetStreamHash(Stream input, HashType hashType)
+        {
+            var hashes = GetStreamHashes(input, [hashType]);
+            return hashes?[hashType];
         }
 
         /// <summary>
@@ -224,5 +260,7 @@ namespace SabreTools.Hashing
                 input.Dispose();
             }
         }
+
+        #endregion
     }
 }
