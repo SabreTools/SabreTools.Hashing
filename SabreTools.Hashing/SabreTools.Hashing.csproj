@@ -16,6 +16,7 @@
     <Authors>Matt Nadareski</Authors>
     <Copyright>Copyright (c)2016-2024 Matt Nadareski</Copyright>
     <PackageProjectUrl>https://github.com/SabreTools/</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/SabreTools/SabreTools.Hashing</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>hash hashing checksum checksumming crc md5 sha1</PackageTags>
