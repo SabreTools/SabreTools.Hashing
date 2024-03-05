@@ -170,13 +170,13 @@ namespace SabreTools.Hashing
         /// </summary>
         /// <param name="input">Stream to hash</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
-        public static Dictionary<HashType, string?>? GetStreamHashes(Stream input)
+        public static Dictionary<HashType, string?>? GetStreamHashes(Stream input, bool leaveOpen = false)
         {
             // Create a hash array for all entries
             HashType[] hashTypes = (HashType[])Enum.GetValues(typeof(HashType));
 
             // Get the output hashes
-            return GetStreamHashes(input, hashTypes);
+            return GetStreamHashes(input, hashTypes, leaveOpen);
         }
 
         /// <summary>
@@ -185,9 +185,9 @@ namespace SabreTools.Hashing
         /// <param name="input">Stream to hash</param>
         /// <param name="hashType">Hash type to get from the file</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
-        public static string? GetStreamHash(Stream input, HashType hashType)
+        public static string? GetStreamHash(Stream input, HashType hashType, bool leaveOpen = false)
         {
-            var hashes = GetStreamHashes(input, [hashType]);
+            var hashes = GetStreamHashes(input, [hashType], leaveOpen);
             return hashes?[hashType];
         }
 
@@ -197,7 +197,7 @@ namespace SabreTools.Hashing
         /// <param name="input">Stream to hash</param>
         /// <param name="hashTypes">Array of hash types to get from the file</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
-        public static Dictionary<HashType, string?>? GetStreamHashes(Stream input, HashType[] hashTypes)
+        public static Dictionary<HashType, string?>? GetStreamHashes(Stream input, HashType[] hashTypes, bool leaveOpen = false)
         {
             // Create the output dictionary
             var hashDict = new Dictionary<HashType, string?>();
@@ -297,7 +297,8 @@ namespace SabreTools.Hashing
             }
             finally
             {
-                input.Dispose();
+                if (!leaveOpen)
+                    input.Dispose();
             }
         }
 
