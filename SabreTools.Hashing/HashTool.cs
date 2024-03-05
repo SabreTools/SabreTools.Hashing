@@ -47,14 +47,34 @@ namespace SabreTools.Hashing
             => GetFileHashesAndSize(filename, out _);
 
         /// <summary>
+        /// Get hashes from an input file path
+        /// </summary>
+        /// <param name="filename">Path to the input file</param>
+        /// <returns>Dictionary containing hashes on success, null on error</returns>
+        public static Dictionary<HashType, byte[]?>? GetFileHashArrays(string filename)
+            => GetFileHashArraysAndSize(filename, out _);
+
+        /// <summary>
         /// Get a hash from an input file path
         /// </summary>
         /// <param name="filename">Path to the input file</param>
         /// <param name="hashType">Hash type to get from the file</param>
-        /// <returns>Dictionary containing hashes on success, null on error</returns>
+        /// <returns>Hash on success, null on error</returns>
         public static string? GetFileHash(string filename, HashType hashType)
         {
             var hashes = GetFileHashes(filename, [hashType]);
+            return hashes?[hashType];
+        }
+
+        /// <summary>
+        /// Get a hash from an input file path
+        /// </summary>
+        /// <param name="filename">Path to the input file</param>
+        /// <param name="hashType">Hash type to get from the file</param>
+        /// <returns>Hash on success, null on error</returns>
+        public static byte[]? GetFileHashArray(string filename, HashType hashType)
+        {
+            var hashes = GetFileHashArrays(filename, [hashType]);
             return hashes?[hashType];
         }
 
@@ -66,6 +86,15 @@ namespace SabreTools.Hashing
         /// <returns>Dictionary containing hashes on success, null on error</returns>
         public static Dictionary<HashType, string?>? GetFileHashes(string filename, HashType[] hashTypes)
             => GetFileHashesAndSize(filename, hashTypes, out _);
+
+        /// <summary>
+        /// Get hashes from an input file path
+        /// </summary>
+        /// <param name="filename">Path to the input file</param>
+        /// <param name="hashTypes">Array of hash types to get from the file</param>
+        /// <returns>Dictionary containing hashes on success, null on error</returns>
+        public static Dictionary<HashType, byte[]?>? GetFileHashArrays(string filename, HashType[] hashTypes)
+            => GetFileHashArraysAndSize(filename, hashTypes, out _);
 
         #endregion
 
@@ -86,14 +115,40 @@ namespace SabreTools.Hashing
         }
 
         /// <summary>
+        /// Get hashes and size from an input file path
+        /// </summary>
+        /// <param name="filename">Path to the input file</param>
+        /// <returns>Dictionary containing hashes on success, null on error</returns>
+        public static Dictionary<HashType, byte[]?>? GetFileHashArraysAndSize(string filename, out long size)
+        {
+            // Create a hash array for all entries
+            HashType[] hashTypes = (HashType[])Enum.GetValues(typeof(HashType));
+
+            // Return the hashes from the stream
+            return GetFileHashArraysAndSize(filename, hashTypes, out size);
+        }
+
+        /// <summary>
         /// Get a hash and size from an input file path
         /// </summary>
         /// <param name="filename">Path to the input file</param>
         /// <param name="hashType">Hash type to get from the file</param>
-        /// <returns>Dictionary containing hashes on success, null on error</returns>
+        /// <returns>Hash and size on success, null on error</returns>
         public static string? GetFileHashAndSize(string filename, HashType hashType, out long size)
         {
             var hashes = GetFileHashesAndSize(filename, [hashType], out size);
+            return hashes?[hashType];
+        }
+
+        /// <summary>
+        /// Get a hash and size from an input file path
+        /// </summary>
+        /// <param name="filename">Path to the input file</param>
+        /// <param name="hashType">Hash type to get from the file</param>
+        /// <returns>Hash and size on success, null on error</returns>
+        public static byte[]? GetFileHashArrayAndSize(string filename, HashType hashType, out long size)
+        {
+            var hashes = GetFileHashArraysAndSize(filename, [hashType], out size);
             return hashes?[hashType];
         }
 
@@ -122,6 +177,31 @@ namespace SabreTools.Hashing
             return GetStreamHashes(input, hashTypes);
         }
 
+        /// <summary>
+        /// Get hashes and size from an input file path
+        /// </summary>
+        /// <param name="filename">Path to the input file</param>
+        /// <param name="hashTypes">Array of hash types to get from the file</param>
+        /// <returns>Dictionary containing hashes on success, null on error</returns>
+        public static Dictionary<HashType, byte[]?>? GetFileHashArraysAndSize(string filename, HashType[] hashTypes, out long size)
+        {
+            // If the file doesn't exist, we can't do anything
+            if (!File.Exists(filename))
+            {
+                size = -1;
+                return null;
+            }
+
+            // Set the file size
+            size = new FileInfo(filename).Length;
+
+            // Open the input file
+            var input = File.OpenRead(filename);
+
+            // Return the hashes from the stream
+            return GetStreamHashArrays(input, hashTypes);
+        }
+
         #endregion
 
         #region Byte Array Hashes
@@ -141,14 +221,40 @@ namespace SabreTools.Hashing
         }
 
         /// <summary>
+        /// Get hashes from an input byte array
+        /// </summary>
+        /// <param name="input">Byte array to hash</param>
+        /// <returns>Dictionary containing hashes on success, null on error</returns>
+        public static Dictionary<HashType, byte[]?>? GetByteArrayHashArrays(byte[] input)
+        {
+            // Create a hash array for all entries
+            HashType[] hashTypes = (HashType[])Enum.GetValues(typeof(HashType));
+
+            // Return the hashes from the stream
+            return GetStreamHashArrays(new MemoryStream(input), hashTypes);
+        }
+
+        /// <summary>
         /// Get a hash from an input byte array
         /// </summary>
         /// <param name="input">Byte array to hash</param>
         /// <param name="hashType">Hash type to get from the file</param>
-        /// <returns>Dictionary containing hashes on success, null on error</returns>
+        /// <returns>Hash on success, null on error</returns>
         public static string? GetByteArrayHash(byte[] input, HashType hashType)
         {
             var hashes = GetStreamHashes(new MemoryStream(input), [hashType]);
+            return hashes?[hashType];
+        }
+
+        /// <summary>
+        /// Get a hash from an input byte array
+        /// </summary>
+        /// <param name="input">Byte array to hash</param>
+        /// <param name="hashType">Hash type to get from the file</param>
+        /// <returns>Hash on success, null on error</returns>
+        public static byte[]? GetByteArrayHashArray(byte[] input, HashType hashType)
+        {
+            var hashes = GetStreamHashArrays(new MemoryStream(input), [hashType]);
             return hashes?[hashType];
         }
 
@@ -160,6 +266,15 @@ namespace SabreTools.Hashing
         /// <returns>Dictionary containing hashes on success, null on error</returns>
         public static Dictionary<HashType, string?>? GetByteArrayHashes(byte[] input, HashType[] hashTypes)
             => GetStreamHashes(new MemoryStream(input), hashTypes);
+
+        /// <summary>
+        /// Get hashes from an input byte array
+        /// </summary>
+        /// <param name="input">Byte array to hash</param>
+        /// <param name="hashTypes">Array of hash types to get from the file</param>
+        /// <returns>Dictionary containing hashes on success, null on error</returns>
+        public static Dictionary<HashType, byte[]?>? GetByteArrayHashArrays(byte[] input, HashType[] hashTypes)
+            => GetStreamHashArrays(new MemoryStream(input), hashTypes);
 
         #endregion
 
@@ -180,14 +295,40 @@ namespace SabreTools.Hashing
         }
 
         /// <summary>
+        /// Get hashes from an input Stream
+        /// </summary>
+        /// <param name="input">Stream to hash</param>
+        /// <returns>Dictionary containing hashes on success, null on error</returns>
+        public static Dictionary<HashType, byte[]?>? GetStreamHashArrays(Stream input, bool leaveOpen = false)
+        {
+            // Create a hash array for all entries
+            HashType[] hashTypes = (HashType[])Enum.GetValues(typeof(HashType));
+
+            // Get the output hashes
+            return GetStreamHashArrays(input, hashTypes, leaveOpen);
+        }
+
+        /// <summary>
         /// Get a hash and size from an input Stream
         /// </summary>
         /// <param name="input">Stream to hash</param>
         /// <param name="hashType">Hash type to get from the file</param>
-        /// <returns>Dictionary containing hashes on success, null on error</returns>
+        /// <returns>Hash on success, null on error</returns>
         public static string? GetStreamHash(Stream input, HashType hashType, bool leaveOpen = false)
         {
             var hashes = GetStreamHashes(input, [hashType], leaveOpen);
+            return hashes?[hashType];
+        }
+
+        /// <summary>
+        /// Get a hash and size from an input Stream
+        /// </summary>
+        /// <param name="input">Stream to hash</param>
+        /// <param name="hashType">Hash type to get from the file</param>
+        /// <returns>Hash on success, null on error</returns>
+        public static byte[]? GetStreamHashArray(Stream input, HashType hashType, bool leaveOpen = false)
+        {
+            var hashes = GetStreamHashArrays(input, [hashType], leaveOpen);
             return hashes?[hashType];
         }
 
@@ -280,6 +421,117 @@ namespace SabreTools.Hashing
                 foreach (var hasher in hashers)
                 {
                     hashDict[hasher.Key] = hasher.Value.CurrentHashString;
+                }
+
+                // Dispose of the hashers
+                loadBuffer.Dispose();
+                foreach (var hasher in hashers.Values)
+                {
+                    hasher.Dispose();
+                }
+
+                return hashDict;
+            }
+            catch (IOException)
+            {
+                return null;
+            }
+            finally
+            {
+                if (!leaveOpen)
+                    input.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Get hashes from an input Stream
+        /// </summary>
+        /// <param name="input">Stream to hash</param>
+        /// <param name="hashTypes">Array of hash types to get from the file</param>
+        /// <returns>Dictionary containing hashes on success, null on error</returns>
+        private static Dictionary<HashType, byte[]?>? GetStreamHashArrays(Stream input, HashType[] hashTypes, bool leaveOpen = false)
+        {
+            // Create the output dictionary
+            var hashDict = new Dictionary<HashType, byte[]?>();
+
+            try
+            {
+                // Get a list of hashers to run over the buffer
+                var hashers = new Dictionary<HashType, HashWrapper>();
+
+                // Add hashers based on requested types
+                foreach (HashType hashType in hashTypes)
+                {
+                    hashers[hashType] = new HashWrapper(hashType);
+                }
+
+                // Initialize the hashing helpers
+                var loadBuffer = new ThreadLoadBuffer(input);
+                int buffersize = 3 * 1024 * 1024;
+                byte[] buffer0 = new byte[buffersize];
+                byte[] buffer1 = new byte[buffersize];
+
+                /*
+                Please note that some of the following code is adapted from
+                RomVault. This is a modified version of how RomVault does
+                threaded hashing. As such, some of the terminology and code
+                is the same, though variable names and comments may have
+                been tweaked to better fit this code base.
+                */
+
+                // Pre load the first buffer
+                long refsize = input.Length;
+                int next = refsize > buffersize ? buffersize : (int)refsize;
+                input.Read(buffer0, 0, next);
+                int current = next;
+                refsize -= next;
+                bool bufferSelect = true;
+
+                while (current > 0)
+                {
+                    // Trigger the buffer load on the second buffer
+                    next = refsize > buffersize ? buffersize : (int)refsize;
+                    if (next > 0)
+                        loadBuffer.Trigger(bufferSelect ? buffer1 : buffer0, next);
+
+                    byte[] buffer = bufferSelect ? buffer0 : buffer1;
+
+#if NET20 || NET35
+                    // Run hashers sequentially on each chunk
+                    foreach (var h in hashers)
+                    {
+                        h.Value.Process(buffer, 0, current);
+                    }
+#else
+                    // Run hashers in parallel on each chunk
+                    Parallel.ForEach(hashers, h => h.Value.Process(buffer, 0, current));
+#endif
+
+                    // Wait for the load buffer worker, if needed
+                    if (next > 0)
+                        loadBuffer.Wait();
+
+                    // Setup for the next hashing step
+                    current = next;
+                    refsize -= next;
+                    bufferSelect = !bufferSelect;
+                }
+
+                // Finalize all hashing helpers
+                loadBuffer.Finish();
+#if NET20 || NET35
+                foreach (var h in hashers)
+                {
+                    h.Value.Terminate();
+                }
+#else
+                Parallel.ForEach(hashers, h => h.Value.Terminate());
+#endif
+
+                // Get the results
+                foreach (var hasher in hashers)
+                {
+                    hashDict[hasher.Key] = hasher.Value.CurrentHashBytes;
                 }
 
                 // Dispose of the hashers
