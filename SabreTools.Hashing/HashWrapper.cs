@@ -2,9 +2,7 @@ using System;
 #if NET462_OR_GREATER || NETCOREAPP
 using System.IO.Hashing;
 #endif
-#if NET462_OR_GREATER || NETCOREAPP
 using System.Linq;
-#endif
 using System.Security.Cryptography;
 using Aaru.Checksums;
 using Aaru.CommonTypes.Interfaces;
@@ -40,6 +38,8 @@ namespace SabreTools.Hashing
                     IChecksum ic => ic.Final(),
 #if NET462_OR_GREATER || NETCOREAPP
                     NonCryptographicHashAlgorithm ncha => ncha.GetCurrentHash().Reverse().ToArray(),
+#else
+                    OptimizedCRC.OptimizedCRC ocrc => BitConverter.GetBytes(ocrc.Value).Reverse().ToArray(),
 #endif
                     _ => null,
                 };

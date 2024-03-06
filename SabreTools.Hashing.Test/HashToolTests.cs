@@ -44,18 +44,22 @@ namespace SabreTools.Hashing.Test
             var hashDict = HashTool.GetFileHashes(_hashFilePath);
 
             Assert.NotNull(hashDict);
-            Assert.Equal(_crc32, hashDict[HashType.CRC32]);
+            Assert.Equal(_crc32, hashDict![HashType.CRC32]);
+#if NET462_OR_GREATER || NETCOREAPP
             Assert.Equal(_crc64, hashDict[HashType.CRC64]);
+#endif
             Assert.Equal(_md5, hashDict[HashType.MD5]);
             Assert.Equal(_sha1, hashDict[HashType.SHA1]);
             Assert.Equal(_sha256, hashDict[HashType.SHA256]);
             Assert.Equal(_sha384, hashDict[HashType.SHA384]);
             Assert.Equal(_sha512, hashDict[HashType.SHA512]);
             Assert.Equal(_spamsum, hashDict[HashType.SpamSum]);
+#if NET462_OR_GREATER || NETCOREAPP
             Assert.Equal(_xxhash32, hashDict[HashType.XxHash32]);
             Assert.Equal(_xxhash64, hashDict[HashType.XxHash64]);
             Assert.Equal(_xxhash3, hashDict[HashType.XxHash3]);
             Assert.Equal(_xxhash128, hashDict[HashType.XxHash128]);
+#endif
         }
 
         [Fact]
@@ -65,21 +69,24 @@ namespace SabreTools.Hashing.Test
 
             Assert.Equal(_hashFileSize, actualSize);
             Assert.NotNull(hashDict);
-            Assert.Equal(_crc32, hashDict[HashType.CRC32]);
-            Assert.Equal(_crc32, hashDict[HashType.CRC32]);
+            Assert.Equal(_crc32, hashDict![HashType.CRC32]);
+#if NET462_OR_GREATER || NETCOREAPP
             Assert.Equal(_crc64, hashDict[HashType.CRC64]);
+#endif
             Assert.Equal(_md5, hashDict[HashType.MD5]);
             Assert.Equal(_sha1, hashDict[HashType.SHA1]);
             Assert.Equal(_sha256, hashDict[HashType.SHA256]);
             Assert.Equal(_sha384, hashDict[HashType.SHA384]);
             Assert.Equal(_sha512, hashDict[HashType.SHA512]);
             Assert.Equal(_spamsum, hashDict[HashType.SpamSum]);
+#if NET462_OR_GREATER || NETCOREAPP
             Assert.Equal(_xxhash32, hashDict[HashType.XxHash32]);
             Assert.Equal(_xxhash64, hashDict[HashType.XxHash64]);
             Assert.Equal(_xxhash3, hashDict[HashType.XxHash3]);
             Assert.Equal(_xxhash128, hashDict[HashType.XxHash128]);
+#endif
         }
-    
+
         [Fact]
         public void GetByteArrayHashesTest()
         {
@@ -87,18 +94,22 @@ namespace SabreTools.Hashing.Test
             var hashDict = HashTool.GetByteArrayHashes(fileBytes);
 
             Assert.NotNull(hashDict);
-            Assert.Equal(_crc32, hashDict[HashType.CRC32]);
+            Assert.Equal(_crc32, hashDict![HashType.CRC32]);
+#if NET462_OR_GREATER || NETCOREAPP
             Assert.Equal(_crc64, hashDict[HashType.CRC64]);
+#endif
             Assert.Equal(_md5, hashDict[HashType.MD5]);
             Assert.Equal(_sha1, hashDict[HashType.SHA1]);
             Assert.Equal(_sha256, hashDict[HashType.SHA256]);
             Assert.Equal(_sha384, hashDict[HashType.SHA384]);
             Assert.Equal(_sha512, hashDict[HashType.SHA512]);
             Assert.Equal(_spamsum, hashDict[HashType.SpamSum]);
+#if NET462_OR_GREATER || NETCOREAPP
             Assert.Equal(_xxhash32, hashDict[HashType.XxHash32]);
             Assert.Equal(_xxhash64, hashDict[HashType.XxHash64]);
             Assert.Equal(_xxhash3, hashDict[HashType.XxHash3]);
             Assert.Equal(_xxhash128, hashDict[HashType.XxHash128]);
+#endif
         }
 
         [Fact]
@@ -108,18 +119,22 @@ namespace SabreTools.Hashing.Test
             var hashDict = HashTool.GetStreamHashes(fileStream);
 
             Assert.NotNull(hashDict);
-            Assert.Equal(_crc32, hashDict[HashType.CRC32]);
+            Assert.Equal(_crc32, hashDict![HashType.CRC32]);
+#if NET462_OR_GREATER || NETCOREAPP
             Assert.Equal(_crc64, hashDict[HashType.CRC64]);
+#endif
             Assert.Equal(_md5, hashDict[HashType.MD5]);
             Assert.Equal(_sha1, hashDict[HashType.SHA1]);
             Assert.Equal(_sha256, hashDict[HashType.SHA256]);
             Assert.Equal(_sha384, hashDict[HashType.SHA384]);
             Assert.Equal(_sha512, hashDict[HashType.SHA512]);
             Assert.Equal(_spamsum, hashDict[HashType.SpamSum]);
+#if NET462_OR_GREATER || NETCOREAPP
             Assert.Equal(_xxhash32, hashDict[HashType.XxHash32]);
             Assert.Equal(_xxhash64, hashDict[HashType.XxHash64]);
             Assert.Equal(_xxhash3, hashDict[HashType.XxHash3]);
             Assert.Equal(_xxhash128, hashDict[HashType.XxHash128]);
+#endif
         }
     }
 }
