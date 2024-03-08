@@ -149,11 +149,11 @@ namespace SabreTools.Hashing
                     var nchaBufferSpan = new ReadOnlySpan<byte>(buffer, offset, size);
                     ncha.Append(nchaBufferSpan);
                     break;
-#else
+#endif
+
                 case OptimizedCRC.OptimizedCRC oc:
                     oc.Update(buffer, offset, size);
                     break;
-#endif
             }
         }
 
@@ -170,11 +170,9 @@ namespace SabreTools.Hashing
                     ha.TransformFinalBlock(emptyBuffer, 0, 0);
                     break;
 
-#if NET20_OR_GREATER || NETCOREAPP3_1 || NET5_0
                 case OptimizedCRC.OptimizedCRC oc:
                     oc.Update([], 0, 0);
                     break;
-#endif
             }
         }
 
