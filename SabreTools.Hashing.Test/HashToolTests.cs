@@ -14,6 +14,7 @@ namespace SabreTools.Hashing.Test
         private const string _crc32 = "ba02a660";
         private const string _crc64 = "a0e0009c18b5338d";
         private const string _md5 = "b722871eaa950016296184d026c5dec9";
+        private const string _ripemd160 = "346361e1d7fdb836650cecdb842b0dbe660eed66";
         private const string _sha1 = "eea1ee2d801d830c4bdad4df3c8da6f9f52d1a9f";
         private const string _sha256 = "fdb02dee8c319c52087382c45f099c90d0b6cc824850aff28c1bfb2884b7b855";
         private const string _sha384 = "e276c49618fff25bc1fe2e0659cd0ef0e7c1186563b063e07c52323b9899f3ce9b091be04d6208444b3ef1265e879074";
@@ -49,6 +50,9 @@ namespace SabreTools.Hashing.Test
             Assert.Equal(_crc64, hashDict[HashType.CRC64]);
 #endif
             Assert.Equal(_md5, hashDict[HashType.MD5]);
+#if NETFRAMEWORK
+            Assert.Equal(_ripemd160, hashDict[HashType.RIPEMD160]);
+#endif
             Assert.Equal(_sha1, hashDict[HashType.SHA1]);
             Assert.Equal(_sha256, hashDict[HashType.SHA256]);
             Assert.Equal(_sha384, hashDict[HashType.SHA384]);

@@ -22,6 +22,13 @@ namespace SabreTools.Hashing
         /// </summary>
         MD5,
 
+#if NETFRAMEWORK
+        /// <summary>
+        /// RIPEMD160 hash
+        /// </summary>
+        RIPEMD160,
+#endif
+
         /// <summary>
         /// SHA-1 hash
         /// </summary>

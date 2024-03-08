@@ -99,6 +99,9 @@ namespace SabreTools.Hashing
                 HashType.CRC32 => new OptimizedCRC.OptimizedCRC(),
 #endif
                 HashType.MD5 => MD5.Create(),
+#if NETFRAMEWORK
+                HashType.RIPEMD160 => RIPEMD160.Create(),
+#endif
                 HashType.SHA1 => SHA1.Create(),
                 HashType.SHA256 => SHA256.Create(),
                 HashType.SHA384 => SHA384.Create(),
