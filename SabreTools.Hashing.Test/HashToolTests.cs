@@ -47,6 +47,7 @@ namespace SabreTools.Hashing.Test
             Assert.NotNull(hashDict);
             Assert.Equal(_crc32, hashDict![HashType.CRC32]);
 #if NET462_OR_GREATER || NETCOREAPP
+            Assert.Equal(_crc32, hashDict![HashType.CRC32_Optimized]);
             Assert.Equal(_crc64, hashDict[HashType.CRC64]);
 #endif
             Assert.Equal(_md5, hashDict[HashType.MD5]);

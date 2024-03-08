@@ -12,6 +12,11 @@ namespace SabreTools.Hashing
 
 #if NET462_OR_GREATER || NETCOREAPP
         /// <summary>
+        /// Optimized CRC 32-bit checksum
+        /// </summary>
+        CRC32_Optimized,
+
+        /// <summary>
         /// CRC 64-bit checksum
         /// </summary>
         CRC64,

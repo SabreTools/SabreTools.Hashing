@@ -38,9 +38,8 @@ namespace SabreTools.Hashing
                     IChecksum ic => ic.Final(),
 #if NET462_OR_GREATER || NETCOREAPP
                     NonCryptographicHashAlgorithm ncha => ncha.GetCurrentHash().Reverse().ToArray(),
-#else
-                    OptimizedCRC.OptimizedCRC ocrc => BitConverter.GetBytes(ocrc.Value).Reverse().ToArray(),
 #endif
+                    OptimizedCRC.OptimizedCRC ocrc => BitConverter.GetBytes(ocrc.Value).Reverse().ToArray(),
                     _ => null,
                 };
             }
@@ -94,6 +93,7 @@ namespace SabreTools.Hashing
             {
 #if NET462_OR_GREATER || NETCOREAPP
                 HashType.CRC32 => new Crc32(),
+                HashType.CRC32_Optimized => new OptimizedCRC.OptimizedCRC(),
                 HashType.CRC64 => new Crc64(),
 #else
                 HashType.CRC32 => new OptimizedCRC.OptimizedCRC(),
