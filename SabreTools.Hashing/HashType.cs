@@ -12,17 +12,17 @@ namespace SabreTools.Hashing
         CRC32,
 
         /// <summary>
-        /// CRC 32-bit checksum (NaiveCRC)
+        /// CRC 32-bit checksum (NaiveCRC implementation)
         /// </summary>
         CRC32_Naive,
 
         /// <summary>
-        /// CRC 32-bit checksum (OptimizedCRC)
+        /// CRC 32-bit checksum (OptimizedCRC implementation)
         /// </summary>
         CRC32_Optimized,
 
         /// <summary>
-        /// CRC 32-bit checksum (ParallelCRC)
+        /// CRC 32-bit checksum (ParallelCRC implementation)
         /// </summary>
         CRC32_Parallel,
 
