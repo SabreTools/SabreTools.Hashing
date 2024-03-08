@@ -1,54 +1,34 @@
 ﻿/*
- 
- Copyright (c) 2012-2015 Eugene Larchenko (spct@mail.ru)
-
- Permission is hereby granted, free of charge, to any person obtaining a copy
- of this software and associated documentation files (the "Software"), to deal
- in the Software without restriction, including without limitation the rights
- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- copies of the Software, and to permit persons to whom the Software is
- furnished to do so, subject to the following conditions:
-
- The above copyright notice and this permission notice shall be included in
- all copies or substantial portions of the Software.
-
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- THE SOFTWARE.
- 
-*/
+ * Copyright (c) 2012-2015 Eugene Larchenko (el6345@gmail.com)
+ * This code is licensed under the MIT License.
+ * See the file LICENSE_MIT for the license details.
+ */
 
 using System;
 
-namespace OptimizedCRC
+namespace CRC32
 {
-    internal class OptimizedCRC : IDisposable
+    public class OptimizedCRC
     {
-        private const uint kCrcPoly = 0xEDB88320;
-        private const uint kInitial = 0xFFFFFFFF;
-        private const int CRC_NUM_TABLES = 8;
+        private const uint kPoly = 0xEDB88320;
+        private const uint kInit = 0xFFFFFFFF;
+        private const int NUM_TABLES = 8;
         private static readonly uint[] Table;
 
         static OptimizedCRC()
         {
             unchecked
             {
-                Table = new uint[256 * CRC_NUM_TABLES];
+                Table = new uint[256 * NUM_TABLES];
                 int i;
                 for (i = 0; i < 256; i++)
                 {
                     uint r = (uint)i;
                     for (int j = 0; j < 8; j++)
-                    {
-                        r = (r >> 1) ^ (kCrcPoly & ~((r & 1) - 1));
-                    }
+                        r = (r >> 1) ^ (kPoly & ~((r & 1) - 1));
                     Table[i] = r;
                 }
-                for (; i < 256 * CRC_NUM_TABLES; i++)
+                for (; i < 256 * NUM_TABLES; i++)
                 {
                     uint r = Table[i - 256];
                     Table[i] = Table[r & 0xFF] ^ (r >> 8);
@@ -56,49 +36,37 @@ namespace OptimizedCRC
             }
         }
 
-        public uint UnsignedValue;
+        private uint value;
 
         public OptimizedCRC()
         {
             Init();
         }
 
-        /// <summary>
-        /// Reset CRC
-        /// </summary>
         public void Init()
         {
-            UnsignedValue = kInitial;
+            value = kInit;
         }
 
         public int Value
         {
-            get { return (int)~UnsignedValue; }
+            get { return (int)~value; }
         }
 
         public void Update(byte[] data, int offset, int count)
         {
-            new ArraySegment<byte>(data, offset, count);     // check arguments
-            if (count == 0)
-            {
-                return;
-            }
+            new ArraySegment<byte>(data, offset, count); // check arguments
+            if (count <= 0) return;
 
             var table = OptimizedCRC.Table;
 
-            uint crc = UnsignedValue;
+            uint crc = value;
 
             for (; (offset & 7) != 0 && count != 0; count--)
-            {
                 crc = (crc >> 8) ^ table[(byte)crc ^ data[offset++]];
-            }
 
             if (count >= 8)
             {
-                /*
-                 * Idea from 7-zip project sources (http://7-zip.org/sdk.html)
-                 */
-
                 int end = (count - 8) & ~7;
                 count -= end;
                 end += offset;
@@ -121,11 +89,9 @@ namespace OptimizedCRC
             }
 
             while (count-- != 0)
-            {
                 crc = (crc >> 8) ^ table[(byte)crc ^ data[offset++]];
-            }
 
-            UnsignedValue = crc;
+            value = crc;
         }
 
         static public int Compute(byte[] data, int offset, int count)
@@ -140,14 +106,5 @@ namespace OptimizedCRC
             return Compute(data, 0, data.Length);
         }
 
-        static public int Compute(ArraySegment<byte> block)
-        {
-            return Compute(block.Array!, block.Offset, block.Count);
-        }
-
-        public void Dispose()
-        {
-            UnsignedValue = 0;
-        }
     }
 }

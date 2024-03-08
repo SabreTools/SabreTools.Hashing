@@ -6,6 +6,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using Aaru.Checksums;
 using Aaru.CommonTypes.Interfaces;
+using CRC32;
 
 namespace SabreTools.Hashing
 {
@@ -39,7 +40,7 @@ namespace SabreTools.Hashing
 #if NET462_OR_GREATER || NETCOREAPP
                     NonCryptographicHashAlgorithm ncha => ncha.GetCurrentHash().Reverse().ToArray(),
 #endif
-                    OptimizedCRC.OptimizedCRC ocrc => BitConverter.GetBytes(ocrc.Value).Reverse().ToArray(),
+                    OptimizedCRC ocrc => BitConverter.GetBytes(ocrc.Value).Reverse().ToArray(),
                     _ => null,
                 };
             }
@@ -93,10 +94,10 @@ namespace SabreTools.Hashing
             {
 #if NET462_OR_GREATER || NETCOREAPP
                 HashType.CRC32 => new Crc32(),
-                HashType.CRC32_Optimized => new OptimizedCRC.OptimizedCRC(),
+                HashType.CRC32_Optimized => new OptimizedCRC(),
                 HashType.CRC64 => new Crc64(),
 #else
-                HashType.CRC32 => new OptimizedCRC.OptimizedCRC(),
+                HashType.CRC32 => new OptimizedCRC(),
 #endif
                 HashType.MD5 => MD5.Create(),
 #if NETFRAMEWORK
@@ -151,7 +152,7 @@ namespace SabreTools.Hashing
                     break;
 #endif
 
-                case OptimizedCRC.OptimizedCRC oc:
+                case OptimizedCRC oc:
                     oc.Update(buffer, offset, size);
                     break;
             }
@@ -170,7 +171,7 @@ namespace SabreTools.Hashing
                     ha.TransformFinalBlock(emptyBuffer, 0, 0);
                     break;
 
-                case OptimizedCRC.OptimizedCRC oc:
+                case OptimizedCRC oc:
                     oc.Update([], 0, 0);
                     break;
             }
