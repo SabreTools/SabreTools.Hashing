@@ -8,14 +8,25 @@ namespace SabreTools.Hashing
         /// <summary>
         /// CRC 32-bit checksum
         /// </summary>
+        /// <remarks>Same as CRC32_Optimized in .NET Framework 4.5.2 and lower</remarks>
         CRC32,
 
-#if NET462_OR_GREATER || NETCOREAPP
         /// <summary>
-        /// Optimized CRC 32-bit checksum
+        /// CRC 32-bit checksum (NaiveCRC)
+        /// </summary>
+        CRC32_Naive,
+
+        /// <summary>
+        /// CRC 32-bit checksum (OptimizedCRC)
         /// </summary>
         CRC32_Optimized,
 
+        /// <summary>
+        /// CRC 32-bit checksum (ParallelCRC)
+        /// </summary>
+        CRC32_Parallel,
+
+#if NET462_OR_GREATER || NETCOREAPP
         /// <summary>
         /// CRC 64-bit checksum
         /// </summary>

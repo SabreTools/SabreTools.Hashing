@@ -37,10 +37,12 @@ namespace SabreTools.Hashing
                 {
                     HashAlgorithm ha => ha.Hash,
                     IChecksum ic => ic.Final(),
+                    NaiveCRC ncrc => BitConverter.GetBytes(ncrc.Value).Reverse().ToArray(),
 #if NET462_OR_GREATER || NETCOREAPP
                     NonCryptographicHashAlgorithm ncha => ncha.GetCurrentHash().Reverse().ToArray(),
 #endif
                     OptimizedCRC ocrc => BitConverter.GetBytes(ocrc.Value).Reverse().ToArray(),
+                    ParallelCRC pcrc => BitConverter.GetBytes(pcrc.Value).Reverse().ToArray(),
                     _ => null,
                 };
             }
@@ -94,11 +96,13 @@ namespace SabreTools.Hashing
             {
 #if NET462_OR_GREATER || NETCOREAPP
                 HashType.CRC32 => new Crc32(),
-                HashType.CRC32_Optimized => new OptimizedCRC(),
                 HashType.CRC64 => new Crc64(),
 #else
                 HashType.CRC32 => new OptimizedCRC(),
 #endif
+                HashType.CRC32_Naive => new NaiveCRC(),
+                HashType.CRC32_Optimized => new OptimizedCRC(),
+                HashType.CRC32_Parallel => new ParallelCRC(),
                 HashType.MD5 => MD5.Create(),
 #if NETFRAMEWORK
                 HashType.RIPEMD160 => RIPEMD160.Create(),
@@ -145,6 +149,10 @@ namespace SabreTools.Hashing
                     ic.Update(icBuffer);
                     break;
 
+                case NaiveCRC nc:
+                    nc.Update(buffer, offset, size);
+                    break;
+
 #if NET462_OR_GREATER || NETCOREAPP
                 case NonCryptographicHashAlgorithm ncha:
                     var nchaBufferSpan = new ReadOnlySpan<byte>(buffer, offset, size);
@@ -154,6 +162,10 @@ namespace SabreTools.Hashing
 
                 case OptimizedCRC oc:
                     oc.Update(buffer, offset, size);
+                    break;
+
+                case ParallelCRC pc:
+                    pc.Update(buffer, offset, size);
                     break;
             }
         }
@@ -171,8 +183,16 @@ namespace SabreTools.Hashing
                     ha.TransformFinalBlock(emptyBuffer, 0, 0);
                     break;
 
+                case NaiveCRC nc:
+                    nc.Update([], 0, 0);
+                    break;
+
                 case OptimizedCRC oc:
                     oc.Update([], 0, 0);
+                    break;
+
+                case ParallelCRC pc:
+                    pc.Update([], 0, 0);
                     break;
             }
         }

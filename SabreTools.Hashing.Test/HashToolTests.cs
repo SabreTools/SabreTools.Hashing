@@ -46,8 +46,10 @@ namespace SabreTools.Hashing.Test
 
             Assert.NotNull(hashDict);
             Assert.Equal(_crc32, hashDict![HashType.CRC32]);
+            Assert.Equal(_crc32, hashDict[HashType.CRC32_Naive]);
+            Assert.Equal(_crc32, hashDict[HashType.CRC32_Optimized]);
+            Assert.Equal(_crc32, hashDict[HashType.CRC32_Parallel]);
 #if NET462_OR_GREATER || NETCOREAPP
-            Assert.Equal(_crc32, hashDict![HashType.CRC32_Optimized]);
             Assert.Equal(_crc64, hashDict[HashType.CRC64]);
 #endif
             Assert.Equal(_md5, hashDict[HashType.MD5]);
@@ -75,6 +77,9 @@ namespace SabreTools.Hashing.Test
             Assert.Equal(_hashFileSize, actualSize);
             Assert.NotNull(hashDict);
             Assert.Equal(_crc32, hashDict![HashType.CRC32]);
+            Assert.Equal(_crc32, hashDict[HashType.CRC32_Naive]);
+            Assert.Equal(_crc32, hashDict[HashType.CRC32_Optimized]);
+            Assert.Equal(_crc32, hashDict[HashType.CRC32_Parallel]);
 #if NET462_OR_GREATER || NETCOREAPP
             Assert.Equal(_crc64, hashDict[HashType.CRC64]);
 #endif
@@ -100,6 +105,9 @@ namespace SabreTools.Hashing.Test
 
             Assert.NotNull(hashDict);
             Assert.Equal(_crc32, hashDict![HashType.CRC32]);
+            Assert.Equal(_crc32, hashDict[HashType.CRC32_Naive]);
+            Assert.Equal(_crc32, hashDict[HashType.CRC32_Optimized]);
+            Assert.Equal(_crc32, hashDict[HashType.CRC32_Parallel]);
 #if NET462_OR_GREATER || NETCOREAPP
             Assert.Equal(_crc64, hashDict[HashType.CRC64]);
 #endif
@@ -125,6 +133,9 @@ namespace SabreTools.Hashing.Test
 
             Assert.NotNull(hashDict);
             Assert.Equal(_crc32, hashDict![HashType.CRC32]);
+            Assert.Equal(_crc32, hashDict[HashType.CRC32_Naive]);
+            Assert.Equal(_crc32, hashDict[HashType.CRC32_Optimized]);
+            Assert.Equal(_crc32, hashDict[HashType.CRC32_Parallel]);
 #if NET462_OR_GREATER || NETCOREAPP
             Assert.Equal(_crc64, hashDict[HashType.CRC64]);
 #endif
