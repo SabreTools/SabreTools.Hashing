@@ -5,6 +5,13 @@ namespace SabreTools.Hashing
     /// </summary>
     public enum HashType
     {
+#if NET7_0_OR_GREATER
+        /// <summary>
+        /// BLAKE3 512-bit digest
+        /// </summary>
+        BLAKE3,
+#endif
+
         /// <summary>
         /// CRC 32-bit checksum
         /// </summary>

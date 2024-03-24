@@ -11,6 +11,7 @@ namespace SabreTools.Hashing.Test
         #region Known File Information
 
         private const long _hashFileSize = 125;
+        private const string _blake3 = "d4bd7ca6f1ebea9580d9381106b248eb5b6069170d0bfd00b17d659fcd10dcdc";
         private const string _crc32 = "ba02a660";
         private const string _crc64 = "a0e0009c18b5338d";
         private const string _md5 = "b722871eaa950016296184d026c5dec9";
@@ -45,6 +46,9 @@ namespace SabreTools.Hashing.Test
             var hashDict = HashTool.GetFileHashes(_hashFilePath);
 
             Assert.NotNull(hashDict);
+#if NET7_0_OR_GREATER
+            Assert.Equal(_blake3, hashDict![HashType.BLAKE3]);
+#endif
             Assert.Equal(_crc32, hashDict![HashType.CRC32]);
             Assert.Equal(_crc32, hashDict[HashType.CRC32_Naive]);
             Assert.Equal(_crc32, hashDict[HashType.CRC32_Optimized]);
@@ -76,6 +80,9 @@ namespace SabreTools.Hashing.Test
 
             Assert.Equal(_hashFileSize, actualSize);
             Assert.NotNull(hashDict);
+#if NET7_0_OR_GREATER
+            Assert.Equal(_blake3, hashDict![HashType.BLAKE3]);
+#endif
             Assert.Equal(_crc32, hashDict![HashType.CRC32]);
             Assert.Equal(_crc32, hashDict[HashType.CRC32_Naive]);
             Assert.Equal(_crc32, hashDict[HashType.CRC32_Optimized]);
@@ -104,6 +111,9 @@ namespace SabreTools.Hashing.Test
             var hashDict = HashTool.GetByteArrayHashes(fileBytes);
 
             Assert.NotNull(hashDict);
+#if NET7_0_OR_GREATER
+            Assert.Equal(_blake3, hashDict![HashType.BLAKE3]);
+#endif
             Assert.Equal(_crc32, hashDict![HashType.CRC32]);
             Assert.Equal(_crc32, hashDict[HashType.CRC32_Naive]);
             Assert.Equal(_crc32, hashDict[HashType.CRC32_Optimized]);
@@ -132,6 +142,9 @@ namespace SabreTools.Hashing.Test
             var hashDict = HashTool.GetStreamHashes(fileStream);
 
             Assert.NotNull(hashDict);
+#if NET7_0_OR_GREATER
+            Assert.Equal(_blake3, hashDict![HashType.BLAKE3]);
+#endif
             Assert.Equal(_crc32, hashDict![HashType.CRC32]);
             Assert.Equal(_crc32, hashDict[HashType.CRC32_Naive]);
             Assert.Equal(_crc32, hashDict[HashType.CRC32_Optimized]);

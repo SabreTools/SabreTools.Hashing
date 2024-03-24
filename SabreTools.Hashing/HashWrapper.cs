@@ -6,6 +6,9 @@ using System.Linq;
 using System.Security.Cryptography;
 using Aaru.Checksums;
 using Aaru.CommonTypes.Interfaces;
+#if NET7_0_OR_GREATER
+using Blake3;
+#endif
 using CRC32;
 
 namespace SabreTools.Hashing
@@ -94,6 +97,9 @@ namespace SabreTools.Hashing
         {
             _hasher = HashType switch
             {
+#if NET7_0_OR_GREATER
+                HashType.BLAKE3 => new Blake3HashAlgorithm(),
+#endif
 #if NET462_OR_GREATER || NETCOREAPP
                 HashType.CRC32 => new Crc32(),
                 HashType.CRC64 => new Crc64(),
