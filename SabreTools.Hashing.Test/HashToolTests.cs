@@ -18,10 +18,8 @@ namespace SabreTools.Hashing.Test
         private const string _crc16_ccitt = "482d";
         private const string _crc16_ibm = "7573";
         private const string _crc32 = "ba02a660";
-#if NET462_OR_GREATER || NETCOREAPP
         private const string _crc64 = "a0e0009c18b5338d";
-#endif
-        private const string _crc64_ecma = "fb49044e8331f6e5";
+        private const string _crc64_reversed = "fb49044e8331f6e5";
         private const string _fletcher16 = "46c1";
         private const string _fletcher32 = "073f2d94";
         private const string _md5 = "b722871eaa950016296184d026c5dec9";
@@ -71,10 +69,8 @@ namespace SabreTools.Hashing.Test
             Assert.Equal(_crc32, hashDict[HashType.CRC32_Naive]);
             Assert.Equal(_crc32, hashDict[HashType.CRC32_Optimized]);
             Assert.Equal(_crc32, hashDict[HashType.CRC32_Parallel]);
-#if NET462_OR_GREATER || NETCOREAPP
             Assert.Equal(_crc64, hashDict[HashType.CRC64]);
-#endif
-            Assert.Equal(_crc64_ecma, hashDict[HashType.CRC64_ECMA]);
+            Assert.Equal(_crc64_reversed, hashDict[HashType.CRC64_Reversed]);
             Assert.Equal(_fletcher16, hashDict[HashType.Fletcher16]);
             Assert.Equal(_fletcher32, hashDict[HashType.Fletcher32]);
             Assert.Equal(_md5, hashDict[HashType.MD5]);
@@ -112,10 +108,8 @@ namespace SabreTools.Hashing.Test
             Assert.Equal(_crc32, hashDict[HashType.CRC32_Naive]);
             Assert.Equal(_crc32, hashDict[HashType.CRC32_Optimized]);
             Assert.Equal(_crc32, hashDict[HashType.CRC32_Parallel]);
-#if NET462_OR_GREATER || NETCOREAPP
             Assert.Equal(_crc64, hashDict[HashType.CRC64]);
-#endif
-            Assert.Equal(_crc64_ecma, hashDict[HashType.CRC64_ECMA]);
+            Assert.Equal(_crc64_reversed, hashDict[HashType.CRC64_Reversed]);
             Assert.Equal(_fletcher16, hashDict[HashType.Fletcher16]);
             Assert.Equal(_fletcher32, hashDict[HashType.Fletcher32]);
             Assert.Equal(_md5, hashDict[HashType.MD5]);
@@ -150,10 +144,8 @@ namespace SabreTools.Hashing.Test
             Assert.Equal(_crc32, hashDict[HashType.CRC32_Naive]);
             Assert.Equal(_crc32, hashDict[HashType.CRC32_Optimized]);
             Assert.Equal(_crc32, hashDict[HashType.CRC32_Parallel]);
-#if NET462_OR_GREATER || NETCOREAPP
             Assert.Equal(_crc64, hashDict[HashType.CRC64]);
-#endif
-            Assert.Equal(_crc64_ecma, hashDict[HashType.CRC64_ECMA]);
+            Assert.Equal(_crc64_reversed, hashDict[HashType.CRC64_Reversed]);
             Assert.Equal(_fletcher16, hashDict[HashType.Fletcher16]);
             Assert.Equal(_fletcher32, hashDict[HashType.Fletcher32]);
             Assert.Equal(_md5, hashDict[HashType.MD5]);
@@ -188,10 +180,8 @@ namespace SabreTools.Hashing.Test
             Assert.Equal(_crc32, hashDict[HashType.CRC32_Naive]);
             Assert.Equal(_crc32, hashDict[HashType.CRC32_Optimized]);
             Assert.Equal(_crc32, hashDict[HashType.CRC32_Parallel]);
-#if NET462_OR_GREATER || NETCOREAPP
             Assert.Equal(_crc64, hashDict[HashType.CRC64]);
-#endif
-            Assert.Equal(_crc64_ecma, hashDict[HashType.CRC64_ECMA]);
+            Assert.Equal(_crc64_reversed, hashDict[HashType.CRC64_Reversed]);
             Assert.Equal(_fletcher16, hashDict[HashType.Fletcher16]);
             Assert.Equal(_fletcher32, hashDict[HashType.Fletcher32]);
             Assert.Equal(_md5, hashDict[HashType.MD5]);

@@ -76,6 +76,11 @@ namespace SabreTools.Hashing
         /// <remarks>May be either a HashAlgorithm or NonCryptographicHashAlgorithm</remarks>
         private object? _hasher;
 
+        /// <summary>
+        /// Non-reversed CRC-64 polynomial
+        /// </summary>
+        private const ulong CRC64_ECMA_POLY_NORMAL = 0x42F0E1EBA9EA3693;
+
         #endregion
 
         #region Constructors
@@ -114,8 +119,10 @@ namespace SabreTools.Hashing
                 HashType.CRC32_Parallel => new ParallelCRC(),
 #if NET462_OR_GREATER || NETCOREAPP
                 HashType.CRC64 => new Crc64(),
+#else
+                HashType.CRC64 => new Crc64Context(CRC64_ECMA_POLY_NORMAL, 0xFFFFFFFFFFFFFFFF),
 #endif
-                HashType.CRC64_ECMA => new Crc64Context(),
+                HashType.CRC64_Reversed => new Crc64Context(),
                 HashType.Fletcher16 => new Fletcher16Context(),
                 HashType.Fletcher32 => new Fletcher32Context(),
                 HashType.MD5 => MD5.Create(),

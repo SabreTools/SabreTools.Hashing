@@ -53,17 +53,15 @@ namespace SabreTools.Hashing
         /// </summary>
         CRC32_Parallel,
 
-#if NET462_OR_GREATER || NETCOREAPP
         /// <summary>
-        /// CRC 64-bit checksum
+        /// CRC 64-bit checksum (0x42F0E1EBA9EA3693 polynomial)
         /// </summary>
         CRC64,
-#endif
 
         /// <summary>
-        /// CRC 64-bit checksum (ECMA implementation)
+        /// CRC 64-bit checksum (0xC96C5795D7870F42 polynomial)
         /// </summary>
-        CRC64_ECMA,
+        CRC64_Reversed,
 
         /// <summary>
         /// John G. Fletcher's 16-bit checksum
