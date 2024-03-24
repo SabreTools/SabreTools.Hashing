@@ -30,8 +30,13 @@ namespace SabreTools.Hashing
         /// <summary>
         /// CRC 32-bit checksum
         /// </summary>
-        /// <remarks>Same as CRC32_Optimized in .NET Framework 4.5.2 and lower</remarks>
+        /// <remarks>Same as CRC32_ISO in .NET Framework 4.5.2 and lower</remarks>
         CRC32,
+
+        /// <summary>
+        /// CRC 32-bit checksum (ISO implementation)
+        /// </summary>
+        CRC32_ISO,
 
         /// <summary>
         /// CRC 32-bit checksum (NaiveCRC implementation)

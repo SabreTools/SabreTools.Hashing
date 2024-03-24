@@ -106,8 +106,9 @@ namespace SabreTools.Hashing
 #if NET462_OR_GREATER || NETCOREAPP
                 HashType.CRC32 => new Crc32(),
 #else
-                HashType.CRC32 => new OptimizedCRC(),
+                HashType.CRC32 => new Crc32Context(),
 #endif
+                HashType.CRC32_ISO => new Crc32Context(),
                 HashType.CRC32_Naive => new NaiveCRC(),
                 HashType.CRC32_Optimized => new OptimizedCRC(),
                 HashType.CRC32_Parallel => new ParallelCRC(),
