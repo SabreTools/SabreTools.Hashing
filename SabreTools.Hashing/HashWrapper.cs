@@ -105,13 +105,16 @@ namespace SabreTools.Hashing
                 HashType.CRC16_IBM => new CRC16IbmContext(),
 #if NET462_OR_GREATER || NETCOREAPP
                 HashType.CRC32 => new Crc32(),
-                HashType.CRC64 => new Crc64(),
 #else
                 HashType.CRC32 => new OptimizedCRC(),
 #endif
                 HashType.CRC32_Naive => new NaiveCRC(),
                 HashType.CRC32_Optimized => new OptimizedCRC(),
                 HashType.CRC32_Parallel => new ParallelCRC(),
+#if NET462_OR_GREATER || NETCOREAPP
+                HashType.CRC64 => new Crc64(),
+#endif
+                HashType.CRC64_ECMA => new Crc64Context(),
                 HashType.Fletcher16 => new Fletcher16Context(),
                 HashType.Fletcher32 => new Fletcher32Context(),
                 HashType.MD5 => MD5.Create(),

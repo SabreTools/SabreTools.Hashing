@@ -56,6 +56,11 @@ namespace SabreTools.Hashing
 #endif
 
         /// <summary>
+        /// CRC 64-bit checksum (ECMA implementation)
+        /// </summary>
+        CRC64_ECMA,
+
+        /// <summary>
         /// John G. Fletcher's 16-bit checksum
         /// </summary>
         Fletcher16,
