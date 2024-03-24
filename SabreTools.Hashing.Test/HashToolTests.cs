@@ -30,6 +30,10 @@ namespace SabreTools.Hashing.Test
         private const string _sha256 = "fdb02dee8c319c52087382c45f099c90d0b6cc824850aff28c1bfb2884b7b855";
         private const string _sha384 = "e276c49618fff25bc1fe2e0659cd0ef0e7c1186563b063e07c52323b9899f3ce9b091be04d6208444b3ef1265e879074";
         private const string _sha512 = "15d69514eb628c2403e945a7cafd1d27e557f6e336c69b63ea17e7ed9d256cc374ee662f09305836d6de37fdae59d83883b982aa8446e4ff26346b6b6b50b240";
+#if NET8_0_OR_GREATER
+        private const string _shake128 = "e5f88d0db79a71c39490beb9ebac21eaf4a5d6368438fca20f5e4ce77cfee9aa";
+        private const string _shake256 = "24d9e83198bbc7baf4dcd293bfc35ae3fff05399786c37318f1b1ef85f41970c66926f8a2a1f912d96e2d8e45535af88a301a1c200697437c1a65d7e980344bc";
+#endif
         private const string _spamsum = "3:hMCPQCE6AFQxWyENFACBE+rW6Tj7SMQmKozr9MVERkL:hZRdxZENFs+rPSromekL";
 #if NET462_OR_GREATER || NETCOREAPP
         private const string _xxhash32 = "8e331daa";
@@ -81,6 +85,12 @@ namespace SabreTools.Hashing.Test
             Assert.Equal(_sha256, hashDict[HashType.SHA256]);
             Assert.Equal(_sha384, hashDict[HashType.SHA384]);
             Assert.Equal(_sha512, hashDict[HashType.SHA512]);
+#if NET8_0_OR_GREATER
+            if (System.Security.Cryptography.Shake128.IsSupported)
+                Assert.Equal(_shake128, hashDict[HashType.SHAKE128]);
+            if (System.Security.Cryptography.Shake256.IsSupported)
+                Assert.Equal(_shake256, hashDict[HashType.SHAKE256]);
+#endif
             Assert.Equal(_spamsum, hashDict[HashType.SpamSum]);
 #if NET462_OR_GREATER || NETCOREAPP
             Assert.Equal(_xxhash32, hashDict[HashType.XxHash32]);
@@ -117,6 +127,12 @@ namespace SabreTools.Hashing.Test
             Assert.Equal(_sha256, hashDict[HashType.SHA256]);
             Assert.Equal(_sha384, hashDict[HashType.SHA384]);
             Assert.Equal(_sha512, hashDict[HashType.SHA512]);
+#if NET8_0_OR_GREATER
+            if (System.Security.Cryptography.Shake128.IsSupported)
+                Assert.Equal(_shake128, hashDict[HashType.SHAKE128]);
+            if (System.Security.Cryptography.Shake256.IsSupported)
+                Assert.Equal(_shake256, hashDict[HashType.SHAKE256]);
+#endif
             Assert.Equal(_spamsum, hashDict[HashType.SpamSum]);
 #if NET462_OR_GREATER || NETCOREAPP
             Assert.Equal(_xxhash32, hashDict[HashType.XxHash32]);
@@ -153,6 +169,12 @@ namespace SabreTools.Hashing.Test
             Assert.Equal(_sha256, hashDict[HashType.SHA256]);
             Assert.Equal(_sha384, hashDict[HashType.SHA384]);
             Assert.Equal(_sha512, hashDict[HashType.SHA512]);
+#if NET8_0_OR_GREATER
+            if (System.Security.Cryptography.Shake128.IsSupported)
+                Assert.Equal(_shake128, hashDict[HashType.SHAKE128]);
+            if (System.Security.Cryptography.Shake256.IsSupported)
+                Assert.Equal(_shake256, hashDict[HashType.SHAKE256]);
+#endif
             Assert.Equal(_spamsum, hashDict[HashType.SpamSum]);
 #if NET462_OR_GREATER || NETCOREAPP
             Assert.Equal(_xxhash32, hashDict[HashType.XxHash32]);
@@ -189,6 +211,12 @@ namespace SabreTools.Hashing.Test
             Assert.Equal(_sha256, hashDict[HashType.SHA256]);
             Assert.Equal(_sha384, hashDict[HashType.SHA384]);
             Assert.Equal(_sha512, hashDict[HashType.SHA512]);
+#if NET8_0_OR_GREATER
+            if (System.Security.Cryptography.Shake128.IsSupported)
+                Assert.Equal(_shake128, hashDict[HashType.SHAKE128]);
+            if (System.Security.Cryptography.Shake256.IsSupported)
+                Assert.Equal(_shake256, hashDict[HashType.SHAKE256]);
+#endif
             Assert.Equal(_spamsum, hashDict[HashType.SpamSum]);
 #if NET462_OR_GREATER || NETCOREAPP
             Assert.Equal(_xxhash32, hashDict[HashType.XxHash32]);

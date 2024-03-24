@@ -9,6 +9,6 @@ This library comprises of methods and helpers to simplify the process of getting
 | [Compress](https://github.com/RomVault/RVWorld/tree/master/Compress) | N/A | Used for threaded hashing |
 | [CRC32](https://gitlab.com/eugene77/CRC32) | CRC-32 (Multiple implementations) | |
 | [System.IO.Hashing](https://www.nuget.org/packages/System.IO.Hashing) | CRC-32, CRC-64 (Normal Polynomial), xxHash32, xxHash64, XXH3, XXH128 | Used in `net462` and above |
-| [System.Security.Cryptography](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography) | MD5, RIPEMD160 (.NET Framework only), SHA-1, SHA-256, SHA-384, SHA-512 | Built-in library |
+| [System.Security.Cryptography](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography) | MD5, RIPEMD160 (.NET Framework only), SHA-1, SHA-256, SHA-384, SHA-512, SHAKE128, SHAKE256 | Built-in library; SHAKE128 and SHAKE256 are `net8.0` and above only for supported platforms |
 
 Find the link to the Nuget package [here](https://www.nuget.org/packages/SabreTools.Hashing).

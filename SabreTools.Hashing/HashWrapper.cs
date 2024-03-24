@@ -133,6 +133,10 @@ namespace SabreTools.Hashing
                 HashType.SHA256 => SHA256.Create(),
                 HashType.SHA384 => SHA384.Create(),
                 HashType.SHA512 => SHA512.Create(),
+#if NET8_0_OR_GREATER
+                HashType.SHAKE128 => Shake128.IsSupported ? new Shake128() : null,
+                HashType.SHAKE256 => Shake256.IsSupported ? new Shake256() : null,
+#endif
                 HashType.SpamSum => new SpamSumContext(),
 #if NET462_OR_GREATER || NETCOREAPP
                 HashType.XxHash32 => new XxHash32(),

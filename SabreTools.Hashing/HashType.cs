@@ -105,6 +105,18 @@ namespace SabreTools.Hashing
         /// </summary>
         SHA512,
 
+#if NET8_0_OR_GREATER
+        /// <summary>
+        /// SHAKE128 SHA-3 family hash
+        /// </summary>
+        SHAKE128,
+
+        /// <summary>
+        /// SHAKE256 SHA-3 family hash
+        /// </summary>
+        SHAKE256,
+#endif
+
         /// <summary>
         /// spamsum fuzzy hash
         /// </summary>
