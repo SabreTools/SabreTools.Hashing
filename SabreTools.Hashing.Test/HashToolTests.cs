@@ -31,6 +31,9 @@ namespace SabreTools.Hashing.Test
         private const string _sha384 = "e276c49618fff25bc1fe2e0659cd0ef0e7c1186563b063e07c52323b9899f3ce9b091be04d6208444b3ef1265e879074";
         private const string _sha512 = "15d69514eb628c2403e945a7cafd1d27e557f6e336c69b63ea17e7ed9d256cc374ee662f09305836d6de37fdae59d83883b982aa8446e4ff26346b6b6b50b240";
 #if NET8_0_OR_GREATER
+        private const string _sha3_256 = "1d76459e68c865b5911ada5104067cc604c5c60b345c4e81b3905e916a43c868";
+        private const string _sha3_384 = "1bcbed87b73f25c0adf486c3afbf0ea3105763c387af3f8b2bd79b0a1964d42832b1d7c6a2225f9153ead26f442e8b67";
+        private const string _sha3_512 = "89852144df37c58d01f5912124f1942dd00bac0346eb3971943416699c3094cff087fb42c356019c3d91f8e8f55b9254c8caec48e9414af6817297d06725ffeb";
         private const string _shake128 = "e5f88d0db79a71c39490beb9ebac21eaf4a5d6368438fca20f5e4ce77cfee9aa";
         private const string _shake256 = "24d9e83198bbc7baf4dcd293bfc35ae3fff05399786c37318f1b1ef85f41970c66926f8a2a1f912d96e2d8e45535af88a301a1c200697437c1a65d7e980344bc";
 #endif
@@ -86,6 +89,12 @@ namespace SabreTools.Hashing.Test
             Assert.Equal(_sha384, hashDict[HashType.SHA384]);
             Assert.Equal(_sha512, hashDict[HashType.SHA512]);
 #if NET8_0_OR_GREATER
+            if (System.Security.Cryptography.SHA3_256.IsSupported)
+                Assert.Equal(_sha3_256, hashDict[HashType.SHA3_256]);
+            if (System.Security.Cryptography.SHA3_384.IsSupported)
+                Assert.Equal(_sha3_384, hashDict[HashType.SHA3_384]);
+            if (System.Security.Cryptography.SHA3_512.IsSupported)
+                Assert.Equal(_sha3_384, hashDict[HashType.SHA3_512]);
             if (System.Security.Cryptography.Shake128.IsSupported)
                 Assert.Equal(_shake128, hashDict[HashType.SHAKE128]);
             if (System.Security.Cryptography.Shake256.IsSupported)
@@ -128,6 +137,12 @@ namespace SabreTools.Hashing.Test
             Assert.Equal(_sha384, hashDict[HashType.SHA384]);
             Assert.Equal(_sha512, hashDict[HashType.SHA512]);
 #if NET8_0_OR_GREATER
+            if (System.Security.Cryptography.SHA3_256.IsSupported)
+                Assert.Equal(_sha3_256, hashDict[HashType.SHA3_256]);
+            if (System.Security.Cryptography.SHA3_384.IsSupported)
+                Assert.Equal(_sha3_384, hashDict[HashType.SHA3_384]);
+            if (System.Security.Cryptography.SHA3_512.IsSupported)
+                Assert.Equal(_sha3_384, hashDict[HashType.SHA3_512]);
             if (System.Security.Cryptography.Shake128.IsSupported)
                 Assert.Equal(_shake128, hashDict[HashType.SHAKE128]);
             if (System.Security.Cryptography.Shake256.IsSupported)
@@ -170,6 +185,12 @@ namespace SabreTools.Hashing.Test
             Assert.Equal(_sha384, hashDict[HashType.SHA384]);
             Assert.Equal(_sha512, hashDict[HashType.SHA512]);
 #if NET8_0_OR_GREATER
+            if (System.Security.Cryptography.SHA3_256.IsSupported)
+                Assert.Equal(_sha3_256, hashDict[HashType.SHA3_256]);
+            if (System.Security.Cryptography.SHA3_384.IsSupported)
+                Assert.Equal(_sha3_384, hashDict[HashType.SHA3_384]);
+            if (System.Security.Cryptography.SHA3_512.IsSupported)
+                Assert.Equal(_sha3_384, hashDict[HashType.SHA3_512]);
             if (System.Security.Cryptography.Shake128.IsSupported)
                 Assert.Equal(_shake128, hashDict[HashType.SHAKE128]);
             if (System.Security.Cryptography.Shake256.IsSupported)
@@ -212,6 +233,12 @@ namespace SabreTools.Hashing.Test
             Assert.Equal(_sha384, hashDict[HashType.SHA384]);
             Assert.Equal(_sha512, hashDict[HashType.SHA512]);
 #if NET8_0_OR_GREATER
+            if (System.Security.Cryptography.SHA3_256.IsSupported)
+                Assert.Equal(_sha3_256, hashDict[HashType.SHA3_256]);
+            if (System.Security.Cryptography.SHA3_384.IsSupported)
+                Assert.Equal(_sha3_384, hashDict[HashType.SHA3_384]);
+            if (System.Security.Cryptography.SHA3_512.IsSupported)
+                Assert.Equal(_sha3_384, hashDict[HashType.SHA3_512]);
             if (System.Security.Cryptography.Shake128.IsSupported)
                 Assert.Equal(_shake128, hashDict[HashType.SHAKE128]);
             if (System.Security.Cryptography.Shake256.IsSupported)

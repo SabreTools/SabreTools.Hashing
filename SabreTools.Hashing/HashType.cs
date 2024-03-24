@@ -107,6 +107,21 @@ namespace SabreTools.Hashing
 
 #if NET8_0_OR_GREATER
         /// <summary>
+        /// SHA3-256 hash
+        /// </summary>
+        SHA3_256,
+
+        /// <summary>
+        /// SHA3-384 hash
+        /// </summary>
+        SHA3_384,
+
+        /// <summary>
+        /// SHA3-512 hash
+        /// </summary>
+        SHA3_512, 
+
+        /// <summary>
         /// SHAKE128 SHA-3 family hash
         /// </summary>
         SHAKE128,

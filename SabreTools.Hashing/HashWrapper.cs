@@ -134,6 +134,9 @@ namespace SabreTools.Hashing
                 HashType.SHA384 => SHA384.Create(),
                 HashType.SHA512 => SHA512.Create(),
 #if NET8_0_OR_GREATER
+                HashType.SHA3_256 => SHA3_256.IsSupported ? SHA3_256.Create() : null,
+                HashType.SHA3_384 => SHA3_384.IsSupported ? SHA3_384.Create() : null,
+                HashType.SHA3_512 => SHA3_512.IsSupported ? SHA3_512.Create() : null,
                 HashType.SHAKE128 => Shake128.IsSupported ? new Shake128() : null,
                 HashType.SHAKE256 => Shake256.IsSupported ? new Shake256() : null,
 #endif
