@@ -12,22 +12,30 @@ namespace SabreTools.Hashing.Test
 
         private const long _hashFileSize = 125;
         private const string _adler32 = "08562d95";
+#if NET7_0_OR_GREATER
         private const string _blake3 = "d4bd7ca6f1ebea9580d9381106b248eb5b6069170d0bfd00b17d659fcd10dcdc";
+#endif
         private const string _crc32 = "ba02a660";
+#if NET462_OR_GREATER || NETCOREAPP
         private const string _crc64 = "a0e0009c18b5338d";
+#endif
         private const string _fletcher16 = "46c1";
         private const string _fletcher32 = "073f2d94";
         private const string _md5 = "b722871eaa950016296184d026c5dec9";
+#if NETFRAMEWORK
         private const string _ripemd160 = "346361e1d7fdb836650cecdb842b0dbe660eed66";
+#endif
         private const string _sha1 = "eea1ee2d801d830c4bdad4df3c8da6f9f52d1a9f";
         private const string _sha256 = "fdb02dee8c319c52087382c45f099c90d0b6cc824850aff28c1bfb2884b7b855";
         private const string _sha384 = "e276c49618fff25bc1fe2e0659cd0ef0e7c1186563b063e07c52323b9899f3ce9b091be04d6208444b3ef1265e879074";
         private const string _sha512 = "15d69514eb628c2403e945a7cafd1d27e557f6e336c69b63ea17e7ed9d256cc374ee662f09305836d6de37fdae59d83883b982aa8446e4ff26346b6b6b50b240";
         private const string _spamsum = "3:hMCPQCE6AFQxWyENFACBE+rW6Tj7SMQmKozr9MVERkL:hZRdxZENFs+rPSromekL";
+#if NET462_OR_GREATER || NETCOREAPP
         private const string _xxhash32 = "8e331daa";
         private const string _xxhash64 = "082bf6f0a49e1e18";
         private const string _xxhash3 = "040474eb0eda9ff2";
         private const string _xxhash128 = "d934b4b4a5e1e11baeef8012fbcd11e8";
+#endif
 
         #endregion
 
