@@ -17,6 +17,16 @@ namespace SabreTools.Hashing
         BLAKE3,
 #endif
 
+        // <summary>
+        /// CRC 16-bit checksum using the CCITT polynomial
+        /// </summary>
+        CRC16_CCITT,
+
+        // <summary>
+        /// CRC 16-bit checksum using the IBM polynomial
+        /// </summary>
+        CRC16_IBM,
+
         /// <summary>
         /// CRC 32-bit checksum
         /// </summary>

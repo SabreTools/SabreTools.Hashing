@@ -15,6 +15,8 @@ namespace SabreTools.Hashing.Test
 #if NET7_0_OR_GREATER
         private const string _blake3 = "d4bd7ca6f1ebea9580d9381106b248eb5b6069170d0bfd00b17d659fcd10dcdc";
 #endif
+        private const string _crc16_ccitt = "482d";
+        private const string _crc16_ibm = "7573";
         private const string _crc32 = "ba02a660";
 #if NET462_OR_GREATER || NETCOREAPP
         private const string _crc64 = "a0e0009c18b5338d";
@@ -61,6 +63,8 @@ namespace SabreTools.Hashing.Test
 #if NET7_0_OR_GREATER
             Assert.Equal(_blake3, hashDict[HashType.BLAKE3]);
 #endif
+            Assert.Equal(_crc16_ccitt, hashDict[HashType.CRC16_CCITT]);
+            Assert.Equal(_crc16_ibm, hashDict[HashType.CRC16_IBM]);
             Assert.Equal(_crc32, hashDict[HashType.CRC32]);
             Assert.Equal(_crc32, hashDict[HashType.CRC32_Naive]);
             Assert.Equal(_crc32, hashDict[HashType.CRC32_Optimized]);
@@ -98,6 +102,8 @@ namespace SabreTools.Hashing.Test
 #if NET7_0_OR_GREATER
             Assert.Equal(_blake3, hashDict[HashType.BLAKE3]);
 #endif
+            Assert.Equal(_crc16_ccitt, hashDict[HashType.CRC16_CCITT]);
+            Assert.Equal(_crc16_ibm, hashDict[HashType.CRC16_IBM]);
             Assert.Equal(_crc32, hashDict[HashType.CRC32]);
             Assert.Equal(_crc32, hashDict[HashType.CRC32_Naive]);
             Assert.Equal(_crc32, hashDict[HashType.CRC32_Optimized]);
@@ -132,6 +138,8 @@ namespace SabreTools.Hashing.Test
 #if NET7_0_OR_GREATER
             Assert.Equal(_blake3, hashDict[HashType.BLAKE3]);
 #endif
+            Assert.Equal(_crc16_ccitt, hashDict[HashType.CRC16_CCITT]);
+            Assert.Equal(_crc16_ibm, hashDict[HashType.CRC16_IBM]);
             Assert.Equal(_crc32, hashDict[HashType.CRC32]);
             Assert.Equal(_crc32, hashDict[HashType.CRC32_Naive]);
             Assert.Equal(_crc32, hashDict[HashType.CRC32_Optimized]);
@@ -166,6 +174,8 @@ namespace SabreTools.Hashing.Test
 #if NET7_0_OR_GREATER
             Assert.Equal(_blake3, hashDict[HashType.BLAKE3]);
 #endif
+            Assert.Equal(_crc16_ccitt, hashDict[HashType.CRC16_CCITT]);
+            Assert.Equal(_crc16_ibm, hashDict[HashType.CRC16_IBM]);
             Assert.Equal(_crc32, hashDict[HashType.CRC32]);
             Assert.Equal(_crc32, hashDict[HashType.CRC32_Naive]);
             Assert.Equal(_crc32, hashDict[HashType.CRC32_Optimized]);

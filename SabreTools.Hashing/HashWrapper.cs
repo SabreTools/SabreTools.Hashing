@@ -101,6 +101,8 @@ namespace SabreTools.Hashing
 #if NET7_0_OR_GREATER
                 HashType.BLAKE3 => new Blake3HashAlgorithm(),
 #endif
+                HashType.CRC16_CCITT => new CRC16CcittContext(),
+                HashType.CRC16_IBM => new CRC16IbmContext(),
 #if NET462_OR_GREATER || NETCOREAPP
                 HashType.CRC32 => new Crc32(),
                 HashType.CRC64 => new Crc64(),
