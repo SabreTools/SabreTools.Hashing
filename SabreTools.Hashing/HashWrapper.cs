@@ -97,6 +97,7 @@ namespace SabreTools.Hashing
         {
             _hasher = HashType switch
             {
+                HashType.Adler32 => new Adler32Context(),
 #if NET7_0_OR_GREATER
                 HashType.BLAKE3 => new Blake3HashAlgorithm(),
 #endif
@@ -109,6 +110,8 @@ namespace SabreTools.Hashing
                 HashType.CRC32_Naive => new NaiveCRC(),
                 HashType.CRC32_Optimized => new OptimizedCRC(),
                 HashType.CRC32_Parallel => new ParallelCRC(),
+                HashType.Fletcher16 => new Fletcher16Context(),
+                HashType.Fletcher32 => new Fletcher32Context(),
                 HashType.MD5 => MD5.Create(),
 #if NETFRAMEWORK
                 HashType.RIPEMD160 => RIPEMD160.Create(),

@@ -45,5 +45,9 @@
   <ItemGroup Condition="$(TargetFramework.StartsWith(`net7`)) OR $(TargetFramework.StartsWith(`net8`))">
     <PackageReference Include="Blake3" Version="1.1.0" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Aaru.Checksums.Native" Version="6.0.0-alpha9"/>
+  </ItemGroup>
 
 </Project>

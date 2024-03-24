@@ -5,6 +5,11 @@ namespace SabreTools.Hashing
     /// </summary>
     public enum HashType
     {
+        /// <summary>
+        /// Mark Adler's 32-bit checksum
+        /// </summary>
+        Adler32,
+
 #if NET7_0_OR_GREATER
         /// <summary>
         /// BLAKE3 512-bit digest
@@ -39,6 +44,16 @@ namespace SabreTools.Hashing
         /// </summary>
         CRC64,
 #endif
+
+        /// <summary>
+        /// John G. Fletcher's 16-bit checksum
+        /// </summary>
+        Fletcher16,
+
+        /// <summary>
+        /// John G. Fletcher's 32-bit checksum
+        /// </summary>
+        Fletcher32,
 
         /// <summary>
         /// MD5 hash
