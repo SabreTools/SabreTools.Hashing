@@ -124,11 +124,13 @@ namespace SabreTools.Hashing
         /// <summary>
         /// SHAKE128 SHA-3 family hash
         /// </summary>
+        /// <remarks>Outputs a 256-bit (32-byte) hash</remarks>
         SHAKE128,
 
         /// <summary>
         /// SHAKE256 SHA-3 family hash
         /// </summary>
+        /// <remarks>Outputs a 512-bit (64-byte) hash</remarks>
         SHAKE256,
 #endif
 

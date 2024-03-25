@@ -46,6 +46,10 @@ namespace SabreTools.Hashing
 #endif
                     OptimizedCRC ocrc => BitConverter.GetBytes(ocrc.Value).Reverse().ToArray(),
                     ParallelCRC pcrc => BitConverter.GetBytes(pcrc.Value).Reverse().ToArray(),
+#if NET8_0_OR_GREATER
+                    Shake128 s128 => s128.GetCurrentHash(32),
+                    Shake256 s256 => s256.GetCurrentHash(64),
+#endif
                     _ => null,
                 };
             }
@@ -196,13 +200,25 @@ namespace SabreTools.Hashing
                 case ParallelCRC pc:
                     pc.Update(buffer, offset, size);
                     break;
+
+#if NET8_0_OR_GREATER
+                case Shake128 s128:
+                    var s128BufferSpan = new ReadOnlySpan<byte>(buffer, offset, size)
+                    s128.AppendData(s128BufferSpan);
+                    break;
+
+                case Shake256 s256:
+                    var s256BufferSpan = new ReadOnlySpan<byte>(buffer, offset, size)
+                    s256.AppendData(s256BufferSpan);
+                    break;
+#endif
             }
         }
 
         /// <summary>
         /// Finalize the internal hash algorigthm
         /// </summary>
-        /// <remarks>NonCryptographicHashAlgorithm implementations do not need finalization</remarks>
+        /// <remarks>NonCryptographicHashAlgorithm, SHAKE128, and SHAKE256 implementations do not need finalization</remarks>
         public void Terminate()
         {
             byte[] emptyBuffer = [];
