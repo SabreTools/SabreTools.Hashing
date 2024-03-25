@@ -203,12 +203,12 @@ namespace SabreTools.Hashing
 
 #if NET8_0_OR_GREATER
                 case Shake128 s128:
-                    var s128BufferSpan = new ReadOnlySpan<byte>(buffer, offset, size)
+                    var s128BufferSpan = new ReadOnlySpan<byte>(buffer, offset, size);
                     s128.AppendData(s128BufferSpan);
                     break;
 
                 case Shake256 s256:
-                    var s256BufferSpan = new ReadOnlySpan<byte>(buffer, offset, size)
+                    var s256BufferSpan = new ReadOnlySpan<byte>(buffer, offset, size);
                     s256.AppendData(s256BufferSpan);
                     break;
 #endif
