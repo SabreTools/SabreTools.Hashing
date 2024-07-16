@@ -338,7 +338,7 @@ namespace SabreTools.Hashing
         /// <param name="input">Stream to hash</param>
         /// <param name="hashTypes">Array of hash types to get from the file</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
-        public static Dictionary<HashType, string?>? GetStreamHashes(Stream input, HashType[] hashTypes, bool leaveOpen = false)
+        public static Dictionary<HashType, string?>? GetStreamHashes(Stream input, HashType[] hashTypes, long length = -1, bool leaveOpen = false)
         {
             // Create the output dictionary
             var hashDict = new Dictionary<HashType, string?>();
@@ -369,7 +369,7 @@ namespace SabreTools.Hashing
                 */
 
                 // Pre load the first buffer
-                long refsize = input.Length;
+                long refsize = length > -1 ? length : input.Length;
                 int next = refsize > buffersize ? buffersize : (int)refsize;
                 input.Read(buffer0, 0, next);
                 int current = next;
@@ -449,7 +449,7 @@ namespace SabreTools.Hashing
         /// <param name="input">Stream to hash</param>
         /// <param name="hashTypes">Array of hash types to get from the file</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
-        private static Dictionary<HashType, byte[]?>? GetStreamHashArrays(Stream input, HashType[] hashTypes, bool leaveOpen = false)
+        private static Dictionary<HashType, byte[]?>? GetStreamHashArrays(Stream input, HashType[] hashTypes, long length = -1, bool leaveOpen = false)
         {
             // Create the output dictionary
             var hashDict = new Dictionary<HashType, byte[]?>();
@@ -480,7 +480,7 @@ namespace SabreTools.Hashing
                 */
 
                 // Pre load the first buffer
-                long refsize = input.Length;
+                long refsize = length > -1 ? length : input.Length;
                 int next = refsize > buffersize ? buffersize : (int)refsize;
                 input.Read(buffer0, 0, next);
                 int current = next;
