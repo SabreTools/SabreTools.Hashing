@@ -338,7 +338,72 @@ namespace SabreTools.Hashing
         /// <param name="input">Stream to hash</param>
         /// <param name="hashTypes">Array of hash types to get from the file</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
-        public static Dictionary<HashType, string?>? GetStreamHashes(Stream input, HashType[] hashTypes, long length = -1, bool leaveOpen = false)
+        public static Dictionary<HashType, string?>? GetStreamHashes(Stream input, HashType[] hashTypes, bool leaveOpen = false)
+        {
+            // Create the output dictionary
+            var hashDict = new Dictionary<HashType, string?>();
+
+            // Run the hashing
+            var hashers = GetStreamHashesInternal(input, hashTypes, leaveOpen);
+            if (hashers == null)
+                return null;
+
+            // Get the results
+            foreach (var hasher in hashers)
+            {
+                hashDict[hasher.Key] = hasher.Value.CurrentHashString;
+            }
+
+            // Dispose of the hashers
+            foreach (var hasher in hashers.Values)
+            {
+                hasher.Dispose();
+            }
+
+            return hashDict;
+        }
+
+        /// <summary>
+        /// Get hashes from an input Stream
+        /// </summary>
+        /// <param name="input">Stream to hash</param>
+        /// <param name="hashTypes">Array of hash types to get from the file</param>
+        /// <returns>Dictionary containing hashes on success, null on error</returns>
+        public static Dictionary<HashType, byte[]?>? GetStreamHashArrays(Stream input, HashType[] hashTypes, bool leaveOpen = false)
+        {
+            // Create the output dictionary
+            var hashDict = new Dictionary<HashType, byte[]?>();
+
+            
+
+            // Run the hashing
+            var hashers = GetStreamHashesInternal(input, hashTypes, leaveOpen);
+            if (hashers == null)
+                return null;
+
+            // Get the results
+            foreach (var hasher in hashers)
+            {
+                hashDict[hasher.Key] = hasher.Value.CurrentHashBytes;
+            }
+
+            // Dispose of the hashers
+            foreach (var hasher in hashers.Values)
+            {
+                hasher.Dispose();
+            }
+
+            return hashDict;
+        }
+
+        /// <summary>
+        /// Get hashes from an input stream
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="hashTypes"></param>
+        /// <param name="leaveOpen"></param>
+        /// <returns></returns>
+        private static Dictionary<HashType, HashWrapper>? GetStreamHashesInternal(Stream input, HashType[] hashTypes, bool leaveOpen)
         {
             // Create the output dictionary
             var hashDict = new Dictionary<HashType, string?>();
@@ -369,40 +434,32 @@ namespace SabreTools.Hashing
                 */
 
                 // Pre load the first buffer
-                long refsize = length > -1 ? length : input.Length;
-                int next = refsize > buffersize ? buffersize : (int)refsize;
-                input.Read(buffer0, 0, next);
-                int current = next;
-                refsize -= next;
+                int lastRead = input.Read(buffer0, 0, buffersize);
                 bool bufferSelect = true;
 
-                while (current > 0)
+                while (lastRead > 0)
                 {
                     // Trigger the buffer load on the second buffer
-                    next = refsize > buffersize ? buffersize : (int)refsize;
-                    if (next > 0)
-                        loadBuffer.Trigger(bufferSelect ? buffer1 : buffer0, next);
-
+                    loadBuffer.Trigger(bufferSelect ? buffer1 : buffer0, buffersize);
                     byte[] buffer = bufferSelect ? buffer0 : buffer1;
 
 #if NET20 || NET35
                     // Run hashers sequentially on each chunk
                     foreach (var h in hashers)
                     {
-                        h.Value.Process(buffer, 0, current);
+                        h.Value.Process(buffer, 0, lastRead);
                     }
 #else
                     // Run hashers in parallel on each chunk
-                    Parallel.ForEach(hashers, h => h.Value.Process(buffer, 0, current));
+                    Parallel.ForEach(hashers, h => h.Value.Process(buffer, 0, lastRead));
 #endif
 
                     // Wait for the load buffer worker, if needed
-                    if (next > 0)
+                    if (loadBuffer.SizeRead > 0)
                         loadBuffer.Wait();
 
                     // Setup for the next hashing step
-                    current = next;
-                    refsize -= next;
+                    lastRead = loadBuffer.SizeRead;
                     bufferSelect = !bufferSelect;
                 }
 
@@ -417,131 +474,8 @@ namespace SabreTools.Hashing
                 Parallel.ForEach(hashers, h => h.Value.Terminate());
 #endif
 
-                // Get the results
-                foreach (var hasher in hashers)
-                {
-                    hashDict[hasher.Key] = hasher.Value.CurrentHashString;
-                }
-
-                // Dispose of the hashers
                 loadBuffer.Dispose();
-                foreach (var hasher in hashers.Values)
-                {
-                    hasher.Dispose();
-                }
-
-                return hashDict;
-            }
-            catch (IOException)
-            {
-                return null;
-            }
-            finally
-            {
-                if (!leaveOpen)
-                    input.Dispose();
-            }
-        }
-
-        /// <summary>
-        /// Get hashes from an input Stream
-        /// </summary>
-        /// <param name="input">Stream to hash</param>
-        /// <param name="hashTypes">Array of hash types to get from the file</param>
-        /// <returns>Dictionary containing hashes on success, null on error</returns>
-        private static Dictionary<HashType, byte[]?>? GetStreamHashArrays(Stream input, HashType[] hashTypes, long length = -1, bool leaveOpen = false)
-        {
-            // Create the output dictionary
-            var hashDict = new Dictionary<HashType, byte[]?>();
-
-            try
-            {
-                // Get a list of hashers to run over the buffer
-                var hashers = new Dictionary<HashType, HashWrapper>();
-
-                // Add hashers based on requested types
-                foreach (HashType hashType in hashTypes)
-                {
-                    hashers[hashType] = new HashWrapper(hashType);
-                }
-
-                // Initialize the hashing helpers
-                var loadBuffer = new ThreadLoadBuffer(input);
-                int buffersize = 3 * 1024 * 1024;
-                byte[] buffer0 = new byte[buffersize];
-                byte[] buffer1 = new byte[buffersize];
-
-                /*
-                Please note that some of the following code is adapted from
-                RomVault. This is a modified version of how RomVault does
-                threaded hashing. As such, some of the terminology and code
-                is the same, though variable names and comments may have
-                been tweaked to better fit this code base.
-                */
-
-                // Pre load the first buffer
-                long refsize = length > -1 ? length : input.Length;
-                int next = refsize > buffersize ? buffersize : (int)refsize;
-                input.Read(buffer0, 0, next);
-                int current = next;
-                refsize -= next;
-                bool bufferSelect = true;
-
-                while (current > 0)
-                {
-                    // Trigger the buffer load on the second buffer
-                    next = refsize > buffersize ? buffersize : (int)refsize;
-                    if (next > 0)
-                        loadBuffer.Trigger(bufferSelect ? buffer1 : buffer0, next);
-
-                    byte[] buffer = bufferSelect ? buffer0 : buffer1;
-
-#if NET20 || NET35
-                    // Run hashers sequentially on each chunk
-                    foreach (var h in hashers)
-                    {
-                        h.Value.Process(buffer, 0, current);
-                    }
-#else
-                    // Run hashers in parallel on each chunk
-                    Parallel.ForEach(hashers, h => h.Value.Process(buffer, 0, current));
-#endif
-
-                    // Wait for the load buffer worker, if needed
-                    if (next > 0)
-                        loadBuffer.Wait();
-
-                    // Setup for the next hashing step
-                    current = next;
-                    refsize -= next;
-                    bufferSelect = !bufferSelect;
-                }
-
-                // Finalize all hashing helpers
-                loadBuffer.Finish();
-#if NET20 || NET35
-                foreach (var h in hashers)
-                {
-                    h.Value.Terminate();
-                }
-#else
-                Parallel.ForEach(hashers, h => h.Value.Terminate());
-#endif
-
-                // Get the results
-                foreach (var hasher in hashers)
-                {
-                    hashDict[hasher.Key] = hasher.Value.CurrentHashBytes;
-                }
-
-                // Dispose of the hashers
-                loadBuffer.Dispose();
-                foreach (var hasher in hashers.Values)
-                {
-                    hasher.Dispose();
-                }
-
-                return hashDict;
+                return hashers;
             }
             catch (IOException)
             {
