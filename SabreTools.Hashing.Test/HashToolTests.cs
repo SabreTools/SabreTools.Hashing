@@ -6,7 +6,11 @@ namespace SabreTools.Hashing.Test
 {
     public class HashToolTests
     {
-        private static readonly string _hashFilePath = Path.Combine(Environment.CurrentDirectory, "TestData", "file-to-hash.bin");
+        /// <summary>
+        /// Path to the uncompressed file to hash
+        /// </summary>
+        private static readonly string _hashFilePath
+            = Path.Combine(Environment.CurrentDirectory, "TestData", "file-to-hash.bin");
 
         #region Known File Information
 

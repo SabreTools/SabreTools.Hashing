@@ -7,9 +7,17 @@ namespace SabreTools.Hashing.Test
 {
     public class CompressedStreamTests
     {
-        private static readonly string _singleFilePath = Path.Combine(Environment.CurrentDirectory, "TestData", "file-to-hash.zip");
+        /// <summary>
+        /// Path to archive containing a single compressed file to hash
+        /// </summary>
+        private static readonly string _singleFilePath
+            = Path.Combine(Environment.CurrentDirectory, "TestData", "file-to-hash.zip");
 
-        private static readonly string _multiFilePath = Path.Combine(Environment.CurrentDirectory, "TestData", "file-to-hash-multi.zip");
+        /// <summary>
+        /// Path to archive containing a multiple compressed files to hash
+        /// </summary>
+        private static readonly string _multiFilePath
+            = Path.Combine(Environment.CurrentDirectory, "TestData", "file-to-hash-multi.zip");
 
         [Fact]
         public void GetSingleStreamHashesTest()
