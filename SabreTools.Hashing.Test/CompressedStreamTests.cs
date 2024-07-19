@@ -8,30 +8,44 @@ namespace SabreTools.Hashing.Test
     public class CompressedStreamTests
     {
         /// <summary>
-        /// Path to archive containing a single compressed file to hash
+        /// Path to PKZIP archive containing a single compressed file to hash
         /// </summary>
-        private static readonly string _singleFilePath
+        private static readonly string _singleGzipFilePath
+            = Path.Combine(Environment.CurrentDirectory, "TestData", "file-to-hash.bin.gz");
+
+        /// <summary>
+        /// Path to PKZIP archive containing a single compressed file to hash
+        /// </summary>
+        private static readonly string _singleZipFilePath
             = Path.Combine(Environment.CurrentDirectory, "TestData", "file-to-hash.zip");
 
         /// <summary>
-        /// Path to archive containing a multiple compressed files to hash
+        /// Path to PKZIP archive containing a multiple compressed files to hash
         /// </summary>
-        private static readonly string _multiFilePath
+        private static readonly string _multiZipFilePath
             = Path.Combine(Environment.CurrentDirectory, "TestData", "file-to-hash-multi.zip");
 
         [Fact]
-        public void GetSingleStreamHashesTest()
+        public void GetSingleGzipStreamHashesTest()
         {
-            var zipFile = ZipFile.OpenRead(_singleFilePath);
+            var gzipStream = new GZipStream(File.OpenRead(_singleGzipFilePath), CompressionMode.Decompress);
+            var hashDict = HashTool.GetStreamHashes(gzipStream);
+            TestHelper.ValidateHashes(hashDict);
+        }
+
+        [Fact]
+        public void GetSingleDeflateStreamHashesTest()
+        {
+            var zipFile = ZipFile.OpenRead(_singleZipFilePath);
             var fileStream = zipFile.Entries[0].Open();
             var hashDict = HashTool.GetStreamHashes(fileStream);
             TestHelper.ValidateHashes(hashDict);
         }
 
         [Fact]
-        public void GetMultiStreamHashesTest()
+        public void GetMultiDeflateStreamHashesTest()
         {
-            var zipFile = ZipFile.OpenRead(_multiFilePath);
+            var zipFile = ZipFile.OpenRead(_multiZipFilePath);
 
             for (int i = 0; i < zipFile.Entries.Count; i++)
             {
