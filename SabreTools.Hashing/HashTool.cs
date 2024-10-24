@@ -4,7 +4,6 @@ using System.IO;
 #if NET40_OR_GREATER || NETCOREAPP
 using System.Threading.Tasks;
 #endif
-using Compress.ThreadReaders;
 
 namespace SabreTools.Hashing
 {
@@ -374,8 +373,6 @@ namespace SabreTools.Hashing
             // Create the output dictionary
             var hashDict = new Dictionary<HashType, byte[]?>();
 
-            
-
             // Run the hashing
             var hashers = GetStreamHashesInternal(input, hashTypes, leaveOpen);
             if (hashers == null)
@@ -419,29 +416,18 @@ namespace SabreTools.Hashing
                     hashers[hashType] = new HashWrapper(hashType);
                 }
 
-                // Initialize the hashing helpers
-                var loadBuffer = new ThreadLoadBuffer(input);
+                // Create the buffer for holding data
                 int buffersize = 3 * 1024 * 1024;
-                byte[] buffer0 = new byte[buffersize];
-                byte[] buffer1 = new byte[buffersize];
+                byte[] buffer = new byte[buffersize];
+                int lastRead;
 
-                /*
-                Please note that some of the following code is adapted from
-                RomVault. This is a modified version of how RomVault does
-                threaded hashing. As such, some of the terminology and code
-                is the same, though variable names and comments may have
-                been tweaked to better fit this code base.
-                */
-
-                // Pre load the first buffer
-                int lastRead = input.Read(buffer0, 0, buffersize);
-                bool bufferSelect = true;
-
-                while (lastRead > 0)
+                // Hash the input data in blocks
+                do
                 {
-                    // Trigger the buffer load on the second buffer
-                    loadBuffer.Trigger(bufferSelect ? buffer1 : buffer0, buffersize);
-                    byte[] buffer = bufferSelect ? buffer0 : buffer1;
+                    // Load the buffer and hold the number of bytes read
+                    lastRead = input.Read(buffer, 0, buffersize);
+                    if (lastRead == 0)
+                        break;
 
 #if NET20 || NET35
                     // Run hashers sequentially on each chunk
@@ -453,28 +439,20 @@ namespace SabreTools.Hashing
                     // Run hashers in parallel on each chunk
                     Parallel.ForEach(hashers, h => h.Value.Process(buffer, 0, lastRead));
 #endif
-
-                    // Wait for the load buffer worker, if needed
-                    if (loadBuffer.SizeRead > 0)
-                        loadBuffer.Wait();
-
-                    // Setup for the next hashing step
-                    lastRead = loadBuffer.SizeRead;
-                    bufferSelect = !bufferSelect;
                 }
+                while (lastRead > 0);
 
-                // Finalize all hashing helpers
-                loadBuffer.Finish();
 #if NET20 || NET35
+                // Finalize all hashing helpers sequentially
                 foreach (var h in hashers)
                 {
                     h.Value.Terminate();
                 }
 #else
+                // Finalize all hashing helpers in parallel
                 Parallel.ForEach(hashers, h => h.Value.Terminate());
 #endif
 
-                loadBuffer.Dispose();
                 return hashers;
             }
             catch (IOException)
