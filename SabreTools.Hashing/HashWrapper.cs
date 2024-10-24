@@ -23,11 +23,7 @@ namespace SabreTools.Hashing
         /// <summary>
         /// Hash type associated with the current state
         /// </summary>
-#if NETFRAMEWORK || NETCOREAPP3_1
-        public HashType HashType { get; private set; }
-#else
-        public HashType HashType { get; init; }
-#endif
+        public readonly HashType HashType;
 
         /// <summary>
         /// Current hash in bytes
