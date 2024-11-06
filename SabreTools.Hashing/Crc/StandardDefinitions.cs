@@ -570,6 +570,23 @@ namespace SabreTools.Hashing.Crc
 
         #endregion
 
+        #region CRC-40
+
+        /// <summary>
+        /// CRC-40/GSM
+        /// </summary>
+        public static readonly CrcDefinition CRC40_GSM = new()
+        {
+            Width = 40,
+            Poly = 0x0004820009,
+            Init = 0x0000000000,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0xffffffffff,
+        };
+
+        #endregion
+
         #region CRC-64
 
         /// <summary>

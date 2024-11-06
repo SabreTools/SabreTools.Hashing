@@ -158,6 +158,9 @@ namespace SabreTools.Hashing
                 HashType.CRC32_MPEG2 => new CrcRunner(StandardDefinitions.CRC32_MPEG2),
                 HashType.CRC32_XFER => new CrcRunner(StandardDefinitions.CRC32_XFER),
 
+                HashType.CRC40 => new CrcRunner(StandardDefinitions.CRC40_GSM),
+                HashType.CRC40_GSM => new CrcRunner(StandardDefinitions.CRC40_GSM),
+
                 HashType.CRC64 => new CrcRunner(StandardDefinitions.CRC64_ECMA182),
                 HashType.CRC64_ECMA182 => new CrcRunner(StandardDefinitions.CRC64_ECMA182),
                 HashType.CRC64_GOISO => new CrcRunner(StandardDefinitions.CRC64_GOISO),

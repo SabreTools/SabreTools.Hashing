@@ -245,6 +245,17 @@ namespace SabreTools.Hashing
         CRC32_XFER,
 
         /// <summary>
+        /// CRC 40-bit checksum
+        /// </summary>
+        /// <remarks>Identical to <see cref="CRC40_GSM"/> 
+        CRC40,
+
+        /// <summary>
+        /// CRC 40-bit checksum (CRC-40/GSM)
+        /// </summary>
+        CRC40_GSM,
+
+        /// <summary>
         /// CRC 64-bit checksum
         /// </summary>
         /// <remarks>Identical to <see cref="CRC64_ECMA182"/> 

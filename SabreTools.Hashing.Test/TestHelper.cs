@@ -60,6 +60,8 @@ namespace SabreTools.Hashing.Test
         private const string _crc32_mef = "d9d98444";
         private const string _crc32_mpeg2 = "e755b9fc";
         private const string _crc32_xfer = "55bdf222";
+        private const string _crc40 = "c9843306eb";
+        private const string _crc40_gsm = "c9843306eb";
         private const string _crc64 = "8d33b5189c00e0a0";
         private const string _crc64_ecma182 = "8d33b5189c00e0a0";
         private const string _crc64_goiso = "6c3bf747ccfa1e3b";
@@ -153,6 +155,9 @@ namespace SabreTools.Hashing.Test
             Assert.Equal(_crc32_mef, hashDict[HashType.CRC32_MEF]);
             Assert.Equal(_crc32_mpeg2, hashDict[HashType.CRC32_MPEG2]);
             Assert.Equal(_crc32_xfer, hashDict[HashType.CRC32_XFER]);
+
+            Assert.Equal(_crc40, hashDict[HashType.CRC40]);
+            Assert.Equal(_crc40_gsm, hashDict[HashType.CRC40_GSM]);
 
             Assert.Equal(_crc64, hashDict[HashType.CRC64]);
             Assert.Equal(_crc64_ecma182, hashDict[HashType.CRC64_ECMA182]);
