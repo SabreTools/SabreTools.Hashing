@@ -35,9 +35,7 @@ namespace SabreTools.Hashing
                 {
                     case CrcRunner cr:
                         var crArr = cr.Finalize();
-                        if (HashType == HashType.CRC32)
-                            Array.Reverse(crArr);
-
+                        Array.Reverse(crArr);
                         return crArr;
                     case HashAlgorithm ha:
                         return ha.Hash;
@@ -117,7 +115,11 @@ namespace SabreTools.Hashing
                 HashType.CRC32_ISOHDLC => new CrcRunner(StandardDefinitions.CRC32_ISOHDLC),
                 HashType.CRC64_ECMA182 => new CrcRunner(StandardDefinitions.CRC64_ECMA182),
                 HashType.CRC64_GOISO => new CrcRunner(StandardDefinitions.CRC64_GOISO),
-                HashType.CRC64_XZ => new Crc64Context(),
+                HashType.CRC64_MS => new CrcRunner(StandardDefinitions.CRC64_MS),
+                HashType.CRC64_NVME => new CrcRunner(StandardDefinitions.CRC64_NVME),
+                HashType.CRC64_REDIS => new CrcRunner(StandardDefinitions.CRC64_REDIS),
+                HashType.CRC64_WE => new CrcRunner(StandardDefinitions.CRC64_WE),
+                HashType.CRC64_XZ => new CrcRunner(StandardDefinitions.CRC64_XZ),
                 HashType.Fletcher16 => new Fletcher16Context(),
                 HashType.Fletcher32 => new Fletcher32Context(),
                 HashType.MD5 => MD5.Create(),

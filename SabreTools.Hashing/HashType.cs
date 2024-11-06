@@ -28,7 +28,7 @@ namespace SabreTools.Hashing
         CRC16_IBM,
 
         /// <summary>
-        /// CRC 32-bit checksum (CRC-32/ISO-HDLC, reversed output)
+        /// CRC 32-bit checksum (CRC-32/ISO-HDLC)
         /// </summary>
         CRC32,
 
@@ -46,6 +46,26 @@ namespace SabreTools.Hashing
         /// CRC 64-bit checksum (CRC-64/GO-ISO)
         /// </summary>
         CRC64_GOISO,
+
+        /// <summary>
+        /// CRC 64-bit checksum (CRC-64/MS)
+        /// </summary>
+        CRC64_MS,
+
+        /// <summary>
+        /// CRC 64-bit checksum (CRC-64/NVME)
+        /// </summary>
+        CRC64_NVME,
+
+        /// <summary>
+        /// CRC 64-bit checksum (CRC-64/REDIS)
+        /// </summary>
+        CRC64_REDIS,
+
+        /// <summary>
+        /// CRC 64-bit checksum (CRC-64/WE)
+        /// </summary>
+        CRC64_WE,
 
         /// <summary>
         /// CRC 64-bit checksum (CRC-64/XZ)

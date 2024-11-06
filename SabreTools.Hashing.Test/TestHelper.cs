@@ -18,9 +18,13 @@ namespace SabreTools.Hashing.Test
         private const string _crc16_ccitt = "482d";
         private const string _crc16_ibm = "7573";
         private const string _crc32 = "ba02a660";
-        private const string _crc32_isohdlc = "60a602ba";
-        private const string _crc64_ecma182 = "a0e0009c18b5338d";
-        private const string _crc64_goiso = "3b1efacc47f73b6c";
+        private const string _crc32_isohdlc = "ba02a660";
+        private const string _crc64_ecma182 = "8d33b5189c00e0a0";
+        private const string _crc64_goiso = "6c3bf747ccfa1e3b";
+        private const string _crc64_ms = "799edc0db430d7be";
+        private const string _crc64_nvme = "9242023bbcf6bbf9";
+        private const string _crc64_redis = "408dab12b9f45dad";
+        private const string _crc64_we = "91812be748f941c4";
         private const string _crc64_xz = "fb49044e8331f6e5";
         private const string _fletcher16 = "46c1";
         private const string _fletcher32 = "073f2d94";
@@ -65,6 +69,10 @@ namespace SabreTools.Hashing.Test
             Assert.Equal(_crc32_isohdlc, hashDict[HashType.CRC32_ISOHDLC]);
             Assert.Equal(_crc64_ecma182, hashDict[HashType.CRC64_ECMA182]);
             Assert.Equal(_crc64_goiso, hashDict[HashType.CRC64_GOISO]);
+            Assert.Equal(_crc64_ms, hashDict[HashType.CRC64_MS]);
+            Assert.Equal(_crc64_nvme, hashDict[HashType.CRC64_NVME]);
+            Assert.Equal(_crc64_redis, hashDict[HashType.CRC64_REDIS]);
+            Assert.Equal(_crc64_we, hashDict[HashType.CRC64_WE]);
             Assert.Equal(_crc64_xz, hashDict[HashType.CRC64_XZ]);
             Assert.Equal(_fletcher16, hashDict[HashType.Fletcher16]);
             Assert.Equal(_fletcher32, hashDict[HashType.Fletcher32]);
