@@ -62,26 +62,7 @@ namespace SabreTools.Hashing.Crc
             // Process the data byte-wise
             for (int i = offset; i < offset + length; i++)
             {
-                // Per-byte processing
-                if (_definition.Width >= 8)
-                {
-                    if (_definition.ReflectIn)
-                        _hash = (_hash >> 8) ^ _table.StdTable[(byte)_hash ^ data[i]];
-                    else
-                        _hash = (_hash << 8) ^ _table.StdTable[((byte)(_hash >> msb)) ^ data[i]];
-                }
-
-                // Per-bit processing
-                else
-                {
-                    for (int b = 0; b < 8; b++)
-                    {
-                        if (_definition.ReflectIn)
-                            _hash = (_hash >> 1) ^ _table.StdTable[(byte)(_hash & 1) ^ ((byte)(data[i] >> b) & 1)];
-                        else
-                            _hash = (_hash << 1) ^ _table.StdTable[(byte)((_hash >> msb) & 1) ^ ((byte)(data[i] >> (7 - b)) & 1)];
-                    }
-                }
+                PerformChecksumStep(data, i, msb);
             }
         }
 
@@ -102,6 +83,36 @@ namespace SabreTools.Hashing.Crc
 
             // Process the value and return
             return BitOperations.ClampValueToBytes(localHash, _definition.Width);
+        }
+
+        /// <summary>
+        /// Perform a single checksum step
+        /// </summary>
+        /// <param name="data">Byte array representing the data</param>
+        /// <param name="offset">Offset in the data to process</param>
+        /// <param name="msb">Bit shift for the MSB</param>
+        private void PerformChecksumStep(byte[] data, int offset, int msb)
+        {
+            // Per-byte processing
+            if (_definition.Width >= 8)
+            {
+                if (_definition.ReflectIn)
+                    _hash = (_hash >> 8) ^ _table.StdTable[(byte)_hash ^ data[offset]];
+                else
+                    _hash = (_hash << 8) ^ _table.StdTable[((byte)(_hash >> msb)) ^ data[offset]];
+            }
+
+            // Per-bit processing
+            else
+            {
+                for (int b = 0; b < 8; b++)
+                {
+                    if (_definition.ReflectIn)
+                        _hash = (_hash >> 1) ^ _table.StdTable[(byte)(_hash & 1) ^ ((byte)(data[offset] >> b) & 1)];
+                    else
+                        _hash = (_hash << 1) ^ _table.StdTable[(byte)((_hash >> msb) & 1) ^ ((byte)(data[offset] >> (7 - b)) & 1)];
+                }
+            }
         }
     }
 }
