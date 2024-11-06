@@ -132,7 +132,7 @@ namespace SabreTools.Hashing
                 HashType.CRC64 => new Crc64(),
 #else
                 // TODO: Determine how to match System.IO.Hashing.Crc64
-                HashType.CRC64 => new Crc64Context(0x42F0E1EBA9EA3693, 0xFFFFFFFFFFFFFFFF),
+                HashType.CRC64 => new Crc64Context(0x42F0E1EBA9EA3693, 0x0000000000000000),
 #endif
                 HashType.CRC64_Reversed => new Crc64Context(0xC96C5795D7870F42, 0xFFFFFFFFFFFFFFFF),
                 HashType.Fletcher16 => new Fletcher16Context(),

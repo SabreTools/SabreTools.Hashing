@@ -54,7 +54,7 @@ namespace SabreTools.Hashing
         CRC32_Parallel,
 
         /// <summary>
-        /// CRC 64-bit checksum (0x42F0E1EBA9EA3693 polynomial, 0xFFFFFFFFFFFFFFFF seed)
+        /// CRC 64-bit checksum (0x42F0E1EBA9EA3693 polynomial, 0x0000000000000000 seed)
         /// </summary>
         CRC64,
 
