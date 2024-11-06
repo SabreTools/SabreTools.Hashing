@@ -3,11 +3,6 @@ namespace SabreTools.Hashing.Crc
     internal class CrcTable
     {
         /// <summary>
-        /// Optimized implementation table
-        /// </summary>
-        public readonly ulong[,] OptTable;
-
-        /// <summary>
         /// Indicates if CRC should be processed bitwise instead of bytewise
         /// </summary>
         private readonly bool _processBitwise;
@@ -28,6 +23,11 @@ namespace SabreTools.Hashing.Crc
         private readonly ulong _bitMask;
 
         /// <summary>
+        /// Mapping table
+        /// </summary>
+        private readonly ulong[,] _table;
+
+        /// <summary>
         /// Definition used to build the table
         /// </summary>
         private readonly CrcDefinition _definition;
@@ -46,8 +46,8 @@ namespace SabreTools.Hashing.Crc
             _bitShift = _definition.Width - _processBits;
             _bitMask = 1UL << (_definition.Width - 1);
 
-            // Initialize the internal tables
-            OptTable = new ulong[SliceCount, 1 << _processBits];
+            // Initialize the internal
+            _table = new ulong[SliceCount, 1 << _processBits];
 
             // Build the standard table
             for (int i = 0; i < 1 << _processBits; i++)
@@ -77,7 +77,7 @@ namespace SabreTools.Hashing.Crc
                 point &= ulong.MaxValue >> (64 - def.Width);
 
                 // Assign to both tables
-                OptTable[0, i] = point;
+                _table[0, i] = point;
             }
 
             // Skip building the optimized table for bitwise processing
@@ -90,11 +90,11 @@ namespace SabreTools.Hashing.Crc
                 // Build each slice from the previous
                 for (int j = 0; j < 1 << _processBits; j++)
                 {
-                    ulong last = OptTable[i - 1, j];
+                    ulong last = _table[i - 1, j];
                     if (_definition.ReflectIn)
-                        OptTable[i, j] = (last >> _processBits) ^ OptTable[0, (byte)last];
+                        _table[i, j] = (last >> _processBits) ^ _table[0, (byte)last];
                     else
-                        OptTable[i, j] = (last << _processBits) ^ OptTable[0, (byte)(last >> _bitShift)];
+                        _table[i, j] = (last << _processBits) ^ _table[0, (byte)(last >> _bitShift)];
                 }
             }
         }
@@ -143,9 +143,9 @@ namespace SabreTools.Hashing.Crc
                 for (int b = 0; b < 8; b++)
                 {
                     if (_definition.ReflectIn)
-                        hash = (hash >> _processBits) ^ OptTable[0, (byte)(hash & 1) ^ ((byte)(data[offset] >> b) & 1)];
+                        hash = (hash >> _processBits) ^ _table[0, (byte)(hash & 1) ^ ((byte)(data[offset] >> b) & 1)];
                     else
-                        hash = (hash << _processBits) ^ OptTable[0, (byte)((hash >> _bitShift) & 1) ^ ((byte)(data[offset] >> (7 - b)) & 1)];
+                        hash = (hash << _processBits) ^ _table[0, (byte)((hash >> _bitShift) & 1) ^ ((byte)(data[offset] >> (7 - b)) & 1)];
                 }
             }
 
@@ -153,9 +153,9 @@ namespace SabreTools.Hashing.Crc
             else
             {
                 if (_definition.ReflectIn)
-                    hash = (hash >> _processBits) ^ OptTable[0, (byte)hash ^ data[offset]];
+                    hash = (hash >> _processBits) ^ _table[0, (byte)hash ^ data[offset]];
                 else
-                    hash = (hash << _processBits) ^ OptTable[0, ((byte)(hash >> _bitShift)) ^ data[offset]];
+                    hash = (hash << _processBits) ^ _table[0, ((byte)(hash >> _bitShift)) ^ data[offset]];
             }
         }
 
@@ -206,14 +206,14 @@ namespace SabreTools.Hashing.Crc
                         + (data[offset + 7] << 56));
                     offset += 8;
 
-                    local = OptTable[7, (byte)(low       )]
-                          ^ OptTable[6, (byte)(low >> 8  )]
-                          ^ OptTable[5, (byte)(low >> 16 )]
-                          ^ OptTable[4, (byte)(low >> 24 )]
-                          ^ OptTable[3, (byte)(high      )]
-                          ^ OptTable[2, (byte)(high >> 8 )]
-                          ^ OptTable[1, (byte)(high >> 16)]
-                          ^ OptTable[0, (byte)(high >> 24)];
+                    local = _table[7, (byte)(low       )]
+                          ^ _table[6, (byte)(low >> 8  )]
+                          ^ _table[5, (byte)(low >> 16 )]
+                          ^ _table[4, (byte)(low >> 24 )]
+                          ^ _table[3, (byte)(high      )]
+                          ^ _table[2, (byte)(high >> 8 )]
+                          ^ _table[1, (byte)(high >> 16)]
+                          ^ _table[0, (byte)(high >> 24)];
                 }
             }
 
