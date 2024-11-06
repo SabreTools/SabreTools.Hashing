@@ -8,19 +8,24 @@ namespace SabreTools.Hashing.Crc
         public readonly ulong[,] OptTable;
 
         /// <summary>
+        /// Indicates if CRC should be processed bitwise instead of bytewise
+        /// </summary>
+        private readonly bool _processBitwise;
+
+        /// <summary>
         /// Number of bits to process at a time
         /// </summary>
-        public readonly int ProcessBits;
+        private readonly int _processBits;
 
         /// <summary>
         /// Bit shift based on the CRC width
         /// </summary>
-        public readonly int BitShift;
+        private readonly int _bitShift;
 
         /// <summary>
         /// Bit mask based on the CRC width
         /// </summary>
-        public readonly ulong BitMask;
+        private readonly ulong _bitMask;
 
         /// <summary>
         /// Definition used to build the table
@@ -36,28 +41,29 @@ namespace SabreTools.Hashing.Crc
         {
             // Set the accessible fields
             _definition = def;
-            ProcessBits = _definition.Width < 8 ? 1 : 8;
-            BitShift = _definition.Width - ProcessBits;
-            BitMask = 1UL << (_definition.Width - 1);
+            _processBitwise = _definition.Width < 8;
+            _processBits = _processBitwise ? 1 : 8;
+            _bitShift = _definition.Width - _processBits;
+            _bitMask = 1UL << (_definition.Width - 1);
 
             // Initialize the internal tables
-            OptTable = new ulong[SliceCount, 1 << ProcessBits];
+            OptTable = new ulong[SliceCount, 1 << _processBits];
 
             // Build the standard table
-            for (int i = 0; i < 1 << ProcessBits; i++)
+            for (int i = 0; i < 1 << _processBits; i++)
             {
                 // Get the starting value for this index
                 ulong point = (ulong)i;
-                if (ProcessBits > 1 && def.ReflectIn)
-                    point = BitOperations.ReverseBits(point, ProcessBits);
+                if (!_processBitwise && def.ReflectIn)
+                    point = BitOperations.ReverseBits(point, _processBits);
 
                 // Shift to account for storage
-                point <<= _definition.Width - ProcessBits;
+                point <<= _definition.Width - _processBits;
 
                 // Accumulate the value
                 for (int j = 0; j < 8; j++)
                 {
-                    if ((point & BitMask) > 0)
+                    if ((point & _bitMask) > 0)
                         point = (point << 1) ^ def.Poly;
                     else
                         point <<= 1;
@@ -94,25 +100,25 @@ namespace SabreTools.Hashing.Crc
         /// <param name="offset">Offset in the data to process</param>
         public void PerformChecksumStep(ref ulong hash, byte[] data, int offset)
         {
-            // Per-byte processing
-            if (_definition.Width >= 8)
-            {
-                if (_definition.ReflectIn)
-                    hash = (hash >> 8) ^ OptTable[0, (byte)hash ^ data[offset]];
-                else
-                    hash = (hash << 8) ^ OptTable[0, ((byte)(hash >> BitShift)) ^ data[offset]];
-            }
-
             // Per-bit processing
-            else
+            if (_processBitwise)
             {
                 for (int b = 0; b < 8; b++)
                 {
                     if (_definition.ReflectIn)
                         hash = (hash >> 1) ^ OptTable[0, (byte)(hash & 1) ^ ((byte)(data[offset] >> b) & 1)];
                     else
-                        hash = (hash << 1) ^ OptTable[0, (byte)((hash >> BitShift) & 1) ^ ((byte)(data[offset] >> (7 - b)) & 1)];
+                        hash = (hash << 1) ^ OptTable[0, (byte)((hash >> _bitShift) & 1) ^ ((byte)(data[offset] >> (7 - b)) & 1)];
                 }
+            }
+
+            // Per-byte processing
+            else
+            {
+                if (_definition.ReflectIn)
+                    hash = (hash >> 8) ^ OptTable[0, (byte)hash ^ data[offset]];
+                else
+                    hash = (hash << 8) ^ OptTable[0, ((byte)(hash >> _bitShift)) ^ data[offset]];
             }
         }
     }
