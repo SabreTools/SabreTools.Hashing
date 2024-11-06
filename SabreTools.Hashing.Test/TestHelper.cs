@@ -47,6 +47,14 @@ namespace SabreTools.Hashing.Test
         private const string _crc16_umts = "fee0";
         private const string _crc16_usb = "61ab";
         private const string _crc16_xmodem = "b7d2";
+        private const string _crc24_ble = "2969f2";
+        private const string _crc24_flexraya = "ce9dc7";
+        private const string _crc24_flexrayb = "0f49d7";
+        private const string _crc24_interlaken = "fb4725";
+        private const string _crc24_ltea = "675e55";
+        private const string _crc24_lteb = "c91203";
+        private const string _crc24_openpgp = "0c6012";
+        private const string _crc24_os9 = "610e21";
         private const string _crc32 = "ba02a660";
         private const string _crc32_aixm = "6174a75a";
         private const string _crc32_autosar = "c050428e";
@@ -60,7 +68,6 @@ namespace SabreTools.Hashing.Test
         private const string _crc32_mef = "d9d98444";
         private const string _crc32_mpeg2 = "e755b9fc";
         private const string _crc32_xfer = "55bdf222";
-        private const string _crc40 = "c9843306eb";
         private const string _crc40_gsm = "c9843306eb";
         private const string _crc64 = "8d33b5189c00e0a0";
         private const string _crc64_ecma182 = "8d33b5189c00e0a0";
@@ -142,6 +149,15 @@ namespace SabreTools.Hashing.Test
             Assert.Equal(_crc16_usb, hashDict[HashType.CRC16_USB]);
             Assert.Equal(_crc16_xmodem, hashDict[HashType.CRC16_XMODEM]);
 
+            //Assert.Equal(_crc24_ble, hashDict[HashType.CRC24_BLE]);
+            Assert.Equal(_crc24_flexraya, hashDict[HashType.CRC24_FLEXRAYA]);
+            Assert.Equal(_crc24_flexrayb, hashDict[HashType.CRC24_FLEXRAYB]);
+            Assert.Equal(_crc24_interlaken, hashDict[HashType.CRC24_INTERLAKEN]);
+            Assert.Equal(_crc24_ltea, hashDict[HashType.CRC24_LTEA]);
+            Assert.Equal(_crc24_lteb, hashDict[HashType.CRC24_LTEB]);
+            Assert.Equal(_crc24_openpgp, hashDict[HashType.CRC24_OPENPGP]);
+            Assert.Equal(_crc24_os9, hashDict[HashType.CRC24_OS9]);
+
             Assert.Equal(_crc32, hashDict[HashType.CRC32]);
             Assert.Equal(_crc32_aixm, hashDict[HashType.CRC32_AIXM]);
             Assert.Equal(_crc32_autosar, hashDict[HashType.CRC32_AUTOSAR]);
@@ -156,7 +172,6 @@ namespace SabreTools.Hashing.Test
             Assert.Equal(_crc32_mpeg2, hashDict[HashType.CRC32_MPEG2]);
             Assert.Equal(_crc32_xfer, hashDict[HashType.CRC32_XFER]);
 
-            Assert.Equal(_crc40, hashDict[HashType.CRC40]);
             Assert.Equal(_crc40_gsm, hashDict[HashType.CRC40_GSM]);
 
             Assert.Equal(_crc64, hashDict[HashType.CRC64]);

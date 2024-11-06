@@ -144,6 +144,15 @@ namespace SabreTools.Hashing
                 HashType.CRC16_USB => new CrcRunner(StandardDefinitions.CRC16_USB),
                 HashType.CRC16_XMODEM => new CrcRunner(StandardDefinitions.CRC16_XMODEM),
 
+                //HashType.CRC24_BLE => new CrcRunner(StandardDefinitions.CRC24_BLE),
+                HashType.CRC24_FLEXRAYA => new CrcRunner(StandardDefinitions.CRC24_FLEXRAYA),
+                HashType.CRC24_FLEXRAYB => new CrcRunner(StandardDefinitions.CRC24_FLEXRAYB),
+                HashType.CRC24_INTERLAKEN => new CrcRunner(StandardDefinitions.CRC24_INTERLAKEN),
+                HashType.CRC24_LTEA => new CrcRunner(StandardDefinitions.CRC24_LTEA),
+                HashType.CRC24_LTEB => new CrcRunner(StandardDefinitions.CRC24_LTEB),
+                HashType.CRC24_OPENPGP => new CrcRunner(StandardDefinitions.CRC24_OPENPGP),
+                HashType.CRC24_OS9 => new CrcRunner(StandardDefinitions.CRC24_OS9),
+
                 HashType.CRC32 => new CrcRunner(StandardDefinitions.CRC32_ISOHDLC),
                 HashType.CRC32_AIXM => new CrcRunner(StandardDefinitions.CRC32_AIXM),
                 HashType.CRC32_AUTOSAR => new CrcRunner(StandardDefinitions.CRC32_AUTOSAR),
@@ -158,7 +167,6 @@ namespace SabreTools.Hashing
                 HashType.CRC32_MPEG2 => new CrcRunner(StandardDefinitions.CRC32_MPEG2),
                 HashType.CRC32_XFER => new CrcRunner(StandardDefinitions.CRC32_XFER),
 
-                HashType.CRC40 => new CrcRunner(StandardDefinitions.CRC40_GSM),
                 HashType.CRC40_GSM => new CrcRunner(StandardDefinitions.CRC40_GSM),
 
                 HashType.CRC64 => new CrcRunner(StandardDefinitions.CRC64_ECMA182),

@@ -179,6 +179,46 @@ namespace SabreTools.Hashing
         CRC16_XMODEM,
 
         /// <summary>
+        /// CRC 24-bit checksum (CRC-24/BLE)
+        /// </summary>
+        //CRC24_BLE, // Disabled until incorrect hashes can be fixed
+
+        /// <summary>
+        /// CRC 24-bit checksum (CRC-24/FLEXRAY-A)
+        /// </summary>
+        CRC24_FLEXRAYA,
+
+        /// <summary>
+        /// CRC 24-bit checksum (CRC-24/FLEXRAY-B)
+        /// </summary>
+        CRC24_FLEXRAYB,
+
+        /// <summary>
+        /// CRC 24-bit checksum (CRC-24/INTERLAKEN)
+        /// </summary>
+        CRC24_INTERLAKEN,
+
+        /// <summary>
+        /// CRC 24-bit checksum (CRC-24/LTE-A)
+        /// </summary>
+        CRC24_LTEA,
+
+        /// <summary>
+        /// CRC 24-bit checksum (CRC-24/LTE-B)
+        /// </summary>
+        CRC24_LTEB,
+
+        /// <summary>
+        /// CRC 24-bit checksum (CRC-24/OPENPGP)
+        /// </summary>
+        CRC24_OPENPGP,
+
+        /// <summary>
+        /// CRC 24-bit checksum (CRC-24/OS-9)
+        /// </summary>
+        CRC24_OS9,
+
+        /// <summary>
         /// CRC 32-bit checksum
         /// </summary>
         /// <remarks>Identical to <see cref="CRC32_ISOHDLC"/> 
@@ -243,12 +283,6 @@ namespace SabreTools.Hashing
         /// CRC 32-bit checksum (CRC-32/XFER)
         /// </summary>
         CRC32_XFER,
-
-        /// <summary>
-        /// CRC 40-bit checksum
-        /// </summary>
-        /// <remarks>Identical to <see cref="CRC40_GSM"/> 
-        CRC40,
 
         /// <summary>
         /// CRC 40-bit checksum (CRC-40/GSM)

@@ -410,6 +410,114 @@ namespace SabreTools.Hashing.Crc
 
         #endregion
 
+        #region CRC-24
+
+        /// <summary>
+        /// CRC-24/BLE
+        /// </summary>
+        public static readonly CrcDefinition CRC24_BLE = new()
+        {
+            Width = 24,
+            Poly = 0x00065b,
+            Init = 0x555555,
+            ReflectIn = true,
+            ReflectOut = true,
+            XorOut = 0x000000,
+        };
+
+        /// <summary>
+        /// CRC-24/FLEXRAY-A
+        /// </summary>
+        public static readonly CrcDefinition CRC24_FLEXRAYA = new()
+        {
+            Width = 24,
+            Poly = 0x5d6dcb,
+            Init = 0xfedcba,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x000000,
+        };
+
+        /// <summary>
+        /// CRC-24/FLEXRAY-B
+        /// </summary>
+        public static readonly CrcDefinition CRC24_FLEXRAYB = new()
+        {
+            Width = 24,
+            Poly = 0x5d6dcb,
+            Init = 0xabcdef,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x000000,
+        };
+
+        /// <summary>
+        /// CRC-24/INTERLAKEN
+        /// </summary>
+        public static readonly CrcDefinition CRC24_INTERLAKEN = new()
+        {
+            Width = 24,
+            Poly = 0x328b63,
+            Init = 0xffffff,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0xffffff,
+        };
+
+        /// <summary>
+        /// CRC-24/LTE-A
+        /// </summary>
+        public static readonly CrcDefinition CRC24_LTEA = new()
+        {
+            Width = 24,
+            Poly = 0x864cfb,
+            Init = 0x000000,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x000000,
+        };
+
+        /// <summary>
+        /// CRC-24/LTE-B
+        /// </summary>
+        public static readonly CrcDefinition CRC24_LTEB = new()
+        {
+            Width = 24,
+            Poly = 0x800063,
+            Init = 0x000000,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x000000,
+        };
+
+        /// <summary>
+        /// CRC-24/OPENPGP
+        /// </summary>
+        public static readonly CrcDefinition CRC24_OPENPGP = new()
+        {
+            Width = 24,
+            Poly = 0x864cfb,
+            Init = 0xb704ce,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x000000,
+        };
+
+        /// <summary>
+        /// CRC-24/OS-9
+        /// </summary>
+        public static readonly CrcDefinition CRC24_OS9 = new()
+        {
+            Width = 24,
+            Poly = 0x800063,
+            Init = 0xffffff,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0xffffff,
+        };
+
+        #endregion
+
         #region CRC-32
 
         /// <summary>
