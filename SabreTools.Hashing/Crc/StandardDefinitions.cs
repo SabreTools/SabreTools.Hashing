@@ -3,6 +3,351 @@ namespace SabreTools.Hashing.Crc
     /// <see href="https://reveng.sourceforge.io/crc-catalogue/all.htm#crc.legend"/>
     internal static class StandardDefinitions
     {
+        #region CRC-16
+
+        // CRC-16/ARC [ARC, CRC-16, CRC-16/LHA, CRC-IBM]
+        public static readonly CrcDefinition CRC16_ARC = new()
+        {
+            Width = 16,
+            Poly = 0x8005,
+            Init = 0x0000,
+            ReflectIn = true,
+            ReflectOut = true,
+            XorOut = 0x0000,
+        };
+
+        // CRC-16/CDMA2000
+        public static readonly CrcDefinition CRC16_CDMA2000 = new()
+        {
+            Width = 16,
+            Poly = 0xc867,
+            Init = 0xffff,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x0000,
+        };
+
+        // CRC-16/CMS
+        public static readonly CrcDefinition CRC16_CMS = new()
+        {
+            Width = 16,
+            Poly = 0x8005,
+            Init = 0xffff,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x0000,
+        };
+
+        // CRC-16/DDS-110
+        public static readonly CrcDefinition CRC16_DDS110 = new()
+        {
+            Width = 16,
+            Poly = 0x8005,
+            Init = 0x800d,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x0000,
+        };
+
+        // CRC-16/DECT-R [R-CRC-16]
+        public static readonly CrcDefinition CRC16_DECTR = new()
+        {
+            Width = 16,
+            Poly = 0x0589,
+            Init = 0x0000,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x0001,
+        };
+
+        // CRC-16/DECT-X [X-CRC-16]
+        public static readonly CrcDefinition CRC16_DECTX = new()
+        {
+            Width = 16,
+            Poly = 0x0589,
+            Init = 0x0000,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x0000,
+        };
+
+        // CRC-16/DNP
+        public static readonly CrcDefinition CRC16_DNP = new()
+        {
+            Width = 16,
+            Poly = 0x3d65,
+            Init = 0x0000,
+            ReflectIn = true,
+            ReflectOut = true,
+            XorOut = 0xffff,
+        };
+
+        // CRC-16/EN-13757
+        public static readonly CrcDefinition CRC16_EN13757 = new()
+        {
+            Width = 16,
+            Poly = 0x3d65,
+            Init = 0x0000,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0xffff,
+        };
+
+        // CRC-16/GENIBUS [CRC-16/DARC, CRC-16/EPC, CRC-16/EPC-C1G2, CRC-16/I-CODE]
+        public static readonly CrcDefinition CRC16_GENIBUS = new()
+        {
+            Width = 16,
+            Poly = 0x1021,
+            Init = 0xffff,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0xffff,
+        };
+
+        // CRC-16/GSM
+        public static readonly CrcDefinition CRC16_GSM = new()
+        {
+            Width = 16,
+            Poly = 0x1021,
+            Init = 0x0000,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0xffff,
+        };
+
+        // CRC-16/IBM-3740 [CRC-16/AUTOSAR, CRC-16/CCITT-FALSE]
+        public static readonly CrcDefinition CRC16_IBM3740 = new()
+        {
+            Width = 16,
+            Poly = 0x1021,
+            Init = 0xffff,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x0000,
+        };
+
+        // CRC-16/IBM-SDLC [CRC-16/ISO-HDLC, CRC-16/ISO-IEC-14443-3-B, CRC-16/X-25, CRC-B, X-25]
+        public static readonly CrcDefinition CRC16_IBMSDLC = new()
+        {
+            Width = 16,
+            Poly = 0x1021,
+            Init = 0xffff,
+            ReflectIn = true,
+            ReflectOut = true,
+            XorOut = 0xffff,
+        };
+
+        // CRC-16/ISO-IEC-14443-3-A [CRC-A]
+        public static readonly CrcDefinition CRC16_ISOIEC144433A = new()
+        {
+            Width = 16,
+            Poly = 0x1021,
+            Init = 0xc6c6,
+            ReflectIn = true,
+            ReflectOut = true,
+            XorOut = 0x0000,
+        };
+
+        // CRC-16/KERMIT [CRC-16/BLUETOOTH, CRC-16/CCITT, CRC-16/CCITT-TRUE, CRC-16/V-41-LSB, CRC-CCITT, KERMIT]
+        public static readonly CrcDefinition CRC16_KERMIT = new()
+        {
+            Width = 16,
+            Poly = 0x1021,
+            Init = 0x0000,
+            ReflectIn = true,
+            ReflectOut = true,
+            XorOut = 0x0000,
+        };
+
+        // CRC-16/LJ1200
+        public static readonly CrcDefinition CRC16_LJ1200 = new()
+        {
+            Width = 16,
+            Poly = 0x6f63,
+            Init = 0x0000,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x0000,
+        };
+
+        // CRC-16/M17
+        public static readonly CrcDefinition CRC16_M17 = new()
+        {
+            Width = 16,
+            Poly = 0x5935,
+            Init = 0xffff,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x0000,
+        };
+
+        // CRC-16/MAXIM-DOW [CRC-16/MAXIM]
+        public static readonly CrcDefinition CRC16_MAXIMDOW = new()
+        {
+            Width = 16,
+            Poly = 0x8005,
+            Init = 0x0000,
+            ReflectIn = true,
+            ReflectOut = true,
+            XorOut = 0xffff,
+        };
+
+        // CRC-16/MCRF4XX
+        public static readonly CrcDefinition CRC16_MCRF4XX = new()
+        {
+            Width = 16,
+            Poly = 0x1021,
+            Init = 0xffff,
+            ReflectIn = true,
+            ReflectOut = true,
+            XorOut = 0x0000,
+        };
+
+        // CRC-16/MODBUS [MODBUS]
+        public static readonly CrcDefinition CRC16_MODBUS = new()
+        {
+            Width = 16,
+            Poly = 0x8005,
+            Init = 0xffff,
+            ReflectIn = true,
+            ReflectOut = true,
+            XorOut = 0x0000,
+        };
+
+        // CRC-16/NRSC-5
+        public static readonly CrcDefinition CRC16_NRSC5 = new()
+        {
+            Width = 16,
+            Poly = 0x080b,
+            Init = 0xffff,
+            ReflectIn = true,
+            ReflectOut = true,
+            XorOut = 0x0000,
+        };
+
+        // CRC-16/OPENSAFETY-A
+        public static readonly CrcDefinition CRC16_OPENSAFETYA = new()
+        {
+            Width = 16,
+            Poly = 0x5935,
+            Init = 0x0000,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x0000,
+        };
+
+        // CRC-16/OPENSAFETY-B
+        public static readonly CrcDefinition CRC16_OPENSAFETYB = new()
+        {
+            Width = 16,
+            Poly = 0x755b,
+            Init = 0x0000,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x0000,
+        };
+
+        // CRC-16/PROFIBUS [CRC-16/IEC-61158-2]
+        public static readonly CrcDefinition CRC16_PROFIBUS = new()
+        {
+            Width = 16,
+            Poly = 0x1dcf,
+            Init = 0xffff,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0xffff,
+        };
+
+        // CRC-16/RIELLO
+        public static readonly CrcDefinition CRC16_RIELLO = new()
+        {
+            Width = 16,
+            Poly = 0x1021,
+            Init = 0xb2aa,
+            ReflectIn = true,
+            ReflectOut = true,
+            XorOut = 0x0000,
+        };
+
+        // CRC-16/SPI-FUJITSU [CRC-16/AUG-CCITT]
+        public static readonly CrcDefinition CRC16_SPIFUJITSU = new()
+        {
+            Width = 16,
+            Poly = 0x1021,
+            Init = 0x1d0f,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x0000,
+        };
+
+        // CRC-16/T10-DIF
+        public static readonly CrcDefinition CRC16_T10DIF = new()
+        {
+            Width = 16,
+            Poly = 0x8bb7,
+            Init = 0x0000,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x0000,
+        };
+
+        // CRC-16/TELEDISK
+        public static readonly CrcDefinition CRC16_TELEDISK = new()
+        {
+            Width = 16,
+            Poly = 0xa097,
+            Init = 0x0000,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x0000,
+        };
+
+        // CRC-16/TMS37157
+        public static readonly CrcDefinition CRC16_TMS37157 = new()
+        {
+            Width = 16,
+            Poly = 0x1021,
+            Init = 0x89ec,
+            ReflectIn = true,
+            ReflectOut = true,
+            XorOut = 0x0000,
+        };
+
+        // CRC-16/UMTS [CRC-16/BUYPASS, CRC-16/VERIFONE]
+        public static readonly CrcDefinition CRC16_UMTS = new()
+        {
+            Width = 16,
+            Poly = 0x8005,
+            Init = 0x0000,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x0000,
+        };
+
+        // CRC-16/USB
+        public static readonly CrcDefinition CRC16_USB = new()
+        {
+            Width = 16,
+            Poly = 0x8005,
+            Init = 0xffff,
+            ReflectIn = true,
+            ReflectOut = true,
+            XorOut = 0xffff,
+        };
+
+        // CRC-16/XMODEM [CRC-16/ACORN, CRC-16/LTE, CRC-16/V-41-MSB, XMODEM, ZMODEM]
+        public static readonly CrcDefinition CRC16_XMODEM = new()
+        {
+            Width = 16,
+            Poly = 0x1021,
+            Init = 0x0000,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x0000,
+        };
+
+        #endregion
+
         #region CRC-32
 
         // CRC-32/AIXM
