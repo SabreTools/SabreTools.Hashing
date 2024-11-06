@@ -129,14 +129,10 @@ namespace SabreTools.Hashing
                 HashType.CRC32_Optimized => new OptimizedCRC(),
                 HashType.CRC32_Parallel => new ParallelCRC(),
 #if NET462_OR_GREATER || NETCOREAPP
-                HashType.CRC64 => new Crc64(),
-#else
-                // TODO: Determine how to match System.IO.Hashing.Crc64
-                HashType.CRC64 => new Crc64Context(0x42F0E1EBA9EA3693, 0x0000000000000000),
+                HashType.CRC64_MS_ECMA => new Crc64(),
 #endif
-                HashType.CRC64_ECMA => new Crc64Context(0x42F0E1EBA9EA3693, 0xFFFFFFFFFFFFFFFF),
-                HashType.CRC64_ISO => new Crc64Context(0x000000000000001B, 0xFFFFFFFFFFFFFFFF),
-                HashType.CRC64_XZ => new Crc64Context(0xC96C5795D7870F42, 0xFFFFFFFFFFFFFFFF),
+                HashType.CRC64_XZ_ISO => new Crc64Context(0xD800000000000000, 0xFFFFFFFFFFFFFFFF),
+                HashType.CRC64_XZ_ECMA => new Crc64Context(),
                 HashType.Fletcher16 => new Fletcher16Context(),
                 HashType.Fletcher32 => new Fletcher32Context(),
                 HashType.MD5 => MD5.Create(),
