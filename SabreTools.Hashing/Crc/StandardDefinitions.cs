@@ -5,7 +5,9 @@ namespace SabreTools.Hashing.Crc
     {
         #region CRC-16
 
-        // CRC-16/ARC [ARC, CRC-16, CRC-16/LHA, CRC-IBM]
+        /// <summary>
+        /// CRC-16/ARC [ARC, CRC-16, CRC-16/LHA, CRC-IBM]
+        /// </summary>
         public static readonly CrcDefinition CRC16_ARC = new()
         {
             Width = 16,
@@ -16,7 +18,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0x0000,
         };
 
-        // CRC-16/CDMA2000
+        /// <summary>
+        /// CRC-16/CDMA2000
+        /// </summary>
         public static readonly CrcDefinition CRC16_CDMA2000 = new()
         {
             Width = 16,
@@ -27,7 +31,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0x0000,
         };
 
-        // CRC-16/CMS
+        /// <summary>
+        /// CRC-16/CMS
+        /// </summary>
         public static readonly CrcDefinition CRC16_CMS = new()
         {
             Width = 16,
@@ -38,7 +44,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0x0000,
         };
 
-        // CRC-16/DDS-110
+        /// <summary>
+        /// CRC-16/DDS-110
+        /// </summary>
         public static readonly CrcDefinition CRC16_DDS110 = new()
         {
             Width = 16,
@@ -49,7 +57,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0x0000,
         };
 
-        // CRC-16/DECT-R [R-CRC-16]
+        /// <summary>
+        /// CRC-16/DECT-R [R-CRC-16]
+        /// </summary>
         public static readonly CrcDefinition CRC16_DECTR = new()
         {
             Width = 16,
@@ -60,7 +70,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0x0001,
         };
 
-        // CRC-16/DECT-X [X-CRC-16]
+        /// <summary>
+        /// CRC-16/DECT-X [X-CRC-16]
+        /// </summary>
         public static readonly CrcDefinition CRC16_DECTX = new()
         {
             Width = 16,
@@ -71,7 +83,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0x0000,
         };
 
-        // CRC-16/DNP
+        /// <summary>
+        /// CRC-16/DNP
+        /// </summary>
         public static readonly CrcDefinition CRC16_DNP = new()
         {
             Width = 16,
@@ -82,7 +96,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0xffff,
         };
 
-        // CRC-16/EN-13757
+        /// <summary>
+        /// CRC-16/EN-13757
+        /// </summary>
         public static readonly CrcDefinition CRC16_EN13757 = new()
         {
             Width = 16,
@@ -93,7 +109,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0xffff,
         };
 
-        // CRC-16/GENIBUS [CRC-16/DARC, CRC-16/EPC, CRC-16/EPC-C1G2, CRC-16/I-CODE]
+        /// <summary>
+        /// CRC-16/GENIBUS [CRC-16/DARC, CRC-16/EPC, CRC-16/EPC-C1G2, CRC-16/I-CODE]
+        /// </summary>
         public static readonly CrcDefinition CRC16_GENIBUS = new()
         {
             Width = 16,
@@ -104,7 +122,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0xffff,
         };
 
-        // CRC-16/GSM
+        /// <summary>
+        /// CRC-16/GSM
+        /// </summary>
         public static readonly CrcDefinition CRC16_GSM = new()
         {
             Width = 16,
@@ -115,7 +135,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0xffff,
         };
 
-        // CRC-16/IBM-3740 [CRC-16/AUTOSAR, CRC-16/CCITT-FALSE]
+        /// <summary>
+        /// CRC-16/IBM-3740 [CRC-16/AUTOSAR, CRC-16/CCITT-FALSE]
+        /// </summary>
         public static readonly CrcDefinition CRC16_IBM3740 = new()
         {
             Width = 16,
@@ -126,7 +148,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0x0000,
         };
 
-        // CRC-16/IBM-SDLC [CRC-16/ISO-HDLC, CRC-16/ISO-IEC-14443-3-B, CRC-16/X-25, CRC-B, X-25]
+        /// <summary>
+        /// CRC-16/IBM-SDLC [CRC-16/ISO-HDLC, CRC-16/ISO-IEC-14443-3-B, CRC-16/X-25, CRC-B, X-25]
+        /// </summary>
         public static readonly CrcDefinition CRC16_IBMSDLC = new()
         {
             Width = 16,
@@ -137,7 +161,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0xffff,
         };
 
-        // CRC-16/ISO-IEC-14443-3-A [CRC-A]
+        /// <summary>
+        /// CRC-16/ISO-IEC-14443-3-A [CRC-A]
+        /// </summary>
         public static readonly CrcDefinition CRC16_ISOIEC144433A = new()
         {
             Width = 16,
@@ -148,7 +174,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0x0000,
         };
 
-        // CRC-16/KERMIT [CRC-16/BLUETOOTH, CRC-16/CCITT, CRC-16/CCITT-TRUE, CRC-16/V-41-LSB, CRC-CCITT, KERMIT]
+        /// <summary>
+        /// CRC-16/KERMIT [CRC-16/BLUETOOTH, CRC-16/CCITT, CRC-16/CCITT-TRUE, CRC-16/V-41-LSB, CRC-CCITT, KERMIT]
+        /// </summary>
         public static readonly CrcDefinition CRC16_KERMIT = new()
         {
             Width = 16,
@@ -159,7 +187,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0x0000,
         };
 
-        // CRC-16/LJ1200
+        /// <summary>
+        /// CRC-16/LJ1200
+        /// </summary>
         public static readonly CrcDefinition CRC16_LJ1200 = new()
         {
             Width = 16,
@@ -170,7 +200,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0x0000,
         };
 
-        // CRC-16/M17
+        /// <summary>
+        /// CRC-16/M17
+        /// </summary>
         public static readonly CrcDefinition CRC16_M17 = new()
         {
             Width = 16,
@@ -181,7 +213,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0x0000,
         };
 
-        // CRC-16/MAXIM-DOW [CRC-16/MAXIM]
+        /// <summary>
+        /// CRC-16/MAXIM-DOW [CRC-16/MAXIM]
+        /// </summary>
         public static readonly CrcDefinition CRC16_MAXIMDOW = new()
         {
             Width = 16,
@@ -192,7 +226,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0xffff,
         };
 
-        // CRC-16/MCRF4XX
+        /// <summary>
+        /// CRC-16/MCRF4XX
+        /// </summary>
         public static readonly CrcDefinition CRC16_MCRF4XX = new()
         {
             Width = 16,
@@ -203,7 +239,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0x0000,
         };
 
-        // CRC-16/MODBUS [MODBUS]
+        /// <summary>
+        /// CRC-16/MODBUS [MODBUS]
+        /// </summary>
         public static readonly CrcDefinition CRC16_MODBUS = new()
         {
             Width = 16,
@@ -214,7 +252,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0x0000,
         };
 
-        // CRC-16/NRSC-5
+        /// <summary>
+        /// CRC-16/NRSC-5
+        /// </summary>
         public static readonly CrcDefinition CRC16_NRSC5 = new()
         {
             Width = 16,
@@ -225,7 +265,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0x0000,
         };
 
-        // CRC-16/OPENSAFETY-A
+        /// <summary>
+        /// CRC-16/OPENSAFETY-A
+        /// </summary>
         public static readonly CrcDefinition CRC16_OPENSAFETYA = new()
         {
             Width = 16,
@@ -236,7 +278,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0x0000,
         };
 
-        // CRC-16/OPENSAFETY-B
+        /// <summary>
+        /// CRC-16/OPENSAFETY-B
+        /// </summary>
         public static readonly CrcDefinition CRC16_OPENSAFETYB = new()
         {
             Width = 16,
@@ -247,7 +291,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0x0000,
         };
 
-        // CRC-16/PROFIBUS [CRC-16/IEC-61158-2]
+        /// <summary>
+        /// CRC-16/PROFIBUS [CRC-16/IEC-61158-2]
+        /// </summary>
         public static readonly CrcDefinition CRC16_PROFIBUS = new()
         {
             Width = 16,
@@ -258,7 +304,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0xffff,
         };
 
-        // CRC-16/RIELLO
+        /// <summary>
+        /// CRC-16/RIELLO
+        /// </summary>
         public static readonly CrcDefinition CRC16_RIELLO = new()
         {
             Width = 16,
@@ -269,7 +317,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0x0000,
         };
 
-        // CRC-16/SPI-FUJITSU [CRC-16/AUG-CCITT]
+        /// <summary>
+        /// CRC-16/SPI-FUJITSU [CRC-16/AUG-CCITT]
+        /// </summary>
         public static readonly CrcDefinition CRC16_SPIFUJITSU = new()
         {
             Width = 16,
@@ -280,7 +330,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0x0000,
         };
 
-        // CRC-16/T10-DIF
+        /// <summary>
+        /// CRC-16/T10-DIF
+        /// </summary>
         public static readonly CrcDefinition CRC16_T10DIF = new()
         {
             Width = 16,
@@ -291,7 +343,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0x0000,
         };
 
-        // CRC-16/TELEDISK
+        /// <summary>
+        /// CRC-16/TELEDISK
+        /// </summary>
         public static readonly CrcDefinition CRC16_TELEDISK = new()
         {
             Width = 16,
@@ -302,7 +356,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0x0000,
         };
 
-        // CRC-16/TMS37157
+        /// <summary>
+        /// CRC-16/TMS37157
+        /// </summary>
         public static readonly CrcDefinition CRC16_TMS37157 = new()
         {
             Width = 16,
@@ -313,7 +369,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0x0000,
         };
 
-        // CRC-16/UMTS [CRC-16/BUYPASS, CRC-16/VERIFONE]
+        /// <summary>
+        /// CRC-16/UMTS [CRC-16/BUYPASS, CRC-16/VERIFONE]
+        /// </summary>
         public static readonly CrcDefinition CRC16_UMTS = new()
         {
             Width = 16,
@@ -324,7 +382,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0x0000,
         };
 
-        // CRC-16/USB
+        /// <summary>
+        /// CRC-16/USB
+        /// </summary>
         public static readonly CrcDefinition CRC16_USB = new()
         {
             Width = 16,
@@ -335,7 +395,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0xffff,
         };
 
-        // CRC-16/XMODEM [CRC-16/ACORN, CRC-16/LTE, CRC-16/V-41-MSB, XMODEM, ZMODEM]
+        /// <summary>
+        /// CRC-16/XMODEM [CRC-16/ACORN, CRC-16/LTE, CRC-16/V-41-MSB, XMODEM, ZMODEM]
+        /// </summary>
         public static readonly CrcDefinition CRC16_XMODEM = new()
         {
             Width = 16,
@@ -350,7 +412,9 @@ namespace SabreTools.Hashing.Crc
 
         #region CRC-32
 
-        // CRC-32/AIXM
+        /// <summary>
+        /// CRC-32/AIXM
+        /// </summary>
         public static readonly CrcDefinition CRC32_AIXM = new()
         {
             Width = 32,
@@ -361,7 +425,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0x00000000,
         };
 
-        // CRC-32/AUTOSAR
+        /// <summary>
+        /// CRC-32/AUTOSAR
+        /// </summary>
         public static readonly CrcDefinition CRC32_AUTOSAR = new()
         {
             Width = 32,
@@ -372,7 +438,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0xffffffff,
         };
 
-        // CRC-32/BASE91-D
+        /// <summary>
+        /// CRC-32/BASE91-D
+        /// </summary>
         public static readonly CrcDefinition CRC32_BASE91D = new()
         {
             Width = 32,
@@ -383,7 +451,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0xffffffff,
         };
 
-        // CRC-32/BZIP2
+        /// <summary>
+        /// CRC-32/BZIP2
+        /// </summary>
         public static readonly CrcDefinition CRC32_BZIP2 = new()
         {
             Width = 32,
@@ -394,7 +464,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0xffffffff,
         };
 
-        // CRC-32/CD-ROM-EDC
+        /// <summary>
+        /// CRC-32/CD-ROM-EDC
+        /// </summary>
         public static readonly CrcDefinition CRC32_CDROMEDC = new()
         {
             Width = 32,
@@ -405,7 +477,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0x00000000,
         };
 
-        // CRC-32/CKSUM
+        /// <summary>
+        /// CRC-32/CKSUM
+        /// </summary>
         public static readonly CrcDefinition CRC32_CKSUM = new()
         {
             Width = 32,
@@ -416,7 +490,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0xffffffff,
         };
 
-        // CRC-32/ISCSI
+        /// <summary>
+        /// CRC-32/ISCSI
+        /// </summary>
         public static readonly CrcDefinition CRC32_ISCSI = new()
         {
             Width = 32,
@@ -427,7 +503,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0xffffffff,
         };
 
-        // CRC-32/ISO-HDLC
+        /// <summary>
+        /// CRC-32/ISO-HDLC
+        /// </summary>
         public static readonly CrcDefinition CRC32_ISOHDLC = new()
         {
             Width = 32,
@@ -438,7 +516,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0xffffffff,
         };
 
-        // CRC-32/JAMCRC
+        /// <summary>
+        /// CRC-32/JAMCRC
+        /// </summary>
         public static readonly CrcDefinition CRC32_JAMCRC = new()
         {
             Width = 32,
@@ -449,7 +529,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0x00000000,
         };
 
-        // CRC-32/MEF
+        /// <summary>
+        /// CRC-32/MEF
+        /// </summary>
         public static readonly CrcDefinition CRC32_MEF = new()
         {
             Width = 32,
@@ -460,7 +542,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0x00000000,
         };
 
-        // CRC-32/MPEG-2
+        /// <summary>
+        /// CRC-32/MPEG-2
+        /// </summary>
         public static readonly CrcDefinition CRC32_MPEG2 = new()
         {
             Width = 32,
@@ -471,7 +555,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0x00000000,
         };
 
-        // CRC-32/XFER
+        /// <summary>
+        /// CRC-32/XFER
+        /// </summary>
         public static readonly CrcDefinition CRC32_XFER = new()
         {
             Width = 32,
@@ -486,7 +572,9 @@ namespace SabreTools.Hashing.Crc
 
         #region CRC-64
 
-        // CRC-64/ECMA-182
+        /// <summary>
+        /// CRC-64/ECMA-182
+        /// </summary>
         public static readonly CrcDefinition CRC64_ECMA182 = new()
         {
             Width = 64,
@@ -497,7 +585,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0x0000000000000000,
         };
 
-        // CRC-64/GO-ISO
+        /// <summary>
+        /// CRC-64/GO-ISO
+        /// </summary>
         public static readonly CrcDefinition CRC64_GOISO = new()
         {
             Width = 64,
@@ -508,7 +598,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0xffffffffffffffff,
         };
 
-        // CRC-64/MS
+        /// <summary>
+        /// CRC-64/MS
+        /// </summary>
         public static readonly CrcDefinition CRC64_MS = new()
         {
             Width = 64,
@@ -519,7 +611,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0x0000000000000000,
         };
 
-        // CRC-64/NVME
+        /// <summary>
+        /// CRC-64/NVME
+        /// </summary>
         public static readonly CrcDefinition CRC64_NVME = new()
         {
             Width = 64,
@@ -530,7 +624,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0xffffffffffffffff,
         };
 
-        // CRC-64/REDIS
+        /// <summary>
+        /// CRC-64/REDIS
+        /// </summary>
         public static readonly CrcDefinition CRC64_REDIS = new()
         {
             Width = 64,
@@ -541,7 +637,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0x0000000000000000,
         };
 
-        // CRC-64/WE
+        /// <summary>
+        /// CRC-64/WE
+        /// </summary>
         public static readonly CrcDefinition CRC64_WE = new()
         {
             Width = 64,
@@ -552,7 +650,9 @@ namespace SabreTools.Hashing.Crc
             XorOut = 0xffffffffffffffff,
         };
 
-        // CRC-64/XZ
+        /// <summary>
+        /// CRC-64/XZ
+        /// </summary>
         public static readonly CrcDefinition CRC64_XZ = new()
         {
             Width = 64,
