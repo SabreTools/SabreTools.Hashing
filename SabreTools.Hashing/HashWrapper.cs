@@ -92,11 +92,6 @@ namespace SabreTools.Hashing
         /// <remarks>May be either a HashAlgorithm or NonCryptographicHashAlgorithm</remarks>
         private object? _hasher;
 
-        /// <summary>
-        /// Non-reversed CRC-64 polynomial
-        /// </summary>
-        private const ulong CRC64_ECMA_POLY_NORMAL = 0x42F0E1EBA9EA3693;
-
         #endregion
 
         #region Constructors
@@ -136,9 +131,9 @@ namespace SabreTools.Hashing
 #if NET462_OR_GREATER || NETCOREAPP
                 HashType.CRC64 => new Crc64(),
 #else
-                HashType.CRC64 => new Crc64Context(CRC64_ECMA_POLY_NORMAL, 0xFFFFFFFFFFFFFFFF),
+                HashType.CRC64 => new Crc64Context(0x42F0E1EBA9EA3693, 0xFFFFFFFFFFFFFFFF),
 #endif
-                HashType.CRC64_Reversed => new Crc64Context(),
+                HashType.CRC64_Reversed => new Crc64Context(0xC96C5795D7870F42, 0xFFFFFFFFFFFFFFFF),
                 HashType.Fletcher16 => new Fletcher16Context(),
                 HashType.Fletcher32 => new Fletcher32Context(),
                 HashType.MD5 => MD5.Create(),
@@ -190,15 +185,16 @@ namespace SabreTools.Hashing
                     break;
 
                 case IChecksum ic:
-                    byte[] icBuffer = GetArraySegment(buffer, offset, size);
-                    ic.Update(icBuffer);
+                    byte[] icBlock = new byte[size];
+                    Array.Copy(buffer, offset, icBlock, 0, size);
+                    ic.Update(icBlock);
                     break;
 
                 case NaiveCRC nc:
                     nc.Update(buffer, offset, size);
                     break;
 
-#if NETCOREAPP
+#if NET462_OR_GREATER || NETCOREAPP
                 case NonCryptographicHashAlgorithm ncha:
                     var nchaBufferSpan = new ReadOnlySpan<byte>(buffer, offset, size);
                     ncha.Append(nchaBufferSpan);
@@ -279,21 +275,6 @@ namespace SabreTools.Hashing
             {
                 return null;
             }
-        }
-
-        /// <summary>
-        /// Get a segment from the array based on an offset and size
-        /// </summary>
-        private static byte[] GetArraySegment(byte[] buffer, int offset, int size)
-        {
-#if NETCOREAPP
-            var icBufferSpan = new ReadOnlySpan<byte>(buffer, offset, size);
-            byte[] trimmedBuffer = icBufferSpan.ToArray();
-#else
-            byte[] trimmedBuffer = new byte[size];
-            Array.Copy(buffer, offset, trimmedBuffer, 0, size);
-#endif
-            return trimmedBuffer;
         }
 
         #endregion
