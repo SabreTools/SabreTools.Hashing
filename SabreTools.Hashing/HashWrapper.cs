@@ -94,7 +94,7 @@ namespace SabreTools.Hashing
         /// <param name="hashType">Hash type to instantiate</param>
         public HashWrapper(HashType hashType)
         {
-            this.HashType = hashType;
+            HashType = hashType;
             GetHasher();
         }
 
