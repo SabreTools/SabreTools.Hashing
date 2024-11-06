@@ -80,25 +80,62 @@ namespace SabreTools.Hashing.Crc
                 OptTable[0, i] = point;
             }
 
-            // Build the optimized table -- FIX FOR NON-32, NON-REFLECT
-            // for (int i = 1; i < SliceCount; i++)
-            // {
-            //     // Build each slice from the previous
-            //     for (int j = 0; j < 1 << ProcessBits; j++)
-            //     {
-            //         ulong last = OptTable[i - 1, j];
-            //         OptTable[i, j] = (last >> ProcessBits) ^ OptTable[0, last & 0xFF];
-            //     }
-            // }
+            // Skip building the optimized table for bitwise processing
+            if (_processBitwise)
+                return;
+
+            // Build the optimized table for non-bitwise processing
+            for (int i = 1; i < SliceCount; i++)
+            {
+                // Build each slice from the previous
+                for (int j = 0; j < 1 << _processBits; j++)
+                {
+                    ulong last = OptTable[i - 1, j];
+                    if (_definition.ReflectIn)
+                        OptTable[i, j] = (last >> _processBits) ^ OptTable[0, (byte)last];
+                    else
+                        OptTable[i, j] = (last << _processBits) ^ OptTable[0, (byte)(last >> _bitShift)];
+                }
+            }
         }
-    
+
+        /// <summary>
+        /// Hash a block of data and append it to the existing hash
+        /// </summary>
+        /// <param name="hash">Current hash value, updated on run</param>
+        /// <param name="data">Byte array representing the data</param>
+        /// <param name="offset">Offset in the byte array to include</param>
+        /// <param name="length">Length of the data to hash</param>
+        public void TransformBlock(ref ulong hash, byte[] data, int offset, int length)
+        {
+            // Empty data just returns
+            if (data.Length == 0)
+                return;
+
+            // Check for valid offset and length
+            if (offset > data.Length)
+                throw new System.ArgumentOutOfRangeException(nameof(offset));
+            else if (offset + length > data.Length)
+                throw new System.ArgumentOutOfRangeException(nameof(length));
+
+            // Try transforming fast first
+            if (TransformBlockFast(ref hash, data, offset, length))
+                return;
+
+            // Process the data byte-wise
+            for (int i = offset; i < offset + length; i++)
+            {
+                PerformChecksumStep(ref hash, data, i);
+            }
+        }
+
         /// <summary>
         /// Perform a single checksum step
         /// </summary>
         /// <param name="hash">Current hash value, updated on run</param>
         /// <param name="data">Byte array representing the data</param>
         /// <param name="offset">Offset in the data to process</param>
-        public void PerformChecksumStep(ref ulong hash, byte[] data, int offset)
+        private void PerformChecksumStep(ref ulong hash, byte[] data, int offset)
         {
             // Per-bit processing
             if (_processBitwise)
@@ -120,6 +157,74 @@ namespace SabreTools.Hashing.Crc
                 else
                     hash = (hash << _processBits) ^ OptTable[0, ((byte)(hash >> _bitShift)) ^ data[offset]];
             }
+        }
+
+        /// <summary>
+        /// Perform an optimized transform step
+        /// </summary>
+        private bool TransformBlockFast(ref ulong hash, byte[] data, int offset, int length)
+        {
+            // Bitwise transformations are not optimized
+            if (_processBitwise)
+                return false;
+
+            // Check for optimizable transformations
+            if (_definition.Width == 32 && _definition.ReflectIn)
+            {
+                TransformBlockFast32Reflect(ref hash, data, offset, length);
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Optimized transformation for 32-bit CRC with reflection
+        /// </summary>
+        private void TransformBlockFast32Reflect(ref ulong hash, byte[] data, int offset, int length)
+        {
+            // Process on a copy of the hash
+            ulong local = hash;
+
+            // Process aligned data
+            if (length > 8)
+            {
+                long end = offset + (length & ~(uint)7);
+                length &= 7;
+
+                while (offset < end)
+                {
+                    ulong low = local ^ (uint)(
+                          (data[offset + 0]      )
+                        + (data[offset + 1] << 8 )
+                        + (data[offset + 2] << 16)
+                        + (data[offset + 3] << 24));
+                    ulong high = (uint)(
+                        + (data[offset + 4] << 32)
+                        + (data[offset + 5] << 40)
+                        + (data[offset + 6] << 48)
+                        + (data[offset + 7] << 56));
+                    offset += 8;
+
+                    local = OptTable[7, (byte)(low       )]
+                          ^ OptTable[6, (byte)(low >> 8  )]
+                          ^ OptTable[5, (byte)(low >> 16 )]
+                          ^ OptTable[4, (byte)(low >> 24 )]
+                          ^ OptTable[3, (byte)(high      )]
+                          ^ OptTable[2, (byte)(high >> 8 )]
+                          ^ OptTable[1, (byte)(high >> 16)]
+                          ^ OptTable[0, (byte)(high >> 24)];
+                }
+            }
+
+            // Process unaligned data
+            while (length-- != 0)
+            {
+                PerformChecksumStep(ref local, data, offset++);
+            }
+
+            // Assign the new hash value
+            hash = local;
         }
     }
 }

@@ -45,27 +45,7 @@ namespace SabreTools.Hashing.Crc
         /// <param name="offset">Offset in the byte array to include</param>
         /// <param name="length">Length of the data to hash</param>
         public void TransformBlock(byte[] data, int offset, int length)
-        {
-            // Empty data just returns
-            if (data.Length == 0)
-                return;
-
-            // Check for valid offset and length
-            if (offset > data.Length)
-                throw new ArgumentOutOfRangeException(nameof(offset));
-            else if (offset + length > data.Length)
-                throw new ArgumentOutOfRangeException(nameof(length));
-
-            // // Try transforming fast first
-            // if (TransformBlockFast(data, offset, length))
-            //     return;
-
-            // Process the data byte-wise
-            for (int i = offset; i < offset + length; i++)
-            {
-                _table.PerformChecksumStep(ref _hash, data, i);
-            }
-        }
+            => _table.TransformBlock(ref _hash, data, offset, length);
 
         /// <summary>
         /// Finalize the hash and return as a byte array
@@ -84,61 +64,6 @@ namespace SabreTools.Hashing.Crc
 
             // Process the value and return
             return BitOperations.ClampValueToBytes(localHash, _definition.Width);
-        }
-
-        /// <summary>
-        /// Perform an optimized transform step
-        /// </summary>
-        /// <param name="data"></param>
-        /// <param name="offset"></param>
-        /// <param name="length"></param>
-        private bool TransformBlockFast(byte[] data, int offset, int length)
-        {
-            // Check for optimizable transformation
-            if (_definition.Width != 32 || !_definition.ReflectIn)
-                return false;
-
-            for (; (offset & 7) != 0 && length != 0; length--)
-            {
-                _table.PerformChecksumStep(ref _hash, data, offset++);
-            }
-
-            if (length >= 8)
-            {
-                int end = (length - 8) & ~7;
-                length -= end;
-                end += offset;
-
-                while (offset != end)
-                {
-                    _hash ^= (ulong)(
-                          (data[offset + 0]      )
-                        + (data[offset + 1] << 8 )
-                        + (data[offset + 2] << 16)
-                        + (data[offset + 3] << 24)
-                        + (data[offset + 4] << 32)
-                        + (data[offset + 5] << 40)
-                        + (data[offset + 6] << 48)
-                        + (data[offset + 7] << 56));
-                    offset += 8;
-
-                    _hash = _table.OptTable[7, (byte)(_hash      )]
-                          ^ _table.OptTable[6, (byte)(_hash >>= 8)]
-                          ^ _table.OptTable[5, (byte)(_hash >>= 8)]
-                          ^ _table.OptTable[4, (byte)(_hash >>= 8)]
-                          ^ _table.OptTable[3, (byte)(_hash >>= 8)]
-                          ^ _table.OptTable[2, (byte)(_hash >>= 8)]
-                          ^ _table.OptTable[1, (byte)(_hash >>= 8)]
-                          ^ _table.OptTable[0, (byte)(_hash >>  8)];
-                }
-            }
-
-            while (length-- != 0)
-            {
-                _table.PerformChecksumStep(ref _hash, data, offset++);
-            }
-
-            return true;
         }
     }
 }
