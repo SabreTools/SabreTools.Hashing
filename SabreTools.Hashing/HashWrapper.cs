@@ -131,6 +131,7 @@ namespace SabreTools.Hashing
 #if NET462_OR_GREATER || NETCOREAPP
                 HashType.CRC64 => new Crc64(),
 #else
+                // TODO: Determine how to match System.IO.Hashing.Crc64
                 HashType.CRC64 => new Crc64Context(0x42F0E1EBA9EA3693, 0xFFFFFFFFFFFFFFFF),
 #endif
                 HashType.CRC64_Reversed => new Crc64Context(0xC96C5795D7870F42, 0xFFFFFFFFFFFFFFFF),
