@@ -9,6 +9,7 @@ using Aaru.CommonTypes.Interfaces;
 using Blake3;
 #endif
 using CRC32;
+using SabreTools.Hashing.Crc;
 
 namespace SabreTools.Hashing
 {
@@ -33,6 +34,12 @@ namespace SabreTools.Hashing
             {
                 switch (_hasher)
                 {
+                    case CrcRunner cr:
+                        var crArr = cr.Finalize();
+                        if (HashType == HashType.CRC32)
+                            Array.Reverse(crArr);
+
+                        return crArr;
                     case HashAlgorithm ha:
                         return ha.Hash;
                     case IChecksum ic:
@@ -119,20 +126,14 @@ namespace SabreTools.Hashing
 #endif
                 HashType.CRC16_CCITT => new CRC16CcittContext(),
                 HashType.CRC16_IBM => new CRC16IbmContext(),
-#if NET462_OR_GREATER || NETCOREAPP
-                HashType.CRC32 => new Crc32(),
-#else
-                HashType.CRC32 => new Crc32Context(),
-#endif
-                HashType.CRC32_ISO => new Crc32Context(),
+                HashType.CRC32 => new CrcRunner(StandardDefinitions.CRC32_ISOHDLC),
+                HashType.CRC32_ISOHDLC => new CrcRunner(StandardDefinitions.CRC32_ISOHDLC),
                 HashType.CRC32_Naive => new NaiveCRC(),
                 HashType.CRC32_Optimized => new OptimizedCRC(),
                 HashType.CRC32_Parallel => new ParallelCRC(),
-#if NET462_OR_GREATER || NETCOREAPP
-                HashType.CRC64_MS_ECMA => new Crc64(),
-#endif
-                HashType.CRC64_XZ_ISO => new Crc64Context(0xD800000000000000, 0xFFFFFFFFFFFFFFFF),
-                HashType.CRC64_XZ_ECMA => new Crc64Context(),
+                HashType.CRC64_ECMA182 => new CrcRunner(StandardDefinitions.CRC64_ECMA182),
+                HashType.CRC64_GOISO => new CrcRunner(StandardDefinitions.CRC64_GOISO),
+                HashType.CRC64_XZ => new Crc64Context(),
                 HashType.Fletcher16 => new Fletcher16Context(),
                 HashType.Fletcher32 => new Fletcher32Context(),
                 HashType.MD5 => MD5.Create(),
@@ -179,6 +180,10 @@ namespace SabreTools.Hashing
         {
             switch (_hasher)
             {
+                case CrcRunner cr:
+                    cr.TransformBlock(buffer, offset, size);
+                    break;
+
                 case HashAlgorithm ha:
                     ha.TransformBlock(buffer, offset, size, null, 0);
                     break;

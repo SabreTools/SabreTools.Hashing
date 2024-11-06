@@ -28,15 +28,14 @@ namespace SabreTools.Hashing
         CRC16_IBM,
 
         /// <summary>
-        /// CRC 32-bit checksum
+        /// CRC 32-bit checksum (CRC-32/ISO-HDLC, reversed output)
         /// </summary>
-        /// <remarks>Same as CRC32_ISO in .NET Framework 4.5.2 and lower</remarks>
         CRC32,
 
         /// <summary>
-        /// CRC 32-bit checksum (ISO implementation)
+        /// CRC 32-bit checksum (CRC-32/ISO-HDLC)
         /// </summary>
-        CRC32_ISO,
+        CRC32_ISOHDLC,
 
         /// <summary>
         /// CRC 32-bit checksum (NaiveCRC implementation)
@@ -53,22 +52,20 @@ namespace SabreTools.Hashing
         /// </summary>
         CRC32_Parallel,
 
-#if NET462_OR_GREATER || NETCOREAPP
         /// <summary>
-        /// CRC 64-bit checksum (ECMA-182, Microsoft implementation)
+        /// CRC 64-bit checksum (CRC-64/ECMA-182, Microsoft implementation)
         /// </summary>
-        CRC64_MS_ECMA,
-#endif
+        CRC64_ECMA182,
 
         /// <summary>
-        /// CRC 64-bit checksum (CRC64/XZ, 0xC96C5795D7870F42 polynomial, 0xFFFFFFFFFFFFFFFF seed)
+        /// CRC 64-bit checksum (CRC-64/GO-ISO)
         /// </summary>
-        CRC64_XZ_ECMA,
+        CRC64_GOISO,
 
         /// <summary>
-        /// CRC 64-bit checksum (CRC64/XZ, 0xD800000000000000 polynomial, 0xFFFFFFFFFFFFFFFF seed)
+        /// CRC 64-bit checksum (CRC-64/XZ)
         /// </summary>
-        CRC64_XZ_ISO,
+        CRC64_XZ,
 
         /// <summary>
         /// John G. Fletcher's 16-bit checksum
