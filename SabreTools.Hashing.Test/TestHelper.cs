@@ -15,8 +15,38 @@ namespace SabreTools.Hashing.Test
 #if NET7_0_OR_GREATER
         private const string _blake3 = "d4bd7ca6f1ebea9580d9381106b248eb5b6069170d0bfd00b17d659fcd10dcdc";
 #endif
-        private const string _crc16_ccitt = "482d";
-        private const string _crc16_ibm = "7573";
+        private const string _crc16 = "7573";
+        private const string _crc16_arc = "7573";
+        private const string _crc16_cdma2000 = "8b5f";
+        private const string _crc16_cms = "1a37";
+        private const string _crc16_dds110 = "241d";
+        private const string _crc16_dectr = "7390";
+        private const string _crc16_dectx = "7391";
+        private const string _crc16_dnp = "4bbb";
+        private const string _crc16_en13757 = "e28b";
+        private const string _crc16_genibus = "b65d";
+        private const string _crc16_gsm = "482d";
+        private const string _crc16_ibm3740 = "49a2";
+        private const string _crc16_ibmsdlc = "4f52";
+        private const string _crc16_isoiec144433a = "85cd";
+        private const string _crc16_kermit = "bed2";
+        private const string _crc16_lj1200 = "3533";
+        private const string _crc16_m17 = "5223";
+        private const string _crc16_maximdow = "8a8c";
+        private const string _crc16_mcrf4xx = "b0ad";
+        private const string _crc16_modbus = "9e54";
+        private const string _crc16_nrsc5 = "4857";
+        private const string _crc16_opensafetya = "abcd";
+        private const string _crc16_opensafetyb = "76f4";
+        private const string _crc16_profibus = "3099";
+        private const string _crc16_riello = "23e0";
+        private const string _crc16_spifujitsu = "f98b";
+        private const string _crc16_t10dif = "2642";
+        private const string _crc16_teledisk = "7e05";
+        private const string _crc16_tms37157 = "dba0";
+        private const string _crc16_umts = "fee0";
+        private const string _crc16_usb = "61ab";
+        private const string _crc16_xmodem = "b7d2";
         private const string _crc32 = "ba02a660";
         private const string _crc32_aixm = "6174a75a";
         private const string _crc32_autosar = "c050428e";
@@ -75,8 +105,39 @@ namespace SabreTools.Hashing.Test
 #if NET7_0_OR_GREATER
             Assert.Equal(_blake3, hashDict[HashType.BLAKE3]);
 #endif
-            Assert.Equal(_crc16_ccitt, hashDict[HashType.CRC16_CCITT]);
-            Assert.Equal(_crc16_ibm, hashDict[HashType.CRC16_IBM]);
+            Assert.Equal(_crc16, hashDict[HashType.CRC16]);
+            Assert.Equal(_crc16_arc, hashDict[HashType.CRC16_ARC]);
+            Assert.Equal(_crc16_cdma2000, hashDict[HashType.CRC16_CDMA2000]);
+            Assert.Equal(_crc16_cms, hashDict[HashType.CRC16_CMS]);
+            Assert.Equal(_crc16_dds110, hashDict[HashType.CRC16_DDS110]);
+            Assert.Equal(_crc16_dectr, hashDict[HashType.CRC16_DECTR]);
+            Assert.Equal(_crc16_dectx, hashDict[HashType.CRC16_DECTX]);
+            Assert.Equal(_crc16_dnp, hashDict[HashType.CRC16_DNP]);
+            Assert.Equal(_crc16_en13757, hashDict[HashType.CRC16_EN13757]);
+            Assert.Equal(_crc16_genibus, hashDict[HashType.CRC16_GENIBUS]);
+            Assert.Equal(_crc16_gsm, hashDict[HashType.CRC16_GSM]);
+            Assert.Equal(_crc16_ibm3740, hashDict[HashType.CRC16_IBM3740]);
+            Assert.Equal(_crc16_ibmsdlc, hashDict[HashType.CRC16_IBMSDLC]);
+            //Assert.Equal(_crc16_isoiec144433a, hashDict[HashType.CRC16_ISOIEC144433A]);
+            Assert.Equal(_crc16_kermit, hashDict[HashType.CRC16_KERMIT]);
+            Assert.Equal(_crc16_lj1200, hashDict[HashType.CRC16_LJ1200]);
+            Assert.Equal(_crc16_m17, hashDict[HashType.CRC16_M17]);
+            Assert.Equal(_crc16_maximdow, hashDict[HashType.CRC16_MAXIMDOW]);
+            Assert.Equal(_crc16_mcrf4xx, hashDict[HashType.CRC16_MCRF4XX]);
+            Assert.Equal(_crc16_modbus, hashDict[HashType.CRC16_MODBUS]);
+            Assert.Equal(_crc16_nrsc5, hashDict[HashType.CRC16_NRSC5]);
+            Assert.Equal(_crc16_opensafetya, hashDict[HashType.CRC16_OPENSAFETYA]);
+            Assert.Equal(_crc16_opensafetyb, hashDict[HashType.CRC16_OPENSAFETYB]);
+            Assert.Equal(_crc16_profibus, hashDict[HashType.CRC16_PROFIBUS]);
+            //Assert.Equal(_crc16_riello, hashDict[HashType.CRC16_RIELLO]);
+            Assert.Equal(_crc16_spifujitsu, hashDict[HashType.CRC16_SPIFUJITSU]);
+            Assert.Equal(_crc16_t10dif, hashDict[HashType.CRC16_T10DIF]);
+            Assert.Equal(_crc16_teledisk, hashDict[HashType.CRC16_TELEDISK]);
+            //Assert.Equal(_crc16_tms37157, hashDict[HashType.CRC16_TMS37157]);
+            Assert.Equal(_crc16_umts, hashDict[HashType.CRC16_UMTS]);
+            Assert.Equal(_crc16_usb, hashDict[HashType.CRC16_USB]);
+            Assert.Equal(_crc16_xmodem, hashDict[HashType.CRC16_XMODEM]);
+
             Assert.Equal(_crc32, hashDict[HashType.CRC32]);
             Assert.Equal(_crc32_aixm, hashDict[HashType.CRC32_AIXM]);
             Assert.Equal(_crc32_autosar, hashDict[HashType.CRC32_AUTOSAR]);
@@ -90,6 +151,7 @@ namespace SabreTools.Hashing.Test
             Assert.Equal(_crc32_mef, hashDict[HashType.CRC32_MEF]);
             Assert.Equal(_crc32_mpeg2, hashDict[HashType.CRC32_MPEG2]);
             Assert.Equal(_crc32_xfer, hashDict[HashType.CRC32_XFER]);
+
             Assert.Equal(_crc64, hashDict[HashType.CRC64]);
             Assert.Equal(_crc64_ecma182, hashDict[HashType.CRC64_ECMA182]);
             Assert.Equal(_crc64_goiso, hashDict[HashType.CRC64_GOISO]);
@@ -98,6 +160,7 @@ namespace SabreTools.Hashing.Test
             Assert.Equal(_crc64_redis, hashDict[HashType.CRC64_REDIS]);
             Assert.Equal(_crc64_we, hashDict[HashType.CRC64_WE]);
             Assert.Equal(_crc64_xz, hashDict[HashType.CRC64_XZ]);
+
             Assert.Equal(_fletcher16, hashDict[HashType.Fletcher16]);
             Assert.Equal(_fletcher32, hashDict[HashType.Fletcher32]);
             Assert.Equal(_md5, hashDict[HashType.MD5]);
