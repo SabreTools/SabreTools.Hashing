@@ -97,9 +97,9 @@ namespace SabreTools.Hashing.Crc
             if (_definition.Width >= 8)
             {
                 if (_definition.ReflectIn)
-                    _hash = (_hash >> 8) ^ _table.StdTable[(byte)_hash ^ data[offset]];
+                    _hash = (_hash >> 8) ^ _table.OptTable[0, (byte)_hash ^ data[offset]];
                 else
-                    _hash = (_hash << 8) ^ _table.StdTable[((byte)(_hash >> msb)) ^ data[offset]];
+                    _hash = (_hash << 8) ^ _table.OptTable[0, ((byte)(_hash >> msb)) ^ data[offset]];
             }
 
             // Per-bit processing
@@ -108,9 +108,9 @@ namespace SabreTools.Hashing.Crc
                 for (int b = 0; b < 8; b++)
                 {
                     if (_definition.ReflectIn)
-                        _hash = (_hash >> 1) ^ _table.StdTable[(byte)(_hash & 1) ^ ((byte)(data[offset] >> b) & 1)];
+                        _hash = (_hash >> 1) ^ _table.OptTable[0, (byte)(_hash & 1) ^ ((byte)(data[offset] >> b) & 1)];
                     else
-                        _hash = (_hash << 1) ^ _table.StdTable[(byte)((_hash >> msb) & 1) ^ ((byte)(data[offset] >> (7 - b)) & 1)];
+                        _hash = (_hash << 1) ^ _table.OptTable[0, (byte)((_hash >> msb) & 1) ^ ((byte)(data[offset] >> (7 - b)) & 1)];
                 }
             }
         }
