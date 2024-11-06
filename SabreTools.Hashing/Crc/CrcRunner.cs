@@ -56,13 +56,14 @@ namespace SabreTools.Hashing.Crc
             else if (offset + length > data.Length)
                 throw new ArgumentOutOfRangeException(nameof(length));
 
-            // Get the bit shift for the MSB
-            int msb = _definition.Width - (_definition.Width < 8 ? 1 : 8);
+            // // Try transforming fast first
+            // if (TransformBlockFast(data, offset, length))
+            //     return;
 
             // Process the data byte-wise
             for (int i = offset; i < offset + length; i++)
             {
-                PerformChecksumStep(data, i, msb);
+                _table.PerformChecksumStep(ref _hash, data, i);
             }
         }
 
@@ -86,33 +87,58 @@ namespace SabreTools.Hashing.Crc
         }
 
         /// <summary>
-        /// Perform a single checksum step
+        /// Perform an optimized transform step
         /// </summary>
-        /// <param name="data">Byte array representing the data</param>
-        /// <param name="offset">Offset in the data to process</param>
-        /// <param name="msb">Bit shift for the MSB</param>
-        private void PerformChecksumStep(byte[] data, int offset, int msb)
+        /// <param name="data"></param>
+        /// <param name="offset"></param>
+        /// <param name="length"></param>
+        private bool TransformBlockFast(byte[] data, int offset, int length)
         {
-            // Per-byte processing
-            if (_definition.Width >= 8)
+            // Check for optimizable transformation
+            if (_definition.Width != 32 || !_definition.ReflectIn)
+                return false;
+
+            for (; (offset & 7) != 0 && length != 0; length--)
             {
-                if (_definition.ReflectIn)
-                    _hash = (_hash >> 8) ^ _table.OptTable[0, (byte)_hash ^ data[offset]];
-                else
-                    _hash = (_hash << 8) ^ _table.OptTable[0, ((byte)(_hash >> msb)) ^ data[offset]];
+                _table.PerformChecksumStep(ref _hash, data, offset++);
             }
 
-            // Per-bit processing
-            else
+            if (length >= 8)
             {
-                for (int b = 0; b < 8; b++)
+                int end = (length - 8) & ~7;
+                length -= end;
+                end += offset;
+
+                while (offset != end)
                 {
-                    if (_definition.ReflectIn)
-                        _hash = (_hash >> 1) ^ _table.OptTable[0, (byte)(_hash & 1) ^ ((byte)(data[offset] >> b) & 1)];
-                    else
-                        _hash = (_hash << 1) ^ _table.OptTable[0, (byte)((_hash >> msb) & 1) ^ ((byte)(data[offset] >> (7 - b)) & 1)];
+                    _hash ^= (ulong)(
+                          (data[offset + 0]      )
+                        + (data[offset + 1] << 8 )
+                        + (data[offset + 2] << 16)
+                        + (data[offset + 3] << 24)
+                        + (data[offset + 4] << 32)
+                        + (data[offset + 5] << 40)
+                        + (data[offset + 6] << 48)
+                        + (data[offset + 7] << 56));
+                    offset += 8;
+
+                    _hash = _table.OptTable[7, (byte)(_hash      )]
+                          ^ _table.OptTable[6, (byte)(_hash >>= 8)]
+                          ^ _table.OptTable[5, (byte)(_hash >>= 8)]
+                          ^ _table.OptTable[4, (byte)(_hash >>= 8)]
+                          ^ _table.OptTable[3, (byte)(_hash >>= 8)]
+                          ^ _table.OptTable[2, (byte)(_hash >>= 8)]
+                          ^ _table.OptTable[1, (byte)(_hash >>= 8)]
+                          ^ _table.OptTable[0, (byte)(_hash >>  8)];
                 }
             }
+
+            while (length-- != 0)
+            {
+                _table.PerformChecksumStep(ref _hash, data, offset++);
+            }
+
+            return true;
         }
     }
 }
