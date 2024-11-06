@@ -43,6 +43,7 @@ using Aaru.Checksums.CRC64;
 #endif
 using Aaru.CommonTypes.Interfaces;
 using Aaru.Helpers;
+using static Aaru.Helpers.Extensions;
 
 namespace Aaru.Checksums;
 
@@ -523,13 +524,13 @@ public sealed class Crc64Context : IChecksum
         ulong[][] localTable = GenerateTable(polynomial);
 
         var buffer = new byte[65536];
-        int read   = fileStream.EnsureRead(buffer, 0, 65536);
+        int read   = EnsureRead(fileStream, buffer, 0, 65536);
 
         while(read > 0)
         {
             Step(ref localHashInt, localTable, buffer, (uint)read, useEcma, useNative, nativeContext);
 
-            read = fileStream.EnsureRead(buffer, 0, 65536);
+            read = EnsureRead(fileStream, buffer, 0, 65536);
         }
 
         localHashInt ^= seed;

@@ -52,6 +52,7 @@ using Aaru.Helpers;
 #if NETCOREAPP3_1_OR_GREATER
 using Ssse3 = System.Runtime.Intrinsics.X86.Ssse3;
 #endif
+using static Aaru.Helpers.Extensions;
 
 namespace Aaru.Checksums;
 
@@ -359,12 +360,12 @@ public sealed class Adler32Context : IChecksum
         ushort localSum2 = 0;
 
         var buffer = new byte[65536];
-        int read   = fileStream.EnsureRead(buffer, 0, 65536);
+        int read   = EnsureRead(fileStream, buffer, 0, 65536);
 
         while(read > 0)
         {
             Step(ref localSum1, ref localSum2, buffer, (uint)read, useNative, nativeContext);
-            read = fileStream.EnsureRead(buffer, 0, 65536);
+            read = EnsureRead(fileStream, buffer, 0, 65536);
         }
 
         var finalSum = (uint)(localSum2 << 16 | localSum1);

@@ -56,7 +56,7 @@ public static class Extensions
     ///     The total number of bytes read into the buffer. This can be less than the number of bytes requested if the end
     ///     of the stream has been reached.
     /// </returns>
-    public static int EnsureRead(this Stream s, byte[] buffer, int offset, int count)
+    public static int EnsureRead(Stream s, byte[] buffer, int offset, int count)
     {
         var pos = 0;
         int read;
