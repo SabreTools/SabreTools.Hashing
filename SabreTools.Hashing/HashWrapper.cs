@@ -109,8 +109,8 @@ namespace SabreTools.Hashing
 #if NET7_0_OR_GREATER
                 HashType.BLAKE3 => new Blake3HashAlgorithm(),
 #endif
-                HashType.CRC16_CCITT => new CRC16CcittContext(),
-                HashType.CRC16_IBM => new CRC16IbmContext(),
+                HashType.CRC16_CCITT => new CrcRunner(StandardDefinitions.CRC16_GSM),
+                HashType.CRC16_IBM => new CrcRunner(StandardDefinitions.CRC16_ARC),
 
                 HashType.CRC32 => new CrcRunner(StandardDefinitions.CRC32_ISOHDLC),
                 HashType.CRC32_AIXM => new CrcRunner(StandardDefinitions.CRC32_AIXM),

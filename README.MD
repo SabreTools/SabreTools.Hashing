@@ -4,7 +4,7 @@ This library comprises of methods and helpers to simplify the process of getting
 
 | Source | Hash / Checksum Types | Notes |
 | --- | --- | --- |
-| [Aaru.Checksums](https://github.com/aaru-dps/Aaru.Checksums) | Adler-32, CRC-16 (CCITT and IBM polynomials), Fletcher-16, Fletcher-32, SpamSum | Some code tweaks made to support older .NET versions |
+| [Aaru.Checksums](https://github.com/aaru-dps/Aaru.Checksums) | Adler-32, Fletcher-16, Fletcher-32, SpamSum | Some code tweaks made to support older .NET versions |
 | [Blake3.NET](https://github.com/xoofx/Blake3.NET) | BLAKE3 | Used in `net7.0` and above |
 | [Compress](https://github.com/RomVault/RVWorld/tree/master/Compress) | N/A | Used for threaded hashing |
 | [System.IO.Hashing](https://www.nuget.org/packages/System.IO.Hashing) | xxHash32, xxHash64, XXH3, XXH128 | Used in `net462` and above |
