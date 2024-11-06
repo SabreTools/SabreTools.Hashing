@@ -102,9 +102,11 @@ namespace SabreTools.Hashing.Test
         {
             Assert.NotNull(hashDict);
             Assert.Equal(_adler32, hashDict![HashType.Adler32]);
+
 #if NET7_0_OR_GREATER
             Assert.Equal(_blake3, hashDict[HashType.BLAKE3]);
 #endif
+
             Assert.Equal(_crc16, hashDict[HashType.CRC16]);
             Assert.Equal(_crc16_arc, hashDict[HashType.CRC16_ARC]);
             Assert.Equal(_crc16_cdma2000, hashDict[HashType.CRC16_CDMA2000]);
@@ -163,7 +165,13 @@ namespace SabreTools.Hashing.Test
 
             Assert.Equal(_fletcher16, hashDict[HashType.Fletcher16]);
             Assert.Equal(_fletcher32, hashDict[HashType.Fletcher32]);
+
             Assert.Equal(_md5, hashDict[HashType.MD5]);
+
+#if NETFRAMEWORK
+            Assert.Equal(_ripemd160, hashDict[HashType.RIPEMD160]);
+#endif
+
             Assert.Equal(_sha1, hashDict[HashType.SHA1]);
             Assert.Equal(_sha256, hashDict[HashType.SHA256]);
             Assert.Equal(_sha384, hashDict[HashType.SHA384]);
@@ -180,7 +188,9 @@ namespace SabreTools.Hashing.Test
             if (System.Security.Cryptography.Shake256.IsSupported)
                 Assert.Equal(_shake256, hashDict[HashType.SHAKE256]);
 #endif
+
             Assert.Equal(_spamsum, hashDict[HashType.SpamSum]);
+
 #if NET462_OR_GREATER || NETCOREAPP
             Assert.Equal(_xxhash32, hashDict[HashType.XxHash32]);
             Assert.Equal(_xxhash64, hashDict[HashType.XxHash64]);

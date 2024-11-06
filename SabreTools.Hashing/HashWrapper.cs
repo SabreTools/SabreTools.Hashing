@@ -106,9 +106,11 @@ namespace SabreTools.Hashing
             _hasher = HashType switch
             {
                 HashType.Adler32 => new Adler32Context(),
+
 #if NET7_0_OR_GREATER
                 HashType.BLAKE3 => new Blake3HashAlgorithm(),
 #endif
+
                 HashType.CRC16 => new CrcRunner(StandardDefinitions.CRC16_ARC),
                 HashType.CRC16_ARC => new CrcRunner(StandardDefinitions.CRC16_ARC),
                 HashType.CRC16_CDMA2000 => new CrcRunner(StandardDefinitions.CRC16_CDMA2000),
@@ -141,7 +143,7 @@ namespace SabreTools.Hashing
                 HashType.CRC16_UMTS => new CrcRunner(StandardDefinitions.CRC16_UMTS),
                 HashType.CRC16_USB => new CrcRunner(StandardDefinitions.CRC16_USB),
                 HashType.CRC16_XMODEM => new CrcRunner(StandardDefinitions.CRC16_XMODEM),
-                
+
                 HashType.CRC32 => new CrcRunner(StandardDefinitions.CRC32_ISOHDLC),
                 HashType.CRC32_AIXM => new CrcRunner(StandardDefinitions.CRC32_AIXM),
                 HashType.CRC32_AUTOSAR => new CrcRunner(StandardDefinitions.CRC32_AUTOSAR),
@@ -169,9 +171,11 @@ namespace SabreTools.Hashing
                 HashType.Fletcher32 => new Fletcher32Context(),
 
                 HashType.MD5 => MD5.Create(),
+
 #if NETFRAMEWORK
                 HashType.RIPEMD160 => RIPEMD160.Create(),
 #endif
+
                 HashType.SHA1 => SHA1.Create(),
                 HashType.SHA256 => SHA256.Create(),
                 HashType.SHA384 => SHA384.Create(),
