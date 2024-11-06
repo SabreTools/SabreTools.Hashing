@@ -85,8 +85,6 @@ namespace SabreTools.Hashing.Crc
             }
         }
 
-        // TODO: Create and implement optimized block-based Transform
-
         /// <summary>
         /// Finalize the hash and return as a byte array
         /// </summary>
