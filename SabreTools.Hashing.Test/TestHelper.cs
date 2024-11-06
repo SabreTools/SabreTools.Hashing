@@ -6,6 +6,7 @@ namespace SabreTools.Hashing.Test
     /// <summary>
     /// Helper class for tests
     /// </summary>
+    /// CRC values confirmed with <see href="https://emn178.github.io/online-tools/crc/"/> 
     internal static class TestHelper
     {
         #region Known File Information
