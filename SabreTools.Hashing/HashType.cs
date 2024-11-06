@@ -59,6 +59,16 @@ namespace SabreTools.Hashing
         CRC64,
 
         /// <summary>
+        /// CRC 64-bit checksum (ECMA-182, 0x42F0E1EBA9EA3693 polynomial, 0xFFFFFFFFFFFFFFFF seed)
+        /// </summary>
+        CRC64_ECMA,
+
+        /// <summary>
+        /// CRC 64-bit checksum (ISO 3309, 0x000000000000001B polynomial, 0xFFFFFFFFFFFFFFFF seed)
+        /// </summary>
+        CRC64_ISO,
+
+        /// <summary>
         /// CRC 64-bit checksum (ECMA-182, 0xC96C5795D7870F42 polynomial, 0xFFFFFFFFFFFFFFFF seed)
         /// </summary>
         CRC64_XZ,

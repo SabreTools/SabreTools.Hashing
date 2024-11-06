@@ -134,6 +134,8 @@ namespace SabreTools.Hashing
                 // TODO: Determine how to match System.IO.Hashing.Crc64
                 HashType.CRC64 => new Crc64Context(0x42F0E1EBA9EA3693, 0x0000000000000000),
 #endif
+                HashType.CRC64_ECMA => new Crc64Context(0x42F0E1EBA9EA3693, 0xFFFFFFFFFFFFFFFF),
+                HashType.CRC64_ISO => new Crc64Context(0x000000000000001B, 0xFFFFFFFFFFFFFFFF),
                 HashType.CRC64_XZ => new Crc64Context(0xC96C5795D7870F42, 0xFFFFFFFFFFFFFFFF),
                 HashType.Fletcher16 => new Fletcher16Context(),
                 HashType.Fletcher32 => new Fletcher32Context(),
