@@ -111,8 +111,21 @@ namespace SabreTools.Hashing
 #endif
                 HashType.CRC16_CCITT => new CRC16CcittContext(),
                 HashType.CRC16_IBM => new CRC16IbmContext(),
+
                 HashType.CRC32 => new CrcRunner(StandardDefinitions.CRC32_ISOHDLC),
+                HashType.CRC32_AIXM => new CrcRunner(StandardDefinitions.CRC32_AIXM),
+                HashType.CRC32_AUTOSAR => new CrcRunner(StandardDefinitions.CRC32_AUTOSAR),
+                HashType.CRC32_BASE91D => new CrcRunner(StandardDefinitions.CRC32_BASE91D),
+                HashType.CRC32_BZIP2 => new CrcRunner(StandardDefinitions.CRC32_BZIP2),
+                HashType.CRC32_CDROMEDC => new CrcRunner(StandardDefinitions.CRC32_CDROMEDC),
+                HashType.CRC32_CKSUM => new CrcRunner(StandardDefinitions.CRC32_CKSUM),
+                HashType.CRC32_ISCSI => new CrcRunner(StandardDefinitions.CRC32_ISCSI),
                 HashType.CRC32_ISOHDLC => new CrcRunner(StandardDefinitions.CRC32_ISOHDLC),
+                HashType.CRC32_JAMCRC => new CrcRunner(StandardDefinitions.CRC32_JAMCRC),
+                HashType.CRC32_MEF => new CrcRunner(StandardDefinitions.CRC32_MEF),
+                HashType.CRC32_MPEG2 => new CrcRunner(StandardDefinitions.CRC32_MPEG2),
+                HashType.CRC32_XFER => new CrcRunner(StandardDefinitions.CRC32_XFER),
+
                 HashType.CRC64_ECMA182 => new CrcRunner(StandardDefinitions.CRC64_ECMA182),
                 HashType.CRC64_GOISO => new CrcRunner(StandardDefinitions.CRC64_GOISO),
                 HashType.CRC64_MS => new CrcRunner(StandardDefinitions.CRC64_MS),
@@ -120,8 +133,10 @@ namespace SabreTools.Hashing
                 HashType.CRC64_REDIS => new CrcRunner(StandardDefinitions.CRC64_REDIS),
                 HashType.CRC64_WE => new CrcRunner(StandardDefinitions.CRC64_WE),
                 HashType.CRC64_XZ => new CrcRunner(StandardDefinitions.CRC64_XZ),
+
                 HashType.Fletcher16 => new Fletcher16Context(),
                 HashType.Fletcher32 => new Fletcher32Context(),
+
                 HashType.MD5 => MD5.Create(),
 #if NETFRAMEWORK
                 HashType.RIPEMD160 => RIPEMD160.Create(),

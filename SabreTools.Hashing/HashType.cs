@@ -28,14 +28,70 @@ namespace SabreTools.Hashing
         CRC16_IBM,
 
         /// <summary>
-        /// CRC 32-bit checksum (CRC-32/ISO-HDLC)
+        /// CRC 32-bit checksum
         /// </summary>
+        /// <remarks>Identical to <see cref="CRC32_ISOHDLC"/> 
         CRC32,
+
+        /// <summary>
+        /// CRC 32-bit checksum (CRC-32/AIXM)
+        /// </summary>
+        CRC32_AIXM,
+
+        /// <summary>
+        /// CRC 32-bit checksum (CRC-32/AUTOSAR)
+        /// </summary>
+        CRC32_AUTOSAR,
+
+        /// <summary>
+        /// CRC 32-bit checksum (CRC-32/BASE91-D)
+        /// </summary>
+        CRC32_BASE91D,
+
+        /// <summary>
+        /// CRC 32-bit checksum (BZIP2)
+        /// </summary>
+        CRC32_BZIP2,
+
+        /// <summary>
+        /// CRC 32-bit checksum (CRC-32/CD-ROM-EDC)
+        /// </summary>
+        CRC32_CDROMEDC,
+
+        /// <summary>
+        /// CRC 32-bit checksum (CRC-32/CKSUM)
+        /// </summary>
+        CRC32_CKSUM,
+
+        /// <summary>
+        /// CRC 32-bit checksum (CRC-32/ISCSI)
+        /// </summary>
+        CRC32_ISCSI,
 
         /// <summary>
         /// CRC 32-bit checksum (CRC-32/ISO-HDLC)
         /// </summary>
         CRC32_ISOHDLC,
+
+        /// <summary>
+        /// CRC 32-bit checksum (CRC-32/JAMCRC)
+        /// </summary>
+        CRC32_JAMCRC,
+
+        /// <summary>
+        /// CRC 32-bit checksum (CRC-32/MEF)
+        /// </summary>
+        CRC32_MEF,
+
+        /// <summary>
+        /// CRC 32-bit checksum (CRC-32/MPEG-2)
+        /// </summary>
+        CRC32_MPEG2,
+
+        /// <summary>
+        /// CRC 32-bit checksum (CRC-32/XFER)
+        /// </summary>
+        CRC32_XFER,
 
         /// <summary>
         /// CRC 64-bit checksum (CRC-64/ECMA-182, Microsoft implementation)
