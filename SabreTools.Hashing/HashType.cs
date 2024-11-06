@@ -94,6 +94,12 @@ namespace SabreTools.Hashing
         CRC32_XFER,
 
         /// <summary>
+        /// CRC 64-bit checksum
+        /// </summary>
+        /// <remarks>Identical to <see cref="CRC64_ECMA182"/> 
+        CRC64,
+
+        /// <summary>
         /// CRC 64-bit checksum (CRC-64/ECMA-182, Microsoft implementation)
         /// </summary>
         CRC64_ECMA182,
