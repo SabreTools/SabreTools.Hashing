@@ -7,8 +7,6 @@
 
 using System;
 using System.Threading;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace CRC32
 {
@@ -185,8 +183,8 @@ namespace CRC32
                 Prepare_even_odd_Cache();
             }
 
-            uint[] even = even_cache?.ToArray() ?? [];
-            uint[] odd = odd_cache?.ToArray() ?? [];
+            uint[] even = even_cache ?? [];
+            uint[] odd = odd_cache ?? [];
 
             crc1 = ~crc1;
             crc2 = ~crc2;

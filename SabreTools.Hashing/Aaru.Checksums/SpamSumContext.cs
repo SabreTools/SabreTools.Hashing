@@ -65,7 +65,7 @@ internal sealed class SpamSumContext : IChecksum
     const uint FUZZY_MAX_RESULT = 2 * SPAMSUM_LENGTH + 20;
 
     //"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-#if NET20 || NET35 || NET40
+#if NET20 || NET35 || NET40 || NET452
     readonly byte[] _b64 = Encoding.UTF8.GetBytes("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/");
 #else
     readonly byte[] _b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"u8.ToArray();

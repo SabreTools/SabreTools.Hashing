@@ -2,7 +2,6 @@ using System;
 #if NET462_OR_GREATER || NETCOREAPP
 using System.IO.Hashing;
 #endif
-using System.Linq;
 using System.Security.Cryptography;
 using Aaru.Checksums;
 using Aaru.CommonTypes.Interfaces;
@@ -32,22 +31,39 @@ namespace SabreTools.Hashing
         {
             get
             {
-                return _hasher switch
+                switch (_hasher)
                 {
-                    HashAlgorithm ha => ha.Hash,
-                    IChecksum ic => ic.Final(),
-                    NaiveCRC ncrc => BitConverter.GetBytes(ncrc.Value).Reverse().ToArray(),
+                    case HashAlgorithm ha:
+                        return ha.Hash;
+                    case IChecksum ic:
+                        return ic.Final();
+                    case NaiveCRC ncrc:
+                        var ncrcArr = BitConverter.GetBytes(ncrc.Value);
+                        Array.Reverse(ncrcArr);
+                        return ncrcArr;
 #if NET462_OR_GREATER || NETCOREAPP
-                    NonCryptographicHashAlgorithm ncha => ncha.GetCurrentHash().Reverse().ToArray(),
+                    case NonCryptographicHashAlgorithm ncha:
+                        var nchaArr = ncha.GetCurrentHash();
+                        Array.Reverse(nchaArr);
+                        return nchaArr;
 #endif
-                    OptimizedCRC ocrc => BitConverter.GetBytes(ocrc.Value).Reverse().ToArray(),
-                    ParallelCRC pcrc => BitConverter.GetBytes(pcrc.Value).Reverse().ToArray(),
+                    case OptimizedCRC ocrc:
+                        var ocrcArr = BitConverter.GetBytes(ocrc.Value);
+                        Array.Reverse(ocrcArr);
+                        return ocrcArr;
+                    case ParallelCRC pcrc:
+                        var pcrcArr = BitConverter.GetBytes(pcrc.Value);
+                        Array.Reverse(pcrcArr);
+                        return pcrcArr;
 #if NET8_0_OR_GREATER
-                    Shake128 s128 => s128.GetCurrentHash(32),
-                    Shake256 s256 => s256.GetCurrentHash(64),
+                    case Shake128 s128:
+                        return s128.GetCurrentHash(32);
+                    case Shake256 s256:
+                        return s256.GetCurrentHash(64);
 #endif
-                    _ => null,
-                };
+                    default:
+                        return null;
+                }
             }
         }
 
@@ -182,7 +198,7 @@ namespace SabreTools.Hashing
                     nc.Update(buffer, offset, size);
                     break;
 
-#if NET462_OR_GREATER || NETCOREAPP
+#if NETCOREAPP
                 case NonCryptographicHashAlgorithm ncha:
                     var nchaBufferSpan = new ReadOnlySpan<byte>(buffer, offset, size);
                     ncha.Append(nchaBufferSpan);
@@ -270,7 +286,7 @@ namespace SabreTools.Hashing
         /// </summary>
         private static byte[] GetArraySegment(byte[] buffer, int offset, int size)
         {
-#if NET452_OR_GREATER || NETCOREAPP
+#if NETCOREAPP
             var icBufferSpan = new ReadOnlySpan<byte>(buffer, offset, size);
             byte[] trimmedBuffer = icBufferSpan.ToArray();
 #else

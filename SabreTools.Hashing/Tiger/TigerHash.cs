@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 
 namespace SabreTools.Hashing.Tiger
 {
@@ -93,7 +92,8 @@ namespace SabreTools.Hashing.Tiger
             if (str.Length < strOffset + 8)
                 return false;
 
-            ulong[] x = str.Skip(strOffset).Take(8).ToArray();
+            ulong[] x = new ulong[8];
+            Array.Copy(str, strOffset, x, 0, 8);
 
             // save_abc
             ulong aa = state[0];
