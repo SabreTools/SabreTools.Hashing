@@ -106,9 +106,9 @@ namespace SabreTools.Hashing.Crc
                 for (int b = 0; b < 8; b++)
                 {
                     if (_definition.ReflectIn)
-                        hash = (hash >> 1) ^ OptTable[0, (byte)(hash & 1) ^ ((byte)(data[offset] >> b) & 1)];
+                        hash = (hash >> _processBits) ^ OptTable[0, (byte)(hash & 1) ^ ((byte)(data[offset] >> b) & 1)];
                     else
-                        hash = (hash << 1) ^ OptTable[0, (byte)((hash >> _bitShift) & 1) ^ ((byte)(data[offset] >> (7 - b)) & 1)];
+                        hash = (hash << _processBits) ^ OptTable[0, (byte)((hash >> _bitShift) & 1) ^ ((byte)(data[offset] >> (7 - b)) & 1)];
                 }
             }
 
@@ -116,9 +116,9 @@ namespace SabreTools.Hashing.Crc
             else
             {
                 if (_definition.ReflectIn)
-                    hash = (hash >> 8) ^ OptTable[0, (byte)hash ^ data[offset]];
+                    hash = (hash >> _processBits) ^ OptTable[0, (byte)hash ^ data[offset]];
                 else
-                    hash = (hash << 8) ^ OptTable[0, ((byte)(hash >> _bitShift)) ^ data[offset]];
+                    hash = (hash << _processBits) ^ OptTable[0, ((byte)(hash >> _bitShift)) ^ data[offset]];
             }
         }
     }
