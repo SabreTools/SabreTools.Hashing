@@ -59,6 +59,11 @@ namespace SabreTools.Hashing
         CRC64,
 
         /// <summary>
+        /// CRC 64-bit checksum (0x42F0E1EBA9EA3693 polynomial, 0x0000000000000000 seed)
+        /// </summary>
+        CRC64_ECMA,
+
+        /// <summary>
         /// CRC 64-bit checksum (0xC96C5795D7870F42 polynomial, 0xFFFFFFFFFFFFFFFF seed)
         /// </summary>
         CRC64_Reversed,
