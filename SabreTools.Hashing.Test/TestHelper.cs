@@ -63,9 +63,6 @@ namespace SabreTools.Hashing.Test
             Assert.Equal(_crc16_ibm, hashDict[HashType.CRC16_IBM]);
             Assert.Equal(_crc32, hashDict[HashType.CRC32]);
             Assert.Equal(_crc32_isohdlc, hashDict[HashType.CRC32_ISOHDLC]);
-            Assert.Equal(_crc32, hashDict[HashType.CRC32_Naive]);
-            Assert.Equal(_crc32, hashDict[HashType.CRC32_Optimized]);
-            Assert.Equal(_crc32, hashDict[HashType.CRC32_Parallel]);
             Assert.Equal(_crc64_ecma182, hashDict[HashType.CRC64_ECMA182]);
             Assert.Equal(_crc64_goiso, hashDict[HashType.CRC64_GOISO]);
             Assert.Equal(_crc64_xz, hashDict[HashType.CRC64_XZ]);

@@ -8,7 +8,6 @@ using Aaru.CommonTypes.Interfaces;
 #if NET7_0_OR_GREATER
 using Blake3;
 #endif
-using CRC32;
 using SabreTools.Hashing.Crc;
 
 namespace SabreTools.Hashing
@@ -44,24 +43,12 @@ namespace SabreTools.Hashing
                         return ha.Hash;
                     case IChecksum ic:
                         return ic.Final();
-                    case NaiveCRC ncrc:
-                        var ncrcArr = BitConverter.GetBytes(ncrc.Value);
-                        Array.Reverse(ncrcArr);
-                        return ncrcArr;
 #if NET462_OR_GREATER || NETCOREAPP
                     case NonCryptographicHashAlgorithm ncha:
                         var nchaArr = ncha.GetCurrentHash();
                         Array.Reverse(nchaArr);
                         return nchaArr;
 #endif
-                    case OptimizedCRC ocrc:
-                        var ocrcArr = BitConverter.GetBytes(ocrc.Value);
-                        Array.Reverse(ocrcArr);
-                        return ocrcArr;
-                    case ParallelCRC pcrc:
-                        var pcrcArr = BitConverter.GetBytes(pcrc.Value);
-                        Array.Reverse(pcrcArr);
-                        return pcrcArr;
 #if NET8_0_OR_GREATER
                     case Shake128 s128:
                         return s128.GetCurrentHash(32);
@@ -128,9 +115,6 @@ namespace SabreTools.Hashing
                 HashType.CRC16_IBM => new CRC16IbmContext(),
                 HashType.CRC32 => new CrcRunner(StandardDefinitions.CRC32_ISOHDLC),
                 HashType.CRC32_ISOHDLC => new CrcRunner(StandardDefinitions.CRC32_ISOHDLC),
-                HashType.CRC32_Naive => new NaiveCRC(),
-                HashType.CRC32_Optimized => new OptimizedCRC(),
-                HashType.CRC32_Parallel => new ParallelCRC(),
                 HashType.CRC64_ECMA182 => new CrcRunner(StandardDefinitions.CRC64_ECMA182),
                 HashType.CRC64_GOISO => new CrcRunner(StandardDefinitions.CRC64_GOISO),
                 HashType.CRC64_XZ => new Crc64Context(),
@@ -194,24 +178,12 @@ namespace SabreTools.Hashing
                     ic.Update(icBlock);
                     break;
 
-                case NaiveCRC nc:
-                    nc.Update(buffer, offset, size);
-                    break;
-
 #if NET462_OR_GREATER || NETCOREAPP
                 case NonCryptographicHashAlgorithm ncha:
                     var nchaBufferSpan = new ReadOnlySpan<byte>(buffer, offset, size);
                     ncha.Append(nchaBufferSpan);
                     break;
 #endif
-
-                case OptimizedCRC oc:
-                    oc.Update(buffer, offset, size);
-                    break;
-
-                case ParallelCRC pc:
-                    pc.Update(buffer, offset, size);
-                    break;
 
 #if NET8_0_OR_GREATER
                 case Shake128 s128:
@@ -238,18 +210,6 @@ namespace SabreTools.Hashing
             {
                 case HashAlgorithm ha:
                     ha.TransformFinalBlock(emptyBuffer, 0, 0);
-                    break;
-
-                case NaiveCRC nc:
-                    nc.Update([], 0, 0);
-                    break;
-
-                case OptimizedCRC oc:
-                    oc.Update([], 0, 0);
-                    break;
-
-                case ParallelCRC pc:
-                    pc.Update([], 0, 0);
                     break;
             }
         }

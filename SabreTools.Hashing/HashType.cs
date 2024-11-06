@@ -38,21 +38,6 @@ namespace SabreTools.Hashing
         CRC32_ISOHDLC,
 
         /// <summary>
-        /// CRC 32-bit checksum (NaiveCRC implementation)
-        /// </summary>
-        CRC32_Naive,
-
-        /// <summary>
-        /// CRC 32-bit checksum (OptimizedCRC implementation)
-        /// </summary>
-        CRC32_Optimized,
-
-        /// <summary>
-        /// CRC 32-bit checksum (ParallelCRC implementation)
-        /// </summary>
-        CRC32_Parallel,
-
-        /// <summary>
         /// CRC 64-bit checksum (CRC-64/ECMA-182, Microsoft implementation)
         /// </summary>
         CRC64_ECMA182,
