@@ -168,10 +168,6 @@ namespace SabreTools.Hashing.Crc
             if (_processBitwise)
                 return false;
 
-            // Only certain widths can be optimized
-            if (System.Array.IndexOf([16, 24, 32, 64], _definition.Width) == -1)
-                return false;
-
             // All reflection-in implementations share an optimized path
             if (_definition.ReflectIn)
             {
