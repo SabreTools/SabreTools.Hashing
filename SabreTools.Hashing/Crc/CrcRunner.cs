@@ -27,7 +27,7 @@ namespace SabreTools.Hashing.Crc
 
             Def = def;
             _table = new CrcTable(def);
-            _hash = def.Init;
+            _hash = def.ReflectIn ? BitOperations.ReverseBits(def.Init, def.Width) : def.Init;
         }
 
         /// <summary>

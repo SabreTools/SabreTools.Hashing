@@ -88,7 +88,7 @@ namespace SabreTools.Hashing
         /// <summary>
         /// CRC 16-bit checksum (CRC-16/ISO-IEC-14443-3-A [CRC-A])
         /// </summary>
-        //CRC16_ISOIEC144433A, // Disabled until incorrect hashes can be fixed
+        CRC16_ISOIEC144433A,
 
         /// <summary>
         /// CRC 16-bit checksum (CRC-16/KERMIT [CRC-16/BLUETOOTH, CRC-16/CCITT, CRC-16/CCITT-TRUE, CRC-16/V-41-LSB, CRC-CCITT, KERMIT])
@@ -143,7 +143,7 @@ namespace SabreTools.Hashing
         /// <summary>
         /// CRC 16-bit checksum (CRC-16/RIELLO)
         /// </summary>
-        //CRC16_RIELLO, // Disabled until incorrect hashes can be fixed
+        CRC16_RIELLO,
 
         /// <summary>
         /// CRC 16-bit checksum (CRC-16/SPI-FUJITSU [CRC-16/AUG-CCITT])
@@ -163,7 +163,7 @@ namespace SabreTools.Hashing
         /// <summary>
         /// CRC 16-bit checksum (CRC-16/TMS37157)
         /// </summary>
-        //CRC16_TMS37157, // Disabled until incorrect hashes can be fixed
+        CRC16_TMS37157,
 
         /// <summary>
         /// CRC 16-bit checksum (CRC-16/UMTS [CRC-16/BUYPASS, CRC-16/VERIFONE])
@@ -205,7 +205,7 @@ namespace SabreTools.Hashing
         /// <summary>
         /// CRC 24-bit checksum (CRC-24/BLE)
         /// </summary>
-        //CRC24_BLE, // Disabled until incorrect hashes can be fixed
+        CRC24_BLE,
 
         /// <summary>
         /// CRC 24-bit checksum (CRC-24/FLEXRAY-A)
