@@ -143,9 +143,9 @@ namespace SabreTools.Hashing.Crc
                 for (int b = 0; b < 8; b++)
                 {
                     if (_definition.ReflectIn)
-                        hash = (hash >> _processBits) ^ _table[0, (byte)(hash & 1) ^ ((byte)(data[offset] >> b) & 1)];
+                        hash = (hash >> 1) ^ _table[0, (byte)(hash & 1) ^ ((byte)(data[offset] >> b) & 1)];
                     else
-                        hash = (hash << _processBits) ^ _table[0, (byte)((hash >> _bitShift) & 1) ^ ((byte)(data[offset] >> (7 - b)) & 1)];
+                        hash = (hash << 1) ^ _table[0, (byte)((hash >> _bitShift) & 1) ^ ((byte)(data[offset] >> (7 - b)) & 1)];
                 }
             }
 
@@ -153,9 +153,9 @@ namespace SabreTools.Hashing.Crc
             else
             {
                 if (_definition.ReflectIn)
-                    hash = (hash >> _processBits) ^ _table[0, (byte)hash ^ data[offset]];
+                    hash = (hash >> 8) ^ _table[0, (byte)hash ^ data[offset]];
                 else
-                    hash = (hash << _processBits) ^ _table[0, ((byte)(hash >> _bitShift)) ^ data[offset]];
+                    hash = (hash << 8) ^ _table[0, ((byte)(hash >> _bitShift)) ^ data[offset]];
             }
         }
 
@@ -172,6 +172,11 @@ namespace SabreTools.Hashing.Crc
             if (_definition.Width == 32 && _definition.ReflectIn)
             {
                 TransformBlockFast32Reflect(ref hash, data, offset, length);
+                return true;
+            }
+            if (_definition.Width == 32 && !_definition.ReflectIn)
+            {
+                TransformBlockFast32NoReflect(ref hash, data, offset, length);
                 return true;
             }
 
@@ -214,6 +219,46 @@ namespace SabreTools.Hashing.Crc
                           ^ _table[2, (byte)(high >> 8 )]
                           ^ _table[1, (byte)(high >> 16)]
                           ^ _table[0, (byte)(high >> 24)];
+                }
+            }
+
+            // Process unaligned data
+            while (length-- != 0)
+            {
+                PerformChecksumStep(ref local, data, offset++);
+            }
+
+            // Assign the new hash value
+            hash = local;
+        }
+    
+        /// <summary>
+        /// Optimized transformation for 32-bit CRC with reflection
+        /// </summary>
+        private void TransformBlockFast32NoReflect(ref ulong hash, byte[] data, int offset, int length)
+        {
+            // Process on a copy of the hash
+            ulong local = hash;
+
+            // Process aligned data
+            if (length > 4)
+            {
+                long end = offset + (length & ~(uint)3);
+                length &= 3;
+
+                while (offset < end)
+                {
+                    ulong low = local ^ (uint)(
+                          (data[offset + 3]      )
+                        + (data[offset + 2] << 8 )
+                        + (data[offset + 1] << 16)
+                        + (data[offset + 0] << 24));
+                    offset += 4;
+
+                    local = _table[0, (byte)(low       )]
+                          ^ _table[1, (byte)(low >> 8  )]
+                          ^ _table[2, (byte)(low >> 16 )]
+                          ^ _table[3, (byte)(low >> 24 )];
                 }
             }
 
