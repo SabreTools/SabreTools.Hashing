@@ -17,6 +17,116 @@ namespace SabreTools.Hashing
         BLAKE3,
 #endif
 
+        #region CRC-8
+
+        /// <summary>
+        /// CRC 8-bit checksum
+        /// </summary>
+        /// <remarks>Identical to <see cref="CRC8_SMBUS"/> 
+        CRC8,
+
+        /// <summary>
+        /// CRC 8-bit checksum (CRC-8/AUTOSAR)
+        /// </summary>
+        CRC8_AUTOSAR,
+
+        /// <summary>
+        /// CRC 8-bit checksum (CRC-8/BLUETOOTH)
+        /// </summary>
+        CRC8_BLUETOOTH,
+
+        /// <summary>
+        /// CRC 8-bit checksum (CRC-8/CDMA2000)
+        /// </summary>
+        CRC8_CDMA2000,
+
+        /// <summary>
+        /// CRC 8-bit checksum (CRC-8/DARC)
+        /// </summary>
+        CRC8_DARC,
+
+        /// <summary>
+        /// CRC 8-bit checksum (CRC-8/DVB-S2)
+        /// </summary>
+        CRC8_DVBS2,
+
+        /// <summary>
+        /// CRC 8-bit checksum (CRC-8/GSM-A)
+        /// </summary>
+        CRC8_GSMA,
+
+        /// <summary>
+        /// CRC 8-bit checksum (CRC-8/GSM-B)
+        /// </summary>
+        CRC8_GSMB,
+
+        /// <summary>
+        /// CRC 8-bit checksum (CRC-8/HITAG)
+        /// </summary>
+        CRC8_HITAG,
+
+        /// <summary>
+        /// CRC 8-bit checksum (CRC-8/I-432-1 [CRC-8/ITU])
+        /// </summary>
+        CRC8_I4321,
+
+        /// <summary>
+        /// CRC 8-bit checksum (CRC-8/I-CODE)
+        /// </summary>
+        CRC8_ICODE,
+
+        /// <summary>
+        /// CRC 8-bit checksum (CRC-8/LTE)
+        /// </summary>
+        CRC8_LTE,
+
+        /// <summary>
+        /// CRC 8-bit checksum (CRC-8/MAXIM-DOW [CRC-8/MAXIM, DOW-CRC])
+        /// </summary>
+        CRC8_MAXIMDOW,
+
+        /// <summary>
+        /// CRC 8-bit checksum (CRC-8/MIFARE-MAD)
+        /// </summary>
+        CRC8_MIFAREMAD,
+
+        /// <summary>
+        /// CRC 8-bit checksum (CRC-8/NRSC-5)
+        /// </summary>
+        CRC8_NRSC5,
+
+        /// <summary>
+        /// CRC 8-bit checksum (CRC-8/OPENSAFETY)
+        /// </summary>
+        CRC8_OPENSAFETY,
+
+        /// <summary>
+        /// CRC 8-bit checksum (CRC-8/ROHC)
+        /// </summary>
+        CRC8_ROHC,
+
+        /// <summary>
+        /// CRC 8-bit checksum (CRC-8/SAE-J1850)
+        /// </summary>
+        CRC8_SAEJ1850,
+
+        /// <summary>
+        /// CRC 8-bit checksum (CRC-8/SMBUS [CRC-8])
+        /// </summary>
+        CRC8_SMBUS,
+
+        /// <summary>
+        /// CRC 8-bit checksum (CRC-8/TECH-3250 [CRC-8/AES, CRC-8/EBU])
+        /// </summary>
+        CRC8_TECH3250,
+
+        /// <summary>
+        /// CRC 8-bit checksum (CRC-8/WCDMA)
+        /// </summary>
+        CRC8_WCDMA,
+
+        #endregion
+
         #region CRC-10
 
         /// <summary>

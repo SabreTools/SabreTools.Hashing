@@ -3,6 +3,290 @@ namespace SabreTools.Hashing.Crc
     /// <see href="https://reveng.sourceforge.io/crc-catalogue/all.htm#crc.legend"/>
     internal static class StandardDefinitions
     {
+        #region CRC-8
+
+        /// <summary>
+        /// CRC-8/AUTOSAR
+        /// </summary>
+        public static readonly CrcDefinition CRC8_AUTOSAR = new()
+        {
+            Name = "CRC-8/AUTOSAR",
+            Width = 8,
+            Poly = 0x2f,
+            Init = 0xff,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0xff,
+        };
+
+        /// <summary>
+        /// CRC-8/BLUETOOTH
+        /// </summary>
+        public static readonly CrcDefinition CRC8_BLUETOOTH = new()
+        {
+            Name = "CRC-8/BLUETOOTH",
+            Width = 8,
+            Poly = 0xa7,
+            Init = 0x00,
+            ReflectIn = true,
+            ReflectOut = true,
+            XorOut = 0x00,
+        };
+
+        /// <summary>
+        /// CRC-8/CDMA2000
+        /// </summary>
+        public static readonly CrcDefinition CRC8_CDMA2000 = new()
+        {
+            Name = "CRC-8/CDMA2000",
+            Width = 8,
+            Poly = 0x9b,
+            Init = 0xff,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x00,
+        };
+
+        /// <summary>
+        /// CRC-8/DARC
+        /// </summary>
+        public static readonly CrcDefinition CRC8_DARC = new()
+        {
+            Name = "CRC-8/DARC",
+            Width = 8,
+            Poly = 0x39,
+            Init = 0x00,
+            ReflectIn = true,
+            ReflectOut = true,
+            XorOut = 0x00,
+        };
+
+        /// <summary>
+        /// CRC-8/DVB-S2
+        /// </summary>
+        public static readonly CrcDefinition CRC8_DVBS2 = new()
+        {
+            Name = "CRC-8/DVB-S2",
+            Width = 8,
+            Poly = 0xd5,
+            Init = 0x00,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x00,
+        };
+
+        /// <summary>
+        /// CRC-8/GSM-A
+        /// </summary>
+        public static readonly CrcDefinition CRC8_GSMA = new()
+        {
+            Name = "CRC-8/GSM-A",
+            Width = 8,
+            Poly = 0x1d,
+            Init = 0x00,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x00,
+        };
+
+        /// <summary>
+        /// CRC-8/GSM-B
+        /// </summary>
+        public static readonly CrcDefinition CRC8_GSMB = new()
+        {
+            Name = "CRC-8/GSM-B",
+            Width = 8,
+            Poly = 0x49,
+            Init = 0x00,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0xff,
+        };
+
+        /// <summary>
+        /// CRC-8/HITAG
+        /// </summary>
+        public static readonly CrcDefinition CRC8_HITAG = new()
+        {
+            Name = "CRC-8/HITAG",
+            Width = 8,
+            Poly = 0x1d,
+            Init = 0xff,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x00,
+        };
+
+        /// <summary>
+        /// CRC-8/I-432-1 [CRC-8/ITU]
+        /// </summary>
+        public static readonly CrcDefinition CRC8_I4321 = new()
+        {
+            Name = "CRC-8/I-432-1",
+            Width = 8,
+            Poly = 0x07,
+            Init = 0x00,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x55,
+        };
+
+        /// <summary>
+        /// CRC-8/I-CODE
+        /// </summary>
+        public static readonly CrcDefinition CRC8_ICODE = new()
+        {
+            Name = "CRC-8/I-CODE",
+            Width = 8,
+            Poly = 0x1d,
+            Init = 0xfd,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x00,
+        };
+
+        /// <summary>
+        /// CRC-8/LTE
+        /// </summary>
+        public static readonly CrcDefinition CRC8_LTE = new()
+        {
+            Name = "CRC-8/LTE",
+            Width = 8,
+            Poly = 0x9b,
+            Init = 0x00,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x00,
+        };
+
+        /// <summary>
+        /// CRC-8/MAXIM-DOW [CRC-8/MAXIM, DOW-CRC]
+        /// </summary>
+        public static readonly CrcDefinition CRC8_MAXIMDOW = new()
+        {
+            Name = "CRC-8/MAXIM-DOW",
+            Width = 8,
+            Poly = 0x31,
+            Init = 0x00,
+            ReflectIn = true,
+            ReflectOut = true,
+            XorOut = 0x00,
+        };
+
+        /// <summary>
+        /// CRC-8/MIFARE-MAD
+        /// </summary>
+        public static readonly CrcDefinition CRC8_MIFAREMAD = new()
+        {
+            Name = "CRC-8/MIFARE-MAD",
+            Width = 8,
+            Poly = 0x1d,
+            Init = 0xc7,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x00,
+        };
+
+        /// <summary>
+        /// CRC-8/NRSC-5
+        /// </summary>
+        public static readonly CrcDefinition CRC8_NRSC5 = new()
+        {
+            Name = "CRC-8/NRSC-5",
+            Width = 8,
+            Poly = 0x31,
+            Init = 0xff,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x00,
+        };
+
+        /// <summary>
+        /// CRC-8/OPENSAFETY
+        /// </summary>
+        public static readonly CrcDefinition CRC8_OPENSAFETY = new()
+        {
+            Name = "CRC-8/OPENSAFETY",
+            Width = 8,
+            Poly = 0x2f,
+            Init = 0x00,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x00,
+        };
+
+        /// <summary>
+        /// CRC-8/ROHC
+        /// </summary>
+        public static readonly CrcDefinition CRC8_ROHC = new()
+        {
+            Name = "CRC-8/ROHC",
+            Width = 8,
+            Poly = 0x07,
+            Init = 0xff,
+            ReflectIn = true,
+            ReflectOut = true,
+            XorOut = 0x00,
+        };
+
+        /// <summary>
+        /// CRC-8/SAE-J1850
+        /// </summary>
+        public static readonly CrcDefinition CRC8_SAEJ1850 = new()
+        {
+            Name = "CRC-8/SAE-J1850",
+            Width = 8,
+            Poly = 0x1d,
+            Init = 0xff,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0xff,
+        };
+
+        /// <summary>
+        /// CRC-8/SMBUS [CRC-8]
+        /// </summary>
+        public static readonly CrcDefinition CRC8_SMBUS = new()
+        {
+            Name = "CRC-8/SMBUS",
+            Width = 8,
+            Poly = 0x07,
+            Init = 0x00,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x00,
+        };
+
+        /// <summary>
+        /// CRC-8/TECH-3250 [CRC-8/AES, CRC-8/EBU]
+        /// </summary>
+        public static readonly CrcDefinition CRC8_TECH3250 = new()
+        {
+            Name = "CRC-8/TECH-3250",
+            Width = 8,
+            Poly = 0x1d,
+            Init = 0xff,
+            ReflectIn = true,
+            ReflectOut = true,
+            XorOut = 0x00,
+        };
+
+        /// <summary>
+        /// CRC-8/WCDMA
+        /// </summary>
+        public static readonly CrcDefinition CRC8_WCDMA = new()
+        {
+            Name = "CRC-8/WCDMA",
+            Width = 8,
+            Poly = 0x9b,
+            Init = 0x00,
+            ReflectIn = true,
+            ReflectOut = true,
+            XorOut = 0x00,
+        };
+
+        #endregion
+
         #region CRC-10
 
         /// <summary>
