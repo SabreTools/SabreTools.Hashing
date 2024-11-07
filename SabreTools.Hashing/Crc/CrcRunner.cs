@@ -2,7 +2,7 @@ using System;
 
 namespace SabreTools.Hashing.Crc
 {
-    internal class CrcRunner
+    public class CrcRunner
     {
         /// <summary>
         /// Definition used to create the runner

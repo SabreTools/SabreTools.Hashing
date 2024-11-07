@@ -1,7 +1,7 @@
 namespace SabreTools.Hashing.Crc
 {
     /// <see href="https://reveng.sourceforge.io/crc-catalogue/all.htm#crc.legend"/>
-    internal static class StandardDefinitions
+    public static class StandardDefinitions
     {
         #region CRC-3
 

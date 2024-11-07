@@ -1,7 +1,7 @@
 namespace SabreTools.Hashing.Crc
 {
     /// <see href="https://reveng.sourceforge.io/crc-catalogue/all.htm#crc.legend"/>
-    internal class CrcDefinition
+    public class CrcDefinition
     {
         /// <summary>
         /// The name assigned to the model in this Catalogue.
