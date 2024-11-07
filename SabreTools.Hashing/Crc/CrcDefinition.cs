@@ -4,6 +4,11 @@ namespace SabreTools.Hashing.Crc
     internal class CrcDefinition
     {
         /// <summary>
+        /// The name assigned to the model in this Catalogue.
+        /// </summary>
+        public string? Name { get; set; }
+
+        /// <summary>
         /// The number of bit cells in the linear feedback shift register;
         /// the degree of the generator polynomial, less one.
         /// </summary>

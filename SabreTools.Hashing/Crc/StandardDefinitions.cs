@@ -10,6 +10,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC16_ARC = new()
         {
+            Name = "CRC-16/ARC",
             Width = 16,
             Poly = 0x8005,
             Init = 0x0000,
@@ -23,6 +24,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC16_CDMA2000 = new()
         {
+            Name = "CRC-16/CDMA2000",
             Width = 16,
             Poly = 0xc867,
             Init = 0xffff,
@@ -36,6 +38,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC16_CMS = new()
         {
+            Name = "CRC-16/CMS",
             Width = 16,
             Poly = 0x8005,
             Init = 0xffff,
@@ -49,6 +52,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC16_DDS110 = new()
         {
+            Name = "CRC-16/DDS-110",
             Width = 16,
             Poly = 0x8005,
             Init = 0x800d,
@@ -62,6 +66,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC16_DECTR = new()
         {
+            Name = "CRC-16/DECT-R",
             Width = 16,
             Poly = 0x0589,
             Init = 0x0000,
@@ -75,6 +80,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC16_DECTX = new()
         {
+            Name = "CRC-16/DECT-X ",
             Width = 16,
             Poly = 0x0589,
             Init = 0x0000,
@@ -88,6 +94,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC16_DNP = new()
         {
+            Name = "CRC-16/DNP",
             Width = 16,
             Poly = 0x3d65,
             Init = 0x0000,
@@ -101,6 +108,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC16_EN13757 = new()
         {
+            Name = "CRC-16/EN-13757",
             Width = 16,
             Poly = 0x3d65,
             Init = 0x0000,
@@ -114,6 +122,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC16_GENIBUS = new()
         {
+            Name = "CRC-16/GENIBUS",
             Width = 16,
             Poly = 0x1021,
             Init = 0xffff,
@@ -127,6 +136,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC16_GSM = new()
         {
+            Name = "CRC-16/GSM",
             Width = 16,
             Poly = 0x1021,
             Init = 0x0000,
@@ -140,6 +150,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC16_IBM3740 = new()
         {
+            Name = "CRC-16/IBM-3740",
             Width = 16,
             Poly = 0x1021,
             Init = 0xffff,
@@ -153,6 +164,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC16_IBMSDLC = new()
         {
+            Name = "CRC-16/IBM-SDLC",
             Width = 16,
             Poly = 0x1021,
             Init = 0xffff,
@@ -166,6 +178,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC16_ISOIEC144433A = new()
         {
+            Name = "CRC-16/ISO-IEC-14443-3-A",
             Width = 16,
             Poly = 0x1021,
             Init = 0xc6c6,
@@ -179,6 +192,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC16_KERMIT = new()
         {
+            Name = "CRC-16/KERMIT",
             Width = 16,
             Poly = 0x1021,
             Init = 0x0000,
@@ -192,6 +206,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC16_LJ1200 = new()
         {
+            Name = "CRC-16/LJ1200",
             Width = 16,
             Poly = 0x6f63,
             Init = 0x0000,
@@ -205,6 +220,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC16_M17 = new()
         {
+            Name = "CRC-16/M17",
             Width = 16,
             Poly = 0x5935,
             Init = 0xffff,
@@ -218,6 +234,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC16_MAXIMDOW = new()
         {
+            Name = "CRC-16/MAXIM-DOW [CRC-16/MAXIM]",
             Width = 16,
             Poly = 0x8005,
             Init = 0x0000,
@@ -231,6 +248,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC16_MCRF4XX = new()
         {
+            Name = "CRC-16/MCRF4XX",
             Width = 16,
             Poly = 0x1021,
             Init = 0xffff,
@@ -244,6 +262,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC16_MODBUS = new()
         {
+            Name = "CRC-16/MODBUS",
             Width = 16,
             Poly = 0x8005,
             Init = 0xffff,
@@ -257,6 +276,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC16_NRSC5 = new()
         {
+            Name = "CRC-16/NRSC-5",
             Width = 16,
             Poly = 0x080b,
             Init = 0xffff,
@@ -270,6 +290,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC16_OPENSAFETYA = new()
         {
+            Name = "CRC-16/OPENSAFETY-A",
             Width = 16,
             Poly = 0x5935,
             Init = 0x0000,
@@ -283,6 +304,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC16_OPENSAFETYB = new()
         {
+            Name = "CRC-16/OPENSAFETY-B",
             Width = 16,
             Poly = 0x755b,
             Init = 0x0000,
@@ -296,6 +318,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC16_PROFIBUS = new()
         {
+            Name = "CRC-16/PROFIBUS",
             Width = 16,
             Poly = 0x1dcf,
             Init = 0xffff,
@@ -309,6 +332,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC16_RIELLO = new()
         {
+            Name = "CRC-16/RIELLO",
             Width = 16,
             Poly = 0x1021,
             Init = 0xb2aa,
@@ -322,6 +346,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC16_SPIFUJITSU = new()
         {
+            Name = "CRC-16/SPI-FUJITSU",
             Width = 16,
             Poly = 0x1021,
             Init = 0x1d0f,
@@ -335,6 +360,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC16_T10DIF = new()
         {
+            Name = "CRC-16/T10-DIF",
             Width = 16,
             Poly = 0x8bb7,
             Init = 0x0000,
@@ -348,6 +374,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC16_TELEDISK = new()
         {
+            Name = "CRC-16/TELEDISK",
             Width = 16,
             Poly = 0xa097,
             Init = 0x0000,
@@ -361,6 +388,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC16_TMS37157 = new()
         {
+            Name = "CRC-16/TMS37157",
             Width = 16,
             Poly = 0x1021,
             Init = 0x89ec,
@@ -374,6 +402,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC16_UMTS = new()
         {
+            Name = "CRC-16/UMTS",
             Width = 16,
             Poly = 0x8005,
             Init = 0x0000,
@@ -387,6 +416,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC16_USB = new()
         {
+            Name = "CRC-16/USB",
             Width = 16,
             Poly = 0x8005,
             Init = 0xffff,
@@ -400,6 +430,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC16_XMODEM = new()
         {
+            Name = "CRC-16/XMODEM",
             Width = 16,
             Poly = 0x1021,
             Init = 0x0000,
@@ -417,6 +448,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC24_BLE = new()
         {
+            Name = "CRC-24/BLE",
             Width = 24,
             Poly = 0x00065b,
             Init = 0x555555,
@@ -430,6 +462,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC24_FLEXRAYA = new()
         {
+            Name = "CRC-24/FLEXRAY-A",
             Width = 24,
             Poly = 0x5d6dcb,
             Init = 0xfedcba,
@@ -443,6 +476,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC24_FLEXRAYB = new()
         {
+            Name = "CRC-24/FLEXRAY-B",
             Width = 24,
             Poly = 0x5d6dcb,
             Init = 0xabcdef,
@@ -456,6 +490,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC24_INTERLAKEN = new()
         {
+            Name = "CRC-24/INTERLAKEN",
             Width = 24,
             Poly = 0x328b63,
             Init = 0xffffff,
@@ -469,6 +504,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC24_LTEA = new()
         {
+            Name = "CRC-24/LTE-A",
             Width = 24,
             Poly = 0x864cfb,
             Init = 0x000000,
@@ -482,6 +518,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC24_LTEB = new()
         {
+            Name = "CRC-24/LTE-B",
             Width = 24,
             Poly = 0x800063,
             Init = 0x000000,
@@ -495,6 +532,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC24_OPENPGP = new()
         {
+            Name = "CRC-24/OPENPGP",
             Width = 24,
             Poly = 0x864cfb,
             Init = 0xb704ce,
@@ -508,6 +546,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC24_OS9 = new()
         {
+            Name = "CRC-24/OS-9",
             Width = 24,
             Poly = 0x800063,
             Init = 0xffffff,
@@ -525,6 +564,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC32_AIXM = new()
         {
+            Name = "CRC-32/AIXM",
             Width = 32,
             Poly = 0x814141ab,
             Init = 0x00000000,
@@ -538,6 +578,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC32_AUTOSAR = new()
         {
+            Name = "CRC-32/AUTOSAR",
             Width = 32,
             Poly = 0xf4acfb13,
             Init = 0xffffffff,
@@ -551,6 +592,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC32_BASE91D = new()
         {
+            Name = "CRC-32/BASE91-D",
             Width = 32,
             Poly = 0xa833982b,
             Init = 0xffffffff,
@@ -564,6 +606,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC32_BZIP2 = new()
         {
+            Name = "CRC-32/BZIP2",
             Width = 32,
             Poly = 0x04c11db7,
             Init = 0xffffffff,
@@ -577,6 +620,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC32_CDROMEDC = new()
         {
+            Name = "CRC-32/CD-ROM-EDC",
             Width = 32,
             Poly = 0x8001801b,
             Init = 0x00000000,
@@ -590,6 +634,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC32_CKSUM = new()
         {
+            Name = "CRC-32/CKSUM",
             Width = 32,
             Poly = 0x04c11db7,
             Init = 0x00000000,
@@ -603,6 +648,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC32_ISCSI = new()
         {
+            Name = "CRC-32/ISCSI",
             Width = 32,
             Poly = 0x1edc6f41,
             Init = 0xffffffff,
@@ -616,6 +662,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC32_ISOHDLC = new()
         {
+            Name = "CRC-32/ISO-HDLC",
             Width = 32,
             Poly = 0x04c11db7,
             Init = 0xffffffff,
@@ -629,6 +676,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC32_JAMCRC = new()
         {
+            Name = "CRC-32/JAMCRC",
             Width = 32,
             Poly = 0x04c11db7,
             Init = 0xffffffff,
@@ -642,6 +690,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC32_MEF = new()
         {
+            Name = "CRC-32/MEF",
             Width = 32,
             Poly = 0x741b8cd7,
             Init = 0xffffffff,
@@ -655,6 +704,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC32_MPEG2 = new()
         {
+            Name = "CRC-32/MPEG-2",
             Width = 32,
             Poly = 0x04c11db7,
             Init = 0xffffffff,
@@ -668,6 +718,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC32_XFER = new()
         {
+            Name = "CRC-32/XFER",
             Width = 32,
             Poly = 0x000000af,
             Init = 0x00000000,
@@ -685,6 +736,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC40_GSM = new()
         {
+            Name = "CRC-40/GSM",
             Width = 40,
             Poly = 0x0004820009,
             Init = 0x0000000000,
@@ -702,6 +754,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC64_ECMA182 = new()
         {
+            Name = "CRC-64/ECMA-182",
             Width = 64,
             Poly = 0x42f0e1eba9ea3693,
             Init = 0x0000000000000000,
@@ -715,6 +768,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC64_GOISO = new()
         {
+            Name = "CRC-64/GO-ISO",
             Width = 64,
             Poly = 0x000000000000001b,
             Init = 0xffffffffffffffff,
@@ -728,6 +782,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC64_MS = new()
         {
+            Name = "CRC-64/MS",
             Width = 64,
             Poly = 0x259c84cba6426349,
             Init = 0xffffffffffffffff,
@@ -741,6 +796,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC64_NVME = new()
         {
+            Name = "CRC-64/NVME",
             Width = 64,
             Poly = 0xad93d23594c93659,
             Init = 0xffffffffffffffff,
@@ -754,6 +810,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC64_REDIS = new()
         {
+            Name = "CRC-64/REDIS",
             Width = 64,
             Poly = 0xad93d23594c935a9,
             Init = 0x0000000000000000,
@@ -767,6 +824,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC64_WE = new()
         {
+            Name = "CRC-64/WE",
             Width = 64,
             Poly = 0x42f0e1eba9ea3693,
             Init = 0xffffffffffffffff,
@@ -780,6 +838,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public static readonly CrcDefinition CRC64_XZ = new()
         {
+            Name = "CRC-64/XZ",
             Width = 64,
             Poly = 0x42f0e1eba9ea3693,
             Init = 0xffffffffffffffff,
