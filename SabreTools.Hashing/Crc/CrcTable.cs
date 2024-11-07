@@ -179,6 +179,11 @@ namespace SabreTools.Hashing.Crc
                 TransformBlockFast32NoReflect(ref hash, data, offset, length);
                 return true;
             }
+            if (_definition.Width == 64 && _definition.ReflectIn)
+            {
+                TransformBlockFast64Reflect(ref hash, data, offset, length);
+                return true;
+            }
 
             return false;
         }
@@ -280,5 +285,47 @@ namespace SabreTools.Hashing.Crc
             // Assign the new hash value
             hash = local;
         }
+   
+        /// <summary>
+        /// Optimized transformation for 64-bit CRC with reflection
+        /// </summary>
+        private void TransformBlockFast64Reflect(ref ulong hash, byte[] data, int offset, int length)
+        {
+            // Process on a copy of the hash
+            ulong local = hash;
+
+            // Process aligned data
+            if (length > 4)
+            {
+                long end = offset + (length & ~(uint)3);
+                length &= 3;
+
+                while (offset < end)
+                {
+                    ulong low = local ^ (uint)(
+                          (data[offset + 0]      )
+                        + (data[offset + 1] << 8 )
+                        + (data[offset + 2] << 16)
+                        + (data[offset + 3] << 24));
+                    offset += 4;
+
+                    local = _table[3, (byte)(low      )]
+                          ^ _table[2, (byte)(low >> 8 )]
+                          ^ _table[1, (byte)(low >> 16)]
+                          ^ _table[0, (byte)(low >> 24)]
+                          ^ local >> 32;
+                }
+            }
+
+            // Process unaligned data
+            while (length-- != 0)
+            {
+                PerformChecksumStep(ref local, data, offset++);
+            }
+
+            // Assign the new hash value
+            hash = local;
+        }
+
     }
 }
