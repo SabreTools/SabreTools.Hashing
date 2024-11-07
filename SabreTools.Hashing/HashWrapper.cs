@@ -144,6 +144,10 @@ namespace SabreTools.Hashing
                 HashType.CRC16_USB => new CrcRunner(StandardDefinitions.CRC16_USB),
                 HashType.CRC16_XMODEM => new CrcRunner(StandardDefinitions.CRC16_XMODEM),
 
+                //HashType.CRC17_CANFD => new CrcRunner(StandardDefinitions.CRC17_CANFD),
+
+                HashType.CRC21_CANFD => new CrcRunner(StandardDefinitions.CRC21_CANFD),
+
                 //HashType.CRC24_BLE => new CrcRunner(StandardDefinitions.CRC24_BLE),
                 HashType.CRC24_FLEXRAYA => new CrcRunner(StandardDefinitions.CRC24_FLEXRAYA),
                 HashType.CRC24_FLEXRAYB => new CrcRunner(StandardDefinitions.CRC24_FLEXRAYB),

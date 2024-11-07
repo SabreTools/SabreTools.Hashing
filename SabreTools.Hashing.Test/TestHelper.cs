@@ -48,6 +48,8 @@ namespace SabreTools.Hashing.Test
         private const string _crc16_umts = "fee0";
         private const string _crc16_usb = "61ab";
         private const string _crc16_xmodem = "b7d2";
+        private const string _crc17_canfd = "0706d";
+        private const string _crc21_canfd = "117d4b";
         private const string _crc24_ble = "2969f2";
         private const string _crc24_flexraya = "ce9dc7";
         private const string _crc24_flexrayb = "0f49d7";
@@ -151,6 +153,10 @@ namespace SabreTools.Hashing.Test
             Assert.Equal(_crc16_umts, hashDict[HashType.CRC16_UMTS]);
             Assert.Equal(_crc16_usb, hashDict[HashType.CRC16_USB]);
             Assert.Equal(_crc16_xmodem, hashDict[HashType.CRC16_XMODEM]);
+
+            //Assert.Equal(_crc17_canfd, hashDict[HashType.CRC17_CANFD]);
+
+            Assert.Equal(_crc21_canfd, hashDict[HashType.CRC21_CANFD]);
 
             //Assert.Equal(_crc24_ble, hashDict[HashType.CRC24_BLE]);
             Assert.Equal(_crc24_flexraya, hashDict[HashType.CRC24_FLEXRAYA]);

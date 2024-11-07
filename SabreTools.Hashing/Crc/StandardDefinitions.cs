@@ -441,6 +441,42 @@ namespace SabreTools.Hashing.Crc
 
         #endregion
 
+        #region CRC-17
+
+        /// <summary>
+        /// CRC-17/CAN-FD
+        /// </summary>
+        public static readonly CrcDefinition CRC17_CANFD = new()
+        {
+            Name = "CRC-17/CAN-FD",
+            Width = 21,
+            Poly = 0x1685b,
+            Init = 0x00000,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x00000,
+        };
+
+        #endregion
+        
+        #region CRC-21
+
+        /// <summary>
+        /// CRC-21/CAN-FD
+        /// </summary>
+        public static readonly CrcDefinition CRC21_CANFD = new()
+        {
+            Name = "CRC-21/CAN-FD",
+            Width = 21,
+            Poly = 0x102899,
+            Init = 0x000000,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x000000,
+        };
+
+        #endregion
+        
         #region CRC-24
 
         /// <summary>

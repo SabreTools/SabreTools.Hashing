@@ -182,6 +182,24 @@ namespace SabreTools.Hashing
 
         #endregion
 
+        #region CRC-17
+
+        /// <summary>
+        /// CRC 17-bit checksum (CRC-17/CAN-FD)
+        /// </summary>
+        //CRC17_CANFD, // Disabled until incorrect hashes can be fixed
+
+        #endregion
+
+        #region CRC-21
+
+        /// <summary>
+        /// CRC 21-bit checksum (CRC-21/CAN-FD)
+        /// </summary>
+        CRC21_CANFD,
+
+        #endregion
+
         #region CRC-24
 
         /// <summary>
