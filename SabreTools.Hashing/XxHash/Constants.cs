@@ -56,6 +56,19 @@ namespace SabreTools.Hashing.XxHash
 
         public const ulong PRIME_MX2 = 0x9FB21C651E98DF25;
 
+        /// <summary>
+        /// The size of the internal XXH3 buffer.
+        /// This is the optimal update size for incremental hashing.
+        /// </summary>
+        public const int XXH3_INTERNALBUFFER_SIZE = 256;
+
+        /// <summary>
+        /// Default size of the secret buffer (and <see cref="XXH3_kSecret"/>).
+        /// This is the size used in <see cref="XXH3_kSecret"/> and the seeded functions.
+        /// Not to be confused with @ref XXH3_SECRET_SIZE_MIN.
+        /// </summary>
+        public const int XXH3_SECRET_DEFAULT_SIZE = 192;
+
         #endregion
     }
 }
