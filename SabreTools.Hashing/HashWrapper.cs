@@ -119,6 +119,26 @@ namespace SabreTools.Hashing
                 HashType.BLAKE3 => new Blake3HashAlgorithm(),
 #endif
 
+                HashType.CRC3_GSM => new CrcRunner(StandardDefinitions.CRC3_GSM),
+                HashType.CRC3_ROHC => new CrcRunner(StandardDefinitions.CRC3_ROHC),
+
+                HashType.CRC4_G704 => new CrcRunner(StandardDefinitions.CRC4_G704),
+                HashType.CRC4_INTERLAKEN => new CrcRunner(StandardDefinitions.CRC4_INTERLAKEN),
+
+                HashType.CRC5_EPCC1G2 => new CrcRunner(StandardDefinitions.CRC5_EPCC1G2),
+                HashType.CRC5_G704 => new CrcRunner(StandardDefinitions.CRC5_G704),
+                HashType.CRC5_USB => new CrcRunner(StandardDefinitions.CRC5_USB),
+
+                HashType.CRC6_CDMA2000A => new CrcRunner(StandardDefinitions.CRC6_CDMA2000A),
+                HashType.CRC6_CDMA2000B => new CrcRunner(StandardDefinitions.CRC6_CDMA2000B),
+                HashType.CRC6_DARC => new CrcRunner(StandardDefinitions.CRC6_DARC),
+                HashType.CRC6_G704 => new CrcRunner(StandardDefinitions.CRC6_G704),
+                HashType.CRC6_GSM => new CrcRunner(StandardDefinitions.CRC6_GSM),
+
+                HashType.CRC7_MMC => new CrcRunner(StandardDefinitions.CRC7_MMC),
+                HashType.CRC7_ROHC => new CrcRunner(StandardDefinitions.CRC7_ROHC),
+                HashType.CRC7_UMTS => new CrcRunner(StandardDefinitions.CRC7_UMTS),
+
                 HashType.CRC8 => new CrcRunner(StandardDefinitions.CRC8_SMBUS),
                 HashType.CRC8_AUTOSAR => new CrcRunner(StandardDefinitions.CRC8_AUTOSAR),
                 HashType.CRC8_BLUETOOTH => new CrcRunner(StandardDefinitions.CRC8_BLUETOOTH),

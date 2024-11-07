@@ -17,6 +17,101 @@ namespace SabreTools.Hashing
         BLAKE3,
 #endif
 
+        #region CRC-3
+
+        /// <summary>
+        /// CRC 3-bit checksum (CRC-3/GSM)
+        /// </summary>
+        CRC3_GSM,
+
+        /// <summary>
+        /// CRC 3-bit checksum (CRC-3/ROHC)
+        /// </summary>
+        CRC3_ROHC,
+
+        #endregion
+
+        #region CRC-4
+
+        /// <summary>
+        /// CRC 4-bit checksum (CRC-4/G-704 [CRC-4/ITU])
+        /// </summary>
+        CRC4_G704,
+
+        /// <summary>
+        /// CRC 4-bit checksum (CRC-4/INTERLAKEN)
+        /// </summary>
+        CRC4_INTERLAKEN,
+
+        #endregion
+
+        #region CRC-5
+
+        /// <summary>
+        /// CRC 5-bit checksum (CRC-5/EPC-C1G2 [CRC-5/EPC])
+        /// </summary>
+        CRC5_EPCC1G2,
+
+        /// <summary>
+        /// CRC 5-bit checksum (CRC-5/G-704 [CRC-5/ITU])
+        /// </summary>
+        CRC5_G704,
+
+        /// <summary>
+        /// CRC 5-bit checksum (CRC-5/USB)
+        /// </summary>
+        CRC5_USB,
+
+        #endregion
+
+        #region CRC-6
+
+        /// <summary>
+        /// CRC 6-bit checksum (CRC-6/CDMA2000-A)
+        /// </summary>
+        CRC6_CDMA2000A,
+
+        /// <summary>
+        /// CRC 6-bit checksum (CRC-6/CDMA2000-B)
+        /// </summary>
+        CRC6_CDMA2000B,
+
+        /// <summary>
+        /// CRC 6-bit checksum (CRC-6/DARC)
+        /// </summary>
+        CRC6_DARC,
+
+        /// <summary>
+        /// CRC 6-bit checksum (CRC-6/G-704 [CRC-6/ITU])
+        /// </summary>
+        CRC6_G704,
+
+        /// <summary>
+        /// CRC 6-bit checksum (CRC-6/GSM)
+        /// </summary>
+        CRC6_GSM,
+
+        #endregion
+
+        #region CRC-7
+
+        /// <summary>
+        /// CRC 7-bit checksum (CRC-7/MMC [CRC-7])
+        /// </summary>
+        CRC7_MMC,
+
+        /// <summary>
+        /// CRC 7-bit checksum (CRC-7/ROHC)
+        /// </summary>
+        CRC7_ROHC,
+
+        /// <summary>
+        /// CRC 7-bit checksum (CRC-7/UMTS)
+        /// </summary>
+        CRC7_UMTS,
+
+        #endregion
+
         #region CRC-8
 
         /// <summary>

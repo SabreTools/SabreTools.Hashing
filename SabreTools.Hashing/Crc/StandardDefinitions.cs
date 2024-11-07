@@ -3,6 +3,236 @@ namespace SabreTools.Hashing.Crc
     /// <see href="https://reveng.sourceforge.io/crc-catalogue/all.htm#crc.legend"/>
     internal static class StandardDefinitions
     {
+        #region CRC-3
+
+        /// <summary>
+        /// CRC-3/GSM
+        /// </summary>
+        public static readonly CrcDefinition CRC3_GSM = new()
+        {
+            Name = "CRC-3/GSM",
+            Width = 3,
+            Poly = 0x3,
+            Init = 0x0,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x7,
+        };
+
+        /// <summary>
+        /// CRC-3/ROHC
+        /// </summary>
+        public static readonly CrcDefinition CRC3_ROHC = new()
+        {
+            Name = "CRC-3/ROHC",
+            Width = 3,
+            Poly = 0x3,
+            Init = 0x7,
+            ReflectIn = true,
+            ReflectOut = true,
+            XorOut = 0x0,
+        };
+
+        #endregion
+
+        #region CRC-4
+
+        /// <summary>
+        /// CRC-4/G-704 [CRC-4/ITU]
+        /// </summary>
+        public static readonly CrcDefinition CRC4_G704 = new()
+        {
+            Name = "CRC-4/G-704",
+            Width = 4,
+            Poly = 0x3,
+            Init = 0x0,
+            ReflectIn = true,
+            ReflectOut = true,
+            XorOut = 0x0,
+        };
+
+        /// <summary>
+        /// CRC-4/INTERLAKEN
+        /// </summary>
+        public static readonly CrcDefinition CRC4_INTERLAKEN = new()
+        {
+            Name = "CRC-4/INTERLAKEN",
+            Width = 4,
+            Poly = 0x3,
+            Init = 0xf,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0xf,
+        };
+
+        #endregion
+
+        #region CRC-5
+
+        /// <summary>
+        /// CRC-5/EPC-C1G2 [CRC-5/EPC]
+        /// </summary>
+        public static readonly CrcDefinition CRC5_EPCC1G2 = new()
+        {
+            Name = "CRC-5/EPC-C1G2",
+            Width = 5,
+            Poly = 0x09,
+            Init = 0x09,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x00,
+        };
+
+        /// <summary>
+        /// CRC-5/G-704 [CRC-5/ITU]
+        /// </summary>
+        public static readonly CrcDefinition CRC5_G704 = new()
+        {
+            Name = "CRC-5/G-704",
+            Width = 5,
+            Poly = 0x15,
+            Init = 0x00,
+            ReflectIn = true,
+            ReflectOut = true,
+            XorOut = 0x00,
+        };
+
+        /// <summary>
+        /// CRC-5/USB
+        /// </summary>
+        public static readonly CrcDefinition CRC5_USB = new()
+        {
+            Name = "CRC-5/USB",
+            Width = 5,
+            Poly = 0x05,
+            Init = 0x1f,
+            ReflectIn = true,
+            ReflectOut = true,
+            XorOut = 0x1f,
+        };
+
+        #endregion
+
+        #region CRC-6
+
+        /// <summary>
+        /// CRC-6/CDMA2000-A
+        /// </summary>
+        public static readonly CrcDefinition CRC6_CDMA2000A = new()
+        {
+            Name = "CRC-6/CDMA2000-A",
+            Width = 6,
+            Poly = 0x27,
+            Init = 0x3f,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x00,
+        };
+
+        /// <summary>
+        /// CRC-6/CDMA2000-B
+        /// </summary>
+        public static readonly CrcDefinition CRC6_CDMA2000B = new()
+        {
+            Name = "CRC-6/CDMA2000-B",
+            Width = 6,
+            Poly = 0x07,
+            Init = 0x3f,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x00,
+        };
+
+        /// <summary>
+        /// CRC-6/DARC
+        /// </summary>
+        public static readonly CrcDefinition CRC6_DARC = new()
+        {
+            Name = "CRC-6/DARC",
+            Width = 6,
+            Poly = 0x19,
+            Init = 0x00,
+            ReflectIn = true,
+            ReflectOut = true,
+            XorOut = 0x00,
+        };
+
+        /// <summary>
+        /// CRC-6/G-704 [CRC-6/ITU]
+        /// </summary>
+        public static readonly CrcDefinition CRC6_G704 = new()
+        {
+            Name = "CRC-6/G-704",
+            Width = 6,
+            Poly = 0x03,
+            Init = 0x00,
+            ReflectIn = true,
+            ReflectOut = true,
+            XorOut = 0x00,
+        };
+
+        /// <summary>
+        /// CRC-6/GSM
+        /// </summary>
+        public static readonly CrcDefinition CRC6_GSM = new()
+        {
+            Name = "CRC-6/GSM",
+            Width = 6,
+            Poly = 0x2f,
+            Init = 0x00,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x3f,
+        };
+
+        #endregion
+
+        #region CRC-7
+
+        /// <summary>
+        /// CRC-7/MMC [CRC-7]
+        /// </summary>
+        public static readonly CrcDefinition CRC7_MMC = new()
+        {
+            Name = "CRC-7/MMC",
+            Width = 7,
+            Poly = 0x09,
+            Init = 0x00,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x00,
+        };
+
+        /// <summary>
+        /// CRC-7/ROHC
+        /// </summary>
+        public static readonly CrcDefinition CRC7_ROHC = new()
+        {
+            Name = "CRC-7/ROHC",
+            Width = 7,
+            Poly = 0x4f,
+            Init = 0x7f,
+            ReflectIn = true,
+            ReflectOut = true,
+            XorOut = 0x00,
+        };
+
+        /// <summary>
+        /// CRC-7/UMTS
+        /// </summary>
+        public static readonly CrcDefinition CRC7_UMTS = new()
+        {
+            Name = "CRC-7/UMTS",
+            Width = 7,
+            Poly = 0x45,
+            Init = 0x00,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x00,
+        };
+
+        #endregion
+
         #region CRC-8
 
         /// <summary>

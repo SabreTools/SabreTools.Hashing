@@ -21,6 +21,26 @@ namespace SabreTools.Hashing.Test
             {HashType.BLAKE3, "d4bd7ca6f1ebea9580d9381106b248eb5b6069170d0bfd00b17d659fcd10dcdc"},
 #endif
 
+            {HashType.CRC3_GSM, "4"},
+            {HashType.CRC3_ROHC, "3"},
+
+            {HashType.CRC4_G704, "6"},
+            {HashType.CRC4_INTERLAKEN, "0"},
+
+            {HashType.CRC5_EPCC1G2, "1f"},
+            {HashType.CRC5_G704, "06"},
+            {HashType.CRC5_USB, "0a"},
+
+            {HashType.CRC6_CDMA2000A, "3c"},
+            {HashType.CRC6_CDMA2000B, "12"},
+            {HashType.CRC6_DARC, "0f"},
+            {HashType.CRC6_G704, "09"},
+            {HashType.CRC6_GSM, "21"},
+
+            {HashType.CRC7_MMC, "2f"},
+            {HashType.CRC7_ROHC, "68"},
+            {HashType.CRC7_UMTS, "66"},
+
             {HashType.CRC8, "fc"},
             {HashType.CRC8_AUTOSAR, "ca"},
             {HashType.CRC8_BLUETOOTH, "00"},
