@@ -233,7 +233,7 @@ namespace SabreTools.Hashing.Crc
         }
     
         /// <summary>
-        /// Optimized transformation for 32-bit CRC with reflection
+        /// Optimized transformation for 32-bit CRC with no reflection
         /// </summary>
         private void TransformBlockFast32NoReflect(ref ulong hash, byte[] data, int offset, int length)
         {
@@ -241,10 +241,10 @@ namespace SabreTools.Hashing.Crc
             ulong local = hash;
 
             // Process aligned data
-            if (length > 4)
+            if (length > 8)
             {
-                long end = offset + (length & ~(uint)3);
-                length &= 3;
+                long end = offset + (length & ~(uint)7);
+                length &= 7;
 
                 while (offset < end)
                 {
@@ -253,12 +253,21 @@ namespace SabreTools.Hashing.Crc
                         + (data[offset + 2] << 8 )
                         + (data[offset + 1] << 16)
                         + (data[offset + 0] << 24));
-                    offset += 4;
+                    ulong high = (uint)(
+                        + (data[offset + 7] << 32)
+                        + (data[offset + 6] << 40)
+                        + (data[offset + 5] << 48)
+                        + (data[offset + 4] << 56));
+                    offset += 8;
 
-                    local = _table[0, (byte)(low       )]
-                          ^ _table[1, (byte)(low >> 8  )]
-                          ^ _table[2, (byte)(low >> 16 )]
-                          ^ _table[3, (byte)(low >> 24 )];
+                    local = _table[4, (byte)(low       )]
+                          ^ _table[5, (byte)(low >> 8  )]
+                          ^ _table[6, (byte)(low >> 16 )]
+                          ^ _table[7, (byte)(low >> 24 )]
+                          ^ _table[0, (byte)(high      )]
+                          ^ _table[1, (byte)(high >> 8 )]
+                          ^ _table[2, (byte)(high >> 16)]
+                          ^ _table[3, (byte)(high >> 24)];
                 }
             }
 
