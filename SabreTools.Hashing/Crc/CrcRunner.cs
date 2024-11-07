@@ -7,7 +7,7 @@ namespace SabreTools.Hashing.Crc
         /// <summary>
         /// Definition used to create the runner
         /// </summary>
-        private readonly CrcDefinition _definition;
+        public readonly CrcDefinition Def;
 
         /// <summary>
         /// Table used for calculation steps
@@ -25,7 +25,7 @@ namespace SabreTools.Hashing.Crc
             if (def.Width < 0 || def.Width > 64)
                 throw new ArgumentOutOfRangeException(nameof(def));
 
-            _definition = def;
+            Def = def;
             _table = new CrcTable(def);
             _hash = def.Init;
         }
@@ -35,7 +35,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         public void Reset()
         {
-            _hash = _definition.Init;
+            _hash = Def.Init;
         }
 
         /// <summary>
@@ -56,14 +56,14 @@ namespace SabreTools.Hashing.Crc
             ulong localHash = _hash;
 
             // Handle mutual reflection
-            if (_definition.ReflectIn ^ _definition.ReflectOut)
-                localHash = BitOperations.ReverseBits(localHash, _definition.Width);
+            if (Def.ReflectIn ^ Def.ReflectOut)
+                localHash = BitOperations.ReverseBits(localHash, Def.Width);
 
             // Handle XOR
-            localHash ^= _definition.XorOut;
+            localHash ^= Def.XorOut;
 
             // Process the value and return
-            return BitOperations.ClampValueToBytes(localHash, _definition.Width);
+            return BitOperations.ClampValueToBytes(localHash, Def.Width);
         }
     }
 }

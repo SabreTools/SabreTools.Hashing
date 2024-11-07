@@ -66,11 +66,19 @@ namespace SabreTools.Hashing
         {
             get
             {
-                return _hasher switch
+                switch (_hasher)
                 {
-                    IChecksum ic => ic.End(),
-                    _ => ByteArrayToString(CurrentHashBytes),
-                };
+                    case CrcRunner cr:
+                        var crArr = cr.Finalize();
+                        ulong crHash = BytesToUInt64(crArr);
+                        int length = cr.Def.Width / 4 + (cr.Def.Width % 4 > 0 ? 1 : 0);
+                        return crHash.ToString($"x{length}");
+                    case IChecksum ic:
+                        return ic.End();
+
+                    default:
+                        return ByteArrayToString(CurrentHashBytes);
+                }
             }
         }
 
@@ -144,7 +152,7 @@ namespace SabreTools.Hashing
                 HashType.CRC16_USB => new CrcRunner(StandardDefinitions.CRC16_USB),
                 HashType.CRC16_XMODEM => new CrcRunner(StandardDefinitions.CRC16_XMODEM),
 
-                //HashType.CRC17_CANFD => new CrcRunner(StandardDefinitions.CRC17_CANFD),
+                HashType.CRC17_CANFD => new CrcRunner(StandardDefinitions.CRC17_CANFD),
 
                 HashType.CRC21_CANFD => new CrcRunner(StandardDefinitions.CRC21_CANFD),
 
@@ -310,6 +318,27 @@ namespace SabreTools.Hashing
             {
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Convert a byte array to a UInt64
+        /// </summary>
+        /// <param name="bytes">Byte array to convert</param>
+        /// <returns>UInt64 representing the byte array</returns>
+        /// <link>https://stackoverflow.com/questions/66750224/how-to-convert-a-byte-array-of-any-size-to-ulong-in-c</link>
+        private static ulong BytesToUInt64(byte[]? bytes)
+        {
+            // If we get null in, we send 0 out
+            if (bytes == null)
+                return default;
+
+            ulong result = 0;
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                result |= (ulong)bytes[i] << (i * 8);
+            }
+
+            return result;
         }
 
         #endregion

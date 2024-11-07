@@ -54,7 +54,7 @@ namespace SabreTools.Hashing.Test
             {HashType.CRC16_USB, "61ab"},
             {HashType.CRC16_XMODEM, "b7d2"},
 
-            //{HashType.CRC17_CANFD, "0706d"},
+            {HashType.CRC17_CANFD, "0706d"},
 
             {HashType.CRC21_CANFD, "117d4b"},
 
