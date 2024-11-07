@@ -169,9 +169,14 @@ namespace SabreTools.Hashing.Crc
                 return false;
 
             // Check for optimizable transformations
+            if (_definition.Width == 16 && _definition.ReflectIn)
+            {
+                TransformBlockFastReflect(ref hash, data, offset, length);
+                return true;
+            }
             if (_definition.Width == 32 && _definition.ReflectIn)
             {
-                TransformBlockFast32Reflect(ref hash, data, offset, length);
+                TransformBlockFastReflect(ref hash, data, offset, length);
                 return true;
             }
             if (_definition.Width == 32 && !_definition.ReflectIn)
@@ -181,7 +186,7 @@ namespace SabreTools.Hashing.Crc
             }
             if (_definition.Width == 64 && _definition.ReflectIn)
             {
-                TransformBlockFast64Reflect(ref hash, data, offset, length);
+                TransformBlockFastReflect(ref hash, data, offset, length);
                 return true;
             }
 
@@ -189,18 +194,18 @@ namespace SabreTools.Hashing.Crc
         }
 
         /// <summary>
-        /// Optimized transformation for 32-bit CRC with reflection
+        /// Optimized transformation for 16/32/64-bit CRC with reflection
         /// </summary>
-        private void TransformBlockFast32Reflect(ref ulong hash, byte[] data, int offset, int length)
+        private void TransformBlockFastReflect(ref ulong hash, byte[] data, int offset, int length)
         {
             // Process on a copy of the hash
             ulong local = hash;
 
             // Process aligned data
-            if (length > 8)
+            if (length > 4)
             {
-                long end = offset + (length & ~(uint)7);
-                length &= 7;
+                long end = offset + (length & ~(uint)3);
+                length &= 3;
 
                 while (offset < end)
                 {
@@ -209,21 +214,13 @@ namespace SabreTools.Hashing.Crc
                         + (data[offset + 1] << 8 )
                         + (data[offset + 2] << 16)
                         + (data[offset + 3] << 24));
-                    ulong high = (uint)(
-                        + (data[offset + 4] << 32)
-                        + (data[offset + 5] << 40)
-                        + (data[offset + 6] << 48)
-                        + (data[offset + 7] << 56));
-                    offset += 8;
+                    offset += 4;
 
-                    local = _table[7, (byte)(low       )]
-                          ^ _table[6, (byte)(low >> 8  )]
-                          ^ _table[5, (byte)(low >> 16 )]
-                          ^ _table[4, (byte)(low >> 24 )]
-                          ^ _table[3, (byte)(high      )]
-                          ^ _table[2, (byte)(high >> 8 )]
-                          ^ _table[1, (byte)(high >> 16)]
-                          ^ _table[0, (byte)(high >> 24)];
+                    local = _table[3, (byte)(low      )]
+                          ^ _table[2, (byte)(low >> 8 )]
+                          ^ _table[1, (byte)(low >> 16)]
+                          ^ _table[0, (byte)(low >> 24)]
+                          ^ local >> 32;
                 }
             }
 
@@ -285,47 +282,5 @@ namespace SabreTools.Hashing.Crc
             // Assign the new hash value
             hash = local;
         }
-   
-        /// <summary>
-        /// Optimized transformation for 64-bit CRC with reflection
-        /// </summary>
-        private void TransformBlockFast64Reflect(ref ulong hash, byte[] data, int offset, int length)
-        {
-            // Process on a copy of the hash
-            ulong local = hash;
-
-            // Process aligned data
-            if (length > 4)
-            {
-                long end = offset + (length & ~(uint)3);
-                length &= 3;
-
-                while (offset < end)
-                {
-                    ulong low = local ^ (uint)(
-                          (data[offset + 0]      )
-                        + (data[offset + 1] << 8 )
-                        + (data[offset + 2] << 16)
-                        + (data[offset + 3] << 24));
-                    offset += 4;
-
-                    local = _table[3, (byte)(low      )]
-                          ^ _table[2, (byte)(low >> 8 )]
-                          ^ _table[1, (byte)(low >> 16)]
-                          ^ _table[0, (byte)(low >> 24)]
-                          ^ local >> 32;
-                }
-            }
-
-            // Process unaligned data
-            while (length-- != 0)
-            {
-                PerformChecksumStep(ref local, data, offset++);
-            }
-
-            // Assign the new hash value
-            hash = local;
-        }
-
     }
 }
