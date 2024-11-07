@@ -50,10 +50,10 @@ namespace SabreTools.Hashing.Crc
             _table = new ulong[SliceCount, 1 << _processBits];
 
             // Build the standard table
-            for (int i = 0; i < 1 << _processBits; i++)
+            for (uint i = 0; i < (1 << _processBits); i++)
             {
                 // Get the starting value for this index
-                ulong point = (ulong)i;
+                ulong point = i;
                 if (!_processBitwise && def.ReflectIn)
                     point = BitOperations.ReverseBits(point, _processBits);
 
@@ -61,9 +61,9 @@ namespace SabreTools.Hashing.Crc
                 point <<= _definition.Width - _processBits;
 
                 // Accumulate the value
-                for (int j = 0; j < 8; j++)
+                for (int j = 0; j < _processBits; j++)
                 {
-                    if ((point & _bitMask) > 0)
+                    if ((point & _bitMask) > 0UL)
                         point = (point << 1) ^ def.Poly;
                     else
                         point <<= 1;
@@ -76,7 +76,7 @@ namespace SabreTools.Hashing.Crc
                 // Shift back to account for storage
                 point &= ulong.MaxValue >> (64 - def.Width);
 
-                // Assign to both tables
+                // Assign to the table
                 _table[0, i] = point;
             }
 
