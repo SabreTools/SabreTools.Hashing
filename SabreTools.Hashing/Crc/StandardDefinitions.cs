@@ -449,7 +449,7 @@ namespace SabreTools.Hashing.Crc
         public static readonly CrcDefinition CRC17_CANFD = new()
         {
             Name = "CRC-17/CAN-FD",
-            Width = 21,
+            Width = 17,
             Poly = 0x1685b,
             Init = 0x00000,
             ReflectIn = false,
