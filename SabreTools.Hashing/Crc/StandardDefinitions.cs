@@ -3,6 +3,226 @@ namespace SabreTools.Hashing.Crc
     /// <see href="https://reveng.sourceforge.io/crc-catalogue/all.htm#crc.legend"/>
     internal static class StandardDefinitions
     {
+        #region CRC-10
+
+        /// <summary>
+        /// CRC-10/ATM [CRC-10, CRC-10/I-610]
+        /// </summary>
+        public static readonly CrcDefinition CRC10_ATM = new()
+        {
+            Name = "CRC-10/ATM",
+            Width = 10,
+            Poly = 0x233,
+            Init = 0x000,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x000,
+        };
+
+        /// <summary>
+        /// CRC-10/CDMA2000
+        /// </summary>
+        public static readonly CrcDefinition CRC10_CDMA2000 = new()
+        {
+            Name = "CRC-10/CDMA2000",
+            Width = 10,
+            Poly = 0x3d9,
+            Init = 0x3ff,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x000,
+        };
+
+        /// <summary>
+        /// CRC-10/GSM
+        /// </summary>
+        public static readonly CrcDefinition CRC10_GSM = new()
+        {
+            Name = "CRC-10/GSM",
+            Width = 10,
+            Poly = 0x175,
+            Init = 0x000,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x3ff,
+        };
+
+        #endregion
+
+        #region CRC-11
+
+        /// <summary>
+        /// CRC-11/FLEXRAY [CRC-11]
+        /// </summary>
+        public static readonly CrcDefinition CRC11_FLEXRAY = new()
+        {
+            Name = "CRC-11/FLEXRAY",
+            Width = 11,
+            Poly = 0x385,
+            Init = 0x01a,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x000,
+        };
+
+        /// <summary>
+        /// CRC-11/UMTS
+        /// </summary>
+        public static readonly CrcDefinition CRC11_UMTS = new()
+        {
+            Name = "CRC-11/UMTS",
+            Width = 11,
+            Poly = 0x307,
+            Init = 0x000,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x000,
+        };
+
+        #endregion
+
+        #region CRC-12
+
+        /// <summary>
+        /// CRC-12/CDMA2000
+        /// </summary>
+        public static readonly CrcDefinition CRC12_CDMA2000 = new()
+        {
+            Name = "CRC-12/CDMA2000",
+            Width = 12,
+            Poly = 0xf13,
+            Init = 0xfff,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x000,
+        };
+
+        /// <summary>
+        /// CRC-12/DECT [X-CRC-12]
+        /// </summary>
+        public static readonly CrcDefinition CRC12_DECT = new()
+        {
+            Name = "CRC-12/DECT",
+            Width = 12,
+            Poly = 0x80f,
+            Init = 0x000,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x000,
+        };
+
+        /// <summary>
+        /// CRC-12/GSM
+        /// </summary>
+        public static readonly CrcDefinition CRC12_GSM = new()
+        {
+            Name = "CRC-12/GSM",
+            Width = 12,
+            Poly = 0xd31,
+            Init = 0x000,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0xfff,
+        };
+
+        /// <summary>
+        /// CRC-12/UMTS [CRC-12/3GPP]
+        /// </summary>
+        public static readonly CrcDefinition CRC12_UMTS = new()
+        {
+            Name = "CRC-12/UMTS",
+            Width = 12,
+            Poly = 0x80f,
+            Init = 0x000,
+            ReflectIn = false,
+            ReflectOut = true,
+            XorOut = 0x000,
+        };
+
+        #endregion
+
+        #region CRC-13
+
+        /// <summary>
+        /// CRC-13/BBC
+        /// </summary>
+        public static readonly CrcDefinition CRC13_BBC = new()
+        {
+            Name = "CRC-13/BBC",
+            Width = 13,
+            Poly = 0x1cf5,
+            Init = 0x0000,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x0000,
+        };
+
+        #endregion
+
+        #region CRC-14
+
+        /// <summary>
+        /// CRC-14/DARC
+        /// </summary>
+        public static readonly CrcDefinition CRC14_DARC = new()
+        {
+            Name = "CRC-14/DARC",
+            Width = 14,
+            Poly = 0x0805,
+            Init = 0x0000,
+            ReflectIn = true,
+            ReflectOut = true,
+            XorOut = 0x0000,
+        };
+
+        /// <summary>
+        /// CRC-14/GSM
+        /// </summary>
+        public static readonly CrcDefinition CRC14_GSM = new()
+        {
+            Name = "CRC-14/GSM",
+            Width = 14,
+            Poly = 0x202d,
+            Init = 0x0000,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x3fff,
+        };
+
+        #endregion
+
+        #region CRC-15
+
+        /// <summary>
+        /// CRC-15/CAN [CRC-15]
+        /// </summary>
+        public static readonly CrcDefinition CRC15_CAN = new()
+        {
+            Name = "CRC-15/CAN",
+            Width = 15,
+            Poly = 0x4599,
+            Init = 0x0000,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x0000,
+        };
+
+        /// <summary>
+        /// CRC-15/MPT1327
+        /// </summary>
+        public static readonly CrcDefinition CRC15_MPT1327 = new()
+        {
+            Name = "CRC-15/MPT1327",
+            Width = 15,
+            Poly = 0x6815,
+            Init = 0x0000,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x0001,
+        };
+
+        #endregion
+
         #region CRC-16
 
         /// <summary>
@@ -458,7 +678,7 @@ namespace SabreTools.Hashing.Crc
         };
 
         #endregion
-        
+
         #region CRC-21
 
         /// <summary>
@@ -476,7 +696,7 @@ namespace SabreTools.Hashing.Crc
         };
 
         #endregion
-        
+
         #region CRC-24
 
         /// <summary>

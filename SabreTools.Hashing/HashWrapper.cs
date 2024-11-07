@@ -119,6 +119,26 @@ namespace SabreTools.Hashing
                 HashType.BLAKE3 => new Blake3HashAlgorithm(),
 #endif
 
+                HashType.CRC10_ATM => new CrcRunner(StandardDefinitions.CRC10_ATM),
+                HashType.CRC10_CDMA2000 => new CrcRunner(StandardDefinitions.CRC10_CDMA2000),
+                HashType.CRC10_GSM => new CrcRunner(StandardDefinitions.CRC10_GSM),
+
+                HashType.CRC11_FLEXRAY => new CrcRunner(StandardDefinitions.CRC11_FLEXRAY),
+                HashType.CRC11_UMTS => new CrcRunner(StandardDefinitions.CRC11_UMTS),
+
+                HashType.CRC12_CDMA2000 => new CrcRunner(StandardDefinitions.CRC12_CDMA2000),
+                HashType.CRC12_DECT => new CrcRunner(StandardDefinitions.CRC12_DECT),
+                HashType.CRC12_GSM => new CrcRunner(StandardDefinitions.CRC12_GSM),
+                HashType.CRC12_UMTS => new CrcRunner(StandardDefinitions.CRC12_UMTS),
+
+                HashType.CRC13_BBC => new CrcRunner(StandardDefinitions.CRC13_BBC),
+
+                HashType.CRC14_DARC => new CrcRunner(StandardDefinitions.CRC14_DARC),
+                HashType.CRC14_GSM => new CrcRunner(StandardDefinitions.CRC14_GSM),
+
+                HashType.CRC15_CAN => new CrcRunner(StandardDefinitions.CRC15_CAN),
+                HashType.CRC15_MPT1327 => new CrcRunner(StandardDefinitions.CRC15_MPT1327),
+
                 HashType.CRC16 => new CrcRunner(StandardDefinitions.CRC16_ARC),
                 HashType.CRC16_ARC => new CrcRunner(StandardDefinitions.CRC16_ARC),
                 HashType.CRC16_CDMA2000 => new CrcRunner(StandardDefinitions.CRC16_CDMA2000),

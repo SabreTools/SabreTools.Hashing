@@ -17,6 +17,100 @@ namespace SabreTools.Hashing
         BLAKE3,
 #endif
 
+        #region CRC-10
+
+        /// <summary>
+        /// CRC 10-bit checksum (CRC-10/ATM [CRC-10, CRC-10/I-610])
+        /// </summary>
+        CRC10_ATM,
+
+        /// <summary>
+        /// CRC 10-bit checksum (CRC-10/CDMA2000)
+        /// </summary>
+        CRC10_CDMA2000,
+
+        /// <summary>
+        /// CRC 10-bit checksum (CRC-10/GSM)
+        /// </summary>
+        CRC10_GSM,
+
+        #endregion
+
+        #region CRC-11
+
+        /// <summary>
+        /// CRC 11-bit checksum (CRC-11/FLEXRAY [CRC-11])
+        /// </summary>
+        CRC11_FLEXRAY,
+
+        /// <summary>
+        /// CRC 11-bit checksum (CRC-11/UMTS)
+        /// </summary>
+        CRC11_UMTS,
+
+        #endregion
+
+        #region CRC-12
+
+        /// <summary>
+        /// CRC 12-bit checksum (CRC-12/CDMA2000)
+        /// </summary>
+        CRC12_CDMA2000,
+
+        /// <summary>
+        /// CRC 12-bit checksum (CRC-12/DECT [X-CRC-12])
+        /// </summary>
+        CRC12_DECT,
+
+        /// <summary>
+        /// CRC 12-bit checksum (CRC-12/GSM)
+        /// </summary>
+        CRC12_GSM,
+
+        /// <summary>
+        /// CRC 12-bit checksum (CRC-12/UMTS [CRC-12/3GPP])
+        /// </summary>
+        CRC12_UMTS,
+
+        #endregion
+
+        #region CRC-13
+
+        /// <summary>
+        /// CRC 13-bit checksum (CRC-13/BBC)
+        /// </summary>
+        CRC13_BBC,
+
+        #endregion
+
+        #region CRC-14
+
+        /// <summary>
+        /// CRC 14-bit checksum (CRC-14/DARC)
+        /// </summary>
+        CRC14_DARC,
+
+        /// <summary>
+        /// CRC 14-bit checksum (CRC-14/GSM)
+        /// </summary>
+        CRC14_GSM,
+
+        #endregion
+
+        #region CRC-15
+
+        /// <summary>
+        /// CRC 15-bit checksum (CRC-15/CAN [CRC-15])
+        /// </summary>
+        CRC15_CAN,
+
+        /// <summary>
+        /// CRC 15-bit checksum (CRC-15/MPT1327)
+        /// </summary>
+        CRC15_MPT1327,
+
+        #endregion
+
         #region CRC-16
 
         /// <summary>

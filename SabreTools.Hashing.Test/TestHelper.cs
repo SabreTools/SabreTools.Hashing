@@ -21,6 +21,26 @@ namespace SabreTools.Hashing.Test
             {HashType.BLAKE3, "d4bd7ca6f1ebea9580d9381106b248eb5b6069170d0bfd00b17d659fcd10dcdc"},
 #endif
 
+            {HashType.CRC10_ATM, "26b"},
+            {HashType.CRC10_CDMA2000, "14f"},
+            {HashType.CRC10_GSM, "0e7"},
+
+            {HashType.CRC11_FLEXRAY, "18b"},
+            {HashType.CRC11_UMTS, "347"},
+
+            {HashType.CRC12_CDMA2000, "f9c"},
+            {HashType.CRC12_DECT, "d62"},
+            {HashType.CRC12_GSM, "975"},
+            {HashType.CRC12_UMTS, "46b"},
+
+            {HashType.CRC13_BBC, "074f"},
+
+            {HashType.CRC14_DARC, "0add"},
+            {HashType.CRC14_GSM, "0c7d"},
+
+            {HashType.CRC15_CAN, "66c3"},
+            {HashType.CRC15_MPT1327, "013b"},
+
             {HashType.CRC16, "7573"},
             {HashType.CRC16_ARC, "7573"},
             {HashType.CRC16_CDMA2000, "8b5f"},
