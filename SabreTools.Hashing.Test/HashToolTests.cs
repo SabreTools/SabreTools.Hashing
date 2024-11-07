@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Xunit;
 
@@ -12,14 +13,23 @@ namespace SabreTools.Hashing.Test
         private static readonly string _hashFilePath
             = Path.Combine(Environment.CurrentDirectory, "TestData", "file-to-hash.bin");
 
-        #region Known File Information
+        /// <summary>
+        /// Get an array of all hash types
+        /// </summary>
+        public static List<object[]> AllHashTypes
+        {
+            get
+            {
+                var values = Enum.GetValues(typeof(HashType));
+                var set = new List<object[]>();
+                foreach (var value in values)
+                {
+                    set.Add([value]);
+                }
 
-        private const long _hashFileSize = 125;
-        private const string _crc32 = "ba02a660";
-        private const string _md5 = "b722871eaa950016296184d026c5dec9";
-        private const string _sha1 = "eea1ee2d801d830c4bdad4df3c8da6f9f52d1a9f";
-
-        #endregion
+                return set;
+            }
+        }
 
         [Fact]
         public void GetStandardHashesTest()
@@ -27,24 +37,32 @@ namespace SabreTools.Hashing.Test
             bool gotHashes = HashTool.GetStandardHashes(_hashFilePath, out long actualSize, out string? crc32, out string? md5, out string? sha1);
 
             Assert.True(gotHashes);
-            Assert.Equal(_hashFileSize, actualSize);
-            Assert.Equal(_crc32, crc32);
-            Assert.Equal(_md5, md5);
-            Assert.Equal(_sha1, sha1);
+            TestHelper.ValidateSize(actualSize);
+            TestHelper.ValidateHash(HashType.CRC32, crc32);
+            TestHelper.ValidateHash(HashType.MD5, md5);
+            TestHelper.ValidateHash(HashType.SHA1, sha1);
         }
 
         [Fact]
-        public void GetFileHashesTest()
+        public void GetFileHashesParallelTest()
         {
             var hashDict = HashTool.GetFileHashes(_hashFilePath);
             TestHelper.ValidateHashes(hashDict);
+        }
+
+        [Theory]
+        [MemberData(nameof(AllHashTypes))]
+        public void GetFileHashesSerialTest(HashType hashType)
+        {
+            var hashValue = HashTool.GetFileHash(_hashFilePath, hashType);
+            TestHelper.ValidateHash(hashType, hashValue);
         }
 
         [Fact]
         public void GetFileHashesAndSizeTest()
         {
             var hashDict = HashTool.GetFileHashesAndSize(_hashFilePath, out long actualSize);
-            Assert.Equal(_hashFileSize, actualSize);
+            TestHelper.ValidateSize(actualSize);
             TestHelper.ValidateHashes(hashDict);
         }
 
