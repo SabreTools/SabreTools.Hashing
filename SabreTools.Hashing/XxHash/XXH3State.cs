@@ -14,7 +14,7 @@ namespace SabreTools.Hashing.XxHash
         /// <summary>
         /// Used to store a custom secret generated from a seed.
         /// </summary>
-        public byte[] CustomSecret { get; } = new byte[Constants.XXH3_SECRET_DEFAULT_SIZE];
+        public byte[] CustomSecret { get; set; } = new byte[Constants.XXH3_SECRET_DEFAULT_SIZE];
 
         /// <summary>
         /// The internal buffer. <see cref="XXH32State.PartialReadBuffer"/>
@@ -67,5 +67,87 @@ namespace SabreTools.Hashing.XxHash
         /// </summary>
         /// <remarks>There may be some padding at the end due to alignment on 64 bytes</remarks>
         public byte[]? ExtSecret { get; set; }
+
+        public XXH3State()
+        {
+            // TODO: XXH3_64bits
+            // TODO: XXH3_128bits
+            Seed = 0;
+            ExtSecret = Constants.XXH3_kSecret;
+            SecretLimit = (ulong)Constants.XXH3_kSecret.Length;
+        }
+
+        /// <param name="seed">The 64-bit seed to alter the hash result predictably.</param>
+        public XXH3State(ulong seed)
+        {
+            // TODO: XXH3_64bits_withSeed
+            // TODO: XXH3_128bits_withSeed
+            Seed = seed;
+            ExtSecret = Constants.XXH3_kSecret;
+            SecretLimit = (ulong)Constants.XXH3_kSecret.Length;
+        }
+
+        /// <param name="secret">The secret data.</param>
+        public XXH3State(byte[] secret)
+        {
+            // TODO: XXH3_64bits_withSecret
+            // TODO: XXH3_128bits_withSecret
+            CustomSecret = secret;
+            ExtSecret = null;
+            SecretLimit = (ulong)CustomSecret.Length;
+        }
+
+        /// <summary>
+        /// Resets to begin a new hash
+        /// </summary>
+        /// <param name="seed">The 64-bit seed to alter the hash result predictably.</param>
+        public void Reset()
+        {
+            // TODO: XXH3_64bits_reset
+            // TODO: XXH3_128bits_reset
+        }
+
+        /// <summary>
+        /// Resets to begin a new hash
+        /// </summary>
+        /// <param name="seed">The 64-bit seed to alter the hash result predictably.</param>
+        public void Reset(ulong seed)
+        {
+            // TODO: XXH3_64bits_reset_withSeed
+            // TODO: XXH3_128bits_reset_withSeed
+        }
+
+        /// <summary>
+        /// Resets to begin a new hash
+        /// </summary>
+        /// <param name="secret">The secret data.</param>
+        public void Reset(byte[] secret)
+        {
+            // TODO: XXH3_64bits_reset_withSecret
+            // TODO: XXH3_128bits_reset_withSecret
+        }
+    
+        /// <summary>
+        /// Hash a block of data and append it to the existing hash
+        /// </summary>
+        /// <param name="data">Byte array representing the data</param>
+        /// <param name="offset">Offset in the byte array to include</param>
+        /// <param name="length">Length of the data to hash</param>
+        public void TransformBlock(byte[] data, int offset, int length)
+        {
+            // TODO: XXH3_64bits_update
+            // TODO: XXH3_128bits_update
+        }
+
+        /// <summary>
+        /// Returns the calculated hash value
+        /// </summary>
+        /// <returns>The calculated 64-bit xxHash64 value from that state.</returns>
+        public ulong Digest()
+        {
+            // TODO: XXH3_64bits_digest
+            // TODO: XXH3_128bits_digest
+            return ulong.MaxValue;
+        }
     }
 }

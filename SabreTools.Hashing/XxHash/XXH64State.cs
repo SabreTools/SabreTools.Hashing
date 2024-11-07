@@ -35,5 +35,51 @@ namespace SabreTools.Hashing.XxHash
         /// Reserved field. Do not read nor write to it.
         /// </summary>
         public ulong Reserved64 { get; set; }
+
+        /// <summary>
+        /// The 64-bit seed to alter the hash's output predictably.
+        /// </summary>
+        private ulong _seed;
+
+        public XXH64State()
+        {
+            _seed = 0;
+        }
+
+        /// <param name="seed">The 64-bit seed to alter the hash result predictably.</param>
+        public XXH64State(ulong seed)
+        {
+            _seed = seed;
+        }
+    
+        /// <summary>
+        /// Resets to begin a new hash
+        /// </summary>
+        /// <param name="seed">The 64-bit seed to alter the hash result predictably.</param>
+        public void Reset(ulong seed)
+        {
+            // TODO: XXH64_reset function
+        }
+    
+        /// <summary>
+        /// Hash a block of data and append it to the existing hash
+        /// </summary>
+        /// <param name="data">Byte array representing the data</param>
+        /// <param name="offset">Offset in the byte array to include</param>
+        /// <param name="length">Length of the data to hash</param>
+        public void TransformBlock(byte[] data, int offset, int length)
+        {
+            // TODO: XXH64_update function
+        }
+
+        /// <summary>
+        /// Returns the calculated hash value
+        /// </summary>
+        /// <returns>The calculated 64-bit xxHash64 value from that state.</returns>
+        public ulong Digest()
+        {
+            // TODO: XXH64_update
+            return ulong.MaxValue;
+        }
     }
 }

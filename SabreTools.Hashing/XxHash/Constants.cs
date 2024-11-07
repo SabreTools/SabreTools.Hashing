@@ -3,6 +3,16 @@ namespace SabreTools.Hashing.XxHash
     // https://github.com/Cyan4973/xxHash/blob/dev/xxhash.h
     internal static class Constants
     {
+        #region Version
+
+        public const int XXH_VERSION_MAJOR = 0;
+
+        public const int XXH_VERSION_MINOR = 8;
+
+        public const int XXH_VERSION_RELEASE = 3;
+
+        #endregion
+
         #region XXH32
 
         public const uint XXH_PRIME32_1 = 0x9E3779B1;
