@@ -169,7 +169,7 @@ namespace SabreTools.Hashing.Crc
                 return false;
 
             // Only certain widths can be optimized
-            if (System.Array.IndexOf([16, 32, 64], _definition.Width) == -1)
+            if (System.Array.IndexOf([16, 24, 32, 64], _definition.Width) == -1)
                 return false;
 
             // All reflection-in implementations share an optimized path
@@ -190,7 +190,7 @@ namespace SabreTools.Hashing.Crc
         }
 
         /// <summary>
-        /// Optimized transformation for 16/32/64-bit CRC with reflection
+        /// Optimized transformation for 16/24/32/64-bit CRC with reflection
         /// </summary>
         private void TransformBlockFastReflect(ref ulong hash, byte[] data, int offset, int length)
         {
