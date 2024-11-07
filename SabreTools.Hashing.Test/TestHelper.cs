@@ -56,6 +56,8 @@ namespace SabreTools.Hashing.Test
         private const string _crc24_lteb = "c91203";
         private const string _crc24_openpgp = "0c6012";
         private const string _crc24_os9 = "610e21";
+        private const string _crc30_cdma = "2ce682b2";
+        private const string _crc31_philips = "247c3cbe";
         private const string _crc32 = "ba02a660";
         private const string _crc32_aixm = "6174a75a";
         private const string _crc32_autosar = "c050428e";
@@ -158,6 +160,10 @@ namespace SabreTools.Hashing.Test
             Assert.Equal(_crc24_lteb, hashDict[HashType.CRC24_LTEB]);
             Assert.Equal(_crc24_openpgp, hashDict[HashType.CRC24_OPENPGP]);
             Assert.Equal(_crc24_os9, hashDict[HashType.CRC24_OS9]);
+
+            Assert.Equal(_crc30_cdma, hashDict[HashType.CRC30_CDMA]);
+
+            Assert.Equal(_crc31_philips, hashDict[HashType.CRC31_PHILIPS]);
 
             Assert.Equal(_crc32, hashDict[HashType.CRC32]);
             Assert.Equal(_crc32_aixm, hashDict[HashType.CRC32_AIXM]);

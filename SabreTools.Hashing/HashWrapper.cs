@@ -153,6 +153,10 @@ namespace SabreTools.Hashing
                 HashType.CRC24_OPENPGP => new CrcRunner(StandardDefinitions.CRC24_OPENPGP),
                 HashType.CRC24_OS9 => new CrcRunner(StandardDefinitions.CRC24_OS9),
 
+                HashType.CRC30_CDMA => new CrcRunner(StandardDefinitions.CRC30_CDMA),
+
+                HashType.CRC31_PHILIPS => new CrcRunner(StandardDefinitions.CRC31_PHILIPS),
+
                 HashType.CRC32 => new CrcRunner(StandardDefinitions.CRC32_ISOHDLC),
                 HashType.CRC32_AIXM => new CrcRunner(StandardDefinitions.CRC32_AIXM),
                 HashType.CRC32_AUTOSAR => new CrcRunner(StandardDefinitions.CRC32_AUTOSAR),

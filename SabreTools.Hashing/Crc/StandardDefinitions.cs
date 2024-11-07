@@ -557,6 +557,42 @@ namespace SabreTools.Hashing.Crc
 
         #endregion
 
+        #region CRC-30
+
+        /// <summary>
+        /// CRC-30/CDMA
+        /// </summary>
+        public static readonly CrcDefinition CRC30_CDMA = new()
+        {
+            Name = "CRC-30/CDMA",
+            Width = 30,
+            Poly = 0x2030b9c7,
+            Init = 0x3fffffff,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x3fffffff,
+        };
+
+        #endregion
+
+        #region CRC-31
+
+        /// <summary>
+        /// CRC-31/PHILIPS
+        /// </summary>
+        public static readonly CrcDefinition CRC31_PHILIPS = new()
+        {
+            Name = "CRC-31/PHILIPS",
+            Width = 31,
+            Poly = 0x04c11db7,
+            Init = 0x7fffffff,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x7fffffff,
+        };
+
+        #endregion
+
         #region CRC-32
 
         /// <summary>

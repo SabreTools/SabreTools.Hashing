@@ -226,6 +226,24 @@ namespace SabreTools.Hashing
 
         #endregion
 
+        #region CRC-30
+
+        /// <summary>
+        /// CRC 30-bit checksum (CRC-30/CDMA)
+        /// </summary>
+        CRC30_CDMA,
+
+        #endregion
+
+        #region CRC-31
+
+        /// <summary>
+        /// CRC 31-bit checksum (CRC-31/PHILIPS)
+        /// </summary>
+        CRC31_PHILIPS,
+
+        #endregion
+
         #region CRC-32
 
         /// <summary>
