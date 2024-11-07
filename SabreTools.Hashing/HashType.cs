@@ -17,6 +17,8 @@ namespace SabreTools.Hashing
         BLAKE3,
 #endif
 
+        #region CRC-16
+
         /// <summary>
         /// CRC 16-bit checksum
         /// </summary>
@@ -178,6 +180,10 @@ namespace SabreTools.Hashing
         /// </summary>
         CRC16_XMODEM,
 
+        #endregion
+
+        #region CRC-24
+
         /// <summary>
         /// CRC 24-bit checksum (CRC-24/BLE)
         /// </summary>
@@ -217,6 +223,10 @@ namespace SabreTools.Hashing
         /// CRC 24-bit checksum (CRC-24/OS-9)
         /// </summary>
         CRC24_OS9,
+
+        #endregion
+
+        #region CRC-32
 
         /// <summary>
         /// CRC 32-bit checksum
@@ -284,10 +294,18 @@ namespace SabreTools.Hashing
         /// </summary>
         CRC32_XFER,
 
+        #endregion
+
+        #region CRC-40
+
         /// <summary>
         /// CRC 40-bit checksum (CRC-40/GSM)
         /// </summary>
         CRC40_GSM,
+
+        #endregion
+
+        #region CRC-64
 
         /// <summary>
         /// CRC 64-bit checksum
@@ -330,6 +348,10 @@ namespace SabreTools.Hashing
         /// </summary>
         CRC64_XZ,
 
+        #endregion
+
+        #region Fletcher
+
         /// <summary>
         /// John G. Fletcher's 16-bit checksum
         /// </summary>
@@ -339,6 +361,8 @@ namespace SabreTools.Hashing
         /// John G. Fletcher's 32-bit checksum
         /// </summary>
         Fletcher32,
+
+        #endregion
 
         /// <summary>
         /// MD5 hash
@@ -351,6 +375,8 @@ namespace SabreTools.Hashing
         /// </summary>
         RIPEMD160,
 #endif
+
+        #region SHA
 
         /// <summary>
         /// SHA-1 hash
@@ -401,10 +427,14 @@ namespace SabreTools.Hashing
         SHAKE256,
 #endif
 
+        #endregion
+
         /// <summary>
         /// spamsum fuzzy hash
         /// </summary>
         SpamSum,
+
+        #region xxHash
 
 #if NET462_OR_GREATER || NETCOREAPP
         /// <summary>
@@ -427,5 +457,7 @@ namespace SabreTools.Hashing
         /// </summary>
         XxHash128,
 #endif
+
+        #endregion
     }
 }
