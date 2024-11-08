@@ -52,11 +52,7 @@ namespace SabreTools.Hashing.XxHash
                 _acc[3] = seed - XXH_PRIME32_1;
             }
 
-            for (int i = 0; i < _mem32.Length; i++)
-            {
-                _mem32[i] = 0;
-            }
-
+            Array.Clear(_mem32, 0, _mem32.Length);
             _memsize = 0;
         }
 
@@ -151,7 +147,7 @@ namespace SabreTools.Hashing.XxHash
         private static uint Round(uint acc, uint input)
         {
             acc += input * XXH_PRIME32_2;
-            acc = RotateLeft32(acc, 13);
+            acc  = RotateLeft32(acc, 13);
             acc *= XXH_PRIME32_1;
             return acc;
         }
