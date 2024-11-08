@@ -44,10 +44,13 @@ namespace SabreTools.Hashing.XxHash
             _totalLen32 = 0;
             _largeLen = 0;
 
-            _acc[0] = seed + XXH_PRIME32_1 + XXH_PRIME32_2;
-            _acc[1] = seed + XXH_PRIME32_2;
-            _acc[2] = seed + 0;
-            _acc[3] = seed - XXH_PRIME32_1;
+            unchecked
+            {
+                _acc[0] = seed + XXH_PRIME32_1 + XXH_PRIME32_2;
+                _acc[1] = seed + XXH_PRIME32_2;
+                _acc[2] = seed + 0;
+                _acc[3] = seed - XXH_PRIME32_1;
+            }
 
             for (int i = 0; i < _mem32.Length; i++)
             {
@@ -118,23 +121,22 @@ namespace SabreTools.Hashing.XxHash
         /// <returns>The calculated 32-bit xxHash32 value from that state.</returns>
         public uint Digest()
         {
-            uint h32;
+            uint hash;
 
             if (_largeLen > 0)
             {
-                h32 = RotateLeft32(_acc[0], 1)
-                    + RotateLeft32(_acc[1], 7)
-                    + RotateLeft32(_acc[2], 12)
-                    + RotateLeft32(_acc[3], 18);
+                hash = RotateLeft32(_acc[0], 1)
+                     + RotateLeft32(_acc[1], 7)
+                     + RotateLeft32(_acc[2], 12)
+                     + RotateLeft32(_acc[3], 18);
             }
             else
             {
-                h32 = _acc[2] /* == seed */ + XXH_PRIME32_5;
+                hash = _acc[2] /* == seed */ + XXH_PRIME32_5;
             }
 
-            h32 += _totalLen32;
-
-            return Finalize(h32, _mem32, 0, _memsize);
+            hash += _totalLen32;
+            return Finalize(hash, _mem32, 0, _memsize);
         }
 
         /// <summary>
