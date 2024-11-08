@@ -167,8 +167,6 @@ namespace SabreTools.Hashing.XxHash
         /// The final mix ensures that all input bits have a chance to impact any bit in
         /// the output digest, resulting in an unbiased distribution.
         /// </summary>
-        /// <param name="hash"></param>
-        /// <returns></returns>
         private static uint Avalanche(uint hash)
         {
             hash ^= hash >> 15;
