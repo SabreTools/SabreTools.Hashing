@@ -70,23 +70,23 @@ namespace SabreTools.Hashing.XxHash
             _totalLen32 += (uint)length;
             _largeLen |= (uint)((length >= 16) | (_totalLen32 >= 16) ? 1 : 0);
 
+            // Fill in tmp buffer
             if (_memsize + length < 16)
             {
-                // Fill in tmp buffer
                 Array.Copy(data, offset, _mem32, _memsize, length);
                 _memsize += length;
                 return;
             }
 
+            // Some data left from previous update
             if (_memsize > 0)
             {
-                // Some data left from previous update
                 Array.Copy(data, offset, _mem32, _memsize, 16 - _memsize);
 
                 int p32 = 0;
-                _v[0] = Round(_v[0], ReadLE32(_mem32, p32)); p32++;
-                _v[1] = Round(_v[1], ReadLE32(_mem32, p32)); p32++;
-                _v[2] = Round(_v[2], ReadLE32(_mem32, p32)); p32++;
+                _v[0] = Round(_v[0], ReadLE32(_mem32, p32)); p32 += 4;
+                _v[1] = Round(_v[1], ReadLE32(_mem32, p32)); p32 += 4;
+                _v[2] = Round(_v[2], ReadLE32(_mem32, p32)); p32 += 4;
                 _v[3] = Round(_v[3], ReadLE32(_mem32, p32));
 
                 offset += 16 - _memsize;
@@ -96,7 +96,6 @@ namespace SabreTools.Hashing.XxHash
             if (offset <= bEnd - 16)
             {
                 int limit = bEnd - 16;
-
                 do
                 {
                     _v[0] = Round(_v[0], ReadLE32(data, offset)); offset += 4;
@@ -135,7 +134,7 @@ namespace SabreTools.Hashing.XxHash
 
             h32 += _totalLen32;
 
-            return Finalize(h32, _mem32, 0, _memsize, Alignment.XXH_aligned);
+            return Finalize(h32, _mem32, 0, _memsize);
         }
 
         /// <summary>
@@ -182,14 +181,13 @@ namespace SabreTools.Hashing.XxHash
         /// <param name="data">The remaining input.</param>
         /// <param name="offset">The pointer to the remaining input.</param>
         /// <param name="length">The remaining length, modulo 16.</param>
-        /// <param name="align">Whether <paramref name="offset"/> is aligned.</param>
         /// <returns>The finalized hash.</returns>
-        private static uint Finalize(uint hash, byte[] data, int offset, int length, Alignment align)
+        private static uint Finalize(uint hash, byte[] data, int offset, int length)
         {
             length &= 15;
             while (length >= 4)
             {
-                hash += ReadLE32Align(data, offset, align) * XXH_PRIME32_3;
+                hash += ReadLE32(data, offset) * XXH_PRIME32_3;
                 offset += 4;
                 hash = RotateLeft32(hash, 17) * XXH_PRIME32_4;
                 length -= 4;
