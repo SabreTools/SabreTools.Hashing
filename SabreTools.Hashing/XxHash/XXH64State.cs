@@ -64,12 +64,12 @@ namespace SabreTools.Hashing.XxHash
         }
 
         /// <summary>
-        /// Hash a block of data and append it to the existing hash
+        /// Consumes a block of input
         /// </summary>
         /// <param name="data">Byte array representing the data</param>
         /// <param name="offset">Offset in the byte array to include</param>
         /// <param name="length">Length of the data to hash</param>
-        public void TransformBlock(byte[] data, int offset, int length)
+        public void Update(byte[] data, int offset, int length)
         {
             int bEnd = offset + length;
 
