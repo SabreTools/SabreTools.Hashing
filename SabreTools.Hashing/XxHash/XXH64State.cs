@@ -158,22 +158,6 @@ namespace SabreTools.Hashing.XxHash
         }
 
         /// <summary>
-        /// Mixes all bits to finalize the hash.
-        /// 
-        /// The final mix ensures that all input bits have a chance to impact any bit in
-        /// the output digest, resulting in an unbiased distribution.
-        /// </summary>
-        private static ulong Avalanche(ulong hash)
-        {
-            hash ^= hash >> 33;
-            hash *= XXH_PRIME64_2;
-            hash ^= hash >> 29;
-            hash *= XXH_PRIME64_3;
-            hash ^= hash >> 32;
-            return hash;
-        }
-
-        /// <summary>
         /// Processes the last 0-31 bytes of @p ptr.
         /// 
         /// There may be up to 31 bytes remaining to consume from the input.
@@ -213,7 +197,7 @@ namespace SabreTools.Hashing.XxHash
                 --length;
             }
 
-            return Avalanche(hash);
+            return XXH64Avalanche(hash);
         }
     }
 }
