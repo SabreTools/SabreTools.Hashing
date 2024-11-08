@@ -36,11 +36,6 @@ namespace SabreTools.Hashing.XxHash
         private int _memsize;
 
         /// <summary>
-        /// Reserved field. Do not read nor write to it.
-        /// </summary>
-        private uint _reserved;
-
-        /// <summary>
         /// Resets to begin a new hash
         /// </summary>
         /// <param name="seed">The 32-bit seed to alter the hash result predictably.</param>
@@ -60,7 +55,6 @@ namespace SabreTools.Hashing.XxHash
             }
 
             _memsize = 0;
-            _reserved = 0;
         }
 
         /// <summary>
