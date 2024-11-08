@@ -119,6 +119,9 @@ namespace SabreTools.Hashing
                 HashType.BLAKE3 => new Blake3HashAlgorithm(),
 #endif
 
+                HashType.CRC1_ZERO => new CrcRunner(StandardDefinitions.CRC1_ZERO),
+                HashType.CRC1_ONE => new CrcRunner(StandardDefinitions.CRC1_ONE),
+
                 HashType.CRC3_GSM => new CrcRunner(StandardDefinitions.CRC3_GSM),
                 HashType.CRC3_ROHC => new CrcRunner(StandardDefinitions.CRC3_ROHC),
 

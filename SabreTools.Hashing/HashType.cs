@@ -17,6 +17,20 @@ namespace SabreTools.Hashing
         BLAKE3,
 #endif
 
+        #region CRC-1
+
+        /// <summary>
+        /// CRC 1-bit checksum (CRC-1/ZERO [Parity bit with 0 start])
+        /// </summary>
+        CRC1_ZERO,
+
+        /// <summary>
+        /// CRC 1-bit checksum (CRC-1/ONE [Parity bit with 1 start])
+        /// </summary>
+        CRC1_ONE,
+
+        #endregion
+
         #region CRC-3
 
         /// <summary>

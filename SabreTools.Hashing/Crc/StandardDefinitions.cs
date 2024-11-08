@@ -3,6 +3,38 @@ namespace SabreTools.Hashing.Crc
     /// <see href="https://reveng.sourceforge.io/crc-catalogue/all.htm#crc.legend"/>
     public static class StandardDefinitions
     {
+        #region CRC-1
+
+        /// <summary>
+        /// CRC-1/ZERO [Parity bit with 0 start]
+        /// </summary>
+        public static readonly CrcDefinition CRC1_ZERO = new()
+        {
+            Name = "CRC-1/ZERO",
+            Width = 1,
+            Poly = 0x1,
+            Init = 0x0,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x0,
+        };
+
+        /// <summary>
+        /// CRC-1/ONE [Parity bit with 1 start]
+        /// </summary>
+        public static readonly CrcDefinition CRC1_ONE = new()
+        {
+            Name = "CRC-1/ONE",
+            Width = 1,
+            Poly = 0x1,
+            Init = 0x1,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x0,
+        };
+
+        #endregion
+
         #region CRC-3
 
         /// <summary>

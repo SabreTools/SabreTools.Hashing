@@ -21,6 +21,9 @@ namespace SabreTools.Hashing.Test
             {HashType.BLAKE3, "d4bd7ca6f1ebea9580d9381106b248eb5b6069170d0bfd00b17d659fcd10dcdc"},
 #endif
 
+            {HashType.CRC1_ZERO, "0"},
+            {HashType.CRC1_ONE, "1"},
+
             {HashType.CRC3_GSM, "4"},
             {HashType.CRC3_ROHC, "3"},
 
