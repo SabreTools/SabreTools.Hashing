@@ -143,8 +143,8 @@ namespace SabreTools.Hashing.XxHash
         /// <returns>The mixed accumulator lane.</returns>
         private static ulong Round(ulong acc, ulong input)
         {
-            acc += input * XXH_PRIME64_2;
-            acc = RotateLeft64(acc, 31);
+            acc += unchecked(input * XXH_PRIME64_2);
+            acc  = RotateLeft64(acc, 31);
             acc *= XXH_PRIME64_1;
             return acc;
         }

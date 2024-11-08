@@ -20,14 +20,14 @@ namespace SabreTools.Hashing.XxHash
         /// </summary>
         public static ulong ReadBE64(byte[] data, int offset)
         {
-            return (ulong)(data[offset + 7]
-                         | data[offset + 6] << 8
-                         | data[offset + 5] << 16
-                         | data[offset + 4] << 24
-                         | data[offset + 3] << 32
-                         | data[offset + 2] << 40
-                         | data[offset + 1] << 48
-                         | data[offset + 0] << 56);
+            return data[offset + 7]
+          | (ulong)data[offset + 6] << 8
+          | (ulong)data[offset + 5] << 16
+          | (ulong)data[offset + 4] << 24
+          | (ulong)data[offset + 3] << 32
+          | (ulong)data[offset + 2] << 40
+          | (ulong)data[offset + 1] << 48
+          | (ulong)data[offset + 0] << 56;
         }
 
         #endregion
@@ -71,14 +71,14 @@ namespace SabreTools.Hashing.XxHash
         /// </summary>
         public static ulong ReadLE64(byte[] data, int offset)
         {
-            return (ulong)(data[offset + 0]
-                         | data[offset + 1] << 8
-                         | data[offset + 2] << 16
-                         | data[offset + 3] << 24
-                         | data[offset + 4] << 32
-                         | data[offset + 5] << 40
-                         | data[offset + 6] << 48
-                         | data[offset + 7] << 56);
+            return data[offset + 0]
+          | (ulong)data[offset + 1] << 8
+          | (ulong)data[offset + 2] << 16
+          | (ulong)data[offset + 3] << 24
+          | (ulong)data[offset + 4] << 32
+          | (ulong)data[offset + 5] << 40
+          | (ulong)data[offset + 6] << 48
+          | (ulong)data[offset + 7] << 56;
         }
 
         /// <summary>
