@@ -1,5 +1,10 @@
 namespace SabreTools.Hashing.XxHash
 {
+    // Handle unused private fields
+    #pragma warning disable CS0169
+    #pragma warning disable CS0414
+    #pragma warning disable CS0649
+
     /// <summary>
     /// Structure for XXH3 streaming API.
     /// </summary>
@@ -9,74 +14,62 @@ namespace SabreTools.Hashing.XxHash
         /// <summary>
         /// Accumulator lanes
         /// </summary>
-        public ulong[] AccumulatorLanes { get; } = new ulong[8];
+        private readonly ulong[] _acc = new ulong[8];
 
         /// <summary>
         /// Used to store a custom secret generated from a seed.
         /// </summary>
-        public byte[] CustomSecret { get; set; } = new byte[Constants.XXH3_SECRET_DEFAULT_SIZE];
+        private readonly byte[] _customSecret = new byte[Constants.XXH3_SECRET_DEFAULT_SIZE];
 
         /// <summary>
         /// The internal buffer. <see cref="XXH32State._mem32"/>
         /// </summary>
-        public byte[] Buffer { get; } = new byte[Constants.XXH3_INTERNALBUFFER_SIZE];
+        private readonly byte[] _buffer = new byte[Constants.XXH3_INTERNALBUFFER_SIZE];
 
         /// <summary>
-        /// The amount of memory in <see cref="Buffer"/>, <see cref="XXH32State._memsize"/> 
+        /// The amount of memory in <see cref="_buffer"/>, <see cref="XXH32State._memsize"/> 
         /// </summary>
-        public uint BufferedSize { get; set; }
+        private uint _bufferedSize;
 
         /// <summary>
         /// Reserved field. Needed for padding on 64-bit.
         /// </summary>
-        public uint UseSeed { get; set; }
+        private uint _useSeed;
 
         /// <summary>
         /// Number or stripes processed.
         /// </summary>
-        public ulong StripesSoFar { get; set; }
+        private ulong _stripesSoFar;
 
         /// <summary>
         /// Total length hashed. 64-bit even on 32-bit targets.
         /// </summary>
-        public ulong TotalLength { get; set; }
+        private ulong _totalLength;
 
         /// <summary>
         /// Number of stripes per block.
         /// </summary>
-        public ulong StripesPerBlock { get; set; }
+        private ulong _stripesPerBlock;
 
         /// <summary>
-        /// Size of <see cref="CustomSecret"/> or <see cref="ExtSecret">
+        /// Size of <see cref="_customSecret"/> or <see cref="_extSecret">
         /// </summary>
-        public ulong SecretLimit { get; set; }
+        private ulong _secretLimit;
 
         /// <summary>
         /// Seed for _withSeed variants. Must be zero otherwise, @see XXH3_INITSTATE()
         /// </summary>
-        public ulong Seed { get; set; }
-
-        /// <summary>
-        /// Reserved field.
-        /// </summary>
-        public ulong Reserved64 { get; set; }
+        private ulong _seed;
 
         /// <summary>
         /// Reference to an external secret for the _withSecret variants, NULL
         /// for other variants.
         /// </summary>
         /// <remarks>There may be some padding at the end due to alignment on 64 bytes</remarks>
-        public byte[]? ExtSecret { get; set; }
-
-        public XXH3_128State()
-        {
-            // TODO: XXH3_128bits
-            Seed = 0;
-            ExtSecret = null;
-        }
+        private byte[]? _extSecret = null;
 
         /// <param name="seed">The 64-bit seed to alter the hash result predictably.</param>
-        public XXH3_128State(ulong seed)
+        public XXH3_128State(ulong seed = 0)
         {
             // TODO: XXH3_128bits_withSeed
         }
