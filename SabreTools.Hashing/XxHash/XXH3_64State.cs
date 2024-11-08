@@ -4,7 +4,7 @@ namespace SabreTools.Hashing.XxHash
     /// Structure for XXH3 streaming API.
     /// </summary>
     /// <see href="https://github.com/Cyan4973/xxHash/blob/dev/xxhash.h"/> 
-    internal class XXH3State
+    internal class XXH3_64State
     {
         /// <summary>
         /// Accumulator lanes
@@ -68,33 +68,21 @@ namespace SabreTools.Hashing.XxHash
         /// <remarks>There may be some padding at the end due to alignment on 64 bytes</remarks>
         public byte[]? ExtSecret { get; set; }
 
-        public XXH3State()
+        public XXH3_64State()
         {
             // TODO: XXH3_64bits
-            // TODO: XXH3_128bits
-            Seed = 0;
-            ExtSecret = Constants.XXH3_kSecret;
-            SecretLimit = (ulong)Constants.XXH3_kSecret.Length;
         }
 
         /// <param name="seed">The 64-bit seed to alter the hash result predictably.</param>
-        public XXH3State(ulong seed)
+        public XXH3_64State(ulong seed)
         {
             // TODO: XXH3_64bits_withSeed
-            // TODO: XXH3_128bits_withSeed
-            Seed = seed;
-            ExtSecret = Constants.XXH3_kSecret;
-            SecretLimit = (ulong)Constants.XXH3_kSecret.Length;
         }
 
         /// <param name="secret">The secret data.</param>
-        public XXH3State(byte[] secret)
+        public XXH3_64State(byte[] secret)
         {
             // TODO: XXH3_64bits_withSecret
-            // TODO: XXH3_128bits_withSecret
-            CustomSecret = secret;
-            ExtSecret = null;
-            SecretLimit = (ulong)CustomSecret.Length;
         }
 
         /// <summary>
@@ -104,7 +92,6 @@ namespace SabreTools.Hashing.XxHash
         public void Reset()
         {
             // TODO: XXH3_64bits_reset
-            // TODO: XXH3_128bits_reset
         }
 
         /// <summary>
@@ -114,7 +101,6 @@ namespace SabreTools.Hashing.XxHash
         public void Reset(ulong seed)
         {
             // TODO: XXH3_64bits_reset_withSeed
-            // TODO: XXH3_128bits_reset_withSeed
         }
 
         /// <summary>
@@ -124,7 +110,6 @@ namespace SabreTools.Hashing.XxHash
         public void Reset(byte[] secret)
         {
             // TODO: XXH3_64bits_reset_withSecret
-            // TODO: XXH3_128bits_reset_withSecret
         }
     
         /// <summary>
@@ -136,7 +121,6 @@ namespace SabreTools.Hashing.XxHash
         public void TransformBlock(byte[] data, int offset, int length)
         {
             // TODO: XXH3_64bits_update
-            // TODO: XXH3_128bits_update
         }
 
         /// <summary>
@@ -146,7 +130,6 @@ namespace SabreTools.Hashing.XxHash
         public ulong Digest()
         {
             // TODO: XXH3_64bits_digest
-            // TODO: XXH3_128bits_digest
             return ulong.MaxValue;
         }
     }
