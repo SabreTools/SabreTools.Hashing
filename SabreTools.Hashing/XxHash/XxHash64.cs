@@ -2,7 +2,7 @@ using System;
 
 namespace SabreTools.Hashing.XxHash
 {
-    internal class XxHash64
+    public class XxHash64
     {
         /// <summary>
         /// The 64-bit seed to alter the hash result predictably.
