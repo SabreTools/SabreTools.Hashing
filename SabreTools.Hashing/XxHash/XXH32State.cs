@@ -18,7 +18,7 @@ namespace SabreTools.Hashing.XxHash
         /// <summary>
         /// Whether the hash is >= 16 (handles <see cref="_totalLen32"/> overflow)
         /// </summary>
-        private uint _largeLen;
+        private bool _largeLen;
 
         /// <summary>
         /// Accumulator lanes
@@ -42,7 +42,7 @@ namespace SabreTools.Hashing.XxHash
         public void Reset(uint seed)
         {
             _totalLen32 = 0;
-            _largeLen = 0;
+            _largeLen = false;
 
             unchecked
             {
@@ -71,7 +71,7 @@ namespace SabreTools.Hashing.XxHash
             int bEnd = offset + length;
 
             _totalLen32 += (uint)length;
-            _largeLen |= (uint)((length >= 16) | (_totalLen32 >= 16) ? 1 : 0);
+            _largeLen |= (length >= 16) | (_totalLen32 >= 16);
 
             // Fill in tmp buffer
             if (_memsize + length < 16)
@@ -123,7 +123,7 @@ namespace SabreTools.Hashing.XxHash
         {
             uint hash;
 
-            if (_largeLen > 0)
+            if (_largeLen)
             {
                 hash = RotateLeft32(_acc[0], 1)
                      + RotateLeft32(_acc[1], 7)
