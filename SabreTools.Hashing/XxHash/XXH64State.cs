@@ -23,7 +23,7 @@ namespace SabreTools.Hashing.XxHash
         /// <summary>
         /// Internal buffer for partial reads. Treated as unsigned char[32].
         /// </summary>
-        private byte[] _mem64 = new byte[32];
+        private readonly byte[] _mem64 = new byte[32];
 
         /// <summary>
         /// Amount of data in <see cref="_mem64">
@@ -129,7 +129,6 @@ namespace SabreTools.Hashing.XxHash
             }
 
             h64 += _totalLen;
-
             return Finalize(h64, _mem64, 0, (int)_totalLen);
         }
 
