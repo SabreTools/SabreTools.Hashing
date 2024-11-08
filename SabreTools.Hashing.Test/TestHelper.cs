@@ -184,8 +184,8 @@ namespace SabreTools.Hashing.Test
 
             {HashType.SpamSum, "3:hMCPQCE6AFQxWyENFACBE+rW6Tj7SMQmKozr9MVERkL:hZRdxZENFs+rPSromekL"},
 
-#if NET462_OR_GREATER || NETCOREAPP
             {HashType.XxHash32, "aa1d338e"},
+#if NET462_OR_GREATER || NETCOREAPP
             {HashType.XxHash64, "181e9ea4f0f62b08"},
             {HashType.XxHash3, "f29fda0eeb740404"},
             {HashType.XxHash128, "e811cdfb1280efae1be1e1a5b4b434d9"},

@@ -42,8 +42,6 @@ namespace SabreTools.Hashing
                     case IChecksum ic:
                         return ic.Final();
 #if NET462_OR_GREATER || NETCOREAPP
-                    case XxHash32 xxh32:
-                        return xxh32.GetCurrentHash();
                     case XxHash64 xxh64:
                         return xxh64.GetCurrentHash();
                     case XxHash3 xxh3:
@@ -291,9 +289,11 @@ namespace SabreTools.Hashing
                 HashType.SHAKE128 => Shake128.IsSupported ? new Shake128() : null,
                 HashType.SHAKE256 => Shake256.IsSupported ? new Shake256() : null,
 #endif
+
                 HashType.SpamSum => new SpamSumContext(),
+
+                HashType.XxHash32 => new XxHash.XxHash32(),
 #if NET462_OR_GREATER || NETCOREAPP
-                HashType.XxHash32 => new XxHash32(),
                 HashType.XxHash64 => new XxHash64(),
                 HashType.XxHash3 => new XxHash3(),
                 HashType.XxHash128 => new XxHash128(),

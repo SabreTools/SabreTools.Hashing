@@ -785,12 +785,12 @@ namespace SabreTools.Hashing
 
         #region xxHash
 
-#if NET462_OR_GREATER || NETCOREAPP
         /// <summary>
         /// xxHash32 hash
         /// </summary>
         XxHash32,
 
+#if NET462_OR_GREATER || NETCOREAPP
         /// <summary>
         /// xxHash64 hash
         /// </summary>
