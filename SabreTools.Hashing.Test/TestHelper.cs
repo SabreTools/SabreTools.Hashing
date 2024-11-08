@@ -185,10 +185,10 @@ namespace SabreTools.Hashing.Test
             {HashType.SpamSum, "3:hMCPQCE6AFQxWyENFACBE+rW6Tj7SMQmKozr9MVERkL:hZRdxZENFs+rPSromekL"},
 
 #if NET462_OR_GREATER || NETCOREAPP
-            {HashType.XxHash32, "8e331daa"},
-            {HashType.XxHash64, "082bf6f0a49e1e18"},
-            {HashType.XxHash3, "040474eb0eda9ff2"},
-            {HashType.XxHash128, "d934b4b4a5e1e11baeef8012fbcd11e8"},
+            {HashType.XxHash32, "aa1d338e"},
+            {HashType.XxHash64, "181e9ea4f0f62b08"},
+            {HashType.XxHash3, "f29fda0eeb740404"},
+            {HashType.XxHash128, "e811cdfb1280efae1be1e1a5b4b434d9"},
 #endif
         };
 

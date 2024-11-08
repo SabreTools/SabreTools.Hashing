@@ -42,6 +42,14 @@ namespace SabreTools.Hashing
                     case IChecksum ic:
                         return ic.Final();
 #if NET462_OR_GREATER || NETCOREAPP
+                    case XxHash32 xxh32:
+                        return xxh32.GetCurrentHash();
+                    case XxHash64 xxh64:
+                        return xxh64.GetCurrentHash();
+                    case XxHash3 xxh3:
+                        return xxh3.GetCurrentHash();
+                    case XxHash128 xxh128:
+                        return xxh128.GetCurrentHash();
                     case NonCryptographicHashAlgorithm ncha:
                         var nchaArr = ncha.GetCurrentHash();
                         Array.Reverse(nchaArr);
