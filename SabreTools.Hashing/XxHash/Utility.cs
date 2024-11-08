@@ -9,10 +9,10 @@ namespace SabreTools.Hashing.XxHash
         /// </summary>
         public static uint ReadBE32(byte[] data, int offset)
         {
-            return (uint)data[offset + 3]
-                       | data[offset + 2]
-                       | data[offset + 1]
-                       | data[offset + 0];
+            return (uint)(data[offset + 3]
+                        | data[offset + 2] << 8
+                        | data[offset + 1] << 16
+                        | data[offset + 0] << 24);
         }
 
         /// <summary>
@@ -20,14 +20,14 @@ namespace SabreTools.Hashing.XxHash
         /// </summary>
         public static ulong ReadBE64(byte[] data, int offset)
         {
-            return (ulong)data[offset + 7]
-                        | data[offset + 6]
-                        | data[offset + 5]
-                        | data[offset + 4]
-                        | data[offset + 3]
-                        | data[offset + 2]
-                        | data[offset + 1]
-                        | data[offset + 0];
+            return (ulong)(data[offset + 7]
+                         | data[offset + 6] << 8
+                         | data[offset + 5] << 16
+                         | data[offset + 4] << 24
+                         | data[offset + 3] << 32
+                         | data[offset + 2] << 40
+                         | data[offset + 1] << 48
+                         | data[offset + 0] << 56);
         }
 
         #endregion
@@ -39,10 +39,10 @@ namespace SabreTools.Hashing.XxHash
         /// </summary>
         public static uint ReadLE32(byte[] data, int offset)
         {
-            return (uint)data[offset + 0]
-                       | data[offset + 1]
-                       | data[offset + 2]
-                       | data[offset + 3];
+            return (uint)(data[offset + 0]
+                        | data[offset + 1] << 8
+                        | data[offset + 2] << 16
+                        | data[offset + 3] << 24);
         }
 
         /// <summary>
@@ -71,14 +71,14 @@ namespace SabreTools.Hashing.XxHash
         /// </summary>
         public static ulong ReadLE64(byte[] data, int offset)
         {
-            return (ulong)data[offset + 0]
-                        | data[offset + 1]
-                        | data[offset + 2]
-                        | data[offset + 3]
-                        | data[offset + 4]
-                        | data[offset + 5]
-                        | data[offset + 6]
-                        | data[offset + 7];
+            return (ulong)(data[offset + 0]
+                         | data[offset + 1] << 8
+                         | data[offset + 2] << 16
+                         | data[offset + 3] << 24
+                         | data[offset + 4] << 32
+                         | data[offset + 5] << 40
+                         | data[offset + 6] << 48
+                         | data[offset + 7] << 56);
         }
 
         /// <summary>
