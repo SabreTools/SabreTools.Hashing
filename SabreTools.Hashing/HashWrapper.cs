@@ -37,10 +37,13 @@ namespace SabreTools.Hashing
                         var crArr = cr.Finalize();
                         Array.Reverse(crArr);
                         return crArr;
+
                     case HashAlgorithm ha:
                         return ha.Hash;
+
                     case IChecksum ic:
                         return ic.Final();
+
 #if NET462_OR_GREATER || NETCOREAPP
                     case XxHash64 xxh64:
                         return xxh64.GetCurrentHash();
@@ -53,16 +56,23 @@ namespace SabreTools.Hashing
                         Array.Reverse(nchaArr);
                         return nchaArr;
 #endif
+
 #if NET8_0_OR_GREATER
                     case Shake128 s128:
                         return s128.GetCurrentHash(32);
                     case Shake256 s256:
                         return s256.GetCurrentHash(64);
 #endif
+
                     case XxHash.XxHash32 xxh32:
                         var xxh32Arr = xxh32.Finalize();
                         Array.Reverse(xxh32Arr);
                         return xxh32Arr;
+                    case XxHash.XxHash64 xxh64:
+                        var xxh64Arr = xxh64.Finalize();
+                        Array.Reverse(xxh64Arr);
+                        return xxh64Arr;
+
                     default:
                         return null;
                 }
@@ -355,6 +365,9 @@ namespace SabreTools.Hashing
 
                 case XxHash.XxHash32 xxh32:
                     xxh32.TransformBlock(buffer, offset, size);
+                    break;
+                case XxHash.XxHash64 xxh64:
+                    xxh64.TransformBlock(buffer, offset, size);
                     break;
             }
         }
