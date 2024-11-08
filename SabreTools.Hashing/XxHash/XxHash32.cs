@@ -7,7 +7,7 @@ namespace SabreTools.Hashing.XxHash
         /// <summary>
         /// The 32-bit seed to alter the hash result predictably.
         /// </summary>
-        private uint _seed;
+        private readonly uint _seed;
 
         /// <summary>
         /// Internal xxHash32 state

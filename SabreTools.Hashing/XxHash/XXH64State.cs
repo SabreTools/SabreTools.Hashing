@@ -125,7 +125,7 @@ namespace SabreTools.Hashing.XxHash
 
             if (TotalLength >= 32)
             {
-                h64 = XXH_rotl64(V[0], 1) + XXH_rotl64(V[1], 7) + XXH_rotl64(V[2], 12) + XXH_rotl64(V[3], 18);
+                h64 = RotateLeft64(V[0], 1) + RotateLeft64(V[1], 7) + RotateLeft64(V[2], 12) + RotateLeft64(V[3], 18);
                 h64 = MergeRound(h64, V[0]);
                 h64 = MergeRound(h64, V[1]);
                 h64 = MergeRound(h64, V[2]);
@@ -153,7 +153,7 @@ namespace SabreTools.Hashing.XxHash
         private static ulong Round(ulong acc, ulong input)
         {
             acc += input * XXH_PRIME64_2;
-            acc = XXH_rotl64(acc, 31);
+            acc = RotateLeft64(acc, 31);
             acc *= XXH_PRIME64_1;
             return acc;
         }
@@ -200,23 +200,23 @@ namespace SabreTools.Hashing.XxHash
             length &= 31;
             while (length >= 8)
             {
-                ulong k1 = Round(0, XXH_get64bits(data, offset, align));
+                ulong k1 = Round(0, ReadLE64Align(data, offset, align));
                 offset += 8;
                 hash ^= k1;
-                hash = XXH_rotl64(hash, 27) * XXH_PRIME64_1 + XXH_PRIME64_4;
+                hash = RotateLeft64(hash, 27) * XXH_PRIME64_1 + XXH_PRIME64_4;
                 length -= 8;
             }
             if (length >= 4)
             {
-                hash ^= (ulong)(XXH_get32bits(data, offset, align)) * XXH_PRIME64_1;
+                hash ^= (ulong)(ReadLE32Align(data, offset, align)) * XXH_PRIME64_1;
                 offset += 4;
-                hash = XXH_rotl64(hash, 23) * XXH_PRIME64_2 + XXH_PRIME64_3;
+                hash = RotateLeft64(hash, 23) * XXH_PRIME64_2 + XXH_PRIME64_3;
                 length -= 4;
             }
             while (length > 0)
             {
                 hash ^= data[offset++] * XXH_PRIME64_5;
-                hash = XXH_rotl64(hash, 11) * XXH_PRIME64_1;
+                hash = RotateLeft64(hash, 11) * XXH_PRIME64_1;
                 --length;
             }
             return Avalanche(hash);
@@ -240,13 +240,13 @@ namespace SabreTools.Hashing.XxHash
 
                 do
                 {
-                    v1 = Round(v1, XXH_get64bits(data, offset, align)); offset += 8;
-                    v2 = Round(v2, XXH_get64bits(data, offset, align)); offset += 8;
-                    v3 = Round(v3, XXH_get64bits(data, offset, align)); offset += 8;
-                    v4 = Round(v4, XXH_get64bits(data, offset, align)); offset += 8;
+                    v1 = Round(v1, ReadLE64Align(data, offset, align)); offset += 8;
+                    v2 = Round(v2, ReadLE64Align(data, offset, align)); offset += 8;
+                    v3 = Round(v3, ReadLE64Align(data, offset, align)); offset += 8;
+                    v4 = Round(v4, ReadLE64Align(data, offset, align)); offset += 8;
                 } while (offset < limit);
 
-                h64 = XXH_rotl64(v1, 1) + XXH_rotl64(v2, 7) + XXH_rotl64(v3, 12) + XXH_rotl64(v4, 18);
+                h64 = RotateLeft64(v1, 1) + RotateLeft64(v2, 7) + RotateLeft64(v3, 12) + RotateLeft64(v4, 18);
                 h64 = MergeRound(h64, v1);
                 h64 = MergeRound(h64, v2);
                 h64 = MergeRound(h64, v3);

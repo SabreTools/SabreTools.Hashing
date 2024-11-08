@@ -17,12 +17,12 @@ namespace SabreTools.Hashing.XxHash
         public byte[] CustomSecret { get; set; } = new byte[Constants.XXH3_SECRET_DEFAULT_SIZE];
 
         /// <summary>
-        /// The internal buffer. <see cref="XXH32State.Memory"/>
+        /// The internal buffer. <see cref="XXH32State._mem32"/>
         /// </summary>
         public byte[] Buffer { get; } = new byte[Constants.XXH3_INTERNALBUFFER_SIZE];
 
         /// <summary>
-        /// The amount of memory in <see cref="Buffer"/>, <see cref="XXH32State.Memsize"/> 
+        /// The amount of memory in <see cref="Buffer"/>, <see cref="XXH32State._memsize"/> 
         /// </summary>
         public uint BufferedSize { get; set; }
 

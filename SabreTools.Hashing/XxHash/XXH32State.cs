@@ -13,32 +13,32 @@ namespace SabreTools.Hashing.XxHash
         /// <summary>
         /// Total length hashed, modulo 2^32
         /// </summary>
-        public uint TotalLength { get; set; }
+        private uint _totalLen32;
 
         /// <summary>
-        /// Whether the hash is >= 16 (handles <see cref="TotalLength"/> overflow)
+        /// Whether the hash is >= 16 (handles <see cref="_totalLen32"/> overflow)
         /// </summary>
-        public uint LargeLength { get; set; }
+        private uint _largeLen;
 
         /// <summary>
         /// Accumulator lanes
         /// </summary>
-        public uint[] V { get; } = new uint[4];
+        private readonly uint[] _v = new uint[4];
 
         /// <summary>
         /// Internal buffer for partial reads. Treated as unsigned char[16].
         /// </summary>
-        public byte[] Memory { get; } = new byte[16];
+        private readonly byte[] _mem32 = new byte[16];
 
         /// <summary>
-        /// Amount of data in <see cref="Memory">
+        /// Amount of data in <see cref="_mem32">
         /// </summary>
-        public int Memsize { get; set; }
+        private int _memsize;
 
         /// <summary>
         /// Reserved field. Do not read nor write to it.
         /// </summary>
-        public uint Reserved { get; set; }
+        private uint _reserved;
 
         /// <summary>
         /// Resets to begin a new hash
@@ -46,21 +46,21 @@ namespace SabreTools.Hashing.XxHash
         /// <param name="seed">The 32-bit seed to alter the hash result predictably.</param>
         public void Reset(uint seed)
         {
-            TotalLength = default;
-            LargeLength = default;
+            _totalLen32 = 0;
+            _largeLen = 0;
 
-            V[0] = seed + XXH_PRIME32_1 + XXH_PRIME32_2;
-            V[1] = seed + XXH_PRIME32_2;
-            V[2] = seed + 0;
-            V[3] = seed - XXH_PRIME32_1;
+            _v[0] = seed + XXH_PRIME32_1 + XXH_PRIME32_2;
+            _v[1] = seed + XXH_PRIME32_2;
+            _v[2] = seed + 0;
+            _v[3] = seed - XXH_PRIME32_1;
 
-            for (int i = 0; i < Memory.Length; i++)
+            for (int i = 0; i < _mem32.Length; i++)
             {
-                Memory[i] = default;
+                _mem32[i] = 0;
             }
 
-            Memsize = default;
-            Reserved = default;
+            _memsize = 0;
+            _reserved = 0;
         }
 
         /// <summary>
@@ -73,30 +73,30 @@ namespace SabreTools.Hashing.XxHash
         {
             int bEnd = offset + length;
 
-            TotalLength += (uint)length;
-            LargeLength |= (uint)((length >= 16) | (TotalLength >= 16) ? 1 : 0);
+            _totalLen32 += (uint)length;
+            _largeLen |= (uint)((length >= 16) | (_totalLen32 >= 16) ? 1 : 0);
 
-            if (Memsize + length < 16)
+            if (_memsize + length < 16)
             {
                 // Fill in tmp buffer
-                Array.Copy(data, offset, Memory, Memsize, length);
-                Memsize += length;
+                Array.Copy(data, offset, _mem32, _memsize, length);
+                _memsize += length;
                 return;
             }
 
-            if (Memsize > 0)
+            if (_memsize > 0)
             {
                 // Some data left from previous update
-                Array.Copy(data, offset, Memory, Memsize, 16 - Memsize);
+                Array.Copy(data, offset, _mem32, _memsize, 16 - _memsize);
 
                 int p32 = 0;
-                V[0] = Round(V[0], ReadLE32(Memory, p32)); p32++;
-                V[1] = Round(V[1], ReadLE32(Memory, p32)); p32++;
-                V[2] = Round(V[2], ReadLE32(Memory, p32)); p32++;
-                V[3] = Round(V[3], ReadLE32(Memory, p32));
+                _v[0] = Round(_v[0], ReadLE32(_mem32, p32)); p32++;
+                _v[1] = Round(_v[1], ReadLE32(_mem32, p32)); p32++;
+                _v[2] = Round(_v[2], ReadLE32(_mem32, p32)); p32++;
+                _v[3] = Round(_v[3], ReadLE32(_mem32, p32));
 
-                offset += 16 - Memsize;
-                Memsize = 0;
+                offset += 16 - _memsize;
+                _memsize = 0;
             }
 
             if (offset <= bEnd - 16)
@@ -105,17 +105,17 @@ namespace SabreTools.Hashing.XxHash
 
                 do
                 {
-                    V[0] = Round(V[0], ReadLE32(data, offset)); offset += 4;
-                    V[1] = Round(V[1], ReadLE32(data, offset)); offset += 4;
-                    V[2] = Round(V[2], ReadLE32(data, offset)); offset += 4;
-                    V[3] = Round(V[3], ReadLE32(data, offset)); offset += 4;
+                    _v[0] = Round(_v[0], ReadLE32(data, offset)); offset += 4;
+                    _v[1] = Round(_v[1], ReadLE32(data, offset)); offset += 4;
+                    _v[2] = Round(_v[2], ReadLE32(data, offset)); offset += 4;
+                    _v[3] = Round(_v[3], ReadLE32(data, offset)); offset += 4;
                 } while (offset <= limit);
             }
 
             if (offset < bEnd)
             {
-                Array.Copy(data, offset, Memory, 0, bEnd - offset);
-                Memsize = bEnd - offset;
+                Array.Copy(data, offset, _mem32, 0, bEnd - offset);
+                _memsize = bEnd - offset;
             }
         }
 
@@ -127,28 +127,28 @@ namespace SabreTools.Hashing.XxHash
         {
             uint h32;
 
-            if (LargeLength > 0)
+            if (_largeLen > 0)
             {
-                h32 = XXH_rotl32(V[0], 1)
-                    + XXH_rotl32(V[1], 7)
-                    + XXH_rotl32(V[2], 12)
-                    + XXH_rotl32(V[3], 18);
+                h32 = RotateLeft32(_v[0], 1)
+                    + RotateLeft32(_v[1], 7)
+                    + RotateLeft32(_v[2], 12)
+                    + RotateLeft32(_v[3], 18);
             }
             else
             {
-                h32 = V[2] /* == seed */ + XXH_PRIME32_5;
+                h32 = _v[2] /* == seed */ + XXH_PRIME32_5;
             }
 
-            h32 += TotalLength;
+            h32 += _totalLen32;
 
-            return Finalize(h32, Memory, 0, Memsize, Alignment.XXH_aligned);
+            return Finalize(h32, _mem32, 0, _memsize, Alignment.XXH_aligned);
         }
 
         /// <summary>
         /// Normal stripe processing routine.
         /// 
-        /// This shuffles the bits so that any bit from @p input impacts
-        /// several bits in @p acc.
+        /// This shuffles the bits so that any bit from <paramref name="input"/> impacts
+        /// several bits in <paramref name="acc"/>.
         /// </summary>
         /// <param name="acc">The accumulator lane.</param>
         /// <param name="input">The stripe of input to mix.</param>
@@ -156,7 +156,7 @@ namespace SabreTools.Hashing.XxHash
         private static uint Round(uint acc, uint input)
         {
             acc += input * XXH_PRIME32_2;
-            acc = XXH_rotl32(acc, 13);
+            acc = RotateLeft32(acc, 13);
             acc *= XXH_PRIME32_1;
             return acc;
         }
@@ -185,78 +185,30 @@ namespace SabreTools.Hashing.XxHash
         /// in the final mix.
         /// </summary>
         /// <param name="hash">The hash to finalize.</param>
-        /// <param name="data">The pointer to the remaining input.</param>
+        /// <param name="data">The remaining input.</param>
         /// <param name="offset">The pointer to the remaining input.</param>
         /// <param name="length">The remaining length, modulo 16.</param>
-        /// <param name="align">Whether @p ptr is aligned.</param>
+        /// <param name="align">Whether <paramref name="offset"/> is aligned.</param>
         /// <returns>The finalized hash.</returns>
         private static uint Finalize(uint hash, byte[] data, int offset, int length, Alignment align)
         {
             length &= 15;
             while (length >= 4)
             {
-                XXH_PROCESS4(ref hash, data, ref offset, align);
+                hash += ReadLE32Align(data, offset, align) * XXH_PRIME32_3;
+                offset += 4;
+                hash = RotateLeft32(hash, 17) * XXH_PRIME32_4;
                 length -= 4;
             }
 
             while (length > 0)
             {
-                XXH_PROCESS1(ref hash, data, ref offset);
+                hash += data[offset++] * XXH_PRIME32_5;
+                hash = RotateLeft32(hash, 11) * XXH_PRIME32_1;
                 --length;
             }
 
             return Avalanche(hash);
-        }
-
-        private static void XXH_PROCESS1(ref uint hash, byte[] data, ref int offset)
-        {
-            hash += data[offset++] * XXH_PRIME32_5;
-            hash = XXH_rotl32(hash, 11) * XXH_PRIME32_1;
-        }
-
-        private static void XXH_PROCESS4(ref uint hash, byte[] data, ref int offset, Alignment align)
-        {
-            hash += XXH_get32bits(data, offset, align) * XXH_PRIME32_3;
-            offset += 4;
-            hash = XXH_rotl32(hash, 17) * XXH_PRIME32_4;
-        }
-
-        /// <summary>
-        /// The implementation for XXH32
-        /// </summary>
-        /// <returns>The calculated hash.</returns>
-        private static uint EndianAlign(byte[] data, int offset, int length, uint seed, Alignment align)
-        {
-            uint h32;
-
-            if (length >= 16)
-            {
-                int bEnd = offset + length;
-                int limit = bEnd - 15;
-                uint v1 = seed + XXH_PRIME32_1 + XXH_PRIME32_2;
-                uint v2 = seed + XXH_PRIME32_2;
-                uint v3 = seed + 0;
-                uint v4 = seed - XXH_PRIME32_1;
-
-                do
-                {
-                    v1 = Round(v1, XXH_get32bits(data, offset, align)); offset += 4;
-                    v2 = Round(v2, XXH_get32bits(data, offset, align)); offset += 4;
-                    v3 = Round(v3, XXH_get32bits(data, offset, align)); offset += 4;
-                    v4 = Round(v4, XXH_get32bits(data, offset, align)); offset += 4;
-                } while (offset < limit);
-
-                h32 = XXH_rotl32(v1, 1) + XXH_rotl32(v2, 7)
-                    + XXH_rotl32(v3, 12) + XXH_rotl32(v4, 18);
-            }
-            else
-            {
-                h32 = seed + XXH_PRIME32_5;
-            }
-
-            h32 += (uint)length;
-
-            return Finalize(h32, data, offset, length & 15, align);
         }
     }
 }
