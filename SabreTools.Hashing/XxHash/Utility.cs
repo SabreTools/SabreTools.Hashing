@@ -2,6 +2,50 @@ namespace SabreTools.Hashing.XxHash
 {
     internal static class Utility
     {
+        #region Multiply and Fold
+
+        /// <summary>
+        /// Calculates a 64-bit to 128-bit multiply, then XOR folds it.
+        /// </summary>
+        public static ulong MultiplyTo128Fold64(ulong lhs, ulong rhs)
+        {
+            var product = MultiplyTo128(lhs, rhs);
+            return product.Low ^ product.High;
+        }
+
+        /// <summary>
+        /// Calculates a 32-bit to 64-bit long multiply.
+        /// </summary>
+        public static ulong MultiplyTo64(ulong x, ulong y)
+        {
+            return (x & 0xFFFFFFFF) * (y & 0xFFFFFFFF);
+        }
+
+        /// <summary>
+        /// Calculates a 64->128-bit long multiply.
+        /// </summary>
+        public static XXH3_128Hash MultiplyTo128(ulong lhs, ulong rhs)
+        {
+            // First calculate all of the cross products.
+            ulong lo_lo = MultiplyTo64(lhs & 0xFFFFFFFF, rhs & 0xFFFFFFFF);
+            ulong hi_lo = MultiplyTo64(lhs >> 32,        rhs & 0xFFFFFFFF);
+            ulong lo_hi = MultiplyTo64(lhs & 0xFFFFFFFF, rhs >> 32);
+            ulong hi_hi = MultiplyTo64(lhs >> 32,        rhs >> 32);
+
+            // Now add the products together. These will never overflow.
+            ulong cross = (lo_lo >> 32) + (hi_lo & 0xFFFFFFFF) + lo_hi;
+            ulong upper = (hi_lo >> 32) + (cross >> 32)        + hi_hi;
+            ulong lower = (cross << 32) | (lo_lo & 0xFFFFFFFF);
+
+            return new XXH3_128Hash
+            {
+                Low = lower,
+                High = upper,
+            };
+        }
+
+        #endregion
+
         #region Read Big-Endian
 
         /// <summary>
@@ -125,6 +169,15 @@ namespace SabreTools.Hashing.XxHash
         /// </summary>
         public static ulong RotateLeft64(ulong x, int r)
             => (x << r) | (x >> (64 - r));
+
+        #endregion
+
+        #region Shift
+
+        public static ulong XorShift64(ulong v64, int shift)
+        {
+            return v64 ^ (v64 >> shift);
+        }
 
         #endregion
 
