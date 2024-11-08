@@ -17,7 +17,7 @@ namespace SabreTools.Hashing.XxHash
         public byte[] CustomSecret { get; set; } = new byte[Constants.XXH3_SECRET_DEFAULT_SIZE];
 
         /// <summary>
-        /// The internal buffer. <see cref="XXH32State.PartialReadBuffer"/>
+        /// The internal buffer. <see cref="XXH32State.Memory"/>
         /// </summary>
         public byte[] Buffer { get; } = new byte[Constants.XXH3_INTERNALBUFFER_SIZE];
 
@@ -71,6 +71,8 @@ namespace SabreTools.Hashing.XxHash
         public XXH3_128State()
         {
             // TODO: XXH3_128bits
+            Seed = 0;
+            ExtSecret = null;
         }
 
         /// <param name="seed">The 64-bit seed to alter the hash result predictably.</param>

@@ -15,7 +15,7 @@ namespace SabreTools.Hashing.XxHash
     }
 
     // https://github.com/Cyan4973/xxHash/blob/dev/xxhash.h
-    internal enum Aligned
+    internal enum Alignment
     {
         /// <summary>
         /// Aligned
