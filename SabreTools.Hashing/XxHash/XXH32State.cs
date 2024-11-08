@@ -23,7 +23,7 @@ namespace SabreTools.Hashing.XxHash
         /// <summary>
         /// Accumulator lanes
         /// </summary>
-        private readonly uint[] _v = new uint[4];
+        private readonly uint[] _acc = new uint[4];
 
         /// <summary>
         /// Internal buffer for partial reads. Treated as unsigned char[16].
@@ -44,10 +44,10 @@ namespace SabreTools.Hashing.XxHash
             _totalLen32 = 0;
             _largeLen = 0;
 
-            _v[0] = seed + XXH_PRIME32_1 + XXH_PRIME32_2;
-            _v[1] = seed + XXH_PRIME32_2;
-            _v[2] = seed + 0;
-            _v[3] = seed - XXH_PRIME32_1;
+            _acc[0] = seed + XXH_PRIME32_1 + XXH_PRIME32_2;
+            _acc[1] = seed + XXH_PRIME32_2;
+            _acc[2] = seed + 0;
+            _acc[3] = seed - XXH_PRIME32_1;
 
             for (int i = 0; i < _mem32.Length; i++)
             {
@@ -84,10 +84,10 @@ namespace SabreTools.Hashing.XxHash
                 Array.Copy(data, offset, _mem32, _memsize, 16 - _memsize);
 
                 int p32 = 0;
-                _v[0] = Round(_v[0], ReadLE32(_mem32, p32)); p32 += 4;
-                _v[1] = Round(_v[1], ReadLE32(_mem32, p32)); p32 += 4;
-                _v[2] = Round(_v[2], ReadLE32(_mem32, p32)); p32 += 4;
-                _v[3] = Round(_v[3], ReadLE32(_mem32, p32));
+                _acc[0] = Round(_acc[0], ReadLE32(_mem32, p32)); p32 += 4;
+                _acc[1] = Round(_acc[1], ReadLE32(_mem32, p32)); p32 += 4;
+                _acc[2] = Round(_acc[2], ReadLE32(_mem32, p32)); p32 += 4;
+                _acc[3] = Round(_acc[3], ReadLE32(_mem32, p32));
 
                 offset += 16 - _memsize;
                 _memsize = 0;
@@ -98,10 +98,10 @@ namespace SabreTools.Hashing.XxHash
                 int limit = bEnd - 16;
                 do
                 {
-                    _v[0] = Round(_v[0], ReadLE32(data, offset)); offset += 4;
-                    _v[1] = Round(_v[1], ReadLE32(data, offset)); offset += 4;
-                    _v[2] = Round(_v[2], ReadLE32(data, offset)); offset += 4;
-                    _v[3] = Round(_v[3], ReadLE32(data, offset)); offset += 4;
+                    _acc[0] = Round(_acc[0], ReadLE32(data, offset)); offset += 4;
+                    _acc[1] = Round(_acc[1], ReadLE32(data, offset)); offset += 4;
+                    _acc[2] = Round(_acc[2], ReadLE32(data, offset)); offset += 4;
+                    _acc[3] = Round(_acc[3], ReadLE32(data, offset)); offset += 4;
                 } while (offset <= limit);
             }
 
@@ -122,14 +122,14 @@ namespace SabreTools.Hashing.XxHash
 
             if (_largeLen > 0)
             {
-                h32 = RotateLeft32(_v[0], 1)
-                    + RotateLeft32(_v[1], 7)
-                    + RotateLeft32(_v[2], 12)
-                    + RotateLeft32(_v[3], 18);
+                h32 = RotateLeft32(_acc[0], 1)
+                    + RotateLeft32(_acc[1], 7)
+                    + RotateLeft32(_acc[2], 12)
+                    + RotateLeft32(_acc[3], 18);
             }
             else
             {
-                h32 = _v[2] /* == seed */ + XXH_PRIME32_5;
+                h32 = _acc[2] /* == seed */ + XXH_PRIME32_5;
             }
 
             h32 += _totalLen32;
