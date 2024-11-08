@@ -53,6 +53,10 @@ namespace SabreTools.Hashing
                     case Shake256 s256:
                         return s256.GetCurrentHash(64);
 #endif
+                    case XxHash.XxHash32 xxh32:
+                        var xxh32Arr = xxh32.Finalize();
+                        Array.Reverse(xxh32Arr);
+                        return xxh32Arr;
                     default:
                         return null;
                 }
@@ -340,6 +344,10 @@ namespace SabreTools.Hashing
                     s256.AppendData(s256BufferSpan);
                     break;
 #endif
+
+                case XxHash.XxHash32 xxh32:
+                    xxh32.TransformBlock(buffer, offset, size);
+                    break;
             }
         }
 
