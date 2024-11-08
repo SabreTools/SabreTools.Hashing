@@ -92,27 +92,6 @@ namespace SabreTools.Hashing.XxHash
         }
 
         /// <summary>
-        /// 32-bit little-endian read with alignment
-        /// </summary>
-        public static uint ReadLE32Align(byte[] data, int offset, Alignment align)
-        {
-            if (align == Alignment.XXH_aligned)
-                return ReadLE32(data, offset);
-
-            uint value = 0;
-            if (offset + 0 < data.Length)
-                value |= data[offset + 0];
-            if (offset + 1 < data.Length)
-                value |= data[offset + 1];
-            if (offset + 2 < data.Length)
-                value |= data[offset + 2];
-            if (offset + 3 < data.Length)
-                value |= data[offset + 3];
-
-            return value;
-        }
-
-        /// <summary>
         /// 64-bit little-endian read
         /// </summary>
         public static ulong ReadLE64(byte[] data, int offset)
@@ -125,35 +104,6 @@ namespace SabreTools.Hashing.XxHash
           | (ulong)data[offset + 5] << 40
           | (ulong)data[offset + 6] << 48
           | (ulong)data[offset + 7] << 56;
-        }
-
-        /// <summary>
-        /// 64-bit little-endian read with alignment
-        /// </summary>
-        public static ulong ReadLE64Align(byte[] data, int offset, Alignment align)
-        {
-            if (align == Alignment.XXH_aligned)
-                return ReadLE64(data, offset);
-
-            ulong value = 0;
-            if (offset + 0 < data.Length)
-                value |= data[offset + 0];
-            if (offset + 1 < data.Length)
-                value |= data[offset + 1];
-            if (offset + 2 < data.Length)
-                value |= data[offset + 2];
-            if (offset + 3 < data.Length)
-                value |= data[offset + 3];
-            if (offset + 4 < data.Length)
-                value |= data[offset + 4];
-            if (offset + 5 < data.Length)
-                value |= data[offset + 5];
-            if (offset + 6 < data.Length)
-                value |= data[offset + 6];
-            if (offset + 7 < data.Length)
-                value |= data[offset + 7];
-
-            return value;
         }
 
         #endregion
@@ -327,6 +277,78 @@ namespace SabreTools.Hashing.XxHash
                 return Len1To3Out64(data, offset, length, secret, seed);
 
             return XXH64Avalanche(seed ^ (ReadLE64(secret, 56) ^ ReadLE64(secret, 64)));
+        }
+
+        public static ulong Mix16B(byte[] data, int offset, byte[] secret, int secretOffset, ulong seed)
+        {
+            ulong input_lo = ReadLE64(data, offset + 0);
+            ulong input_hi = ReadLE64(data, offset + 8);
+
+            return MultiplyTo128Fold64(
+                input_lo ^ (ReadLE64(secret, secretOffset + 0) + seed),
+                input_hi ^ (ReadLE64(secret, secretOffset + 8) - seed)
+            );
+        }
+
+        /// <summary>
+        /// Handle length 7 to 128 values
+        /// </summary>
+        public static ulong Len17To128Out64(byte[] data, int offset, int length, byte[] secret, ulong seed)
+        {
+            ulong acc = (ulong)length * XXH_PRIME64_1;
+
+            if (length > 32)
+            {
+                if (length > 64)
+                {
+                    if (length > 96)
+                    {
+                        acc += Mix16B(data, offset + 48, secret, 96, seed);
+                        acc += Mix16B(data, offset + length - 64, secret, 112, seed);
+                    }
+
+                    acc += Mix16B(data, offset + 32, secret, 64, seed);
+                    acc += Mix16B(data, offset + length - 48, secret, 80, seed);
+                }
+
+                acc += Mix16B(data, offset + 16, secret, 32, seed);
+                acc += Mix16B(data, offset + length - 32, secret, 48, seed);
+            }
+
+            acc += Mix16B(data, offset + 0, secret, 0, seed);
+            acc += Mix16B(data, offset + length - 16, secret, 16, seed);
+
+            return XXH3Avalanche(acc);
+        }
+
+        /// <summary>
+        /// Handle length 129 to 240 values
+        /// </summary>
+        public static ulong Len129To240Out64(byte[] data, int offset, int length, byte[] secret, ulong seed)
+        {
+            const int XXH3_MIDSIZE_STARTOFFSET = 3;
+            const int XXH3_MIDSIZE_LASTOFFSET = 17;
+
+            ulong acc = (ulong)length * XXH_PRIME64_1;
+            ulong acc_end;
+            uint nbRounds = (uint)length / 16;
+
+            uint i;
+            for (i = 0; i < 8; i++)
+            {
+                acc += Mix16B(data, offset + (int)(16 * i), secret, (int)(16 * i), seed);
+            }
+
+            // Last bytes
+            acc_end = Mix16B(data, offset + length - 16, secret, XXH3_SECRET_SIZE_MIN - XXH3_MIDSIZE_LASTOFFSET, seed);
+            acc = XXH3Avalanche(acc);
+
+            for (i = 8; i < nbRounds; i++)
+            {
+                acc_end += Mix16B(data, offset + (int)(16 * i), secret, (int)(16 * (i - 8)) + XXH3_MIDSIZE_STARTOFFSET, seed);
+            }
+
+            return XXH3Avalanche(acc + acc_end);
         }
 
         #endregion
