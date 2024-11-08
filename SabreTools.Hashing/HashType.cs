@@ -790,12 +790,12 @@ namespace SabreTools.Hashing
         /// </summary>
         XxHash32,
 
-#if NET462_OR_GREATER || NETCOREAPP
         /// <summary>
         /// xxHash64 hash
         /// </summary>
         XxHash64,
 
+#if NET462_OR_GREATER || NETCOREAPP
         /// <summary>
         /// XXH3 64-bit hash
         /// </summary>

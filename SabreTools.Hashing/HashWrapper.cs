@@ -45,8 +45,6 @@ namespace SabreTools.Hashing
                         return ic.Final();
 
 #if NET462_OR_GREATER || NETCOREAPP
-                    case XxHash64 xxh64:
-                        return xxh64.GetCurrentHash();
                     case XxHash3 xxh3:
                         return xxh3.GetCurrentHash();
                     case XxHash128 xxh128:
@@ -303,8 +301,8 @@ namespace SabreTools.Hashing
                 HashType.SpamSum => new SpamSumContext(),
 
                 HashType.XxHash32 => new XxHash.XxHash32(),
+                HashType.XxHash64 => new XxHash.XxHash64(),
 #if NET462_OR_GREATER || NETCOREAPP
-                HashType.XxHash64 => new XxHash64(),
                 HashType.XxHash3 => new XxHash3(),
                 HashType.XxHash128 => new XxHash128(),
 #endif
