@@ -13,32 +13,22 @@ namespace SabreTools.Hashing.XxHash
         /// <summary>
         /// Total length hashed. This is always 64-bit.
         /// </summary>
-        public ulong TotalLength { get; set; }
+        private ulong _totalLen;
 
         /// <summary>
         /// Accumulator lanes
         /// </summary>
-        public ulong[] V { get; } = new ulong[4];
+        private readonly ulong[] _acc = new ulong[4];
 
         /// <summary>
-        /// Internal buffer for partial reads. Treated as unsigned char[16].
+        /// Internal buffer for partial reads. Treated as unsigned char[32].
         /// </summary>
-        public byte[] Memory { get; } = new byte[16];
+        private byte[] _mem64 = new byte[32];
 
         /// <summary>
-        /// Amount of data in <see cref="Memory">
+        /// Amount of data in <see cref="_mem64">
         /// </summary>
-        public int Memsize { get; set; }
-
-        /// <summary>
-        /// Reserved field, needed for padding anyways
-        /// </summary>
-        public uint Reserved32 { get; set; }
-
-        /// <summary>
-        /// Reserved field. Do not read nor write to it.
-        /// </summary>
-        public ulong Reserved64 { get; set; }
+        private int _memsize;
 
         /// <summary>
         /// Resets to begin a new hash
@@ -46,21 +36,18 @@ namespace SabreTools.Hashing.XxHash
         /// <param name="seed">The 64-bit seed to alter the hash result predictably.</param>
         public void Reset(ulong seed)
         {
-            TotalLength = default;
+            _totalLen = 0;
 
-            V[0] = seed + XXH_PRIME64_1 + XXH_PRIME64_2;
-            V[1] = seed + XXH_PRIME64_2;
-            V[2] = seed + 0;
-            V[3] = seed - XXH_PRIME64_1;
-
-            for (int i = 0; i < Memory.Length; i++)
+            unchecked
             {
-                Memory[i] = default;
+                _acc[0] = seed + XXH_PRIME64_1 + XXH_PRIME64_2;
+                _acc[1] = seed + XXH_PRIME64_2;
+                _acc[2] = seed + 0;
+                _acc[3] = seed - XXH_PRIME64_1;
             }
 
-            Memsize = default;
-            Reserved32 = default;
-            Reserved64 = default;
+            Array.Clear(_mem64, 0, _mem64.Length);
+            _memsize = 0;
         }
 
         /// <summary>
@@ -73,45 +60,47 @@ namespace SabreTools.Hashing.XxHash
         {
             int bEnd = offset + length;
 
-            TotalLength += (ulong)length;
+            _totalLen += (ulong)length;
 
-            if (Memsize + length < 32)
+            // Fill in tmp buffer
+            if (_memsize + length < 32)
             {
-                // Fill in tmp buffer
-                Array.Copy(data, offset, Memory, Memsize, length);
-                Memsize += length;
+                Array.Copy(data, offset, _mem64, _memsize, length);
+                _memsize += length;
                 return;
             }
 
-            if (Memsize > 0)
+            // Some data left from previous update
+            if (_memsize > 0)
             {
-                // tmp buffer is full
-                Array.Copy(data, offset, Memory, Memsize, 32 - Memsize);
-                V[0] = Round(V[0], ReadLE64(Memory, 0));
-                V[1] = Round(V[1], ReadLE64(Memory, 1));
-                V[2] = Round(V[2], ReadLE64(Memory, 2));
-                V[3] = Round(V[3], ReadLE64(Memory, 3));
-                offset += 32 - Memsize;
-                Memsize = 0;
+                Array.Copy(data, offset, _mem64, _memsize, 32 - _memsize);
+
+                int p64 = 0;
+                _acc[0] = Round(_acc[0], ReadLE64(_mem64, p64)); p64 += 8;
+                _acc[1] = Round(_acc[1], ReadLE64(_mem64, p64)); p64 += 8;
+                _acc[2] = Round(_acc[2], ReadLE64(_mem64, p64)); p64 += 8;
+                _acc[3] = Round(_acc[3], ReadLE64(_mem64, p64));
+
+                offset += 32 - _memsize;
+                _memsize = 0;
             }
 
-            if (offset + 32 <= bEnd)
+            if (offset <= bEnd - 32)
             {
                 int limit = bEnd - 32;
-
                 do
                 {
-                    V[0] = Round(V[0], ReadLE64(data, offset)); offset += 8;
-                    V[1] = Round(V[1], ReadLE64(data, offset)); offset += 8;
-                    V[2] = Round(V[2], ReadLE64(data, offset)); offset += 8;
-                    V[3] = Round(V[3], ReadLE64(data, offset)); offset += 8;
+                    _acc[0] = Round(_acc[0], ReadLE64(data, offset)); offset += 8;
+                    _acc[1] = Round(_acc[1], ReadLE64(data, offset)); offset += 8;
+                    _acc[2] = Round(_acc[2], ReadLE64(data, offset)); offset += 8;
+                    _acc[3] = Round(_acc[3], ReadLE64(data, offset)); offset += 8;
                 } while (offset <= limit);
             }
 
             if (offset < bEnd)
             {
-                Array.Copy(data, offset, Memory, 0, bEnd - offset);
-                Memsize = bEnd - offset;
+                Array.Copy(data, offset, _mem64, 0, bEnd - offset);
+                _memsize = bEnd - offset;
             }
         }
 
@@ -123,22 +112,25 @@ namespace SabreTools.Hashing.XxHash
         {
             ulong h64;
 
-            if (TotalLength >= 32)
+            if (_totalLen >= 32)
             {
-                h64 = RotateLeft64(V[0], 1) + RotateLeft64(V[1], 7) + RotateLeft64(V[2], 12) + RotateLeft64(V[3], 18);
-                h64 = MergeRound(h64, V[0]);
-                h64 = MergeRound(h64, V[1]);
-                h64 = MergeRound(h64, V[2]);
-                h64 = MergeRound(h64, V[3]);
+                h64 = RotateLeft64(_acc[0], 1)
+                    + RotateLeft64(_acc[1], 7)
+                    + RotateLeft64(_acc[2], 12)
+                    + RotateLeft64(_acc[3], 18);
+                h64 = MergeRound(h64, _acc[0]);
+                h64 = MergeRound(h64, _acc[1]);
+                h64 = MergeRound(h64, _acc[2]);
+                h64 = MergeRound(h64, _acc[3]);
             }
             else
             {
-                h64 = V[2] /*seed*/ + XXH_PRIME64_5;
+                h64 = _acc[2] /*seed*/ + XXH_PRIME64_5;
             }
 
-            h64 += TotalLength;
+            h64 += _totalLen;
 
-            return Finalize(h64, Memory, 0, (int)TotalLength, Alignment.XXH_aligned);
+            return Finalize(h64, _mem64, 0, (int)_totalLen);
         }
 
         /// <summary>
@@ -195,72 +187,34 @@ namespace SabreTools.Hashing.XxHash
         /// <param name="length">The remaining length, modulo 32.</param>
         /// <param name="align">Whether @p ptr is aligned.</param>
         /// <returns>The finalized hash</returns>
-        private static ulong Finalize(ulong hash, byte[] data, int offset, int length, Alignment align)
+        private static ulong Finalize(ulong hash, byte[] data, int offset, int length)
         {
             length &= 31;
             while (length >= 8)
             {
-                ulong k1 = Round(0, ReadLE64Align(data, offset, align));
+                ulong k1 = Round(0, ReadLE64(data, offset));
                 offset += 8;
                 hash ^= k1;
                 hash = RotateLeft64(hash, 27) * XXH_PRIME64_1 + XXH_PRIME64_4;
                 length -= 8;
             }
+
             if (length >= 4)
             {
-                hash ^= (ulong)(ReadLE32Align(data, offset, align)) * XXH_PRIME64_1;
+                hash ^= ReadLE32(data, offset) * XXH_PRIME64_1;
                 offset += 4;
                 hash = RotateLeft64(hash, 23) * XXH_PRIME64_2 + XXH_PRIME64_3;
                 length -= 4;
             }
+
             while (length > 0)
             {
                 hash ^= data[offset++] * XXH_PRIME64_5;
                 hash = RotateLeft64(hash, 11) * XXH_PRIME64_1;
                 --length;
             }
+
             return Avalanche(hash);
-        }
-
-        /// <summary>
-        /// The implementation for XXH64
-        /// </summary>
-        /// <returns>The calculated hash.</returns>
-        private static ulong EndianAlign(byte[] data, int offset, int length, ulong seed, Alignment align)
-        {
-            ulong h64;
-            if (length >= 32)
-            {
-                int bEnd = offset + length;
-                int limit = bEnd - 31;
-                ulong v1 = seed + XXH_PRIME64_1 + XXH_PRIME64_2;
-                ulong v2 = seed + XXH_PRIME64_2;
-                ulong v3 = seed + 0;
-                ulong v4 = seed - XXH_PRIME64_1;
-
-                do
-                {
-                    v1 = Round(v1, ReadLE64Align(data, offset, align)); offset += 8;
-                    v2 = Round(v2, ReadLE64Align(data, offset, align)); offset += 8;
-                    v3 = Round(v3, ReadLE64Align(data, offset, align)); offset += 8;
-                    v4 = Round(v4, ReadLE64Align(data, offset, align)); offset += 8;
-                } while (offset < limit);
-
-                h64 = RotateLeft64(v1, 1) + RotateLeft64(v2, 7) + RotateLeft64(v3, 12) + RotateLeft64(v4, 18);
-                h64 = MergeRound(h64, v1);
-                h64 = MergeRound(h64, v2);
-                h64 = MergeRound(h64, v3);
-                h64 = MergeRound(h64, v4);
-
-            }
-            else
-            {
-                h64 = seed + XXH_PRIME64_5;
-            }
-
-            h64 += (ulong)length;
-
-            return Finalize(h64, data, offset, length, align);
         }
     }
 }
