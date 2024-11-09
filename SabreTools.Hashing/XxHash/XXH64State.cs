@@ -1,4 +1,5 @@
 using System;
+using static SabreTools.Hashing.HashOperations;
 using static SabreTools.Hashing.XxHash.Constants;
 using static SabreTools.Hashing.XxHash.Utility;
 

@@ -1,4 +1,5 @@
 using System;
+using static SabreTools.Hashing.HashOperations;
 using static SabreTools.Hashing.RipeMD.Constants;
 
 namespace SabreTools.Hashing.RipeMD
@@ -192,68 +193,68 @@ namespace SabreTools.Hashing.RipeMD
             #region Rounds 0-15
 
             // Round 0
-            x0 = RotateLeft(x0 + G00_15(x1, x2, x3) + _block[0] + RMD128Round00To15, 11);
-            xp0 = RotateLeft(xp0 + G48_63(xp1, xp2, xp3) + _block[5] + RMD128RoundPrime00To15, 8);
+            x0 = RotateLeft32(x0 + G00_15(x1, x2, x3) + _block[0] + RMD128Round00To15, 11);
+            xp0 = RotateLeft32(xp0 + G48_63(xp1, xp2, xp3) + _block[5] + RMD128RoundPrime00To15, 8);
 
             // Round 1
-            x3 = RotateLeft(x3 + G00_15(x0, x1, x2) + _block[1] + RMD128Round00To15, 14);
-            xp3 = RotateLeft(xp3 + G48_63(xp0, xp1, xp2) + _block[14] + RMD128RoundPrime00To15, 9);
+            x3 = RotateLeft32(x3 + G00_15(x0, x1, x2) + _block[1] + RMD128Round00To15, 14);
+            xp3 = RotateLeft32(xp3 + G48_63(xp0, xp1, xp2) + _block[14] + RMD128RoundPrime00To15, 9);
 
             // Round 2
-            x2 = RotateLeft(x2 + G00_15(x3, x0, x1) + _block[2] + RMD128Round00To15, 15);
-            xp2 = RotateLeft(xp2 + G48_63(xp3, xp0, xp1) + _block[7] + RMD128RoundPrime00To15, 9);
+            x2 = RotateLeft32(x2 + G00_15(x3, x0, x1) + _block[2] + RMD128Round00To15, 15);
+            xp2 = RotateLeft32(xp2 + G48_63(xp3, xp0, xp1) + _block[7] + RMD128RoundPrime00To15, 9);
 
             // Round 3
-            x1 = RotateLeft(x1 + G00_15(x2, x3, x0) + _block[3] + RMD128Round00To15, 12);
-            xp1 = RotateLeft(xp1 + G48_63(xp2, xp3, xp0) + _block[0] + RMD128RoundPrime00To15, 11);
+            x1 = RotateLeft32(x1 + G00_15(x2, x3, x0) + _block[3] + RMD128Round00To15, 12);
+            xp1 = RotateLeft32(xp1 + G48_63(xp2, xp3, xp0) + _block[0] + RMD128RoundPrime00To15, 11);
 
             // Round 4
-            x0 = RotateLeft(x0 + G00_15(x1, x2, x3) + _block[4] + RMD128Round00To15, 5);
-            xp0 = RotateLeft(xp0 + G48_63(xp1, xp2, xp3) + _block[9] + RMD128RoundPrime00To15, 13);
+            x0 = RotateLeft32(x0 + G00_15(x1, x2, x3) + _block[4] + RMD128Round00To15, 5);
+            xp0 = RotateLeft32(xp0 + G48_63(xp1, xp2, xp3) + _block[9] + RMD128RoundPrime00To15, 13);
 
             // Round 5
-            x3 = RotateLeft(x3 + G00_15(x0, x1, x2) + _block[5] + RMD128Round00To15, 8);
-            xp3 = RotateLeft(xp3 + G48_63(xp0, xp1, xp2) + _block[2] + RMD128RoundPrime00To15, 15);
+            x3 = RotateLeft32(x3 + G00_15(x0, x1, x2) + _block[5] + RMD128Round00To15, 8);
+            xp3 = RotateLeft32(xp3 + G48_63(xp0, xp1, xp2) + _block[2] + RMD128RoundPrime00To15, 15);
 
             // Round 6
-            x2 = RotateLeft(x2 + G00_15(x3, x0, x1) + _block[6] + RMD128Round00To15, 7);
-            xp2 = RotateLeft(xp2 + G48_63(xp3, xp0, xp1) + _block[11] + RMD128RoundPrime00To15, 15);
+            x2 = RotateLeft32(x2 + G00_15(x3, x0, x1) + _block[6] + RMD128Round00To15, 7);
+            xp2 = RotateLeft32(xp2 + G48_63(xp3, xp0, xp1) + _block[11] + RMD128RoundPrime00To15, 15);
 
             // Round 7
-            x1 = RotateLeft(x1 + G00_15(x2, x3, x0) + _block[7] + RMD128Round00To15, 9);
-            xp1 = RotateLeft(xp1 + G48_63(xp2, xp3, xp0) + _block[4] + RMD128RoundPrime00To15, 5);
+            x1 = RotateLeft32(x1 + G00_15(x2, x3, x0) + _block[7] + RMD128Round00To15, 9);
+            xp1 = RotateLeft32(xp1 + G48_63(xp2, xp3, xp0) + _block[4] + RMD128RoundPrime00To15, 5);
 
             // Round 8
-            x0 = RotateLeft(x0 + G00_15(x1, x2, x3) + _block[8] + RMD128Round00To15, 11);
-            xp0 = RotateLeft(xp0 + G48_63(xp1, xp2, xp3) + _block[13] + RMD128RoundPrime00To15, 7);
+            x0 = RotateLeft32(x0 + G00_15(x1, x2, x3) + _block[8] + RMD128Round00To15, 11);
+            xp0 = RotateLeft32(xp0 + G48_63(xp1, xp2, xp3) + _block[13] + RMD128RoundPrime00To15, 7);
 
             // Round 9
-            x3 = RotateLeft(x3 + G00_15(x0, x1, x2) + _block[9] + RMD128Round00To15, 13);
-            xp3 = RotateLeft(xp3 + G48_63(xp0, xp1, xp2) + _block[6] + RMD128RoundPrime00To15, 7);
+            x3 = RotateLeft32(x3 + G00_15(x0, x1, x2) + _block[9] + RMD128Round00To15, 13);
+            xp3 = RotateLeft32(xp3 + G48_63(xp0, xp1, xp2) + _block[6] + RMD128RoundPrime00To15, 7);
 
             // Round 10
-            x2 = RotateLeft(x2 + G00_15(x3, x0, x1) + _block[10] + RMD128Round00To15, 14);
-            xp2 = RotateLeft(xp2 + G48_63(xp3, xp0, xp1) + _block[15] + RMD128RoundPrime00To15, 8);
+            x2 = RotateLeft32(x2 + G00_15(x3, x0, x1) + _block[10] + RMD128Round00To15, 14);
+            xp2 = RotateLeft32(xp2 + G48_63(xp3, xp0, xp1) + _block[15] + RMD128RoundPrime00To15, 8);
 
             // Round 11
-            x1 = RotateLeft(x1 + G00_15(x2, x3, x0) + _block[11] + RMD128Round00To15, 15);
-            xp1 = RotateLeft(xp1 + G48_63(xp2, xp3, xp0) + _block[8] + RMD128RoundPrime00To15, 11);
+            x1 = RotateLeft32(x1 + G00_15(x2, x3, x0) + _block[11] + RMD128Round00To15, 15);
+            xp1 = RotateLeft32(xp1 + G48_63(xp2, xp3, xp0) + _block[8] + RMD128RoundPrime00To15, 11);
 
             // Round 12
-            x0 = RotateLeft(x0 + G00_15(x1, x2, x3) + _block[12] + RMD128Round00To15, 6);
-            xp0 = RotateLeft(xp0 + G48_63(xp1, xp2, xp3) + _block[1] + RMD128RoundPrime00To15, 14);
+            x0 = RotateLeft32(x0 + G00_15(x1, x2, x3) + _block[12] + RMD128Round00To15, 6);
+            xp0 = RotateLeft32(xp0 + G48_63(xp1, xp2, xp3) + _block[1] + RMD128RoundPrime00To15, 14);
 
             // Round 13
-            x3 = RotateLeft(x3 + G00_15(x0, x1, x2) + _block[13] + RMD128Round00To15, 7);
-            xp3 = RotateLeft(xp3 + G48_63(xp0, xp1, xp2) + _block[10] + RMD128RoundPrime00To15, 14);
+            x3 = RotateLeft32(x3 + G00_15(x0, x1, x2) + _block[13] + RMD128Round00To15, 7);
+            xp3 = RotateLeft32(xp3 + G48_63(xp0, xp1, xp2) + _block[10] + RMD128RoundPrime00To15, 14);
 
             // Round 14
-            x2 = RotateLeft(x2 + G00_15(x3, x0, x1) + _block[14] + RMD128Round00To15, 9);
-            xp2 = RotateLeft(xp2 + G48_63(xp3, xp0, xp1) + _block[3] + RMD128RoundPrime00To15, 12);
+            x2 = RotateLeft32(x2 + G00_15(x3, x0, x1) + _block[14] + RMD128Round00To15, 9);
+            xp2 = RotateLeft32(xp2 + G48_63(xp3, xp0, xp1) + _block[3] + RMD128RoundPrime00To15, 12);
 
             // Round 15
-            x1 = RotateLeft(x1 + G00_15(x2, x3, x0) + _block[15] + RMD128Round00To15, 8);
-            xp1 = RotateLeft(xp1 + G48_63(xp2, xp3, xp0) + _block[12] + RMD128RoundPrime00To15, 6);
+            x1 = RotateLeft32(x1 + G00_15(x2, x3, x0) + _block[15] + RMD128Round00To15, 8);
+            xp1 = RotateLeft32(xp1 + G48_63(xp2, xp3, xp0) + _block[12] + RMD128RoundPrime00To15, 6);
 
             // Swap set 1
             t = x0; x0 = xp0; xp0 = t;
@@ -263,68 +264,68 @@ namespace SabreTools.Hashing.RipeMD
             #region Rounds 16-31
 
             // Round 16
-            x0 = RotateLeft(x0 + G16_31(x1, x2, x3) + _block[7] + RMD128Round16To31, 7);
-            xp0 = RotateLeft(xp0 + G32_47(xp1, xp2, xp3) + _block[6] + RMD128RoundPrime16To31, 9);
+            x0 = RotateLeft32(x0 + G16_31(x1, x2, x3) + _block[7] + RMD128Round16To31, 7);
+            xp0 = RotateLeft32(xp0 + G32_47(xp1, xp2, xp3) + _block[6] + RMD128RoundPrime16To31, 9);
 
             // Round 17
-            x3 = RotateLeft(x3 + G16_31(x0, x1, x2) + _block[4] + RMD128Round16To31, 6);
-            xp3 = RotateLeft(xp3 + G32_47(xp0, xp1, xp2) + _block[11] + RMD128RoundPrime16To31, 13);
+            x3 = RotateLeft32(x3 + G16_31(x0, x1, x2) + _block[4] + RMD128Round16To31, 6);
+            xp3 = RotateLeft32(xp3 + G32_47(xp0, xp1, xp2) + _block[11] + RMD128RoundPrime16To31, 13);
 
             // Round 18
-            x2 = RotateLeft(x2 + G16_31(x3, x0, x1) + _block[13] + RMD128Round16To31, 8);
-            xp2 = RotateLeft(xp2 + G32_47(xp3, xp0, xp1) + _block[3] + RMD128RoundPrime16To31, 15);
+            x2 = RotateLeft32(x2 + G16_31(x3, x0, x1) + _block[13] + RMD128Round16To31, 8);
+            xp2 = RotateLeft32(xp2 + G32_47(xp3, xp0, xp1) + _block[3] + RMD128RoundPrime16To31, 15);
 
             // Round 19
-            x1 = RotateLeft(x1 + G16_31(x2, x3, x0) + _block[1] + RMD128Round16To31, 13);
-            xp1 = RotateLeft(xp1 + G32_47(xp2, xp3, xp0) + _block[7] + RMD128RoundPrime16To31, 7);
+            x1 = RotateLeft32(x1 + G16_31(x2, x3, x0) + _block[1] + RMD128Round16To31, 13);
+            xp1 = RotateLeft32(xp1 + G32_47(xp2, xp3, xp0) + _block[7] + RMD128RoundPrime16To31, 7);
 
             // Round 20
-            x0 = RotateLeft(x0 + G16_31(x1, x2, x3) + _block[10] + RMD128Round16To31, 11);
-            xp0 = RotateLeft(xp0 + G32_47(xp1, xp2, xp3) + _block[0] + RMD128RoundPrime16To31, 12);
+            x0 = RotateLeft32(x0 + G16_31(x1, x2, x3) + _block[10] + RMD128Round16To31, 11);
+            xp0 = RotateLeft32(xp0 + G32_47(xp1, xp2, xp3) + _block[0] + RMD128RoundPrime16To31, 12);
 
             // Round 21
-            x3 = RotateLeft(x3 + G16_31(x0, x1, x2) + _block[6] + RMD128Round16To31, 9);
-            xp3 = RotateLeft(xp3 + G32_47(xp0, xp1, xp2) + _block[13] + RMD128RoundPrime16To31, 8);
+            x3 = RotateLeft32(x3 + G16_31(x0, x1, x2) + _block[6] + RMD128Round16To31, 9);
+            xp3 = RotateLeft32(xp3 + G32_47(xp0, xp1, xp2) + _block[13] + RMD128RoundPrime16To31, 8);
 
             // Round 22
-            x2 = RotateLeft(x2 + G16_31(x3, x0, x1) + _block[15] + RMD128Round16To31, 7);
-            xp2 = RotateLeft(xp2 + G32_47(xp3, xp0, xp1) + _block[5] + RMD128RoundPrime16To31, 9);
+            x2 = RotateLeft32(x2 + G16_31(x3, x0, x1) + _block[15] + RMD128Round16To31, 7);
+            xp2 = RotateLeft32(xp2 + G32_47(xp3, xp0, xp1) + _block[5] + RMD128RoundPrime16To31, 9);
 
             // Round 23
-            x1 = RotateLeft(x1 + G16_31(x2, x3, x0) + _block[3] + RMD128Round16To31, 15);
-            xp1 = RotateLeft(xp1 + G32_47(xp2, xp3, xp0) + _block[10] + RMD128RoundPrime16To31, 11);
+            x1 = RotateLeft32(x1 + G16_31(x2, x3, x0) + _block[3] + RMD128Round16To31, 15);
+            xp1 = RotateLeft32(xp1 + G32_47(xp2, xp3, xp0) + _block[10] + RMD128RoundPrime16To31, 11);
 
             // Round 24
-            x0 = RotateLeft(x0 + G16_31(x1, x2, x3) + _block[12] + RMD128Round16To31, 7);
-            xp0 = RotateLeft(xp0 + G32_47(xp1, xp2, xp3) + _block[14] + RMD128RoundPrime16To31, 7);
+            x0 = RotateLeft32(x0 + G16_31(x1, x2, x3) + _block[12] + RMD128Round16To31, 7);
+            xp0 = RotateLeft32(xp0 + G32_47(xp1, xp2, xp3) + _block[14] + RMD128RoundPrime16To31, 7);
 
             // Round 25
-            x3 = RotateLeft(x3 + G16_31(x0, x1, x2) + _block[0] + RMD128Round16To31, 12);
-            xp3 = RotateLeft(xp3 + G32_47(xp0, xp1, xp2) + _block[15] + RMD128RoundPrime16To31, 7);
+            x3 = RotateLeft32(x3 + G16_31(x0, x1, x2) + _block[0] + RMD128Round16To31, 12);
+            xp3 = RotateLeft32(xp3 + G32_47(xp0, xp1, xp2) + _block[15] + RMD128RoundPrime16To31, 7);
 
             // Round 26
-            x2 = RotateLeft(x2 + G16_31(x3, x0, x1) + _block[9] + RMD128Round16To31, 15);
-            xp2 = RotateLeft(xp2 + G32_47(xp3, xp0, xp1) + _block[8] + RMD128RoundPrime16To31, 12);
+            x2 = RotateLeft32(x2 + G16_31(x3, x0, x1) + _block[9] + RMD128Round16To31, 15);
+            xp2 = RotateLeft32(xp2 + G32_47(xp3, xp0, xp1) + _block[8] + RMD128RoundPrime16To31, 12);
 
             // Round 27
-            x1 = RotateLeft(x1 + G16_31(x2, x3, x0) + _block[5] + RMD128Round16To31, 9);
-            xp1 = RotateLeft(xp1 + G32_47(xp2, xp3, xp0) + _block[12] + RMD128RoundPrime16To31, 7);
+            x1 = RotateLeft32(x1 + G16_31(x2, x3, x0) + _block[5] + RMD128Round16To31, 9);
+            xp1 = RotateLeft32(xp1 + G32_47(xp2, xp3, xp0) + _block[12] + RMD128RoundPrime16To31, 7);
 
             // Round 28
-            x0 = RotateLeft(x0 + G16_31(x1, x2, x3) + _block[2] + RMD128Round16To31, 11);
-            xp0 = RotateLeft(xp0 + G32_47(xp1, xp2, xp3) + _block[4] + RMD128RoundPrime16To31, 6);
+            x0 = RotateLeft32(x0 + G16_31(x1, x2, x3) + _block[2] + RMD128Round16To31, 11);
+            xp0 = RotateLeft32(xp0 + G32_47(xp1, xp2, xp3) + _block[4] + RMD128RoundPrime16To31, 6);
 
             // Round 29
-            x3 = RotateLeft(x3 + G16_31(x0, x1, x2) + _block[14] + RMD128Round16To31, 7);
-            xp3 = RotateLeft(xp3 + G32_47(xp0, xp1, xp2) + _block[9] + RMD128RoundPrime16To31, 15);
+            x3 = RotateLeft32(x3 + G16_31(x0, x1, x2) + _block[14] + RMD128Round16To31, 7);
+            xp3 = RotateLeft32(xp3 + G32_47(xp0, xp1, xp2) + _block[9] + RMD128RoundPrime16To31, 15);
 
             // Round 30
-            x2 = RotateLeft(x2 + G16_31(x3, x0, x1) + _block[11] + RMD128Round16To31, 13);
-            xp2 = RotateLeft(xp2 + G32_47(xp3, xp0, xp1) + _block[1] + RMD128RoundPrime16To31, 13);
+            x2 = RotateLeft32(x2 + G16_31(x3, x0, x1) + _block[11] + RMD128Round16To31, 13);
+            xp2 = RotateLeft32(xp2 + G32_47(xp3, xp0, xp1) + _block[1] + RMD128RoundPrime16To31, 13);
 
             // Round 31
-            x1 = RotateLeft(x1 + G16_31(x2, x3, x0) + _block[8] + RMD128Round16To31, 12);
-            xp1 = RotateLeft(xp1 + G32_47(xp2, xp3, xp0) + _block[2] + RMD128RoundPrime16To31, 11);
+            x1 = RotateLeft32(x1 + G16_31(x2, x3, x0) + _block[8] + RMD128Round16To31, 12);
+            xp1 = RotateLeft32(xp1 + G32_47(xp2, xp3, xp0) + _block[2] + RMD128RoundPrime16To31, 11);
 
             // Swap set 2
             t = x1; x1 = xp1; xp1 = t;
@@ -334,68 +335,68 @@ namespace SabreTools.Hashing.RipeMD
             #region Rounds 32-47
 
             // Round 32
-            x0 = RotateLeft(x0 + G32_47(x1, x2, x3) + _block[3] + RMD128Round32To47, 11);
-            xp0 = RotateLeft(xp0 + G16_31(xp1, xp2, xp3) + _block[15] + RMD128RoundPrime32To47, 9);
+            x0 = RotateLeft32(x0 + G32_47(x1, x2, x3) + _block[3] + RMD128Round32To47, 11);
+            xp0 = RotateLeft32(xp0 + G16_31(xp1, xp2, xp3) + _block[15] + RMD128RoundPrime32To47, 9);
 
             // Round 33
-            x3 = RotateLeft(x3 + G32_47(x0, x1, x2) + _block[10] + RMD128Round32To47, 13);
-            xp3 = RotateLeft(xp3 + G16_31(xp0, xp1, xp2) + _block[5] + RMD128RoundPrime32To47, 7);
+            x3 = RotateLeft32(x3 + G32_47(x0, x1, x2) + _block[10] + RMD128Round32To47, 13);
+            xp3 = RotateLeft32(xp3 + G16_31(xp0, xp1, xp2) + _block[5] + RMD128RoundPrime32To47, 7);
 
             // Round 34
-            x2 = RotateLeft(x2 + G32_47(x3, x0, x1) + _block[14] + RMD128Round32To47, 6);
-            xp2 = RotateLeft(xp2 + G16_31(xp3, xp0, xp1) + _block[1] + RMD128RoundPrime32To47, 15);
+            x2 = RotateLeft32(x2 + G32_47(x3, x0, x1) + _block[14] + RMD128Round32To47, 6);
+            xp2 = RotateLeft32(xp2 + G16_31(xp3, xp0, xp1) + _block[1] + RMD128RoundPrime32To47, 15);
 
             // Round 35
-            x1 = RotateLeft(x1 + G32_47(x2, x3, x0) + _block[4] + RMD128Round32To47, 7);
-            xp1 = RotateLeft(xp1 + G16_31(xp2, xp3, xp0) + _block[3] + RMD128RoundPrime32To47, 11);
+            x1 = RotateLeft32(x1 + G32_47(x2, x3, x0) + _block[4] + RMD128Round32To47, 7);
+            xp1 = RotateLeft32(xp1 + G16_31(xp2, xp3, xp0) + _block[3] + RMD128RoundPrime32To47, 11);
 
             // Round 36
-            x0 = RotateLeft(x0 + G32_47(x1, x2, x3) + _block[9] + RMD128Round32To47, 14);
-            xp0 = RotateLeft(xp0 + G16_31(xp1, xp2, xp3) + _block[7] + RMD128RoundPrime32To47, 8);
+            x0 = RotateLeft32(x0 + G32_47(x1, x2, x3) + _block[9] + RMD128Round32To47, 14);
+            xp0 = RotateLeft32(xp0 + G16_31(xp1, xp2, xp3) + _block[7] + RMD128RoundPrime32To47, 8);
 
             // Round 37
-            x3 = RotateLeft(x3 + G32_47(x0, x1, x2) + _block[15] + RMD128Round32To47, 9);
-            xp3 = RotateLeft(xp3 + G16_31(xp0, xp1, xp2) + _block[14] + RMD128RoundPrime32To47, 6);
+            x3 = RotateLeft32(x3 + G32_47(x0, x1, x2) + _block[15] + RMD128Round32To47, 9);
+            xp3 = RotateLeft32(xp3 + G16_31(xp0, xp1, xp2) + _block[14] + RMD128RoundPrime32To47, 6);
 
             // Round 38
-            x2 = RotateLeft(x2 + G32_47(x3, x0, x1) + _block[8] + RMD128Round32To47, 13);
-            xp2 = RotateLeft(xp2 + G16_31(xp3, xp0, xp1) + _block[6] + RMD128RoundPrime32To47, 6);
+            x2 = RotateLeft32(x2 + G32_47(x3, x0, x1) + _block[8] + RMD128Round32To47, 13);
+            xp2 = RotateLeft32(xp2 + G16_31(xp3, xp0, xp1) + _block[6] + RMD128RoundPrime32To47, 6);
 
             // Round 39
-            x1 = RotateLeft(x1 + G32_47(x2, x3, x0) + _block[1] + RMD128Round32To47, 15);
-            xp1 = RotateLeft(xp1 + G16_31(xp2, xp3, xp0) + _block[9] + RMD128RoundPrime32To47, 14);
+            x1 = RotateLeft32(x1 + G32_47(x2, x3, x0) + _block[1] + RMD128Round32To47, 15);
+            xp1 = RotateLeft32(xp1 + G16_31(xp2, xp3, xp0) + _block[9] + RMD128RoundPrime32To47, 14);
 
             // Round 40
-            x0 = RotateLeft(x0 + G32_47(x1, x2, x3) + _block[2] + RMD128Round32To47, 14);
-            xp0 = RotateLeft(xp0 + G16_31(xp1, xp2, xp3) + _block[11] + RMD128RoundPrime32To47, 12);
+            x0 = RotateLeft32(x0 + G32_47(x1, x2, x3) + _block[2] + RMD128Round32To47, 14);
+            xp0 = RotateLeft32(xp0 + G16_31(xp1, xp2, xp3) + _block[11] + RMD128RoundPrime32To47, 12);
 
             // Round 41
-            x3 = RotateLeft(x3 + G32_47(x0, x1, x2) + _block[7] + RMD128Round32To47, 8);
-            xp3 = RotateLeft(xp3 + G16_31(xp0, xp1, xp2) + _block[8] + RMD128RoundPrime32To47, 13);
+            x3 = RotateLeft32(x3 + G32_47(x0, x1, x2) + _block[7] + RMD128Round32To47, 8);
+            xp3 = RotateLeft32(xp3 + G16_31(xp0, xp1, xp2) + _block[8] + RMD128RoundPrime32To47, 13);
 
             // Round 42
-            x2 = RotateLeft(x2 + G32_47(x3, x0, x1) + _block[0] + RMD128Round32To47, 13);
-            xp2 = RotateLeft(xp2 + G16_31(xp3, xp0, xp1) + _block[12] + RMD128RoundPrime32To47, 5);
+            x2 = RotateLeft32(x2 + G32_47(x3, x0, x1) + _block[0] + RMD128Round32To47, 13);
+            xp2 = RotateLeft32(xp2 + G16_31(xp3, xp0, xp1) + _block[12] + RMD128RoundPrime32To47, 5);
 
             // Round 43
-            x1 = RotateLeft(x1 + G32_47(x2, x3, x0) + _block[6] + RMD128Round32To47, 6);
-            xp1 = RotateLeft(xp1 + G16_31(xp2, xp3, xp0) + _block[2] + RMD128RoundPrime32To47, 14);
+            x1 = RotateLeft32(x1 + G32_47(x2, x3, x0) + _block[6] + RMD128Round32To47, 6);
+            xp1 = RotateLeft32(xp1 + G16_31(xp2, xp3, xp0) + _block[2] + RMD128RoundPrime32To47, 14);
 
             // Round 44
-            x0 = RotateLeft(x0 + G32_47(x1, x2, x3) + _block[13] + RMD128Round32To47, 5);
-            xp0 = RotateLeft(xp0 + G16_31(xp1, xp2, xp3) + _block[10] + RMD128RoundPrime32To47, 13);
+            x0 = RotateLeft32(x0 + G32_47(x1, x2, x3) + _block[13] + RMD128Round32To47, 5);
+            xp0 = RotateLeft32(xp0 + G16_31(xp1, xp2, xp3) + _block[10] + RMD128RoundPrime32To47, 13);
 
             // Round 45
-            x3 = RotateLeft(x3 + G32_47(x0, x1, x2) + _block[11] + RMD128Round32To47, 12);
-            xp3 = RotateLeft(xp3 + G16_31(xp0, xp1, xp2) + _block[0] + RMD128RoundPrime32To47, 13);
+            x3 = RotateLeft32(x3 + G32_47(x0, x1, x2) + _block[11] + RMD128Round32To47, 12);
+            xp3 = RotateLeft32(xp3 + G16_31(xp0, xp1, xp2) + _block[0] + RMD128RoundPrime32To47, 13);
 
             // Round 46
-            x2 = RotateLeft(x2 + G32_47(x3, x0, x1) + _block[5] + RMD128Round32To47, 7);
-            xp2 = RotateLeft(xp2 + G16_31(xp3, xp0, xp1) + _block[4] + RMD128RoundPrime32To47, 7);
+            x2 = RotateLeft32(x2 + G32_47(x3, x0, x1) + _block[5] + RMD128Round32To47, 7);
+            xp2 = RotateLeft32(xp2 + G16_31(xp3, xp0, xp1) + _block[4] + RMD128RoundPrime32To47, 7);
 
             // Round 47
-            x1 = RotateLeft(x1 + G32_47(x2, x3, x0) + _block[12] + RMD128Round32To47, 5);
-            xp1 = RotateLeft(xp1 + G16_31(xp2, xp3, xp0) + _block[13] + RMD128RoundPrime32To47, 5);
+            x1 = RotateLeft32(x1 + G32_47(x2, x3, x0) + _block[12] + RMD128Round32To47, 5);
+            xp1 = RotateLeft32(xp1 + G16_31(xp2, xp3, xp0) + _block[13] + RMD128RoundPrime32To47, 5);
 
             // Swap set 3
             t = x2; x2 = xp2; xp2 = t;
@@ -405,68 +406,68 @@ namespace SabreTools.Hashing.RipeMD
             #region Rounds 48-63
 
             // Round 48
-            x0 = RotateLeft(x0 + G48_63(x1, x2, x3) + _block[1] + RMD128Round48To63, 11);
-            xp0 = RotateLeft(xp0 + G00_15(xp1, xp2, xp3) + _block[8] + RMD128RoundPrime48To63, 15);
+            x0 = RotateLeft32(x0 + G48_63(x1, x2, x3) + _block[1] + RMD128Round48To63, 11);
+            xp0 = RotateLeft32(xp0 + G00_15(xp1, xp2, xp3) + _block[8] + RMD128RoundPrime48To63, 15);
 
             // Round 49
-            x3 = RotateLeft(x3 + G48_63(x0, x1, x2) + _block[9] + RMD128Round48To63, 12);
-            xp3 = RotateLeft(xp3 + G00_15(xp0, xp1, xp2) + _block[6] + RMD128RoundPrime48To63, 5);
+            x3 = RotateLeft32(x3 + G48_63(x0, x1, x2) + _block[9] + RMD128Round48To63, 12);
+            xp3 = RotateLeft32(xp3 + G00_15(xp0, xp1, xp2) + _block[6] + RMD128RoundPrime48To63, 5);
 
             // Round 50
-            x2 = RotateLeft(x2 + G48_63(x3, x0, x1) + _block[11] + RMD128Round48To63, 14);
-            xp2 = RotateLeft(xp2 + G00_15(xp3, xp0, xp1) + _block[4] + RMD128RoundPrime48To63, 8);
+            x2 = RotateLeft32(x2 + G48_63(x3, x0, x1) + _block[11] + RMD128Round48To63, 14);
+            xp2 = RotateLeft32(xp2 + G00_15(xp3, xp0, xp1) + _block[4] + RMD128RoundPrime48To63, 8);
 
             // Round 51
-            x1 = RotateLeft(x1 + G48_63(x2, x3, x0) + _block[10] + RMD128Round48To63, 15);
-            xp1 = RotateLeft(xp1 + G00_15(xp2, xp3, xp0) + _block[1] + RMD128RoundPrime48To63, 11);
+            x1 = RotateLeft32(x1 + G48_63(x2, x3, x0) + _block[10] + RMD128Round48To63, 15);
+            xp1 = RotateLeft32(xp1 + G00_15(xp2, xp3, xp0) + _block[1] + RMD128RoundPrime48To63, 11);
 
             // Round 52
-            x0 = RotateLeft(x0 + G48_63(x1, x2, x3) + _block[0] + RMD128Round48To63, 14);
-            xp0 = RotateLeft(xp0 + G00_15(xp1, xp2, xp3) + _block[3] + RMD128RoundPrime48To63, 14);
+            x0 = RotateLeft32(x0 + G48_63(x1, x2, x3) + _block[0] + RMD128Round48To63, 14);
+            xp0 = RotateLeft32(xp0 + G00_15(xp1, xp2, xp3) + _block[3] + RMD128RoundPrime48To63, 14);
 
             // Round 53
-            x3 = RotateLeft(x3 + G48_63(x0, x1, x2) + _block[8] + RMD128Round48To63, 15);
-            xp3 = RotateLeft(xp3 + G00_15(xp0, xp1, xp2) + _block[11] + RMD128RoundPrime48To63, 14);
+            x3 = RotateLeft32(x3 + G48_63(x0, x1, x2) + _block[8] + RMD128Round48To63, 15);
+            xp3 = RotateLeft32(xp3 + G00_15(xp0, xp1, xp2) + _block[11] + RMD128RoundPrime48To63, 14);
 
             // Round 54
-            x2 = RotateLeft(x2 + G48_63(x3, x0, x1) + _block[12] + RMD128Round48To63, 9);
-            xp2 = RotateLeft(xp2 + G00_15(xp3, xp0, xp1) + _block[15] + RMD128RoundPrime48To63, 6);
+            x2 = RotateLeft32(x2 + G48_63(x3, x0, x1) + _block[12] + RMD128Round48To63, 9);
+            xp2 = RotateLeft32(xp2 + G00_15(xp3, xp0, xp1) + _block[15] + RMD128RoundPrime48To63, 6);
 
             // Round 55
-            x1 = RotateLeft(x1 + G48_63(x2, x3, x0) + _block[4] + RMD128Round48To63, 8);
-            xp1 = RotateLeft(xp1 + G00_15(xp2, xp3, xp0) + _block[0] + RMD128RoundPrime48To63, 14);
+            x1 = RotateLeft32(x1 + G48_63(x2, x3, x0) + _block[4] + RMD128Round48To63, 8);
+            xp1 = RotateLeft32(xp1 + G00_15(xp2, xp3, xp0) + _block[0] + RMD128RoundPrime48To63, 14);
 
             // Round 56
-            x0 = RotateLeft(x0 + G48_63(x1, x2, x3) + _block[13] + RMD128Round48To63, 9);
-            xp0 = RotateLeft(xp0 + G00_15(xp1, xp2, xp3) + _block[5] + RMD128RoundPrime48To63, 6);
+            x0 = RotateLeft32(x0 + G48_63(x1, x2, x3) + _block[13] + RMD128Round48To63, 9);
+            xp0 = RotateLeft32(xp0 + G00_15(xp1, xp2, xp3) + _block[5] + RMD128RoundPrime48To63, 6);
 
             // Round 57
-            x3 = RotateLeft(x3 + G48_63(x0, x1, x2) + _block[3] + RMD128Round48To63, 14);
-            xp3 = RotateLeft(xp3 + G00_15(xp0, xp1, xp2) + _block[12] + RMD128RoundPrime48To63, 9);
+            x3 = RotateLeft32(x3 + G48_63(x0, x1, x2) + _block[3] + RMD128Round48To63, 14);
+            xp3 = RotateLeft32(xp3 + G00_15(xp0, xp1, xp2) + _block[12] + RMD128RoundPrime48To63, 9);
 
             // Round 58
-            x2 = RotateLeft(x2 + G48_63(x3, x0, x1) + _block[7] + RMD128Round48To63, 5);
-            xp2 = RotateLeft(xp2 + G00_15(xp3, xp0, xp1) + _block[2] + RMD128RoundPrime48To63, 12);
+            x2 = RotateLeft32(x2 + G48_63(x3, x0, x1) + _block[7] + RMD128Round48To63, 5);
+            xp2 = RotateLeft32(xp2 + G00_15(xp3, xp0, xp1) + _block[2] + RMD128RoundPrime48To63, 12);
 
             // Round 59
-            x1 = RotateLeft(x1 + G48_63(x2, x3, x0) + _block[15] + RMD128Round48To63, 6);
-            xp1 = RotateLeft(xp1 + G00_15(xp2, xp3, xp0) + _block[13] + RMD128RoundPrime48To63, 9);
+            x1 = RotateLeft32(x1 + G48_63(x2, x3, x0) + _block[15] + RMD128Round48To63, 6);
+            xp1 = RotateLeft32(xp1 + G00_15(xp2, xp3, xp0) + _block[13] + RMD128RoundPrime48To63, 9);
 
             // Round 60
-            x0 = RotateLeft(x0 + G48_63(x1, x2, x3) + _block[14] + RMD128Round48To63, 8);
-            xp0 = RotateLeft(xp0 + G00_15(xp1, xp2, xp3) + _block[9] + RMD128RoundPrime48To63, 12);
+            x0 = RotateLeft32(x0 + G48_63(x1, x2, x3) + _block[14] + RMD128Round48To63, 8);
+            xp0 = RotateLeft32(xp0 + G00_15(xp1, xp2, xp3) + _block[9] + RMD128RoundPrime48To63, 12);
 
             // Round 61
-            x3 = RotateLeft(x3 + G48_63(x0, x1, x2) + _block[5] + RMD128Round48To63, 6);
-            xp3 = RotateLeft(xp3 + G00_15(xp0, xp1, xp2) + _block[7] + RMD128RoundPrime48To63, 5);
+            x3 = RotateLeft32(x3 + G48_63(x0, x1, x2) + _block[5] + RMD128Round48To63, 6);
+            xp3 = RotateLeft32(xp3 + G00_15(xp0, xp1, xp2) + _block[7] + RMD128RoundPrime48To63, 5);
 
             // Round 62
-            x2 = RotateLeft(x2 + G48_63(x3, x0, x1) + _block[6] + RMD128Round48To63, 5);
-            xp2 = RotateLeft(xp2 + G00_15(xp3, xp0, xp1) + _block[10] + RMD128RoundPrime48To63, 15);
+            x2 = RotateLeft32(x2 + G48_63(x3, x0, x1) + _block[6] + RMD128Round48To63, 5);
+            xp2 = RotateLeft32(xp2 + G00_15(xp3, xp0, xp1) + _block[10] + RMD128RoundPrime48To63, 15);
 
             // Round 63
-            x1 = RotateLeft(x1 + G48_63(x2, x3, x0) + _block[2] + RMD128Round48To63, 12);
-            xp1 = RotateLeft(xp1 + G00_15(xp2, xp3, xp0) + _block[14] + RMD128RoundPrime48To63, 8);
+            x1 = RotateLeft32(x1 + G48_63(x2, x3, x0) + _block[2] + RMD128Round48To63, 12);
+            xp1 = RotateLeft32(xp1 + G00_15(xp2, xp3, xp0) + _block[14] + RMD128RoundPrime48To63, 8);
 
             // Swap set 4
             t = x3; x3 = xp3; xp3 = t;
@@ -503,22 +504,5 @@ namespace SabreTools.Hashing.RipeMD
         /// Round operation [48, 63]
         /// </summary>
         private static uint G48_63(uint x, uint y, uint z) => (x & z) | (y & ~z);
-
-        /// <summary>
-        /// 32-bit little-endian read
-        /// </summary>
-        public static uint ReadLE32(byte[] data, int offset)
-        {
-            return (uint)(data[offset + 0]
-                        | data[offset + 1] << 8
-                        | data[offset + 2] << 16
-                        | data[offset + 3] << 24);
-        }
-
-        /// <summary>
-        /// 32-bit rotate left
-        /// </summary>
-        private static uint RotateLeft(uint value, int shift)
-            => (value << shift) | (value >> (32 - shift));
     }
 }
