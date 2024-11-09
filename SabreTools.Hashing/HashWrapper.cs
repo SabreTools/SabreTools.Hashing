@@ -55,6 +55,9 @@ namespace SabreTools.Hashing
                         return nchaArr;
 #endif
 
+                    case RipeMD.RipeMD160 r160:
+                        return r160.GetHash();
+
 #if NET8_0_OR_GREATER
                     case Shake128 s128:
                         return s128.GetCurrentHash(32);
@@ -349,6 +352,10 @@ namespace SabreTools.Hashing
                     break;
 #endif
 
+                case RipeMD.RipeMD160 r160:
+                    r160.TransformBlock(buffer, offset, size);
+                    break;
+
 #if NET8_0_OR_GREATER
                 case Shake128 s128:
                     var s128BufferSpan = new ReadOnlySpan<byte>(buffer, offset, size);
@@ -381,6 +388,10 @@ namespace SabreTools.Hashing
             {
                 case HashAlgorithm ha:
                     ha.TransformFinalBlock(emptyBuffer, 0, 0);
+                    break;
+
+                case RipeMD.RipeMD160 r160:
+                    r160.Terminate();
                     break;
             }
         }
