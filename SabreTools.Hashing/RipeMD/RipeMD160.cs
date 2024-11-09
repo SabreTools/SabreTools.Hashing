@@ -132,8 +132,8 @@ namespace SabreTools.Hashing.RipeMD
             padding[padLength - 4] = (byte)((totalBitCount >> 32) & 0xff);
             padding[padLength - 5] = (byte)((totalBitCount >> 24) & 0xff);
             padding[padLength - 6] = (byte)((totalBitCount >> 16) & 0xff);
-            padding[padLength - 7] = (byte)((totalBitCount >> 8 ) & 0xff);
-            padding[padLength - 8] = (byte)((totalBitCount >> 0 ) & 0xff);
+            padding[padLength - 7] = (byte)((totalBitCount >> 8) & 0xff);
+            padding[padLength - 8] = (byte)((totalBitCount >> 0) & 0xff);
 
             // Pad the block
             TransformBlock(padding, 0, padding.Length);
@@ -717,27 +717,27 @@ namespace SabreTools.Hashing.RipeMD
         /// <summary>
         /// Round operation [0, 15]
         /// </summary>
-        private static uint G00_15(uint x0, uint x1, uint x2) => x0 ^ x1 ^ x2;
+        private static uint G00_15(uint x, uint y, uint z) => x ^ y ^ z;
 
         /// <summary>
         /// Round operation [16, 31]
         /// </summary>
-        private static uint G16_31(uint x0, uint x1, uint x2) => (x0 & x1) | (~x0 & x2);
+        private static uint G16_31(uint x, uint y, uint z) => (x & y) | (~x & z);
 
         /// <summary>
         /// Round operation [32, 47]
         /// </summary>
-        private static uint G32_47(uint x0, uint x1, uint x2) => (x0 | ~x1) ^ x2;
+        private static uint G32_47(uint x, uint y, uint z) => (x | ~y) ^ z;
 
         /// <summary>
         /// Round operation [48, 63]
         /// </summary>
-        private static uint G48_63(uint x0, uint x1, uint x2) => (x0 & x2) | (x1 & ~x2);
+        private static uint G48_63(uint x, uint y, uint z) => (x & z) | (y & ~z);
 
         /// <summary>
         /// Round operation [64, 79]
         /// </summary>
-        private static uint G64_79(uint x0, uint x1, uint x2) => x0 ^ (x1 | ~x2);
+        private static uint G64_79(uint x, uint y, uint z) => x ^ (y | ~z);
 
         /// <summary>
         /// 32-bit little-endian read
