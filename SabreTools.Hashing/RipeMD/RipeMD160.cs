@@ -58,11 +58,11 @@ namespace SabreTools.Hashing.RipeMD
         /// <param name="length">Length of the data to hash</param>
         public void TransformBlock(byte[] data, int offset, int length)
         {
-            // Increment the processed byte count
-            _totalBytes += length;
-
             // Figure out how much buffer is needed
             int bufferLen = (int)(_totalBytes & 0x3f);
+
+            // Increment the processed byte count
+            _totalBytes += length;
 
             // If there is buffer to fill and it will meet the limit
             if (bufferLen > 0 && bufferLen + length >= 64)
