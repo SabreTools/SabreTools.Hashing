@@ -299,36 +299,60 @@ namespace SabreTools.Hashing.RipeMD
             _zPtr = 0;
         }
 
-        /// <summary>
         /// To facilitate software implementation, the round-function Φ is described in terms of operations on 32-bit words.
         /// A sequence of functions g0, g1, …, g79 is used in this round-function, where each function g i, 0 ≤ i ≤ 79, takes
         /// three words X0, X1 and X2 as input and produces a single word as output.
-        /// </summary>
+
         private static uint RoundOperation(uint x0, uint x1, uint x2, int round)
         {
             // [0, 15]
             if (0 <= round && round <= 15)
-                return x0 ^ x1 ^ x2;
+                return G00_15(x0, x1, x2);
 
             // [16, 31]
             else if (16 <= round && round <= 31)
-                return (x0 & x1) | (~x0 & x2);
+                return G16_31(x0, x1, x2);
 
             // [32, 47]
             else if (32 <= round && round <= 47)
-                return (x0 | ~x1) ^ x2;
+                return G32_47(x0, x1, x2);
 
             // [48, 63]
             else if (48 <= round && round <= 63)
-                return (x0 & x2) | (x1 & ~x2);
+                return G48_63(x0, x1, x2);
 
             // [64, 79]
             else if (64 <= round && round <= 79)
-                return x0 ^ (x1 | ~x2);
+                return G64_79(x0, x1, x2);
 
             // Invalid
             throw new ArgumentOutOfRangeException(nameof(round));
         }
+
+        /// <summary>
+        /// Round operation [0, 15]
+        /// </summary>
+        private static uint G00_15(uint x0, uint x1, uint x2) => x0 ^ x1 ^ x2;
+
+        /// <summary>
+        /// Round operation [16, 31]
+        /// </summary>
+        private static uint G16_31(uint x0, uint x1, uint x2) => (x0 & x1) | (~x0 & x2);
+
+        /// <summary>
+        /// Round operation [32, 47]
+        /// </summary>
+        private static uint G32_47(uint x0, uint x1, uint x2) => (x0 | ~x1) ^ x2;
+
+        /// <summary>
+        /// Round operation [48, 63]
+        /// </summary>
+        private static uint G48_63(uint x0, uint x1, uint x2) => (x0 & x2) | (x1 & ~x2);
+
+        /// <summary>
+        /// Round operation [64, 79]
+        /// </summary>
+        private static uint G64_79(uint x0, uint x1, uint x2) => x0 ^ (x1 | ~x2);
 
         /// <summary>
         /// 32-bit rotate left
