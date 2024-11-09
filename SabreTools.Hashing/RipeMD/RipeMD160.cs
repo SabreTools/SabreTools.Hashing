@@ -151,29 +151,13 @@ namespace SabreTools.Hashing.RipeMD
             var hash = new byte[20];
             int hashOffset = 0;
 
-            // Y0
-            byte[] segment = BitConverter.GetBytes(_state[0]);
-            Array.Copy(segment, 0, hash, hashOffset, 4);
-            hashOffset += 4;
-
-            // Y1
-            segment = BitConverter.GetBytes(_state[1]);
-            Array.Copy(segment, 0, hash, hashOffset, 4);
-            hashOffset += 4;
-
-            // Y2
-            segment = BitConverter.GetBytes(_state[2]);
-            Array.Copy(segment, 0, hash, hashOffset, 4);
-            hashOffset += 4;
-
-            // Y3
-            segment = BitConverter.GetBytes(_state[3]);
-            Array.Copy(segment, 0, hash, hashOffset, 4);
-            hashOffset += 4;
-
-            // Y4
-            segment = BitConverter.GetBytes(_state[4]);
-            Array.Copy(segment, 0, hash, hashOffset, 4);
+            // Assemble the hash array
+            for (int i = 0; i < _state.Length; i++)
+            {
+                byte[] segment = BitConverter.GetBytes(_state[i]);
+                Array.Copy(segment, 0, hash, hashOffset, 4);
+                hashOffset += 4;
+            }
 
             // Reset the state and return
             Reset();
