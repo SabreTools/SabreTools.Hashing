@@ -112,8 +112,8 @@ namespace SabreTools.Hashing.RipeMD
                 Array.Copy(data, offset, _buffer, 0, 64);
 
                 // Set the new values
-                offset += 64 - bufferLen;
-                length -= 64 - bufferLen;
+                offset += 64;
+                length -= 64;
 
                 // Split the buffer for the round
                 for (int i = 0; i < 16; i++)
@@ -152,8 +152,8 @@ namespace SabreTools.Hashing.RipeMD
             padding[padLength - 4] = (byte)((totalBitCount >> 32) & 0xff);
             padding[padLength - 5] = (byte)((totalBitCount >> 24) & 0xff);
             padding[padLength - 6] = (byte)((totalBitCount >> 16) & 0xff);
-            padding[padLength - 7] = (byte)((totalBitCount >> 8)  & 0xff);
-            padding[padLength - 8] = (byte)((totalBitCount >> 0)  & 0xff);
+            padding[padLength - 7] = (byte)((totalBitCount >> 8 ) & 0xff);
+            padding[padLength - 8] = (byte)((totalBitCount >> 0 ) & 0xff);
 
             // Pad the block
             TransformBlock(padding, 0, padding.Length);
