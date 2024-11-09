@@ -6,29 +6,9 @@ namespace SabreTools.Hashing.RipeMD
     internal class RipeMD160
     {
         /// <summary>
-        /// Leftmost 32 bits
+        /// Set of 5 32-bit numbers representing the hash state
         /// </summary>
-        private uint _y0;
-
-        /// <summary>
-        /// Second from left 32 bits
-        /// </summary>
-        private uint _y1;
-
-        /// <summary>
-        /// Third from left 32 bits
-        /// </summary>
-        private uint _y2;
-
-        /// <summary>
-        /// Fourth from left 32 bits
-        /// </summary>
-        private uint _y3;
-
-        /// <summary>
-        /// Fifth from left 32 bits
-        /// </summary>
-        private uint _y4;
+        private readonly uint[] _state = new uint[5];
 
         /// <summary>
         /// Total number of bytes processed
@@ -56,11 +36,11 @@ namespace SabreTools.Hashing.RipeMD
         public void Reset()
         {
             // Reset the seed values
-            _y0 = RMD160Y0;
-            _y1 = RMD160Y1;
-            _y2 = RMD160Y2;
-            _y3 = RMD160Y3;
-            _y4 = RMD160Y4;
+            _state[0] = RMD160Y0;
+            _state[1] = RMD160Y1;
+            _state[2] = RMD160Y2;
+            _state[3] = RMD160Y3;
+            _state[4] = RMD160Y4;
 
             // Reset the byte count
             _totalBytes = 0;
@@ -172,31 +152,31 @@ namespace SabreTools.Hashing.RipeMD
             int hashOffset = 0;
 
             // Y0
-            byte[] segment = BitConverter.GetBytes(_y0);
+            byte[] segment = BitConverter.GetBytes(_state[0]);
             Array.Reverse(segment);
             Array.Copy(segment, 0, hash, hashOffset, 4);
             hashOffset += 4;
 
             // Y1
-            segment = BitConverter.GetBytes(_y1);
+            segment = BitConverter.GetBytes(_state[1]);
             Array.Reverse(segment);
             Array.Copy(segment, 0, hash, hashOffset, 4);
             hashOffset += 4;
 
             // Y2
-            segment = BitConverter.GetBytes(_y2);
+            segment = BitConverter.GetBytes(_state[2]);
             Array.Reverse(segment);
             Array.Copy(segment, 0, hash, hashOffset, 4);
             hashOffset += 4;
 
             // Y3
-            segment = BitConverter.GetBytes(_y3);
+            segment = BitConverter.GetBytes(_state[3]);
             Array.Reverse(segment);
             Array.Copy(segment, 0, hash, hashOffset, 4);
             hashOffset += 4;
 
             // Y4
-            segment = BitConverter.GetBytes(_y4);
+            segment = BitConverter.GetBytes(_state[4]);
             Array.Reverse(segment);
             Array.Copy(segment, 0, hash, hashOffset, 4);
 
@@ -219,11 +199,11 @@ namespace SabreTools.Hashing.RipeMD
         private void Round()
         {
             // Setup values
-            uint x0 = _y0, xp0 = _y0;
-            uint x1 = _y1, xp1 = _y1;
-            uint x2 = _y2, xp2 = _y2;
-            uint x3 = _y3, xp3 = _y3;
-            uint x4 = _y4, xp4 = _y4;
+            uint x0 = _state[0], xp0 = _state[0];
+            uint x1 = _state[1], xp1 = _state[1];
+            uint x2 = _state[2], xp2 = _state[2];
+            uint x3 = _state[3], xp3 = _state[3];
+            uint x4 = _state[4], xp4 = _state[4];
 
             #region Rounds 0-15
 
@@ -726,12 +706,12 @@ namespace SabreTools.Hashing.RipeMD
             #endregion
 
             // Avalanche values
-            xp3 += x2 + _y1;
-            _y1 = _y2 + x3 + xp4;
-            _y2 = _y3 + x4 + xp0;
-            _y3 = _y4 + x0 + xp1;
-            _y4 = _y0 + x1 + xp2;
-            _y0 = xp3;
+            xp3 += x2 + _state[1];
+            _state[1] = _state[2] + x3 + xp4;
+            _state[2] = _state[3] + x4 + xp0;
+            _state[3] = _state[4] + x0 + xp1;
+            _state[4] = _state[0] + x1 + xp2;
+            _state[0] = xp3;
         }
 
         /// <summary>
