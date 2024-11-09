@@ -166,9 +166,7 @@ namespace SabreTools.Hashing.Test
 
             {HashType.MD5, "b722871eaa950016296184d026c5dec9"},
 
-#if NETFRAMEWORK
             {HashType.RIPEMD160, "346361e1d7fdb836650cecdb842b0dbe660eed66"},
-#endif
 
             {HashType.SHA1, "eea1ee2d801d830c4bdad4df3c8da6f9f52d1a9f"},
             {HashType.SHA256, "fdb02dee8c319c52087382c45f099c90d0b6cc824850aff28c1bfb2884b7b855"},
