@@ -55,6 +55,8 @@ namespace SabreTools.Hashing
                         return nchaArr;
 #endif
 
+                    case RipeMD.RipeMD128 r128:
+                        return r128.GetHash();
                     case RipeMD.RipeMD160 r160:
                         return r160.GetHash();
 
@@ -285,6 +287,7 @@ namespace SabreTools.Hashing
 
                 HashType.MD5 => MD5.Create(),
 
+                HashType.RIPEMD128 => new RipeMD.RipeMD128(),
                 HashType.RIPEMD160 => new RipeMD.RipeMD160(),
 
                 HashType.SHA1 => SHA1.Create(),
@@ -350,6 +353,9 @@ namespace SabreTools.Hashing
                     break;
 #endif
 
+                case RipeMD.RipeMD128 r128:
+                    r128.TransformBlock(buffer, offset, size);
+                    break;
                 case RipeMD.RipeMD160 r160:
                     r160.TransformBlock(buffer, offset, size);
                     break;
@@ -388,6 +394,9 @@ namespace SabreTools.Hashing
                     ha.TransformFinalBlock(emptyBuffer, 0, 0);
                     break;
 
+                case RipeMD.RipeMD128 r128:
+                    r128.Terminate();
+                    break;
                 case RipeMD.RipeMD160 r160:
                     r160.Terminate();
                     break;

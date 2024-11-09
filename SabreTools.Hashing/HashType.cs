@@ -719,7 +719,12 @@ namespace SabreTools.Hashing
         MD5,
 
         /// <summary>
-        /// RIPEMD160 hash
+        /// RIPEMD-128 hash
+        /// </summary>
+        RIPEMD128,
+
+        /// <summary>
+        /// RIPEMD-160 hash
         /// </summary>
         RIPEMD160,
 

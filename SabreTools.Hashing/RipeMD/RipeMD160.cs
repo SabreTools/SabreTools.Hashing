@@ -3,6 +3,7 @@ using static SabreTools.Hashing.RipeMD.Constants;
 
 namespace SabreTools.Hashing.RipeMD
 {
+    /// <see href="https://cdn.standards.iteh.ai/samples/39876/10f9f9f4bb614eaaaeba7e157e183ca3/ISO-IEC-10118-3-2004.pdf"/> 
     internal class RipeMD160
     {
         /// <summary>
