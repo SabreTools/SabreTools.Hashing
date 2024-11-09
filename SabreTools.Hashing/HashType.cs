@@ -730,6 +730,11 @@ namespace SabreTools.Hashing
         /// </summary>
         RIPEMD160,
 
+        /// <summary>
+        /// RIPEMD-320 hash
+        /// </summary>
+        RIPEMD320,
+
         #endregion
 
         #region SHA

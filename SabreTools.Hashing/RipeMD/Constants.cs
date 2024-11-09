@@ -3,7 +3,7 @@ namespace SabreTools.Hashing.RipeMD
     // <see href="https://cdn.standards.iteh.ai/samples/39876/10f9f9f4bb614eaaaeba7e157e183ca3/ISO-IEC-10118-3-2004.pdf"/>
     internal static class Constants
     {
-        #region RIPEMD-128
+        #region RIPEMD-128 / RIPEMD-256
 
         public const uint RMD128Round00To15 = 0x00000000;
         public const uint RMD128Round16To31 = 0x5A827999;
@@ -19,10 +19,14 @@ namespace SabreTools.Hashing.RipeMD
         public const uint RMD128Y1 = 0xEFCDAB89;
         public const uint RMD128Y2 = 0x98BADCFE;
         public const uint RMD128Y3 = 0x10325476;
+        public const uint RMD256Y4 = 0x76543210;
+        public const uint RMD256Y5 = 0xFEDCBA98;
+        public const uint RMD256Y6 = 0x89ABCDEF;
+        public const uint RMD256Y7 = 0x01234567;
 
         #endregion
 
-        #region RIPEMD-160
+        #region RIPEMD-160 / RIPEMD-320
 
         public const uint RMD160Round00To15 = 0x00000000;
         public const uint RMD160Round16To31 = 0x5A827999;
@@ -41,6 +45,11 @@ namespace SabreTools.Hashing.RipeMD
         public const uint RMD160Y2 = 0x98BADCFE;
         public const uint RMD160Y3 = 0x10325476;
         public const uint RMD160Y4 = 0xC3D2E1F0;
+        public const uint RMD320Y5 = 0x76543210;
+        public const uint RMD320Y6 = 0xFEDCBA98;
+        public const uint RMD320Y7 = 0x89ABCDEF;
+        public const uint RMD320Y8 = 0x01234567;
+        public const uint RMD320Y9 = 0x3C2D1E0F;
 
         /// <summary>
         /// t_i

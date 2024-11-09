@@ -5,12 +5,12 @@ namespace SabreTools.Hashing.RipeMD
 {
     /// <see href="https://cdn.standards.iteh.ai/samples/39876/10f9f9f4bb614eaaaeba7e157e183ca3/ISO-IEC-10118-3-2004.pdf"/>
     /// <see href="https://homes.esat.kuleuven.be/~bosselae/ripemd160/pdf/AB-9601/AB-9601.pdf"/>
-    internal class RipeMD160
+    internal class RipeMD320
     {
         /// <summary>
-        /// Set of 5 32-bit numbers representing the hash state
+        /// Set of 10 32-bit numbers representing the hash state
         /// </summary>
-        private readonly uint[] _state = new uint[5];
+        private readonly uint[] _state = new uint[10];
 
         /// <summary>
         /// Total number of bytes processed
@@ -27,7 +27,7 @@ namespace SabreTools.Hashing.RipeMD
         /// </summary>
         private readonly uint[] _block = new uint[16];
 
-        public RipeMD160()
+        public RipeMD320()
         {
             Reset();
         }
@@ -43,6 +43,11 @@ namespace SabreTools.Hashing.RipeMD
             _state[2] = RMD160Y2;
             _state[3] = RMD160Y3;
             _state[4] = RMD160Y4;
+            _state[5] = RMD320Y5;
+            _state[6] = RMD320Y6;
+            _state[7] = RMD320Y7;
+            _state[8] = RMD320Y8;
+            _state[9] = RMD320Y9;
 
             // Reset the byte count
             _totalBytes = 0;
@@ -150,7 +155,7 @@ namespace SabreTools.Hashing.RipeMD
         /// </remarks>
         public byte[] GetHash()
         {
-            var hash = new byte[20];
+            var hash = new byte[40];
             int hashOffset = 0;
 
             // Assemble the hash array
@@ -180,11 +185,12 @@ namespace SabreTools.Hashing.RipeMD
         private void Round()
         {
             // Setup values
-            uint x0 = _state[0], xp0 = _state[0];
-            uint x1 = _state[1], xp1 = _state[1];
-            uint x2 = _state[2], xp2 = _state[2];
-            uint x3 = _state[3], xp3 = _state[3];
-            uint x4 = _state[4], xp4 = _state[4];
+            uint x0 = _state[0], xp0 = _state[5];
+            uint x1 = _state[1], xp1 = _state[6];
+            uint x2 = _state[2], xp2 = _state[7];
+            uint x3 = _state[3], xp3 = _state[8];
+            uint x4 = _state[4], xp4 = _state[9];
+            uint t;
 
             #region Rounds 0-15
 
@@ -283,6 +289,9 @@ namespace SabreTools.Hashing.RipeMD
             x2 = RotateLeft(x2, 10);
             xp0 = RotateLeft(xp0 + G64_79(xp1, xp2, xp3) + _block[12] + RMD160RoundPrime00To15, 6) + xp4;
             xp2 = RotateLeft(xp2, 10);
+
+            // Swap set 1
+            t = x0; x0 = xp0; xp0 = t;
 
             #endregion
 
@@ -384,6 +393,9 @@ namespace SabreTools.Hashing.RipeMD
             xp4 = RotateLeft(xp4 + G48_63(xp0, xp1, xp2) + _block[2] + RMD160RoundPrime16To31, 11) + xp3;
             xp1 = RotateLeft(xp1, 10);
 
+            // Swap set 2
+            t = x1; x1 = xp1; xp1 = t;
+
             #endregion
 
             #region Rounds 32-47
@@ -483,6 +495,9 @@ namespace SabreTools.Hashing.RipeMD
             x0 = RotateLeft(x0, 10);
             xp3 = RotateLeft(xp3 + G32_47(xp4, xp0, xp1) + _block[13] + RMD160RoundPrime32To47, 5) + xp2;
             xp0 = RotateLeft(xp0, 10);
+
+            // Swap set 3
+            t = x2; x2 = xp2; xp2 = t;
 
             #endregion
 
@@ -584,6 +599,9 @@ namespace SabreTools.Hashing.RipeMD
             xp2 = RotateLeft(xp2 + G16_31(xp3, xp4, xp0) + _block[14] + RMD160RoundPrime48To63, 8) + xp1;
             xp4 = RotateLeft(xp4, 10);
 
+            // Swap set 4
+            t = x3; x3 = xp3; xp3 = t;
+
             #endregion
 
             #region Rounds 64-79
@@ -684,15 +702,22 @@ namespace SabreTools.Hashing.RipeMD
             xp1 = RotateLeft(xp1 + G00_15(xp2, xp3, xp4) + _block[11] + RMD160RoundPrime64To79, 11) + xp0;
             xp3 = RotateLeft(xp3, 10);
 
+            // Swap set 5
+            t = x4; x4 = xp4; xp4 = t;
+
             #endregion
 
             // Avalanche values
-            xp3 += x2 + _state[1];
-            _state[1] = _state[2] + x3 + xp4;
-            _state[2] = _state[3] + x4 + xp0;
-            _state[3] = _state[4] + x0 + xp1;
-            _state[4] = _state[0] + x1 + xp2;
-            _state[0] = xp3;
+            _state[0] += x0;
+            _state[1] += x1;
+            _state[2] += x2;
+            _state[3] += x3;
+            _state[4] += x4;
+            _state[5] += xp0;
+            _state[6] += xp1;
+            _state[7] += xp2;
+            _state[8] += xp3;
+            _state[9] += xp4;
         }
 
         /// <summary>

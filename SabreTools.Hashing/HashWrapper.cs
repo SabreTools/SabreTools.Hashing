@@ -59,6 +59,8 @@ namespace SabreTools.Hashing
                         return r128.GetHash();
                     case RipeMD.RipeMD160 r160:
                         return r160.GetHash();
+                    case RipeMD.RipeMD320 r320:
+                        return r320.GetHash();
 
 #if NET8_0_OR_GREATER
                     case Shake128 s128:
@@ -289,6 +291,7 @@ namespace SabreTools.Hashing
 
                 HashType.RIPEMD128 => new RipeMD.RipeMD128(),
                 HashType.RIPEMD160 => new RipeMD.RipeMD160(),
+                HashType.RIPEMD320 => new RipeMD.RipeMD320(),
 
                 HashType.SHA1 => SHA1.Create(),
                 HashType.SHA256 => SHA256.Create(),
@@ -359,6 +362,9 @@ namespace SabreTools.Hashing
                 case RipeMD.RipeMD160 r160:
                     r160.TransformBlock(buffer, offset, size);
                     break;
+                case RipeMD.RipeMD320 r320:
+                    r320.TransformBlock(buffer, offset, size);
+                    break;
 
 #if NET8_0_OR_GREATER
                 case Shake128 s128:
@@ -399,6 +405,9 @@ namespace SabreTools.Hashing
                     break;
                 case RipeMD.RipeMD160 r160:
                     r160.Terminate();
+                    break;
+                case RipeMD.RipeMD320 r320:
+                    r320.Terminate();
                     break;
             }
         }
