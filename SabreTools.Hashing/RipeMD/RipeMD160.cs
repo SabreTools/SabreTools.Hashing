@@ -116,7 +116,7 @@ namespace SabreTools.Hashing.RipeMD
         public void Terminate()
         {
             // Determine the pad length
-            int padLength = (int)(_totalBytes & 0x3f);
+            int padLength = 64 - (int)(_totalBytes & 0x3f);
             if (padLength <= 8)
                 padLength += 64;
 
@@ -132,8 +132,8 @@ namespace SabreTools.Hashing.RipeMD
             padding[padLength - 4] = (byte)((totalBitCount >> 32) & 0xff);
             padding[padLength - 5] = (byte)((totalBitCount >> 24) & 0xff);
             padding[padLength - 6] = (byte)((totalBitCount >> 16) & 0xff);
-            padding[padLength - 7] = (byte)((totalBitCount >> 8) & 0xff);
-            padding[padLength - 8] = (byte)((totalBitCount >> 0) & 0xff);
+            padding[padLength - 7] = (byte)((totalBitCount >> 8 ) & 0xff);
+            padding[padLength - 8] = (byte)((totalBitCount >> 0 ) & 0xff);
 
             // Pad the block
             TransformBlock(padding, 0, padding.Length);
@@ -153,31 +153,26 @@ namespace SabreTools.Hashing.RipeMD
 
             // Y0
             byte[] segment = BitConverter.GetBytes(_state[0]);
-            Array.Reverse(segment);
             Array.Copy(segment, 0, hash, hashOffset, 4);
             hashOffset += 4;
 
             // Y1
             segment = BitConverter.GetBytes(_state[1]);
-            Array.Reverse(segment);
             Array.Copy(segment, 0, hash, hashOffset, 4);
             hashOffset += 4;
 
             // Y2
             segment = BitConverter.GetBytes(_state[2]);
-            Array.Reverse(segment);
             Array.Copy(segment, 0, hash, hashOffset, 4);
             hashOffset += 4;
 
             // Y3
             segment = BitConverter.GetBytes(_state[3]);
-            Array.Reverse(segment);
             Array.Copy(segment, 0, hash, hashOffset, 4);
             hashOffset += 4;
 
             // Y4
             segment = BitConverter.GetBytes(_state[4]);
-            Array.Reverse(segment);
             Array.Copy(segment, 0, hash, hashOffset, 4);
 
             // Reset the state and return
