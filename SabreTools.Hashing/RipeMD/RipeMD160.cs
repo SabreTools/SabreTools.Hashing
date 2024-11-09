@@ -3,7 +3,6 @@ using static SabreTools.Hashing.RipeMD.Constants;
 
 namespace SabreTools.Hashing.RipeMD
 {
-    // TODO: Determine if unrolled version of Round is more efficient
     internal class RipeMD160
     {
         /// <summary>
@@ -162,9 +161,9 @@ namespace SabreTools.Hashing.RipeMD
                 Round();
 
             // Split the block count
-            ulong width = _totalBytes << 3;
-            _z[14] = (uint)(width & 0xffffffff);
-            _z[15] = (uint)(width >> 32);
+            ulong blockCount = _totalBytes << 3;
+            _z[14] = (uint)(blockCount & 0xffffffff);
+            _z[15] = (uint)(blockCount >> 32);
 
             // Run a final round
             Round();
@@ -222,7 +221,7 @@ namespace SabreTools.Hashing.RipeMD
         private void AppendUInt32(byte[] data)
         {
             // Read in the next 4 bytes as a little-endian UInt32
-            _z[_zPtr++] = (uint)data[0] + data[1] << 8
+            _z[_zPtr++] = (uint)data[0]       + data[1] << 8
                               + data[2] << 16 + data[3] << 24;
 
             // If the accumulator is full, perform an update round
@@ -762,10 +761,6 @@ namespace SabreTools.Hashing.RipeMD
             Array.Clear(_z, 0, _z.Length);
             _zPtr = 0;
         }
-
-        /// To facilitate software implementation, the round-function Φ is described in terms of operations on 32-bit words.
-        /// A sequence of functions g0, g1, …, g79 is used in this round-function, where each function g i, 0 ≤ i ≤ 79, takes
-        /// three words X0, X1 and X2 as input and produces a single word as output.
 
         /// <summary>
         /// Round operation [0, 15]
