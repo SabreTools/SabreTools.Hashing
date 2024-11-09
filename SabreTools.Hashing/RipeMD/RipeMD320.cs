@@ -6,7 +6,7 @@ namespace SabreTools.Hashing.RipeMD
 {
     /// <see href="https://cdn.standards.iteh.ai/samples/39876/10f9f9f4bb614eaaaeba7e157e183ca3/ISO-IEC-10118-3-2004.pdf"/>
     /// <see href="https://homes.esat.kuleuven.be/~bosselae/ripemd160/pdf/AB-9601/AB-9601.pdf"/>
-    internal class RipeMD320
+    public class RipeMD320
     {
         /// <summary>
         /// Set of 10 32-bit numbers representing the hash state
