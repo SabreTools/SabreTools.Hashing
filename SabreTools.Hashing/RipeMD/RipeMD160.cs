@@ -760,14 +760,14 @@ namespace SabreTools.Hashing.RipeMD
         private static uint G64_79(uint x0, uint x1, uint x2) => x0 ^ (x1 | ~x2);
 
         /// <summary>
-        /// Read UInt32 little-endian
+        /// 32-bit little-endian read
         /// </summary>
-        private static uint ReadLE32(byte[] data, int offset)
+        public static uint ReadLE32(byte[] data, int offset)
         {
-            return (uint)data[0]
-                       + data[1] << 8
-                       + data[2] << 16
-                       + data[3] << 24;
+            return (uint)(data[offset + 0]
+                        | data[offset + 1] << 8
+                        | data[offset + 2] << 16
+                        | data[offset + 3] << 24);
         }
 
         /// <summary>
