@@ -102,6 +102,9 @@ namespace SabreTools.Hashing.RipeMD
                 // Read as many bytes as possible to either fill or exhaust
                 int preZRead = Math.Min(4 - _preZPtr, length);
                 Array.Copy(data, offset, _preZ, _preZPtr, preZRead);
+
+                // Set the new values
+                _preZPtr += preZRead;
                 offset += preZRead;
                 length -= preZRead;
 
