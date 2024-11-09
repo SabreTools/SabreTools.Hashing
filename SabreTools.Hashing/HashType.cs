@@ -718,6 +718,8 @@ namespace SabreTools.Hashing
         /// </summary>
         MD5,
 
+        #region RIPEMD
+
         /// <summary>
         /// RIPEMD-128 hash
         /// </summary>
@@ -727,6 +729,8 @@ namespace SabreTools.Hashing
         /// RIPEMD-160 hash
         /// </summary>
         RIPEMD160,
+
+        #endregion
 
         #region SHA
 
