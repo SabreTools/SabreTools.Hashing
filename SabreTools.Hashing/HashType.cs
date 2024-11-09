@@ -731,6 +731,11 @@ namespace SabreTools.Hashing
         RIPEMD160,
 
         /// <summary>
+        /// RIPEMD-256 hash
+        /// </summary>
+        RIPEMD256,
+
+        /// <summary>
         /// RIPEMD-320 hash
         /// </summary>
         RIPEMD320,

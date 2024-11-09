@@ -168,6 +168,7 @@ namespace SabreTools.Hashing.Test
 
             {HashType.RIPEMD128, "6356cc18225245de3ca9afcb4fa22ce6"},
             {HashType.RIPEMD160, "346361e1d7fdb836650cecdb842b0dbe660eed66"},
+            {HashType.RIPEMD256, "c2fe11922529651bc615be3d8a296820b6681ecaed5ce051439c86bf3d942276"},
             {HashType.RIPEMD320, "a523bec87b0738f89d8ae5cf0edd3ee9c7b9811f1051e32893e32e820db33841b9d5042e738d20c9"},
 
             {HashType.SHA1, "eea1ee2d801d830c4bdad4df3c8da6f9f52d1a9f"},
