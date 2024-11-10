@@ -55,13 +55,13 @@ namespace SabreTools.Hashing
                         return nchaArr;
 #endif
 
-                    case RipeMD.RipeMD128 r128:
+                    case MessageDigest.RipeMD128 r128:
                         return r128.GetHash();
-                    case RipeMD.RipeMD160 r160:
+                    case MessageDigest.RipeMD160 r160:
                         return r160.GetHash();
-                    case RipeMD.RipeMD256 r256:
+                    case MessageDigest.RipeMD256 r256:
                         return r256.GetHash();
-                    case RipeMD.RipeMD320 r320:
+                    case MessageDigest.RipeMD320 r320:
                         return r320.GetHash();
 
 #if NET8_0_OR_GREATER
@@ -71,7 +71,7 @@ namespace SabreTools.Hashing
                         return s256.GetCurrentHash(64);
 #endif
 
-                    case Tiger.TigerHash th:
+                    case MessageDigest.TigerHash th:
                         return th.GetHash();
 
                     case XxHash.XxHash32 xxh32:
@@ -294,10 +294,10 @@ namespace SabreTools.Hashing
 
                 HashType.MD5 => MD5.Create(),
 
-                HashType.RIPEMD128 => new RipeMD.RipeMD128(),
-                HashType.RIPEMD160 => new RipeMD.RipeMD160(),
-                HashType.RIPEMD256 => new RipeMD.RipeMD256(),
-                HashType.RIPEMD320 => new RipeMD.RipeMD320(),
+                HashType.RIPEMD128 => new MessageDigest.RipeMD128(),
+                HashType.RIPEMD160 => new MessageDigest.RipeMD160(),
+                HashType.RIPEMD256 => new MessageDigest.RipeMD256(),
+                HashType.RIPEMD320 => new MessageDigest.RipeMD320(),
 
                 HashType.SHA1 => SHA1.Create(),
                 HashType.SHA256 => SHA256.Create(),
@@ -313,12 +313,12 @@ namespace SabreTools.Hashing
 
                 HashType.SpamSum => new SpamSumContext(),
 
-                HashType.Tiger128_3 => new Tiger.Tiger128_3(),
-                HashType.Tiger128_4 => new Tiger.Tiger128_4(),
-                HashType.Tiger160_3 => new Tiger.Tiger160_3(),
-                HashType.Tiger160_4 => new Tiger.Tiger160_4(),
-                HashType.Tiger192_3 => new Tiger.Tiger192_3(),
-                HashType.Tiger192_4 => new Tiger.Tiger192_4(),
+                HashType.Tiger128_3 => new MessageDigest.Tiger128_3(),
+                HashType.Tiger128_4 => new MessageDigest.Tiger128_4(),
+                HashType.Tiger160_3 => new MessageDigest.Tiger160_3(),
+                HashType.Tiger160_4 => new MessageDigest.Tiger160_4(),
+                HashType.Tiger192_3 => new MessageDigest.Tiger192_3(),
+                HashType.Tiger192_4 => new MessageDigest.Tiger192_4(),
 
                 HashType.XxHash32 => new XxHash.XxHash32(),
                 HashType.XxHash64 => new XxHash.XxHash64(),
@@ -369,16 +369,16 @@ namespace SabreTools.Hashing
                     break;
 #endif
 
-                case RipeMD.RipeMD128 r128:
+                case MessageDigest.RipeMD128 r128:
                     r128.TransformBlock(buffer, offset, size);
                     break;
-                case RipeMD.RipeMD160 r160:
+                case MessageDigest.RipeMD160 r160:
                     r160.TransformBlock(buffer, offset, size);
                     break;
-                case RipeMD.RipeMD256 r256:
+                case MessageDigest.RipeMD256 r256:
                     r256.TransformBlock(buffer, offset, size);
                     break;
-                case RipeMD.RipeMD320 r320:
+                case MessageDigest.RipeMD320 r320:
                     r320.TransformBlock(buffer, offset, size);
                     break;
 
@@ -393,7 +393,7 @@ namespace SabreTools.Hashing
                     break;
 #endif
 
-                case Tiger.TigerHash th:
+                case MessageDigest.TigerHash th:
                     th.TransformBlock(buffer, offset, size);
                     break;
 
@@ -419,20 +419,20 @@ namespace SabreTools.Hashing
                     ha.TransformFinalBlock(emptyBuffer, 0, 0);
                     break;
 
-                case RipeMD.RipeMD128 r128:
+                case MessageDigest.RipeMD128 r128:
                     r128.Terminate();
                     break;
-                case RipeMD.RipeMD160 r160:
+                case MessageDigest.RipeMD160 r160:
                     r160.Terminate();
                     break;
-                case RipeMD.RipeMD256 r256:
+                case MessageDigest.RipeMD256 r256:
                     r256.Terminate();
                     break;
-                case RipeMD.RipeMD320 r320:
+                case MessageDigest.RipeMD320 r320:
                     r320.Terminate();
                     break;
 
-                case Tiger.TigerHash th:
+                case MessageDigest.TigerHash th:
                     th.Terminate();
                     break;
             }

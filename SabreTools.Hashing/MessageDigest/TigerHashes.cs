@@ -1,8 +1,8 @@
 using System;
 using static SabreTools.Hashing.HashOperations;
-using static SabreTools.Hashing.Tiger.Constants;
+using static SabreTools.Hashing.MessageDigest.Constants;
 
-namespace SabreTools.Hashing.Tiger
+namespace SabreTools.Hashing.MessageDigest
 {
     /// <see href="https://biham.cs.technion.ac.il/Reports/Tiger//>
     public abstract class TigerHash
@@ -43,9 +43,9 @@ namespace SabreTools.Hashing.Tiger
         public void Reset()
         {
             // Reset the seed values
-            _state[0] = SeedA;
-            _state[1] = SeedB;
-            _state[2] = SeedC;
+            _state[0] = TigerSeedA;
+            _state[1] = TigerSeedB;
+            _state[2] = TigerSeedC;
 
             // Reset the byte count
             _totalBytes = 0;
@@ -238,14 +238,14 @@ namespace SabreTools.Hashing.Tiger
         {
             c ^= x;
 
-            a -= Table[((c >> (0 * 8)) & 0xFF) + (0 * 256)]
-               ^ Table[((c >> (2 * 8)) & 0xFF) + (1 * 256)]
-               ^ Table[((c >> (4 * 8)) & 0xFF) + (2 * 256)]
-               ^ Table[((c >> (6 * 8)) & 0xFF) + (3 * 256)];
-            b += Table[((c >> (1 * 8)) & 0xFF) + (3 * 256)]
-               ^ Table[((c >> (3 * 8)) & 0xFF) + (2 * 256)]
-               ^ Table[((c >> (5 * 8)) & 0xFF) + (1 * 256)]
-               ^ Table[((c >> (7 * 8)) & 0xFF) + (0 * 256)];
+            a -= TigerSBox[((c >> (0 * 8)) & 0xFF) + (0 * 256)]
+               ^ TigerSBox[((c >> (2 * 8)) & 0xFF) + (1 * 256)]
+               ^ TigerSBox[((c >> (4 * 8)) & 0xFF) + (2 * 256)]
+               ^ TigerSBox[((c >> (6 * 8)) & 0xFF) + (3 * 256)];
+            b += TigerSBox[((c >> (1 * 8)) & 0xFF) + (3 * 256)]
+               ^ TigerSBox[((c >> (3 * 8)) & 0xFF) + (2 * 256)]
+               ^ TigerSBox[((c >> (5 * 8)) & 0xFF) + (1 * 256)]
+               ^ TigerSBox[((c >> (7 * 8)) & 0xFF) + (0 * 256)];
 
             unchecked { b *= (ulong)mul; }
         }
