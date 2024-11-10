@@ -33,6 +33,11 @@ namespace SabreTools.Hashing
             {
                 switch (_hasher)
                 {
+                    case Adler.Adler32 a32:
+                        var a32Arr = a32.Finalize();
+                        Array.Reverse(a32Arr);
+                        return a32Arr;
+
                     case CrcRunner cr:
                         var crArr = cr.Finalize();
                         Array.Reverse(crArr);
@@ -134,7 +139,7 @@ namespace SabreTools.Hashing
         {
             _hasher = HashType switch
             {
-                HashType.Adler32 => new Adler32Context(),
+                HashType.Adler32 => new Adler.Adler32(),
 
 #if NET7_0_OR_GREATER
                 HashType.BLAKE3 => new Blake3HashAlgorithm(),
@@ -345,6 +350,10 @@ namespace SabreTools.Hashing
         {
             switch (_hasher)
             {
+                case Adler.Adler32 a32:
+                    a32.TransformBlock(buffer, offset, size);
+                    break;
+
                 case CrcRunner cr:
                     cr.TransformBlock(buffer, offset, size);
                     break;
