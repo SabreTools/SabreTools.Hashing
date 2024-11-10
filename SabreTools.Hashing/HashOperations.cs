@@ -62,6 +62,26 @@ namespace SabreTools.Hashing
 
         #endregion
 
+        #region Reverse
+
+        /// <summary>
+        /// Reverse the endianness of a value
+        /// </summary>
+        public static ulong ReverseBits(ulong value, int bitWidth)
+        {
+            ulong reverse = 0;
+            for (int i = 0; i < bitWidth; i++)
+            {
+                reverse <<= 1;
+                reverse |= value & 1;
+                value >>= 1;
+            }
+
+            return reverse;
+        }
+
+        #endregion
+
         #region Rotate
 
         /// <summary>

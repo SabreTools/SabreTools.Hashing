@@ -1,3 +1,5 @@
+using static SabreTools.Hashing.HashOperations;
+
 namespace SabreTools.Hashing.Checksum
 {
     internal class CrcTable
@@ -55,7 +57,7 @@ namespace SabreTools.Hashing.Checksum
                 // Get the starting value for this index
                 ulong point = i;
                 if (!_processBitwise && def.ReflectIn)
-                    point = BitOperations.ReverseBits(point, _processBits);
+                    point = ReverseBits(point, _processBits);
 
                 // Shift to account for storage
                 point <<= _definition.Width - _processBits;
@@ -71,7 +73,7 @@ namespace SabreTools.Hashing.Checksum
 
                 // Reflect if necessary
                 if (def.ReflectIn)
-                    point = BitOperations.ReverseBits(point, def.Width);
+                    point = ReverseBits(point, def.Width);
 
                 // Shift back to account for storage
                 point &= ulong.MaxValue >> (64 - def.Width);

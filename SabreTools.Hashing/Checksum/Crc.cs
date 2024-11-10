@@ -1,4 +1,5 @@
 using System;
+using static SabreTools.Hashing.HashOperations;
 
 namespace SabreTools.Hashing.Checksum
 {
@@ -27,7 +28,7 @@ namespace SabreTools.Hashing.Checksum
 
             Def = def;
             _table = new CrcTable(def);
-            _hash = def.ReflectIn ? BitOperations.ReverseBits(def.Init, def.Width) : def.Init;
+            _hash = def.ReflectIn ? ReverseBits(def.Init, def.Width) : def.Init;
         }
 
         /// <summary>
@@ -57,7 +58,7 @@ namespace SabreTools.Hashing.Checksum
 
             // Handle mutual reflection
             if (Def.ReflectIn ^ Def.ReflectOut)
-                localHash = BitOperations.ReverseBits(localHash, Def.Width);
+                localHash = ReverseBits(localHash, Def.Width);
 
             // Handle XOR
             localHash ^= Def.XorOut;

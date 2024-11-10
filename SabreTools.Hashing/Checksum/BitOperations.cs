@@ -3,22 +3,6 @@ namespace SabreTools.Hashing.Checksum
     internal static class BitOperations
     {
         /// <summary>
-        /// Reverse the endianness of a value
-        /// </summary>
-        public static ulong ReverseBits(ulong value, int bitWidth)
-        {
-            ulong reverse = 0;
-            for (int i = 0; i < bitWidth; i++)
-            {
-                reverse <<= 1;
-                reverse |= value & 1;
-                value >>= 1;
-            }
-
-            return reverse;
-        }
-
-        /// <summary>
         /// Clamp a value to a certain bit width and convert to a byte array
         /// </summary>
         public static byte[] ClampValueToBytes(ulong value, int bitWidth)
