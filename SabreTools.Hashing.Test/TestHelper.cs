@@ -185,6 +185,13 @@ namespace SabreTools.Hashing.Test
 
             {HashType.SpamSum, "3:hMCPQCE6AFQxWyENFACBE+rW6Tj7SMQmKozr9MVERkL:hZRdxZENFs+rPSromekL"},
 
+            {HashType.Tiger128_3, "afc7ac1c3c031b675562f917b59f0885"},
+            {HashType.Tiger128_4, "e7609126923009f733cd0fcbc5a733fa"},
+            {HashType.Tiger160_3, "afc7ac1c3c031b675562f917b59f088533405e1a"},
+            {HashType.Tiger160_4, "e7609126923009f733cd0fcbc5a733fa4f4ccf7a"},
+            {HashType.Tiger192_3, "afc7ac1c3c031b675562f917b59f088533405e1a2f72912d"},
+            {HashType.Tiger192_4, "e7609126923009f733cd0fcbc5a733fa4f4ccf7ab7c0e2a3"},
+
             {HashType.XxHash32, "aa1d338e"},
             {HashType.XxHash64, "181e9ea4f0f62b08"},
 #if NET462_OR_GREATER || NETCOREAPP

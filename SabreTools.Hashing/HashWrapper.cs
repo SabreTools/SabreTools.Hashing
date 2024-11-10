@@ -71,6 +71,9 @@ namespace SabreTools.Hashing
                         return s256.GetCurrentHash(64);
 #endif
 
+                    case Tiger.TigerHash th:
+                        return th.GetHash();
+
                     case XxHash.XxHash32 xxh32:
                         var xxh32Arr = xxh32.Finalize();
                         Array.Reverse(xxh32Arr);
@@ -310,6 +313,13 @@ namespace SabreTools.Hashing
 
                 HashType.SpamSum => new SpamSumContext(),
 
+                HashType.Tiger128_3 => new Tiger.Tiger128_3(),
+                HashType.Tiger128_4 => new Tiger.Tiger128_4(),
+                HashType.Tiger160_3 => new Tiger.Tiger160_3(),
+                HashType.Tiger160_4 => new Tiger.Tiger160_4(),
+                HashType.Tiger192_3 => new Tiger.Tiger192_3(),
+                HashType.Tiger192_4 => new Tiger.Tiger192_4(),
+
                 HashType.XxHash32 => new XxHash.XxHash32(),
                 HashType.XxHash64 => new XxHash.XxHash64(),
 #if NET462_OR_GREATER || NETCOREAPP
@@ -377,12 +387,15 @@ namespace SabreTools.Hashing
                     var s128BufferSpan = new ReadOnlySpan<byte>(buffer, offset, size);
                     s128.AppendData(s128BufferSpan);
                     break;
-
                 case Shake256 s256:
                     var s256BufferSpan = new ReadOnlySpan<byte>(buffer, offset, size);
                     s256.AppendData(s256BufferSpan);
                     break;
 #endif
+
+                case Tiger.TigerHash th:
+                    th.TransformBlock(buffer, offset, size);
+                    break;
 
                 case XxHash.XxHash32 xxh32:
                     xxh32.TransformBlock(buffer, offset, size);
@@ -417,6 +430,10 @@ namespace SabreTools.Hashing
                     break;
                 case RipeMD.RipeMD320 r320:
                     r320.Terminate();
+                    break;
+
+                case Tiger.TigerHash th:
+                    th.Terminate();
                     break;
             }
         }

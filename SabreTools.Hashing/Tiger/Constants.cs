@@ -1,10 +1,16 @@
 namespace SabreTools.Hashing.Tiger
 {
-    /// <summary>
-    /// Tiger S boxes
-    /// </summary>
-    public static class SBoxes
+    internal static class Constants
     {
+        public const ulong SeedA = 0x0123456789ABCDEF;
+
+        public const ulong SeedB = 0xFEDCBA9876543210;
+
+        public const ulong SeedC = 0xF096A5B4C3B2E187;
+
+        /// <summary>
+        /// S-Boxes
+        /// </summary>
         public static readonly ulong[] Table =
         [
             0x02AAB17CF7E90C5E   /*    0 */,    0xAC424B03E243A8EC   /*    1 */,

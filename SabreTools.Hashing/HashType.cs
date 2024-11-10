@@ -800,6 +800,40 @@ namespace SabreTools.Hashing
         /// </summary>
         SpamSum,
 
+        #region Tiger
+
+        /// <summary>
+        /// Tiger 128-bit hash, 3 passes
+        /// </summary>
+        Tiger128_3,
+
+        /// <summary>
+        /// Tiger 128-bit hash, 4 passes
+        /// </summary>
+        Tiger128_4,
+
+        /// <summary>
+        /// Tiger 160-bit hash, 3 passes
+        /// </summary>
+        Tiger160_3,
+
+        /// <summary>
+        /// Tiger 160-bit hash, 4 passes
+        /// </summary>
+        Tiger160_4,
+
+        /// <summary>
+        /// Tiger 192-bit hash, 3 passes
+        /// </summary>
+        Tiger192_3,
+
+        /// <summary>
+        /// Tiger 192-bit hash, 4 passes
+        /// </summary>
+        Tiger192_4,
+
+        #endregion
+
         #region xxHash
 
         /// <summary>
