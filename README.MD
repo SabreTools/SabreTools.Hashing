@@ -8,7 +8,7 @@ All hash and checksum types here have been written to ensure compatibility acros
 
 | Hash / Checksum Type | Notes |
 | --- | --- |
-| CRC | All CRC values documented [here](https://reveng.sourceforge.io/crc-catalogue/all.htm#crc.legend) |
+| CRC | All CRC values documented [here](https://reveng.sourceforge.io/crc-catalogue/all.htm) except for CRC-82 due to bit-length restrictions |
 | RIPEMD | 128-, 160-, 256-, and 320-bit variants |
 | Tiger | 128-, 160-, and 192-bit variants; 3- and 4-pass; `0x01` and `0x80` (Tiger2) pad-initialized |
 | xxHash | xxHash-32 and xxHash-64 only |
