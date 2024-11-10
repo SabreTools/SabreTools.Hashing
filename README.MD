@@ -26,4 +26,6 @@ External implementations of hash and checksum types may not be compatible with a
 | [System.IO.Hashing](https://www.nuget.org/packages/System.IO.Hashing) | XXH3, XXH128 | Used in `net462` and above |
 | [System.Security.Cryptography](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography) | MD5, SHA-1, SHA-256, SHA-384, SHA-512, SHA3-256, SHA3-384, SHA3-512, SHAKE128, SHAKE256 | Built-in library; SHA3-256, SHA3-384, SHA3-512, SHAKE128, and SHAKE256 are `net8.0` and above only for [supported platforms](https://learn.microsoft.com/en-us/dotnet/standard/security/cross-platform-cryptography) |
 
+**Note:** If all you care about is performance, I encourage you to forego this library and use the ones listed above directly instead.
+
 Find the link to the Nuget package [here](https://www.nuget.org/packages/SabreTools.Hashing).
