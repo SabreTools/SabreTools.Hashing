@@ -191,6 +191,12 @@ namespace SabreTools.Hashing.Test
             {HashType.Tiger160_4, "e7609126923009f733cd0fcbc5a733fa4f4ccf7a"},
             {HashType.Tiger192_3, "afc7ac1c3c031b675562f917b59f088533405e1a2f72912d"},
             {HashType.Tiger192_4, "e7609126923009f733cd0fcbc5a733fa4f4ccf7ab7c0e2a3"},
+            {HashType.Tiger2_128_3, "b26271774e66519b1c746f210e0be05c"},
+            {HashType.Tiger2_128_4, "f1df540d3f2521b87a957c9b2b00fc7c"},
+            {HashType.Tiger2_160_3, "b26271774e66519b1c746f210e0be05c4fd9efde"},
+            {HashType.Tiger2_160_4, "f1df540d3f2521b87a957c9b2b00fc7c589306dc"},
+            {HashType.Tiger2_192_3, "b26271774e66519b1c746f210e0be05c4fd9efde26e46e89"},
+            {HashType.Tiger2_192_4, "f1df540d3f2521b87a957c9b2b00fc7c589306dcf094acb5"},
 
             {HashType.XxHash32, "aa1d338e"},
             {HashType.XxHash64, "181e9ea4f0f62b08"},

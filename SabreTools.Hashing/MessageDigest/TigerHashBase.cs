@@ -5,7 +5,7 @@ using static SabreTools.Hashing.MessageDigest.Constants;
 namespace SabreTools.Hashing.MessageDigest
 {
     /// <see href="https://biham.cs.technion.ac.il/Reports/Tiger//>
-    public abstract class TigerHash : MessageDigestBase<ulong>
+    public abstract class TigerHashBase : MessageDigestBase<ulong>
     {
         /// <summary>
         /// Number of passes (minimum 3)
@@ -13,11 +13,16 @@ namespace SabreTools.Hashing.MessageDigest
         protected int _passes;
 
         /// <summary>
+        /// Byte to start padding with
+        /// </summary>
+        protected byte _padStart;
+
+        /// <summary>
         /// Set of 3 64-bit numbers representing the hash state
         /// </summary>
         private readonly ulong[] _state = new ulong[3];
 
-        public TigerHash() : base()
+        public TigerHashBase() : base()
         {
         }
 
@@ -97,7 +102,7 @@ namespace SabreTools.Hashing.MessageDigest
 
             // Prebuild the padding
             var padding = new byte[padLength];
-            padding[0] = 0x01;
+            padding[0] = _padStart;
             padding[padLength - 1] = (byte)((totalBitCount >> 56) & 0xff);
             padding[padLength - 2] = (byte)((totalBitCount >> 48) & 0xff);
             padding[padLength - 3] = (byte)((totalBitCount >> 40) & 0xff);
@@ -232,108 +237,6 @@ namespace SabreTools.Hashing.MessageDigest
             _block[5] ^= _block[4];
             _block[6] += _block[5];
             _block[7] -= _block[6] ^ 0x0123456789ABCDEF;
-        }
-    }
-
-    /// <summary>
-    /// 3-pass variant of Tiger-192
-    /// </summary>
-    public class Tiger192_3 : TigerHash
-    {
-        public Tiger192_3() : base()
-        {
-            _passes = 3;
-        }
-    }
-
-    /// <summary>
-    /// 4-pass variant of Tiger-192
-    /// </summary>
-    public class Tiger192_4 : TigerHash
-    {
-        public Tiger192_4() : base()
-        {
-            _passes = 4;
-        }
-    }
-
-    /// <summary>
-    /// 3-pass variant of Tiger-160
-    /// </summary>
-    public class Tiger160_3 : TigerHash
-    {
-        public Tiger160_3() : base()
-        {
-            _passes = 3;
-        }
-
-        /// <inheritdoc/>
-        public override byte[] GetHash()
-        {
-            byte[] hash = base.GetHash();
-            byte[] trimmedHash = new byte[20];
-            Array.Copy(hash, trimmedHash, 20);
-            return trimmedHash;
-        }
-    }
-
-    /// <summary>
-    /// 4-pass variant of Tiger-160
-    /// </summary>
-    public class Tiger160_4 : TigerHash
-    {
-        public Tiger160_4() : base()
-        {
-            _passes = 4;
-        }
-
-        /// <inheritdoc/>
-        public override byte[] GetHash()
-        {
-            byte[] hash = base.GetHash();
-            byte[] trimmedHash = new byte[20];
-            Array.Copy(hash, trimmedHash, 20);
-            return trimmedHash;
-        }
-    }
-
-    /// <summary>
-    /// 3-pass variant of Tiger-128
-    /// </summary>
-    public class Tiger128_3 : TigerHash
-    {
-        public Tiger128_3() : base()
-        {
-            _passes = 3;
-        }
-
-        /// <inheritdoc/>
-        public override byte[] GetHash()
-        {
-            byte[] hash = base.GetHash();
-            byte[] trimmedHash = new byte[16];
-            Array.Copy(hash, trimmedHash, 16);
-            return trimmedHash;
-        }
-    }
-
-    /// <summary>
-    /// 4-pass variant of Tiger-128
-    /// </summary>
-    public class Tiger128_4 : TigerHash
-    {
-        public Tiger128_4() : base()
-        {
-            _passes = 4;
-        }
-
-        /// <inheritdoc/>
-        public override byte[] GetHash()
-        {
-            byte[] hash = base.GetHash();
-            byte[] trimmedHash = new byte[16];
-            Array.Copy(hash, trimmedHash, 16);
-            return trimmedHash;
         }
     }
 }

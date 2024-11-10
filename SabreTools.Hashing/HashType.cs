@@ -832,6 +832,36 @@ namespace SabreTools.Hashing
         /// </summary>
         Tiger192_4,
 
+        /// <summary>
+        /// Tiger2 128-bit hash, 3 passes
+        /// </summary>
+        Tiger2_128_3,
+
+        /// <summary>
+        /// Tiger2 128-bit hash, 4 passes
+        /// </summary>
+        Tiger2_128_4,
+
+        /// <summary>
+        /// Tiger2 160-bit hash, 3 passes
+        /// </summary>
+        Tiger2_160_3,
+
+        /// <summary>
+        /// Tiger2 160-bit hash, 4 passes
+        /// </summary>
+        Tiger2_160_4,
+
+        /// <summary>
+        /// Tiger2 192-bit hash, 3 passes
+        /// </summary>
+        Tiger2_192_3,
+
+        /// <summary>
+        /// Tiger2 192-bit hash, 4 passes
+        /// </summary>
+        Tiger2_192_4,
+
         #endregion
 
         #region xxHash

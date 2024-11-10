@@ -310,6 +310,12 @@ namespace SabreTools.Hashing
                 HashType.Tiger160_4 => new MessageDigest.Tiger160_4(),
                 HashType.Tiger192_3 => new MessageDigest.Tiger192_3(),
                 HashType.Tiger192_4 => new MessageDigest.Tiger192_4(),
+                HashType.Tiger2_128_3 => new MessageDigest.Tiger2_128_3(),
+                HashType.Tiger2_128_4 => new MessageDigest.Tiger2_128_4(),
+                HashType.Tiger2_160_3 => new MessageDigest.Tiger2_160_3(),
+                HashType.Tiger2_160_4 => new MessageDigest.Tiger2_160_4(),
+                HashType.Tiger2_192_3 => new MessageDigest.Tiger2_192_3(),
+                HashType.Tiger2_192_4 => new MessageDigest.Tiger2_192_4(),
 
                 HashType.XxHash32 => new XxHash.XxHash32(),
                 HashType.XxHash64 => new XxHash.XxHash64(),
