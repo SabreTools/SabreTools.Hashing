@@ -10,6 +10,7 @@ All hash and checksum types here have been written to ensure compatibility acros
 | --- | --- |
 | Adler-32 | Based on the [zlib source code](https://github.com/madler/zlib/blob/v1.2.11/adler32.c) |
 | CRC | All CRC values documented [here](https://reveng.sourceforge.io/crc-catalogue/all.htm) except for CRC-82 due to bit-length restrictions |
+| Fletcher | 16-, 32-, and 64-bit variants |
 | RIPEMD | 128-, 160-, 256-, and 320-bit variants |
 | Tiger | 128-, 160-, and 192-bit variants; 3- and 4-pass; `0x01` and `0x80` (Tiger2) pad-initialized |
 | xxHash | xxHash-32 and xxHash-64 only |
@@ -20,7 +21,7 @@ External implementations of hash and checksum types may not be compatible with a
 
 | Source | Hash / Checksum Types | Notes |
 | --- | --- | --- |
-| [Aaru.Checksums](https://github.com/aaru-dps/Aaru.Checksums) | Adler-32, Fletcher-16, Fletcher-32, SpamSum | Some code tweaks made to support older .NET versions |
+| [Aaru.Checksums](https://github.com/aaru-dps/Aaru.Checksums) | SpamSum | Some code tweaks made to support older .NET versions |
 | [Blake3.NET](https://github.com/xoofx/Blake3.NET) | BLAKE3 | Used in `net7.0` and above |
 | [System.IO.Hashing](https://www.nuget.org/packages/System.IO.Hashing) | XXH3, XXH128 | Used in `net462` and above |
 | [System.Security.Cryptography](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography) | MD5, SHA-1, SHA-256, SHA-384, SHA-512, SHA3-256, SHA3-384, SHA3-512, SHAKE128, SHAKE256 | Built-in library; SHA3-256, SHA3-384, SHA3-512, SHAKE128, and SHAKE256 are `net8.0` and above only for [supported platforms](https://learn.microsoft.com/en-us/dotnet/standard/security/cross-platform-cryptography) |

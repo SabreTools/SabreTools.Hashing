@@ -32,8 +32,6 @@ namespace SabreTools.Hashing.Checksum
         /// <param name="length">Length of the data to hash</param>
         public void TransformBlock(byte[] data, int offset, int length)
         {
-            uint n;
-
             // Split Adler-32 into component sums
             uint sum2 = (_hash >> 16) & 0xffff;
             _hash &= 0xffff;
@@ -41,7 +39,7 @@ namespace SabreTools.Hashing.Checksum
             // In case user likes doing a byte at a time, keep it fast
             if (length == 1)
             {
-                _hash += data[offset + 0];
+                _hash += data[offset];
                 if (_hash >= A32BASE)
                     _hash -= A32BASE;
 
@@ -76,10 +74,9 @@ namespace SabreTools.Hashing.Checksum
             {
                 // NMAX is divisible by 16
                 length -= A32NMAX;
-                n = A32NMAX / 16;
+                uint n = A32NMAX / 16;
                 do
                 {
-                    // 16 sums unrolled
                     _hash += data[offset + 0]; sum2 += _hash;
                     _hash += data[offset + 1]; sum2 += _hash;
                     _hash += data[offset + 2]; sum2 += _hash;
@@ -99,8 +96,6 @@ namespace SabreTools.Hashing.Checksum
 
                     offset += 16;
                 } while (--n > 0);
-
-
             }
 
             // Do remaining bytes (less than NMAX, still just one modulo)

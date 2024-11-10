@@ -43,6 +43,11 @@ namespace SabreTools.Hashing
                         Array.Reverse(crArr);
                         return crArr;
 
+                    case Fletcher fc:
+                        var fcArr = fc.Finalize();
+                        Array.Reverse(fcArr);
+                        return fcArr;
+
                     case HashAlgorithm ha:
                         return ha.Hash;
 
@@ -285,8 +290,9 @@ namespace SabreTools.Hashing
                 HashType.CRC64_WE => new Crc(StandardDefinitions.CRC64_WE),
                 HashType.CRC64_XZ => new Crc(StandardDefinitions.CRC64_XZ),
 
-                HashType.Fletcher16 => new Fletcher16Context(),
-                HashType.Fletcher32 => new Fletcher32Context(),
+                HashType.Fletcher16 => new Fletcher16(),
+                HashType.Fletcher32 => new Fletcher32(),
+                HashType.Fletcher64 => new Fletcher64(),
 
                 HashType.MD5 => MD5.Create(),
 
@@ -356,6 +362,10 @@ namespace SabreTools.Hashing
 
                 case Crc cr:
                     cr.TransformBlock(buffer, offset, size);
+                    break;
+
+                case Fletcher fc:
+                    fc.TransformBlock(buffer, offset, size);
                     break;
 
                 case HashAlgorithm ha:

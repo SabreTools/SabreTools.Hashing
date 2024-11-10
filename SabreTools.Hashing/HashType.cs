@@ -711,6 +711,11 @@ namespace SabreTools.Hashing
         /// </summary>
         Fletcher32,
 
+        /// <summary>
+        /// John G. Fletcher's 64-bit checksum
+        /// </summary>
+        Fletcher64,
+
         #endregion
 
         /// <summary>
