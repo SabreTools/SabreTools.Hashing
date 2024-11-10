@@ -44,6 +44,9 @@ namespace SabreTools.Hashing
                     case IChecksum ic:
                         return ic.Final();
 
+                    case MessageDigest.MessageDigestBase mdb:
+                        return mdb.GetHash();
+
 #if NET462_OR_GREATER || NETCOREAPP
                     case XxHash3 xxh3:
                         return xxh3.GetCurrentHash();
@@ -55,24 +58,12 @@ namespace SabreTools.Hashing
                         return nchaArr;
 #endif
 
-                    case MessageDigest.RipeMD128 r128:
-                        return r128.GetHash();
-                    case MessageDigest.RipeMD160 r160:
-                        return r160.GetHash();
-                    case MessageDigest.RipeMD256 r256:
-                        return r256.GetHash();
-                    case MessageDigest.RipeMD320 r320:
-                        return r320.GetHash();
-
 #if NET8_0_OR_GREATER
                     case Shake128 s128:
                         return s128.GetCurrentHash(32);
                     case Shake256 s256:
                         return s256.GetCurrentHash(64);
 #endif
-
-                    case MessageDigest.TigerHash th:
-                        return th.GetHash();
 
                     case XxHash.XxHash32 xxh32:
                         var xxh32Arr = xxh32.Finalize();
@@ -362,25 +353,16 @@ namespace SabreTools.Hashing
                     ic.Update(icBlock);
                     break;
 
+                case MessageDigest.MessageDigestBase mdb:
+                    mdb.TransformBlock(buffer, offset, size);
+                    break;
+
 #if NET462_OR_GREATER || NETCOREAPP
                 case NonCryptographicHashAlgorithm ncha:
                     var nchaBufferSpan = new ReadOnlySpan<byte>(buffer, offset, size);
                     ncha.Append(nchaBufferSpan);
                     break;
 #endif
-
-                case MessageDigest.RipeMD128 r128:
-                    r128.TransformBlock(buffer, offset, size);
-                    break;
-                case MessageDigest.RipeMD160 r160:
-                    r160.TransformBlock(buffer, offset, size);
-                    break;
-                case MessageDigest.RipeMD256 r256:
-                    r256.TransformBlock(buffer, offset, size);
-                    break;
-                case MessageDigest.RipeMD320 r320:
-                    r320.TransformBlock(buffer, offset, size);
-                    break;
 
 #if NET8_0_OR_GREATER
                 case Shake128 s128:
@@ -392,10 +374,6 @@ namespace SabreTools.Hashing
                     s256.AppendData(s256BufferSpan);
                     break;
 #endif
-
-                case MessageDigest.TigerHash th:
-                    th.TransformBlock(buffer, offset, size);
-                    break;
 
                 case XxHash.XxHash32 xxh32:
                     xxh32.TransformBlock(buffer, offset, size);
@@ -419,21 +397,8 @@ namespace SabreTools.Hashing
                     ha.TransformFinalBlock(emptyBuffer, 0, 0);
                     break;
 
-                case MessageDigest.RipeMD128 r128:
-                    r128.Terminate();
-                    break;
-                case MessageDigest.RipeMD160 r160:
-                    r160.Terminate();
-                    break;
-                case MessageDigest.RipeMD256 r256:
-                    r256.Terminate();
-                    break;
-                case MessageDigest.RipeMD320 r320:
-                    r320.Terminate();
-                    break;
-
-                case MessageDigest.TigerHash th:
-                    th.Terminate();
+                case MessageDigest.MessageDigestBase mdb:
+                    mdb.Terminate();
                     break;
             }
         }

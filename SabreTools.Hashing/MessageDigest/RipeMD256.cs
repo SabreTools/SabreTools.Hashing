@@ -6,39 +6,20 @@ namespace SabreTools.Hashing.MessageDigest
 {
     /// <see href="https://cdn.standards.iteh.ai/samples/39876/10f9f9f4bb614eaaaeba7e157e183ca3/ISO-IEC-10118-3-2004.pdf"/>
     /// <see href="https://homes.esat.kuleuven.be/~bosselae/ripemd160/pdf/AB-9601/AB-9601.pdf"/>
-    public class RipeMD256
+    public class RipeMD256 : MessageDigestBase<uint>
     {
         /// <summary>
         /// Set of 4 32-bit numbers representing the hash state
         /// </summary>
         private readonly uint[] _state = new uint[8];
 
-        /// <summary>
-        /// Total number of bytes processed
-        /// </summary>
-        private long _totalBytes;
-
-        /// <summary>
-        /// Internal byte buffer to accumulate before <see cref="_block"/> 
-        /// </summary>
-        private readonly byte[] _buffer = new byte[64];
-
-        /// <summary>
-        /// Internal UInt32 buffer for processing
-        /// </summary>
-        private readonly uint[] _block = new uint[16];
-
-        public RipeMD256()
+        public RipeMD256() : base()
         {
-            Reset();
         }
 
-        /// <summary>
-        /// Reset the internal hashing state
-        /// </summary>
-        public void Reset()
+        /// <inheritdoc/>
+        protected override void ResetImpl()
         {
-            // Reset the seed values
             _state[0] = RMD128Y0;
             _state[1] = RMD128Y1;
             _state[2] = RMD128Y2;
@@ -47,22 +28,10 @@ namespace SabreTools.Hashing.MessageDigest
             _state[5] = RMD256Y5;
             _state[6] = RMD256Y6;
             _state[7] = RMD256Y7;
-
-            // Reset the byte count
-            _totalBytes = 0;
-
-            // Reset the buffers
-            Array.Clear(_buffer, 0, _buffer.Length);
-            Array.Clear(_block, 0, _block.Length);
         }
 
-        /// <summary>
-        /// Hash a block of data and append it to the existing hash
-        /// </summary>
-        /// <param name="data">Byte array representing the data</param>
-        /// <param name="offset">Offset in the byte array to include</param>
-        /// <param name="length">Length of the data to hash</param>
-        public void TransformBlock(byte[] data, int offset, int length)
+        /// <inheritdoc/>
+        public override void TransformBlock(byte[] data, int offset, int length)
         {
             // Figure out how much buffer is needed
             int bufferLen = (int)(_totalBytes & 0x3f);
@@ -116,10 +85,8 @@ namespace SabreTools.Hashing.MessageDigest
                 Array.Copy(data, offset, _buffer, bufferLen, length);
         }
 
-        /// <summary>
-        /// End the hashing process
-        /// </summary>
-        public void Terminate()
+        /// <inheritdoc/>
+        public override void Terminate()
         {
             // Determine the pad length
             int padLength = 64 - (int)(_totalBytes & 0x3f);
@@ -145,14 +112,8 @@ namespace SabreTools.Hashing.MessageDigest
             TransformBlock(padding, 0, padding.Length);
         }
 
-        /// <summary>
-        /// Get the current value of the hash
-        /// </summary>
-        /// <remarks>
-        /// If <see cref="Terminate"/> has not been run, this value
-        /// will not be accurate for the processed bytes so far.
-        /// </remarks>
-        public byte[] GetHash()
+        /// <inheritdoc/>
+        public override byte[] GetHash()
         {
             var hash = new byte[32];
             int hashOffset = 0;

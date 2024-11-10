@@ -15,35 +15,9 @@ namespace SabreTools.Hashing.MessageDigest
         protected readonly byte[] _buffer = new byte[64];
 
         /// <summary>
-        /// Internal UInt32 buffer for processing
+        /// Reset additional values
         /// </summary>
-        protected readonly uint[] _block = new uint[16];
-
-        public MessageDigestBase()
-        {
-            Reset();
-        }
-
-        /// <summary>
-        /// Reset the internal hashing state
-        /// </summary>
-        public void Reset()
-        {
-            // Reset the seed values
-            ResetSeed();
-
-            // Reset the byte count
-            _totalBytes = 0;
-
-            // Reset the buffers
-            Array.Clear(_buffer, 0, _buffer.Length);
-            Array.Clear(_block, 0, _block.Length);
-        }
-
-        /// <summary>
-        /// Reset the seed value(s)
-        /// </summary>
-        protected abstract void ResetSeed();
+        protected abstract void ResetImpl();
 
         /// <summary>
         /// Hash a block of data and append it to the existing hash
@@ -68,5 +42,44 @@ namespace SabreTools.Hashing.MessageDigest
         /// </remarks>
         /// TODO: Combine this when there's an easier way of passing the state
         public abstract byte[] GetHash();
+    }
+
+    public abstract class MessageDigestBase<T> : MessageDigestBase where T : struct
+    {
+        /// <summary>
+        /// Internal buffer for processing
+        /// </summary>
+        protected readonly T[] _block;
+
+        public MessageDigestBase()
+        {
+            if (typeof(T) == typeof(short) || typeof(T) == typeof(ushort))
+                _block = new T[32];
+            else if (typeof(T) == typeof(int) || typeof(T) == typeof(uint))
+                _block = new T[16];
+            else if (typeof(T) == typeof(long) || typeof(T) == typeof(ulong))
+                _block = new T[8];
+
+            else
+                throw new InvalidOperationException();
+
+            Reset();
+        }
+
+        /// <summary>
+        /// Reset the internal hashing state
+        /// </summary>
+        public void Reset()
+        {
+            // Reset the seed values
+            ResetImpl();
+
+            // Reset the byte count
+            _totalBytes = 0;
+
+            // Reset the buffers
+            Array.Clear(_buffer, 0, _buffer.Length);
+            Array.Clear(_block, 0, _block.Length);
+        }
     }
 }
