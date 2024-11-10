@@ -1,8 +1,8 @@
 using System;
 
-namespace SabreTools.Hashing.Crc
+namespace SabreTools.Hashing.Checksum
 {
-    public class CrcRunner
+    public class Crc
     {
         /// <summary>
         /// Definition used to create the runner
@@ -19,7 +19,7 @@ namespace SabreTools.Hashing.Crc
         /// </summary>
         private ulong _hash;
 
-        public CrcRunner(CrcDefinition def)
+        public Crc(CrcDefinition def)
         {
             // Check for a valid bit width
             if (def.Width < 0 || def.Width > 64)

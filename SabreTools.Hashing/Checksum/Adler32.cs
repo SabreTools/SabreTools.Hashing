@@ -1,7 +1,7 @@
 using System;
-using static SabreTools.Hashing.Adler.Constants;
+using static SabreTools.Hashing.Checksum.Constants;
 
-namespace SabreTools.Hashing.Adler
+namespace SabreTools.Hashing.Checksum
 {
     /// <see href="https://github.com/madler/zlib/blob/v1.2.11/adler32.c"/> 
     public class Adler32
@@ -42,12 +42,12 @@ namespace SabreTools.Hashing.Adler
             if (length == 1)
             {
                 _hash += data[offset + 0];
-                if (_hash >= BASE)
-                    _hash -= BASE;
+                if (_hash >= A32BASE)
+                    _hash -= A32BASE;
 
                 sum2 += _hash;
-                if (sum2 >= BASE)
-                    sum2 -= BASE;
+                if (sum2 >= A32BASE)
+                    sum2 -= A32BASE;
 
                 _hash |= sum2 << 16;
                 return;
@@ -62,21 +62,21 @@ namespace SabreTools.Hashing.Adler
                     sum2 += _hash;
                 }
 
-                if (_hash >= BASE)
-                    _hash -= BASE;
+                if (_hash >= A32BASE)
+                    _hash -= A32BASE;
 
                 // Only added so many BASE's
-                sum2 %= BASE;
+                sum2 %= A32BASE;
                 _hash |= sum2 << 16;
                 return;
             }
 
             // Do length NMAX blocks -- requires just one modulo operation
-            while (length >= NMAX)
+            while (length >= A32NMAX)
             {
                 // NMAX is divisible by 16
-                length -= NMAX;
-                n = NMAX / 16;
+                length -= A32NMAX;
+                n = A32NMAX / 16;
                 do
                 {
                     // 16 sums unrolled
@@ -137,8 +137,8 @@ namespace SabreTools.Hashing.Adler
                     sum2 += _hash;
                 }
 
-                _hash %= BASE;
-                sum2 %= BASE;
+                _hash %= A32BASE;
+                sum2 %= A32BASE;
             }
 
             // Return recombined sums

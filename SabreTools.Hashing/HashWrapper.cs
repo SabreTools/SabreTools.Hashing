@@ -8,7 +8,7 @@ using Aaru.CommonTypes.Interfaces;
 #if NET7_0_OR_GREATER
 using Blake3;
 #endif
-using SabreTools.Hashing.Crc;
+using SabreTools.Hashing.Checksum;
 
 namespace SabreTools.Hashing
 {
@@ -33,12 +33,12 @@ namespace SabreTools.Hashing
             {
                 switch (_hasher)
                 {
-                    case Adler.Adler32 a32:
+                    case Adler32 a32:
                         var a32Arr = a32.Finalize();
                         Array.Reverse(a32Arr);
                         return a32Arr;
 
-                    case CrcRunner cr:
+                    case Crc cr:
                         var crArr = cr.Finalize();
                         Array.Reverse(crArr);
                         return crArr;
@@ -94,7 +94,7 @@ namespace SabreTools.Hashing
             {
                 switch (_hasher)
                 {
-                    case CrcRunner cr:
+                    case Crc cr:
                         var crArr = cr.Finalize();
                         ulong crHash = BytesToUInt64(crArr);
                         int length = cr.Def.Width / 4 + (cr.Def.Width % 4 > 0 ? 1 : 0);
@@ -139,151 +139,151 @@ namespace SabreTools.Hashing
         {
             _hasher = HashType switch
             {
-                HashType.Adler32 => new Adler.Adler32(),
+                HashType.Adler32 => new Adler32(),
 
 #if NET7_0_OR_GREATER
                 HashType.BLAKE3 => new Blake3HashAlgorithm(),
 #endif
 
-                HashType.CRC1_ZERO => new CrcRunner(StandardDefinitions.CRC1_ZERO),
-                HashType.CRC1_ONE => new CrcRunner(StandardDefinitions.CRC1_ONE),
+                HashType.CRC1_ZERO => new Crc(StandardDefinitions.CRC1_ZERO),
+                HashType.CRC1_ONE => new Crc(StandardDefinitions.CRC1_ONE),
 
-                HashType.CRC3_GSM => new CrcRunner(StandardDefinitions.CRC3_GSM),
-                HashType.CRC3_ROHC => new CrcRunner(StandardDefinitions.CRC3_ROHC),
+                HashType.CRC3_GSM => new Crc(StandardDefinitions.CRC3_GSM),
+                HashType.CRC3_ROHC => new Crc(StandardDefinitions.CRC3_ROHC),
 
-                HashType.CRC4_G704 => new CrcRunner(StandardDefinitions.CRC4_G704),
-                HashType.CRC4_INTERLAKEN => new CrcRunner(StandardDefinitions.CRC4_INTERLAKEN),
+                HashType.CRC4_G704 => new Crc(StandardDefinitions.CRC4_G704),
+                HashType.CRC4_INTERLAKEN => new Crc(StandardDefinitions.CRC4_INTERLAKEN),
 
-                HashType.CRC5_EPCC1G2 => new CrcRunner(StandardDefinitions.CRC5_EPCC1G2),
-                HashType.CRC5_G704 => new CrcRunner(StandardDefinitions.CRC5_G704),
-                HashType.CRC5_USB => new CrcRunner(StandardDefinitions.CRC5_USB),
+                HashType.CRC5_EPCC1G2 => new Crc(StandardDefinitions.CRC5_EPCC1G2),
+                HashType.CRC5_G704 => new Crc(StandardDefinitions.CRC5_G704),
+                HashType.CRC5_USB => new Crc(StandardDefinitions.CRC5_USB),
 
-                HashType.CRC6_CDMA2000A => new CrcRunner(StandardDefinitions.CRC6_CDMA2000A),
-                HashType.CRC6_CDMA2000B => new CrcRunner(StandardDefinitions.CRC6_CDMA2000B),
-                HashType.CRC6_DARC => new CrcRunner(StandardDefinitions.CRC6_DARC),
-                HashType.CRC6_G704 => new CrcRunner(StandardDefinitions.CRC6_G704),
-                HashType.CRC6_GSM => new CrcRunner(StandardDefinitions.CRC6_GSM),
+                HashType.CRC6_CDMA2000A => new Crc(StandardDefinitions.CRC6_CDMA2000A),
+                HashType.CRC6_CDMA2000B => new Crc(StandardDefinitions.CRC6_CDMA2000B),
+                HashType.CRC6_DARC => new Crc(StandardDefinitions.CRC6_DARC),
+                HashType.CRC6_G704 => new Crc(StandardDefinitions.CRC6_G704),
+                HashType.CRC6_GSM => new Crc(StandardDefinitions.CRC6_GSM),
 
-                HashType.CRC7_MMC => new CrcRunner(StandardDefinitions.CRC7_MMC),
-                HashType.CRC7_ROHC => new CrcRunner(StandardDefinitions.CRC7_ROHC),
-                HashType.CRC7_UMTS => new CrcRunner(StandardDefinitions.CRC7_UMTS),
+                HashType.CRC7_MMC => new Crc(StandardDefinitions.CRC7_MMC),
+                HashType.CRC7_ROHC => new Crc(StandardDefinitions.CRC7_ROHC),
+                HashType.CRC7_UMTS => new Crc(StandardDefinitions.CRC7_UMTS),
 
-                HashType.CRC8 => new CrcRunner(StandardDefinitions.CRC8_SMBUS),
-                HashType.CRC8_AUTOSAR => new CrcRunner(StandardDefinitions.CRC8_AUTOSAR),
-                HashType.CRC8_BLUETOOTH => new CrcRunner(StandardDefinitions.CRC8_BLUETOOTH),
-                HashType.CRC8_CDMA2000 => new CrcRunner(StandardDefinitions.CRC8_CDMA2000),
-                HashType.CRC8_DARC => new CrcRunner(StandardDefinitions.CRC8_DARC),
-                HashType.CRC8_DVBS2 => new CrcRunner(StandardDefinitions.CRC8_DVBS2),
-                HashType.CRC8_GSMA => new CrcRunner(StandardDefinitions.CRC8_GSMA),
-                HashType.CRC8_GSMB => new CrcRunner(StandardDefinitions.CRC8_GSMB),
-                HashType.CRC8_HITAG => new CrcRunner(StandardDefinitions.CRC8_HITAG),
-                HashType.CRC8_I4321 => new CrcRunner(StandardDefinitions.CRC8_I4321),
-                HashType.CRC8_ICODE => new CrcRunner(StandardDefinitions.CRC8_ICODE),
-                HashType.CRC8_LTE => new CrcRunner(StandardDefinitions.CRC8_LTE),
-                HashType.CRC8_MAXIMDOW => new CrcRunner(StandardDefinitions.CRC8_MAXIMDOW),
-                HashType.CRC8_MIFAREMAD => new CrcRunner(StandardDefinitions.CRC8_MIFAREMAD),
-                HashType.CRC8_NRSC5 => new CrcRunner(StandardDefinitions.CRC8_NRSC5),
-                HashType.CRC8_OPENSAFETY => new CrcRunner(StandardDefinitions.CRC8_OPENSAFETY),
-                HashType.CRC8_ROHC => new CrcRunner(StandardDefinitions.CRC8_ROHC),
-                HashType.CRC8_SAEJ1850 => new CrcRunner(StandardDefinitions.CRC8_SAEJ1850),
-                HashType.CRC8_SMBUS => new CrcRunner(StandardDefinitions.CRC8_SMBUS),
-                HashType.CRC8_TECH3250 => new CrcRunner(StandardDefinitions.CRC8_TECH3250),
-                HashType.CRC8_WCDMA => new CrcRunner(StandardDefinitions.CRC8_WCDMA),
+                HashType.CRC8 => new Crc(StandardDefinitions.CRC8_SMBUS),
+                HashType.CRC8_AUTOSAR => new Crc(StandardDefinitions.CRC8_AUTOSAR),
+                HashType.CRC8_BLUETOOTH => new Crc(StandardDefinitions.CRC8_BLUETOOTH),
+                HashType.CRC8_CDMA2000 => new Crc(StandardDefinitions.CRC8_CDMA2000),
+                HashType.CRC8_DARC => new Crc(StandardDefinitions.CRC8_DARC),
+                HashType.CRC8_DVBS2 => new Crc(StandardDefinitions.CRC8_DVBS2),
+                HashType.CRC8_GSMA => new Crc(StandardDefinitions.CRC8_GSMA),
+                HashType.CRC8_GSMB => new Crc(StandardDefinitions.CRC8_GSMB),
+                HashType.CRC8_HITAG => new Crc(StandardDefinitions.CRC8_HITAG),
+                HashType.CRC8_I4321 => new Crc(StandardDefinitions.CRC8_I4321),
+                HashType.CRC8_ICODE => new Crc(StandardDefinitions.CRC8_ICODE),
+                HashType.CRC8_LTE => new Crc(StandardDefinitions.CRC8_LTE),
+                HashType.CRC8_MAXIMDOW => new Crc(StandardDefinitions.CRC8_MAXIMDOW),
+                HashType.CRC8_MIFAREMAD => new Crc(StandardDefinitions.CRC8_MIFAREMAD),
+                HashType.CRC8_NRSC5 => new Crc(StandardDefinitions.CRC8_NRSC5),
+                HashType.CRC8_OPENSAFETY => new Crc(StandardDefinitions.CRC8_OPENSAFETY),
+                HashType.CRC8_ROHC => new Crc(StandardDefinitions.CRC8_ROHC),
+                HashType.CRC8_SAEJ1850 => new Crc(StandardDefinitions.CRC8_SAEJ1850),
+                HashType.CRC8_SMBUS => new Crc(StandardDefinitions.CRC8_SMBUS),
+                HashType.CRC8_TECH3250 => new Crc(StandardDefinitions.CRC8_TECH3250),
+                HashType.CRC8_WCDMA => new Crc(StandardDefinitions.CRC8_WCDMA),
 
-                HashType.CRC10_ATM => new CrcRunner(StandardDefinitions.CRC10_ATM),
-                HashType.CRC10_CDMA2000 => new CrcRunner(StandardDefinitions.CRC10_CDMA2000),
-                HashType.CRC10_GSM => new CrcRunner(StandardDefinitions.CRC10_GSM),
+                HashType.CRC10_ATM => new Crc(StandardDefinitions.CRC10_ATM),
+                HashType.CRC10_CDMA2000 => new Crc(StandardDefinitions.CRC10_CDMA2000),
+                HashType.CRC10_GSM => new Crc(StandardDefinitions.CRC10_GSM),
 
-                HashType.CRC11_FLEXRAY => new CrcRunner(StandardDefinitions.CRC11_FLEXRAY),
-                HashType.CRC11_UMTS => new CrcRunner(StandardDefinitions.CRC11_UMTS),
+                HashType.CRC11_FLEXRAY => new Crc(StandardDefinitions.CRC11_FLEXRAY),
+                HashType.CRC11_UMTS => new Crc(StandardDefinitions.CRC11_UMTS),
 
-                HashType.CRC12_CDMA2000 => new CrcRunner(StandardDefinitions.CRC12_CDMA2000),
-                HashType.CRC12_DECT => new CrcRunner(StandardDefinitions.CRC12_DECT),
-                HashType.CRC12_GSM => new CrcRunner(StandardDefinitions.CRC12_GSM),
-                HashType.CRC12_UMTS => new CrcRunner(StandardDefinitions.CRC12_UMTS),
+                HashType.CRC12_CDMA2000 => new Crc(StandardDefinitions.CRC12_CDMA2000),
+                HashType.CRC12_DECT => new Crc(StandardDefinitions.CRC12_DECT),
+                HashType.CRC12_GSM => new Crc(StandardDefinitions.CRC12_GSM),
+                HashType.CRC12_UMTS => new Crc(StandardDefinitions.CRC12_UMTS),
 
-                HashType.CRC13_BBC => new CrcRunner(StandardDefinitions.CRC13_BBC),
+                HashType.CRC13_BBC => new Crc(StandardDefinitions.CRC13_BBC),
 
-                HashType.CRC14_DARC => new CrcRunner(StandardDefinitions.CRC14_DARC),
-                HashType.CRC14_GSM => new CrcRunner(StandardDefinitions.CRC14_GSM),
+                HashType.CRC14_DARC => new Crc(StandardDefinitions.CRC14_DARC),
+                HashType.CRC14_GSM => new Crc(StandardDefinitions.CRC14_GSM),
 
-                HashType.CRC15_CAN => new CrcRunner(StandardDefinitions.CRC15_CAN),
-                HashType.CRC15_MPT1327 => new CrcRunner(StandardDefinitions.CRC15_MPT1327),
+                HashType.CRC15_CAN => new Crc(StandardDefinitions.CRC15_CAN),
+                HashType.CRC15_MPT1327 => new Crc(StandardDefinitions.CRC15_MPT1327),
 
-                HashType.CRC16 => new CrcRunner(StandardDefinitions.CRC16_ARC),
-                HashType.CRC16_ARC => new CrcRunner(StandardDefinitions.CRC16_ARC),
-                HashType.CRC16_CDMA2000 => new CrcRunner(StandardDefinitions.CRC16_CDMA2000),
-                HashType.CRC16_CMS => new CrcRunner(StandardDefinitions.CRC16_CMS),
-                HashType.CRC16_DDS110 => new CrcRunner(StandardDefinitions.CRC16_DDS110),
-                HashType.CRC16_DECTR => new CrcRunner(StandardDefinitions.CRC16_DECTR),
-                HashType.CRC16_DECTX => new CrcRunner(StandardDefinitions.CRC16_DECTX),
-                HashType.CRC16_DNP => new CrcRunner(StandardDefinitions.CRC16_DNP),
-                HashType.CRC16_EN13757 => new CrcRunner(StandardDefinitions.CRC16_EN13757),
-                HashType.CRC16_GENIBUS => new CrcRunner(StandardDefinitions.CRC16_GENIBUS),
-                HashType.CRC16_GSM => new CrcRunner(StandardDefinitions.CRC16_GSM),
-                HashType.CRC16_IBM3740 => new CrcRunner(StandardDefinitions.CRC16_IBM3740),
-                HashType.CRC16_IBMSDLC => new CrcRunner(StandardDefinitions.CRC16_IBMSDLC),
-                HashType.CRC16_ISOIEC144433A => new CrcRunner(StandardDefinitions.CRC16_ISOIEC144433A),
-                HashType.CRC16_KERMIT => new CrcRunner(StandardDefinitions.CRC16_KERMIT),
-                HashType.CRC16_LJ1200 => new CrcRunner(StandardDefinitions.CRC16_LJ1200),
-                HashType.CRC16_M17 => new CrcRunner(StandardDefinitions.CRC16_M17),
-                HashType.CRC16_MAXIMDOW => new CrcRunner(StandardDefinitions.CRC16_MAXIMDOW),
-                HashType.CRC16_MCRF4XX => new CrcRunner(StandardDefinitions.CRC16_MCRF4XX),
-                HashType.CRC16_MODBUS => new CrcRunner(StandardDefinitions.CRC16_MODBUS),
-                HashType.CRC16_NRSC5 => new CrcRunner(StandardDefinitions.CRC16_NRSC5),
-                HashType.CRC16_OPENSAFETYA => new CrcRunner(StandardDefinitions.CRC16_OPENSAFETYA),
-                HashType.CRC16_OPENSAFETYB => new CrcRunner(StandardDefinitions.CRC16_OPENSAFETYB),
-                HashType.CRC16_PROFIBUS => new CrcRunner(StandardDefinitions.CRC16_PROFIBUS),
-                HashType.CRC16_RIELLO => new CrcRunner(StandardDefinitions.CRC16_RIELLO),
-                HashType.CRC16_SPIFUJITSU => new CrcRunner(StandardDefinitions.CRC16_SPIFUJITSU),
-                HashType.CRC16_T10DIF => new CrcRunner(StandardDefinitions.CRC16_T10DIF),
-                HashType.CRC16_TELEDISK => new CrcRunner(StandardDefinitions.CRC16_TELEDISK),
-                HashType.CRC16_TMS37157 => new CrcRunner(StandardDefinitions.CRC16_TMS37157),
-                HashType.CRC16_UMTS => new CrcRunner(StandardDefinitions.CRC16_UMTS),
-                HashType.CRC16_USB => new CrcRunner(StandardDefinitions.CRC16_USB),
-                HashType.CRC16_XMODEM => new CrcRunner(StandardDefinitions.CRC16_XMODEM),
+                HashType.CRC16 => new Crc(StandardDefinitions.CRC16_ARC),
+                HashType.CRC16_ARC => new Crc(StandardDefinitions.CRC16_ARC),
+                HashType.CRC16_CDMA2000 => new Crc(StandardDefinitions.CRC16_CDMA2000),
+                HashType.CRC16_CMS => new Crc(StandardDefinitions.CRC16_CMS),
+                HashType.CRC16_DDS110 => new Crc(StandardDefinitions.CRC16_DDS110),
+                HashType.CRC16_DECTR => new Crc(StandardDefinitions.CRC16_DECTR),
+                HashType.CRC16_DECTX => new Crc(StandardDefinitions.CRC16_DECTX),
+                HashType.CRC16_DNP => new Crc(StandardDefinitions.CRC16_DNP),
+                HashType.CRC16_EN13757 => new Crc(StandardDefinitions.CRC16_EN13757),
+                HashType.CRC16_GENIBUS => new Crc(StandardDefinitions.CRC16_GENIBUS),
+                HashType.CRC16_GSM => new Crc(StandardDefinitions.CRC16_GSM),
+                HashType.CRC16_IBM3740 => new Crc(StandardDefinitions.CRC16_IBM3740),
+                HashType.CRC16_IBMSDLC => new Crc(StandardDefinitions.CRC16_IBMSDLC),
+                HashType.CRC16_ISOIEC144433A => new Crc(StandardDefinitions.CRC16_ISOIEC144433A),
+                HashType.CRC16_KERMIT => new Crc(StandardDefinitions.CRC16_KERMIT),
+                HashType.CRC16_LJ1200 => new Crc(StandardDefinitions.CRC16_LJ1200),
+                HashType.CRC16_M17 => new Crc(StandardDefinitions.CRC16_M17),
+                HashType.CRC16_MAXIMDOW => new Crc(StandardDefinitions.CRC16_MAXIMDOW),
+                HashType.CRC16_MCRF4XX => new Crc(StandardDefinitions.CRC16_MCRF4XX),
+                HashType.CRC16_MODBUS => new Crc(StandardDefinitions.CRC16_MODBUS),
+                HashType.CRC16_NRSC5 => new Crc(StandardDefinitions.CRC16_NRSC5),
+                HashType.CRC16_OPENSAFETYA => new Crc(StandardDefinitions.CRC16_OPENSAFETYA),
+                HashType.CRC16_OPENSAFETYB => new Crc(StandardDefinitions.CRC16_OPENSAFETYB),
+                HashType.CRC16_PROFIBUS => new Crc(StandardDefinitions.CRC16_PROFIBUS),
+                HashType.CRC16_RIELLO => new Crc(StandardDefinitions.CRC16_RIELLO),
+                HashType.CRC16_SPIFUJITSU => new Crc(StandardDefinitions.CRC16_SPIFUJITSU),
+                HashType.CRC16_T10DIF => new Crc(StandardDefinitions.CRC16_T10DIF),
+                HashType.CRC16_TELEDISK => new Crc(StandardDefinitions.CRC16_TELEDISK),
+                HashType.CRC16_TMS37157 => new Crc(StandardDefinitions.CRC16_TMS37157),
+                HashType.CRC16_UMTS => new Crc(StandardDefinitions.CRC16_UMTS),
+                HashType.CRC16_USB => new Crc(StandardDefinitions.CRC16_USB),
+                HashType.CRC16_XMODEM => new Crc(StandardDefinitions.CRC16_XMODEM),
 
-                HashType.CRC17_CANFD => new CrcRunner(StandardDefinitions.CRC17_CANFD),
+                HashType.CRC17_CANFD => new Crc(StandardDefinitions.CRC17_CANFD),
 
-                HashType.CRC21_CANFD => new CrcRunner(StandardDefinitions.CRC21_CANFD),
+                HashType.CRC21_CANFD => new Crc(StandardDefinitions.CRC21_CANFD),
 
-                HashType.CRC24_BLE => new CrcRunner(StandardDefinitions.CRC24_BLE),
-                HashType.CRC24_FLEXRAYA => new CrcRunner(StandardDefinitions.CRC24_FLEXRAYA),
-                HashType.CRC24_FLEXRAYB => new CrcRunner(StandardDefinitions.CRC24_FLEXRAYB),
-                HashType.CRC24_INTERLAKEN => new CrcRunner(StandardDefinitions.CRC24_INTERLAKEN),
-                HashType.CRC24_LTEA => new CrcRunner(StandardDefinitions.CRC24_LTEA),
-                HashType.CRC24_LTEB => new CrcRunner(StandardDefinitions.CRC24_LTEB),
-                HashType.CRC24_OPENPGP => new CrcRunner(StandardDefinitions.CRC24_OPENPGP),
-                HashType.CRC24_OS9 => new CrcRunner(StandardDefinitions.CRC24_OS9),
+                HashType.CRC24_BLE => new Crc(StandardDefinitions.CRC24_BLE),
+                HashType.CRC24_FLEXRAYA => new Crc(StandardDefinitions.CRC24_FLEXRAYA),
+                HashType.CRC24_FLEXRAYB => new Crc(StandardDefinitions.CRC24_FLEXRAYB),
+                HashType.CRC24_INTERLAKEN => new Crc(StandardDefinitions.CRC24_INTERLAKEN),
+                HashType.CRC24_LTEA => new Crc(StandardDefinitions.CRC24_LTEA),
+                HashType.CRC24_LTEB => new Crc(StandardDefinitions.CRC24_LTEB),
+                HashType.CRC24_OPENPGP => new Crc(StandardDefinitions.CRC24_OPENPGP),
+                HashType.CRC24_OS9 => new Crc(StandardDefinitions.CRC24_OS9),
 
-                HashType.CRC30_CDMA => new CrcRunner(StandardDefinitions.CRC30_CDMA),
+                HashType.CRC30_CDMA => new Crc(StandardDefinitions.CRC30_CDMA),
 
-                HashType.CRC31_PHILIPS => new CrcRunner(StandardDefinitions.CRC31_PHILIPS),
+                HashType.CRC31_PHILIPS => new Crc(StandardDefinitions.CRC31_PHILIPS),
 
-                HashType.CRC32 => new CrcRunner(StandardDefinitions.CRC32_ISOHDLC),
-                HashType.CRC32_AIXM => new CrcRunner(StandardDefinitions.CRC32_AIXM),
-                HashType.CRC32_AUTOSAR => new CrcRunner(StandardDefinitions.CRC32_AUTOSAR),
-                HashType.CRC32_BASE91D => new CrcRunner(StandardDefinitions.CRC32_BASE91D),
-                HashType.CRC32_BZIP2 => new CrcRunner(StandardDefinitions.CRC32_BZIP2),
-                HashType.CRC32_CDROMEDC => new CrcRunner(StandardDefinitions.CRC32_CDROMEDC),
-                HashType.CRC32_CKSUM => new CrcRunner(StandardDefinitions.CRC32_CKSUM),
-                HashType.CRC32_ISCSI => new CrcRunner(StandardDefinitions.CRC32_ISCSI),
-                HashType.CRC32_ISOHDLC => new CrcRunner(StandardDefinitions.CRC32_ISOHDLC),
-                HashType.CRC32_JAMCRC => new CrcRunner(StandardDefinitions.CRC32_JAMCRC),
-                HashType.CRC32_MEF => new CrcRunner(StandardDefinitions.CRC32_MEF),
-                HashType.CRC32_MPEG2 => new CrcRunner(StandardDefinitions.CRC32_MPEG2),
-                HashType.CRC32_XFER => new CrcRunner(StandardDefinitions.CRC32_XFER),
+                HashType.CRC32 => new Crc(StandardDefinitions.CRC32_ISOHDLC),
+                HashType.CRC32_AIXM => new Crc(StandardDefinitions.CRC32_AIXM),
+                HashType.CRC32_AUTOSAR => new Crc(StandardDefinitions.CRC32_AUTOSAR),
+                HashType.CRC32_BASE91D => new Crc(StandardDefinitions.CRC32_BASE91D),
+                HashType.CRC32_BZIP2 => new Crc(StandardDefinitions.CRC32_BZIP2),
+                HashType.CRC32_CDROMEDC => new Crc(StandardDefinitions.CRC32_CDROMEDC),
+                HashType.CRC32_CKSUM => new Crc(StandardDefinitions.CRC32_CKSUM),
+                HashType.CRC32_ISCSI => new Crc(StandardDefinitions.CRC32_ISCSI),
+                HashType.CRC32_ISOHDLC => new Crc(StandardDefinitions.CRC32_ISOHDLC),
+                HashType.CRC32_JAMCRC => new Crc(StandardDefinitions.CRC32_JAMCRC),
+                HashType.CRC32_MEF => new Crc(StandardDefinitions.CRC32_MEF),
+                HashType.CRC32_MPEG2 => new Crc(StandardDefinitions.CRC32_MPEG2),
+                HashType.CRC32_XFER => new Crc(StandardDefinitions.CRC32_XFER),
 
-                HashType.CRC40_GSM => new CrcRunner(StandardDefinitions.CRC40_GSM),
+                HashType.CRC40_GSM => new Crc(StandardDefinitions.CRC40_GSM),
 
-                HashType.CRC64 => new CrcRunner(StandardDefinitions.CRC64_ECMA182),
-                HashType.CRC64_ECMA182 => new CrcRunner(StandardDefinitions.CRC64_ECMA182),
-                HashType.CRC64_GOISO => new CrcRunner(StandardDefinitions.CRC64_GOISO),
-                HashType.CRC64_MS => new CrcRunner(StandardDefinitions.CRC64_MS),
-                HashType.CRC64_NVME => new CrcRunner(StandardDefinitions.CRC64_NVME),
-                HashType.CRC64_REDIS => new CrcRunner(StandardDefinitions.CRC64_REDIS),
-                HashType.CRC64_WE => new CrcRunner(StandardDefinitions.CRC64_WE),
-                HashType.CRC64_XZ => new CrcRunner(StandardDefinitions.CRC64_XZ),
+                HashType.CRC64 => new Crc(StandardDefinitions.CRC64_ECMA182),
+                HashType.CRC64_ECMA182 => new Crc(StandardDefinitions.CRC64_ECMA182),
+                HashType.CRC64_GOISO => new Crc(StandardDefinitions.CRC64_GOISO),
+                HashType.CRC64_MS => new Crc(StandardDefinitions.CRC64_MS),
+                HashType.CRC64_NVME => new Crc(StandardDefinitions.CRC64_NVME),
+                HashType.CRC64_REDIS => new Crc(StandardDefinitions.CRC64_REDIS),
+                HashType.CRC64_WE => new Crc(StandardDefinitions.CRC64_WE),
+                HashType.CRC64_XZ => new Crc(StandardDefinitions.CRC64_XZ),
 
                 HashType.Fletcher16 => new Fletcher16Context(),
                 HashType.Fletcher32 => new Fletcher32Context(),
@@ -350,11 +350,11 @@ namespace SabreTools.Hashing
         {
             switch (_hasher)
             {
-                case Adler.Adler32 a32:
+                case Adler32 a32:
                     a32.TransformBlock(buffer, offset, size);
                     break;
 
-                case CrcRunner cr:
+                case Crc cr:
                     cr.TransformBlock(buffer, offset, size);
                     break;
 

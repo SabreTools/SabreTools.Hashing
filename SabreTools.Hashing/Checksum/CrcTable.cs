@@ -1,4 +1,4 @@
-namespace SabreTools.Hashing.Crc
+namespace SabreTools.Hashing.Checksum
 {
     internal class CrcTable
     {

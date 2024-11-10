@@ -1,4 +1,4 @@
-namespace SabreTools.Hashing.Crc
+namespace SabreTools.Hashing.Checksum
 {
     /// <see href="https://reveng.sourceforge.io/crc-catalogue/all.htm#crc.legend"/>
     public static class StandardDefinitions
