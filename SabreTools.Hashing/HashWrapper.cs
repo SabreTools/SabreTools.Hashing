@@ -9,6 +9,7 @@ using Aaru.CommonTypes.Interfaces;
 using Blake3;
 #endif
 using SabreTools.Hashing.Checksum;
+using static SabreTools.Hashing.HashOperations;
 
 namespace SabreTools.Hashing
 {
@@ -426,54 +427,6 @@ namespace SabreTools.Hashing
                     mdb.Terminate();
                     break;
             }
-        }
-
-        #endregion
-
-        #region Helpers
-
-        /// <summary>
-        /// Convert a byte array to a hex string
-        /// </summary>
-        /// <param name="bytes">Byte array to convert</param>
-        /// <returns>Hex string representing the byte array</returns>
-        /// <link>http://stackoverflow.com/questions/311165/how-do-you-convert-byte-array-to-hexadecimal-string-and-vice-versa</link>
-        private static string? ByteArrayToString(byte[]? bytes)
-        {
-            // If we get null in, we send null out
-            if (bytes == null)
-                return null;
-
-            try
-            {
-                string hex = BitConverter.ToString(bytes);
-                return hex.Replace("-", string.Empty).ToLowerInvariant();
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Convert a byte array to a UInt64
-        /// </summary>
-        /// <param name="bytes">Byte array to convert</param>
-        /// <returns>UInt64 representing the byte array</returns>
-        /// <link>https://stackoverflow.com/questions/66750224/how-to-convert-a-byte-array-of-any-size-to-ulong-in-c</link>
-        private static ulong BytesToUInt64(byte[]? bytes)
-        {
-            // If we get null in, we send 0 out
-            if (bytes == null)
-                return default;
-
-            ulong result = 0;
-            for (int i = 0; i < bytes.Length; i++)
-            {
-                result |= (ulong)bytes[i] << (i * 8);
-            }
-
-            return result;
         }
 
         #endregion
