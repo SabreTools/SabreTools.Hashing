@@ -118,7 +118,14 @@ namespace SabreTools.Hashing.MessageDigest
 
             // Pad the block
             byte[] padding = new byte[padLength];
+#if NETFRAMEWORK
+            for (int i = 0; i < padLength; i++)
+            {
+                padding[i] = padLength;
+            }
+#else
             Array.Fill(padding, padLength);
+#endif
             TransformBlock(padding, 0, padLength);
             TransformBlock(_checksum, 0, _checksum.Length);
         }
