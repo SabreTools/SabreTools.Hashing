@@ -171,9 +171,14 @@ namespace SabreTools.Hashing.Checksum
                 return false;
 
             // All reflection-in implementations share an optimized path
-            if (_definition.ReflectIn)
+            if (_definition.Width < 64 && _definition.ReflectIn)
             {
-                TransformBlockFastReflect(ref hash, data, offset, length);
+                TransformBlockFast8Reflect(ref hash, data, offset, length);
+                return true;
+            }
+            else if (_definition.Width >= 64 && _definition.ReflectIn)
+            {
+                TransformBlockFast4Reflect(ref hash, data, offset, length);
                 return true;
             }
 
@@ -188,9 +193,10 @@ namespace SabreTools.Hashing.Checksum
         }
 
         /// <summary>
-        /// Optimized transformation for 16/24/32/64-bit CRC with reflection
+        /// Optimized transformation for CRC with reflection
         /// </summary>
-        private void TransformBlockFastReflect(ref ulong hash, byte[] data, int offset, int length)
+        /// <remarks>Reads 4 bytes at a time</remarks>
+        private void TransformBlockFast4Reflect(ref ulong hash, byte[] data, int offset, int length)
         {
             // Process on a copy of the hash
             ulong local = hash;
@@ -204,14 +210,14 @@ namespace SabreTools.Hashing.Checksum
                 while (offset < end)
                 {
                     ulong low = local ^ (uint)(
-                          (data[offset + 0]      )
-                        + (data[offset + 1] << 8 )
+                          (data[offset + 0])
+                        + (data[offset + 1] << 8)
                         + (data[offset + 2] << 16)
                         + (data[offset + 3] << 24));
                     offset += 4;
 
-                    local = _table[3, (byte)(low      )]
-                          ^ _table[2, (byte)(low >> 8 )]
+                    local = _table[3, (byte)(low)]
+                          ^ _table[2, (byte)(low >> 8)]
                           ^ _table[1, (byte)(low >> 16)]
                           ^ _table[0, (byte)(low >> 24)]
                           ^ local >> 32;
@@ -227,7 +233,58 @@ namespace SabreTools.Hashing.Checksum
             // Assign the new hash value
             hash = local;
         }
-    
+
+        /// <summary>
+        /// Optimized transformation for CRC with reflection
+        /// </summary>
+        /// <remarks>Reads 8 bytes at a time</remarks>
+        private void TransformBlockFast8Reflect(ref ulong hash, byte[] data, int offset, int length)
+        {
+            // Process on a copy of the hash
+            ulong local = hash;
+
+            // Process aligned data
+            if (length > 8)
+            {
+                long end = offset + (length & ~(uint)7);
+                length &= 7;
+
+                while (offset < end)
+                {
+                    ulong low = local ^ (uint)(
+                          (data[offset + 0])
+                        + (data[offset + 1] << 8)
+                        + (data[offset + 2] << 16)
+                        + (data[offset + 3] << 24));
+                    ulong high = (uint)(
+                          (data[offset + 4])
+                        + (data[offset + 5] << 8)
+                        + (data[offset + 6] << 16)
+                        + (data[offset + 7] << 24));
+                    offset += 8;
+
+                    local = _table[7, (byte)(low)]
+                          ^ _table[6, (byte)(low >> 8)]
+                          ^ _table[5, (byte)(low >> 16)]
+                          ^ _table[4, (byte)(low >> 24)]
+                          ^ _table[3, (byte)(high)]
+                          ^ _table[2, (byte)(high >> 8)]
+                          ^ _table[1, (byte)(high >> 16)]
+                          ^ _table[0, (byte)(high >> 24)]
+                          ^ local >> 32;
+                }
+            }
+
+            // Process unaligned data
+            while (length-- != 0)
+            {
+                PerformChecksumStep(ref local, data, offset++);
+            }
+
+            // Assign the new hash value
+            hash = local;
+        }
+
         /// <summary>
         /// Optimized transformation for 32-bit CRC with no reflection
         /// </summary>
@@ -245,14 +302,14 @@ namespace SabreTools.Hashing.Checksum
                 while (offset < end)
                 {
                     ulong low = local ^ (uint)(
-                          (data[offset + 3]      )
-                        + (data[offset + 2] << 8 )
+                          (data[offset + 3])
+                        + (data[offset + 2] << 8)
                         + (data[offset + 1] << 16)
                         + (data[offset + 0] << 24));
                     offset += 4;
 
-                    local = _table[0, (byte)(low      )]
-                          ^ _table[1, (byte)(low >> 8 )]
+                    local = _table[0, (byte)(low)]
+                          ^ _table[1, (byte)(low >> 8)]
                           ^ _table[2, (byte)(low >> 16)]
                           ^ _table[3, (byte)(low >> 24)];
                 }
