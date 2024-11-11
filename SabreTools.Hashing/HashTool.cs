@@ -342,6 +342,17 @@ namespace SabreTools.Hashing
             // Create the output dictionary
             var hashDict = new Dictionary<HashType, string?>();
 
+            // Shortcut if we have a 0-byte input
+            if (input.Length == 0)
+            {
+                foreach (var hashType in hashTypes)
+                {
+                    hashDict[hashType] = ZeroHash.GetString(hashType);
+                }
+
+                return hashDict;
+            }
+
             // Run the hashing
             var hashers = GetStreamHashesInternal(input, hashTypes, leaveOpen);
             if (hashers == null)
@@ -372,6 +383,17 @@ namespace SabreTools.Hashing
         {
             // Create the output dictionary
             var hashDict = new Dictionary<HashType, byte[]?>();
+
+            // Shortcut if we have a 0-byte input
+            if (input.Length == 0)
+            {
+                foreach (var hashType in hashTypes)
+                {
+                    hashDict[hashType] = ZeroHash.GetBytes(hashType);
+                }
+
+                return hashDict;
+            }
 
             // Run the hashing
             var hashers = GetStreamHashesInternal(input, hashTypes, leaveOpen);
