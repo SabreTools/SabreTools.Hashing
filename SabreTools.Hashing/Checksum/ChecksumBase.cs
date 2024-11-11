@@ -5,7 +5,7 @@ namespace SabreTools.Hashing.Checksum
     /// <summary>
     /// Common base class for Fletcher checksums
     /// </summary>
-    public abstract class Fletcher
+    public abstract class ChecksumBase
     {
         /// <summary>
         /// Hash a block of data and append it to the existing hash
@@ -22,9 +22,9 @@ namespace SabreTools.Hashing.Checksum
     }
 
     /// <summary>
-    /// Common base class for Fletcher checksums
+    /// Common base class for checksums
     /// </summary>
-    public abstract class Fletcher<T> : Fletcher where T : struct
+    public abstract class ChecksumBase<T> : ChecksumBase where T : struct
     {
         /// <summary>
         /// The current value of the hash
@@ -34,7 +34,7 @@ namespace SabreTools.Hashing.Checksum
         /// <summary>
         /// Reset the internal hashing state
         /// </summary>
-        public void Reset()
+        public virtual void Reset()
         {
             _hash = default;
         }

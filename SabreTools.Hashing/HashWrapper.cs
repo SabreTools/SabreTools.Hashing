@@ -34,20 +34,10 @@ namespace SabreTools.Hashing
             {
                 switch (_hasher)
                 {
-                    case Adler32 a32:
-                        var a32Arr = a32.Finalize();
-                        Array.Reverse(a32Arr);
-                        return a32Arr;
-
-                    case Crc cr:
-                        var crArr = cr.Finalize();
-                        Array.Reverse(crArr);
-                        return crArr;
-
-                    case Fletcher fc:
-                        var fcArr = fc.Finalize();
-                        Array.Reverse(fcArr);
-                        return fcArr;
+                    case ChecksumBase cb:
+                        var cbArr = cb.Finalize();
+                        Array.Reverse(cbArr);
+                        return cbArr;
 
                     case HashAlgorithm ha:
                         return ha.Hash;
@@ -359,16 +349,8 @@ namespace SabreTools.Hashing
         {
             switch (_hasher)
             {
-                case Adler32 a32:
-                    a32.TransformBlock(buffer, offset, size);
-                    break;
-
-                case Crc cr:
-                    cr.TransformBlock(buffer, offset, size);
-                    break;
-
-                case Fletcher fc:
-                    fc.TransformBlock(buffer, offset, size);
+                case ChecksumBase cb:
+                    cb.TransformBlock(buffer, offset, size);
                     break;
 
                 case HashAlgorithm ha:

@@ -4,13 +4,8 @@ using static SabreTools.Hashing.Checksum.Constants;
 namespace SabreTools.Hashing.Checksum
 {
     /// <see href="https://github.com/madler/zlib/blob/v1.2.11/adler32.c"/> 
-    public class Adler32
+    public class Adler32 : ChecksumBase<uint>
     {
-        /// <summary>
-        /// The current value of the hash
-        /// </summary>
-        private uint _hash;
-
         public Adler32()
         {
             Reset();
@@ -19,18 +14,13 @@ namespace SabreTools.Hashing.Checksum
         /// <summary>
         /// Reset the internal hashing state
         /// </summary>
-        public void Reset()
+        public override void Reset()
         {
             _hash = 1;
         }
 
-        /// <summary>
-        /// Hash a block of data and append it to the existing hash
-        /// </summary>
-        /// <param name="data">Byte array representing the data</param>
-        /// <param name="offset">Offset in the byte array to include</param>
-        /// <param name="length">Length of the data to hash</param>
-        public void TransformBlock(byte[] data, int offset, int length)
+        /// <inheritdoc/>
+        public override void TransformBlock(byte[] data, int offset, int length)
         {
             // Split Adler-32 into component sums
             uint sum2 = (_hash >> 16) & 0xffff;
@@ -140,10 +130,8 @@ namespace SabreTools.Hashing.Checksum
             _hash |= sum2 << 16;
         }
 
-        /// <summary>
-        /// Finalize the hash and return as a byte array
-        /// </summary>
-        public byte[] Finalize()
+        /// <inheritdoc/>
+        public override byte[] Finalize()
         {
             return BitConverter.GetBytes(_hash);
         }

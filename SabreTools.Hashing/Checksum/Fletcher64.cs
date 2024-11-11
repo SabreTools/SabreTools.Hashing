@@ -4,7 +4,7 @@ namespace SabreTools.Hashing.Checksum
 {
     /// <see href="https://en.wikipedia.org/wiki/Fletcher%27s_checksum#Optimizations"/>
     /// <remarks>Uses an Adler-32-like implementation instead of the above</remarks>
-    public class Fletcher64 : Fletcher<ulong>
+    public class Fletcher64 : ChecksumBase<ulong>
     {
         public Fletcher64()
         {
