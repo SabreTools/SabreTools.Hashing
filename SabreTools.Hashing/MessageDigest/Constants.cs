@@ -30,6 +30,20 @@ namespace SabreTools.Hashing.MessageDigest
 
         #endregion
 
+        // <see href="https://datatracker.ietf.org/doc/html/rfc1320"/>
+        #region MD4
+
+        public const uint MD4SeedA = 0x67452301;
+        public const uint MD4SeedB = 0xefcdab89;
+        public const uint MD4SeedC = 0x98badcfe;
+        public const uint MD4SeedD = 0x10325476;
+
+        public const uint MD4Round1 = 0x00000000;
+        public const uint MD4Round2 = 0x5A827999;
+        public const uint MD4Round3 = 0x6ED9EBA1;
+
+        #endregion
+
         // <see href="https://cdn.standards.iteh.ai/samples/39876/10f9f9f4bb614eaaaeba7e157e183ca3/ISO-IEC-10118-3-2004.pdf"/>
         #region RIPEMD-128 / RIPEMD-256
 

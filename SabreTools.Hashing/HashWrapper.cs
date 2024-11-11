@@ -296,6 +296,7 @@ namespace SabreTools.Hashing
                 HashType.Fletcher64 => new Fletcher64(),
 
                 HashType.MD2 => new MessageDigest.MD2(),
+                HashType.MD4 => new MessageDigest.MD4(),
                 HashType.MD5 => MD5.Create(),
 
                 HashType.RIPEMD128 => new MessageDigest.RipeMD128(),

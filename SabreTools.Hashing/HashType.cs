@@ -718,15 +718,24 @@ namespace SabreTools.Hashing
 
         #endregion
 
+        #region Message Digest
+
         /// <summary>
-        /// MD2 hash
+        /// MD2 message-digest algorithm
         /// </summary>
         MD2,
 
         /// <summary>
-        /// MD5 hash
+        /// MD4 message-digest algorithm
+        /// </summary>
+        MD4,
+
+        /// <summary>
+        /// MD5 message-digest algorithm
         /// </summary>
         MD5,
+
+        #endregion
 
         #region RIPEMD
 
