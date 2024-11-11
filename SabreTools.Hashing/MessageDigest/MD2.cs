@@ -4,7 +4,6 @@ using static SabreTools.Hashing.MessageDigest.Constants;
 namespace SabreTools.Hashing.MessageDigest
 {
     /// <see href="https://datatracker.ietf.org/doc/html/rfc1115"/>
-    /// <remarks>Uses the inefficient reference implementation for now</remarks>
     public class MD2 : MessageDigestBase<uint>
     {
         /// <summary>
@@ -44,11 +43,70 @@ namespace SabreTools.Hashing.MessageDigest
         /// <inheritdoc/>
         public override void TransformBlock(byte[] data, int offset, int length)
         {
-            // Loop and process all bytes sequentially
-            while (length > 0)
+            // If there is buffer to fill and it will meet the limit
+            if (_byteCount > 0 && _byteCount + length >= 16)
             {
-                Update(data[offset++]);
-                length--;
+                // Fill the buffer from the input
+                for (int i = 0; i < 16 - _byteCount; i++)
+                {
+                    // Add new character to buffer
+                    _digest[16 + _byteCount + i] = data[offset + i];
+                    _digest[32 + _byteCount + i] = (byte)(data[offset + i] ^ _digest[_byteCount + i]);
+
+                    // Update checksum register C and value L
+                    _lastByte = _checksum[_byteCount] ^= MD2SBox[0xff & (data[offset + i] ^ _lastByte)];
+                }
+
+                // Set the new values
+                offset += 16 - _byteCount;
+                length -= 16 - _byteCount;
+                _byteCount = 0;
+
+                // Run the update
+                Update();
+            }
+
+            /// Process any standalone blocks
+            while (length >= 16)
+            {
+                // Fill the buffer from the input
+                for (int i = 0; i < 16; i++)
+                {
+                    // Add new character to buffer
+                    _digest[16 + i] = data[offset + i];
+                    _digest[32 + i] = (byte)(data[offset + i] ^ _digest[i]);
+
+                    // Update checksum register C and value L
+                    _lastByte = _checksum[i] ^= MD2SBox[0xff & (data[offset + i] ^ _lastByte)];
+                }
+
+                // Set the new values
+                offset += 16;
+                length -= 16;
+                _byteCount = 0;
+
+                // Run the update
+                Update();
+            }
+
+            // Save the remainder in the buffer
+            if (length > 0)
+            {
+                // Fill the buffer from the input
+                for (int i = 0; i < length; i++)
+                {
+                    // Add new character to buffer
+                    _digest[16 + _byteCount] = data[offset];
+                    _digest[32 + _byteCount] = (byte)(data[offset] ^ _digest[i]);
+
+                    // Update checksum register C and value L
+                    _lastByte = _checksum[_byteCount] ^= MD2SBox[0xff & (data[offset] ^ _lastByte)];
+
+                    // Set the new values
+                    offset++;
+                    length--;
+                    _byteCount = (byte)((_byteCount + 1) & 15);
+                }
             }
         }
 
@@ -57,16 +115,12 @@ namespace SabreTools.Hashing.MessageDigest
         {
             // Determine the pad length
             byte padLength = (byte)(16 - _byteCount);
-            for (int i = 0; i < padLength; i++)
-            {
-                Update(padLength);
-            }
 
-            // Append the checksum
-            for (int i = 0; i < 16; i++)
-            {
-                Update(_checksum[i]);
-            }
+            // Pad the block
+            byte[] padding = new byte[padLength];
+            Array.Fill(padding, padLength);
+            TransformBlock(padding, 0, padLength);
+            TransformBlock(_checksum, 0, _checksum.Length);
         }
 
         /// <inheritdoc/>
@@ -86,36 +140,18 @@ namespace SabreTools.Hashing.MessageDigest
         /// digest is being computed.  This routine will be called for each
         /// message byte in turn.
         /// </summary>
-        private void Update(byte c)
+        /// <remarks>The following is a more efficient version of the loop</remarks>
+        private void Update()
         {
-            // TODO: The part from here until "Transform D if i = 0"
-            // can be moved into the main TransformBlock. All it's doing
-            // is ensuring that 16 bytes exist before it starts processing
-
-            // Add new character to buffer
-            _digest[16 + _byteCount] = c;
-            _digest[32 + _byteCount] = (byte)(c ^ _digest[_byteCount]);
-
-            // Update checksum register C and value L
-            _lastByte = _checksum[_byteCount] ^= MD2SBox[0xff & (c ^ _lastByte)];
-
-            // Increment i by one modulo 16
-            _byteCount = (byte)((_byteCount + 1) & 15);
-
-            // Transform D if i = 0
-            if (_byteCount == 0)
+            byte t = 0;
+            for (byte j = 0; j < 18; j++)
             {
-                byte t = 0;
-                for (byte j = 0; j < 18; j++)
+                for (byte i = 0; i < 48; i++)
                 {
-                    // The following is a more efficient version of the loop
-                    for (byte i = 0; i < 48; i++)
-                    {
-                        t = _digest[i] = (byte)(_digest[i] ^ MD2SBox[t]);
-                    }
-
-                    t += j;
+                    t = _digest[i] = (byte)(_digest[i] ^ MD2SBox[t]);
                 }
+
+                t += j;
             }
         }
     }
