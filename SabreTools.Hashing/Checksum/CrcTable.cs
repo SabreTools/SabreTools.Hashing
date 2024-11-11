@@ -185,7 +185,7 @@ namespace SabreTools.Hashing.Checksum
             // CRC-32 with no reflection-in has can be optimized
             if (_definition.Width == 32 && !_definition.ReflectIn)
             {
-                TransformBlockFastNoReflect(ref hash, data, offset, length);
+                TransformBlockFast8NoReflect(ref hash, data, offset, length);
                 return true;
             }
 
@@ -288,16 +288,17 @@ namespace SabreTools.Hashing.Checksum
         /// <summary>
         /// Optimized transformation for 32-bit CRC with no reflection
         /// </summary>
-        private void TransformBlockFastNoReflect(ref ulong hash, byte[] data, int offset, int length)
+        /// <remarks>Reads 8 bytes at a time</remarks>
+        private void TransformBlockFast8NoReflect(ref ulong hash, byte[] data, int offset, int length)
         {
             // Process on a copy of the hash
             ulong local = hash;
 
             // Process aligned data
-            if (length > 4)
+            if (length > 8)
             {
-                long end = offset + (length & ~(uint)3);
-                length &= 3;
+                long end = offset + (length & ~(uint)7);
+                length &= 7;
 
                 while (offset < end)
                 {
@@ -306,12 +307,22 @@ namespace SabreTools.Hashing.Checksum
                         + (data[offset + 2] << 8)
                         + (data[offset + 1] << 16)
                         + (data[offset + 0] << 24));
-                    offset += 4;
+                    ulong high = (uint)(
+                          (data[offset + 7])
+                        + (data[offset + 6] << 8)
+                        + (data[offset + 5] << 16)
+                        + (data[offset + 4] << 24));
+                    offset += 8;
 
-                    local = _table[0, (byte)(low)]
-                          ^ _table[1, (byte)(low >> 8)]
-                          ^ _table[2, (byte)(low >> 16)]
-                          ^ _table[3, (byte)(low >> 24)];
+                    local = _table[4, (byte)(low)]
+                          ^ _table[5, (byte)(low >> 8)]
+                          ^ _table[6, (byte)(low >> 16)]
+                          ^ _table[7, (byte)(low >> 24)]
+                          ^ _table[0, (byte)(high)]
+                          ^ _table[1, (byte)(high >> 8)]
+                          ^ _table[2, (byte)(high >> 16)]
+                          ^ _table[3, (byte)(high >> 24)]
+                          ^ local << 32;
                 }
             }
 
