@@ -7,22 +7,22 @@ namespace SabreTools.Hashing.Checksum
         /// <summary>
         /// Indicates if CRC should be processed bitwise instead of bytewise
         /// </summary>
-        private readonly bool _processBitwise;
+        private bool Bitwise => _definition.Width < 8;
 
         /// <summary>
         /// Number of bits to process at a time
         /// </summary>
-        private readonly int _processBits;
+        private int BitsPerStep => Bitwise ? 1 : 8;
 
         /// <summary>
         /// Bit shift based on the CRC width
         /// </summary>
-        private readonly int _bitShift;
+        private int BitShift => _definition.Width - BitsPerStep;
 
         /// <summary>
         /// Bit mask based on the CRC width
         /// </summary>
-        private readonly ulong _bitMask;
+        private ulong BitMask => 1UL << (_definition.Width - 1);
 
         /// <summary>
         /// Mapping table
@@ -41,31 +41,25 @@ namespace SabreTools.Hashing.Checksum
 
         public CrcTable(CrcDefinition def)
         {
-            // Set the accessible fields
-            _definition = def;
-            _processBitwise = _definition.Width < 8;
-            _processBits = _processBitwise ? 1 : 8;
-            _bitShift = _definition.Width - _processBits;
-            _bitMask = 1UL << (_definition.Width - 1);
-
             // Initialize the internal
-            _table = new ulong[SliceCount, 1 << _processBits];
+            _definition = def;
+            _table = new ulong[SliceCount, 1 << BitsPerStep];
 
             // Build the standard table
-            for (uint i = 0; i < (1 << _processBits); i++)
+            for (uint i = 0; i < (1 << BitsPerStep); i++)
             {
                 // Get the starting value for this index
                 ulong point = i;
-                if (!_processBitwise && def.ReflectIn)
-                    point = ReverseBits(point, _processBits);
+                if (!Bitwise && def.ReflectIn)
+                    point = ReverseBits(point, BitsPerStep);
 
                 // Shift to account for storage
-                point <<= _definition.Width - _processBits;
+                point <<= _definition.Width - BitsPerStep;
 
                 // Accumulate the value
-                for (int j = 0; j < _processBits; j++)
+                for (int j = 0; j < BitsPerStep; j++)
                 {
-                    if ((point & _bitMask) > 0UL)
+                    if ((point & BitMask) > 0UL)
                         point = (point << 1) ^ def.Poly;
                     else
                         point <<= 1;
@@ -83,20 +77,20 @@ namespace SabreTools.Hashing.Checksum
             }
 
             // Skip building the optimized table for bitwise processing
-            if (_processBitwise)
+            if (Bitwise)
                 return;
 
             // Build the optimized table for non-bitwise processing
             for (int i = 1; i < SliceCount; i++)
             {
                 // Build each slice from the previous
-                for (int j = 0; j < 1 << _processBits; j++)
+                for (int j = 0; j < 1 << BitsPerStep; j++)
                 {
                     ulong last = _table[i - 1, j];
                     if (_definition.ReflectIn)
-                        _table[i, j] = (last >> _processBits) ^ _table[0, (byte)last];
+                        _table[i, j] = (last >> BitsPerStep) ^ _table[0, (byte)last];
                     else
-                        _table[i, j] = (last << _processBits) ^ _table[0, (byte)(last >> _bitShift)];
+                        _table[i, j] = (last << BitsPerStep) ^ _table[0, (byte)(last >> BitShift)];
                 }
             }
         }
@@ -140,14 +134,14 @@ namespace SabreTools.Hashing.Checksum
         private void PerformChecksumStep(ref ulong hash, byte[] data, int offset)
         {
             // Per-bit processing
-            if (_processBitwise)
+            if (Bitwise)
             {
                 for (int b = 0; b < 8; b++)
                 {
                     if (_definition.ReflectIn)
                         hash = (hash >> 1) ^ _table[0, (byte)(hash & 1) ^ ((byte)(data[offset] >> b) & 1)];
                     else
-                        hash = (hash << 1) ^ _table[0, (byte)((hash >> _bitShift) & 1) ^ ((byte)(data[offset] >> (7 - b)) & 1)];
+                        hash = (hash << 1) ^ _table[0, (byte)((hash >> BitShift) & 1) ^ ((byte)(data[offset] >> (7 - b)) & 1)];
                 }
             }
 
@@ -157,7 +151,7 @@ namespace SabreTools.Hashing.Checksum
                 if (_definition.ReflectIn)
                     hash = (hash >> 8) ^ _table[0, (byte)hash ^ data[offset]];
                 else
-                    hash = (hash << 8) ^ _table[0, ((byte)(hash >> _bitShift)) ^ data[offset]];
+                    hash = (hash << 8) ^ _table[0, ((byte)(hash >> BitShift)) ^ data[offset]];
             }
         }
 
@@ -167,7 +161,7 @@ namespace SabreTools.Hashing.Checksum
         private bool TransformBlockFast(ref ulong hash, byte[] data, int offset, int length)
         {
             // Bitwise transformations are not optimized
-            if (_processBitwise)
+            if (Bitwise)
                 return false;
 
             // All reflection-in implementations share an optimized path
