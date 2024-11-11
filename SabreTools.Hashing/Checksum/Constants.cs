@@ -25,5 +25,15 @@ namespace SabreTools.Hashing.Checksum
         public const uint F64BASE = 0xffffffff;
 
         #endregion
+
+        #region FNV
+
+        public const uint FNV32Basis = 0x811c9dc5;
+        public const ulong FNV64Basis = 0xcbf29ce484222325;
+
+        public const uint FNV32Prime = 0x01000193;
+        public const ulong FNV64Prime = 0x00000100000001b3;
+
+        #endregion
     }
 }

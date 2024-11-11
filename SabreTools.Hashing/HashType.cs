@@ -718,6 +718,40 @@ namespace SabreTools.Hashing
 
         #endregion
 
+        #region FNV
+
+        /// <summary>
+        /// FNV hash (Variant 0, 32-bit)
+        /// </summary>
+        FNV0_32,
+
+        /// <summary>
+        /// FNV hash (Variant 0, 64-bit)
+        /// </summary>
+        FNV0_64,
+
+        /// <summary>
+        /// FNV hash (Variant 1, 32-bit)
+        /// </summary>
+        FNV1_32,
+
+        /// <summary>
+        /// FNV hash (Variant 1, 64-bit)
+        /// </summary>
+        FNV1_64,
+
+        /// <summary>
+        /// FNV hash (Variant 1a, 32-bit)
+        /// </summary>
+        FNV1a_32,
+
+        /// <summary>
+        /// FNV hash (Variant 1a, 64-bit)
+        /// </summary>
+        FNV1a_64,
+
+        #endregion
+
         #region Message Digest
 
         /// <summary>

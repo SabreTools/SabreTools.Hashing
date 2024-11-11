@@ -285,6 +285,13 @@ namespace SabreTools.Hashing
                 HashType.Fletcher32 => new Fletcher32(),
                 HashType.Fletcher64 => new Fletcher64(),
 
+                HashType.FNV0_32 => new FNV0_32(),
+                HashType.FNV0_64 => new FNV0_64(),
+                HashType.FNV1_32 => new FNV1_32(),
+                HashType.FNV1_64 => new FNV1_64(),
+                HashType.FNV1a_32 => new FNV1a_32(),
+                HashType.FNV1a_64 => new FNV1a_64(),
+
                 HashType.MD2 => new MessageDigest.MD2(),
                 HashType.MD4 => new MessageDigest.MD4(),
                 HashType.MD5 => MD5.Create(),

@@ -11,6 +11,7 @@ All hash and checksum types here have been written to ensure compatibility acros
 | Adler-32 | Based on the [zlib source code](https://github.com/madler/zlib/blob/v1.2.11/adler32.c) |
 | CRC | All CRC values documented [here](https://reveng.sourceforge.io/crc-catalogue/all.htm) except for CRC-82 due to bit-length restrictions |
 | Fletcher | 16-, 32-, and 64-bit variants |
+| FNV | 32-, and 64-bit variants; 0, 1, and 1a algorithms |
 | Message Digest | MD2 and MD4 only |
 | RIPEMD | 128-, 160-, 256-, and 320-bit variants |
 | Tiger | 128-, 160-, and 192-bit variants; 3- and 4-pass; `0x01` and `0x80` (Tiger2) pad-initialized |

@@ -243,6 +243,13 @@ namespace SabreTools.Hashing
             {HashType.Fletcher32, [0x00, 0x00, 0x00, 0x00]},
             {HashType.Fletcher64, [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]},
 
+            {HashType.FNV0_32, [0x00, 0x00, 0x00, 0x00]},
+            {HashType.FNV0_64, [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]},
+            {HashType.FNV1_32, [0x81, 0x1c, 0x9d, 0xc5]},
+            {HashType.FNV1_64, [0xcb, 0xf2, 0x9c, 0xe4, 0x84, 0x22, 0x23, 0x25]},
+            {HashType.FNV1a_32, [0x81, 0x1c, 0x9d, 0xc5]},
+            {HashType.FNV1a_64, [0xcb, 0xf2, 0x9c, 0xe4, 0x84, 0x22, 0x23, 0x25]},
+
             {HashType.MD2, [0x83, 0x50, 0xe5, 0xa3, 0xe2, 0x4c, 0x15, 0x3d,
                             0xf2, 0x27, 0x5c, 0x9f, 0x80, 0x69, 0x27, 0x73]},
             {HashType.MD4, [0x31, 0xd6, 0xcf, 0xe0, 0xd1, 0x6a, 0xe9, 0x31,
@@ -535,6 +542,13 @@ namespace SabreTools.Hashing
             {HashType.Fletcher16, "0000"},
             {HashType.Fletcher32, "00000000"},
             {HashType.Fletcher64, "0000000000000000"},
+
+            {HashType.FNV0_32, "00000000"},
+            {HashType.FNV0_64, "0000000000000000"},
+            {HashType.FNV1_32, "811c9dc5"},
+            {HashType.FNV1_64, "cbf29ce484222325"},
+            {HashType.FNV1a_32, "811c9dc5"},
+            {HashType.FNV1a_64, "cbf29ce484222325"},
 
             {HashType.MD2, "8350e5a3e24c153df2275c9f80692773"},
             {HashType.MD4, "31d6cfe0d16ae931b73c59d7e0c089c0"},
