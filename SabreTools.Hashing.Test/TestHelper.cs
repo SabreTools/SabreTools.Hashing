@@ -165,6 +165,13 @@ namespace SabreTools.Hashing.Test
             {HashType.Fletcher32, "073f2d94"},
             {HashType.Fletcher64, "000b073400002d94"},
 
+            {HashType.FNV0_32, "33d28b00"},
+            {HashType.FNV0_64, "778e818addd23280"},
+            {HashType.FNV1_32, "ac09cbeb"},
+            {HashType.FNV1_64, "23229308c1f9252b"},
+            {HashType.FNV1a_32, "9086769b"},
+            {HashType.FNV1a_64, "399dd1cd965b73db"},
+
             {HashType.MD2, "362e1a6931668e6a9de5c159c52c71b5"},
             {HashType.MD4, "61bef59d7a754874fccbd67b4ec2fb10"},
             {HashType.MD5, "b722871eaa950016296184d026c5dec9"},

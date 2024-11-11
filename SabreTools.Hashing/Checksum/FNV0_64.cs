@@ -2,7 +2,7 @@ using static SabreTools.Hashing.Checksum.Constants;
 
 namespace SabreTools.Hashing.Checksum
 {
-    internal class FNV0_64 : FnvBase<ulong>
+    public class FNV0_64 : FnvBase<ulong>
     {
         public FNV0_64()
         {
