@@ -165,6 +165,7 @@ namespace SabreTools.Hashing.Test
             {HashType.Fletcher32, "073f2d94"},
             {HashType.Fletcher64, "000b073400002d94"},
 
+            {HashType.MD2, "362e1a6931668e6a9de5c159c52c71b5"},
             {HashType.MD5, "b722871eaa950016296184d026c5dec9"},
 
             {HashType.RIPEMD128, "6356cc18225245de3ca9afcb4fa22ce6"},

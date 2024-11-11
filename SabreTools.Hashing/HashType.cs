@@ -719,6 +719,11 @@ namespace SabreTools.Hashing
         #endregion
 
         /// <summary>
+        /// MD2 hash
+        /// </summary>
+        MD2,
+
+        /// <summary>
         /// MD5 hash
         /// </summary>
         MD5,
