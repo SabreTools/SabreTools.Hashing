@@ -1,6 +1,6 @@
 namespace SabreTools.Hashing.Checksum
 {
-    internal abstract class FnvBase<T> : ChecksumBase<T> where T : struct
+    public abstract class FnvBase<T> : ChecksumBase<T> where T : struct
     {
         /// <summary>
         /// Initial value to use
