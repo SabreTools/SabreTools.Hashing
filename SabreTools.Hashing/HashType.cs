@@ -17,6 +17,8 @@ namespace SabreTools.Hashing
         BLAKE3,
 #endif
 
+        #region CRC
+
         #region CRC-1
 
         /// <summary>
@@ -696,6 +698,8 @@ namespace SabreTools.Hashing
         /// CRC 64-bit checksum (CRC-64/XZ)
         /// </summary>
         CRC64_XZ,
+
+        #endregion
 
         #endregion
 
