@@ -14,11 +14,9 @@ namespace SabreTools.Hashing.Checksum
         /// <inheritdoc/>
         public override void TransformBlock(byte[] data, int offset, int length)
         {
-            while (length > 0)
+            for (int i = offset; length > 0; i++, length--)
             {
-                _hash *= _prime;
-                _hash ^= data[offset++];
-                length--;
+                _hash = (_hash * _prime) ^ data[i];
             }
         }
     }
