@@ -1,14 +1,14 @@
 #! /bin/bash
 
 # This batch file assumes the following:
-# - .NET 8.0 (or newer) SDK is installed and in PATH
+# - .NET 9.0 (or newer) SDK is installed and in PATH
 #
 # If any of these are not satisfied, the operation may fail
 # in an unpredictable way and result in an incomplete output.
 
 # Optional parameters
 NO_BUILD=false
-while getopts "uba" OPTION
+while getopts "b" OPTION
 do
     case $OPTION in
     b)
