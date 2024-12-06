@@ -1,6 +1,16 @@
 # SabreTools.Hashing
 
+[![Build and Test](https://github.com/SabreTools/SabreTools.Hashing/actions/workflows/build_and_test.yml/badge.svg)](https://github.com/SabreTools/SabreTools.Hashing/actions/workflows/build_and_test.yml)
+
 This library comprises of methods and helpers to simplify the process of getting checksums and hashes from both files and streams.
+
+Find the link to the Nuget package [here](https://www.nuget.org/packages/SabreTools.Hashing).
+
+## Releases
+
+For the most recent stable build, download the latest release here: [Releases Page](https://github.com/SabreTools/SabreTools.Hashing/releases)
+
+For the latest WIP build here: [Rolling Release](https://github.com/SabreTools/SabreTools.Hashing/releases/rolling)
 
 ## Internal Implementations
 
@@ -29,5 +39,3 @@ External implementations of hash and checksum types may not be compatible with a
 | [System.Security.Cryptography](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography) | MD5, SHA-1, SHA-256, SHA-384, SHA-512, SHA3-256, SHA3-384, SHA3-512, SHAKE128, SHAKE256 | Built-in library; SHA3-256, SHA3-384, SHA3-512, SHAKE128, and SHAKE256 are `net8.0` and above only for [supported platforms](https://learn.microsoft.com/en-us/dotnet/standard/security/cross-platform-cryptography) |
 
 **Note:** If all you care about is performance, I encourage you to forego this library and use the ones listed above directly instead.
-
-Find the link to the Nuget package [here](https://www.nuget.org/packages/SabreTools.Hashing).
