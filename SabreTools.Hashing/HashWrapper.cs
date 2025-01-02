@@ -9,6 +9,7 @@ using Aaru.CommonTypes.Interfaces;
 using Blake3;
 #endif
 using SabreTools.Hashing.Checksum;
+using SabreTools.Hashing.NonCryptographicHash;
 using static SabreTools.Hashing.HashOperations;
 
 namespace SabreTools.Hashing

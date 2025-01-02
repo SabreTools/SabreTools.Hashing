@@ -1,12 +1,12 @@
-using static SabreTools.Hashing.Checksum.Constants;
+using static SabreTools.Hashing.NonCryptographicHash.Constants;
 
-namespace SabreTools.Hashing.Checksum
+namespace SabreTools.Hashing.NonCryptographicHash
 {
-    public class FNV1_64 : FnvBase<ulong>
+    public class FNV0_64 : FnvBase<ulong>
     {
-        public FNV1_64()
+        public FNV0_64()
         {
-            _basis = FNV64Basis;
+            _basis = 0;
             _prime = FNV64Prime;
             Initialize();
         }

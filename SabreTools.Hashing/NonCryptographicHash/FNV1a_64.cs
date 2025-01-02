@@ -1,6 +1,6 @@
-using static SabreTools.Hashing.Checksum.Constants;
+using static SabreTools.Hashing.NonCryptographicHash.Constants;
 
-namespace SabreTools.Hashing.Checksum
+namespace SabreTools.Hashing.NonCryptographicHash
 {
     public class FNV1a_64 : FnvBase<ulong>
     {
