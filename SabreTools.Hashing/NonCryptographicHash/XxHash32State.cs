@@ -1,14 +1,14 @@
 using System;
 using static SabreTools.Hashing.HashOperations;
-using static SabreTools.Hashing.XxHash.Constants;
+using static SabreTools.Hashing.NonCryptographicHash.Constants;
 
-namespace SabreTools.Hashing.XxHash
+namespace SabreTools.Hashing.NonCryptographicHash
 {
     /// <summary>
-    /// Structure for XXH32 streaming API.
+    /// Structure for xxHash-32 streaming API.
     /// </summary>
     /// <see href="https://github.com/Cyan4973/xxHash/blob/dev/xxhash.h"/> 
-    internal class XXH32State
+    internal class XxHash32State
     {
         /// <summary>
         /// Total length hashed, modulo 2^32

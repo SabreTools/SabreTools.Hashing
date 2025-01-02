@@ -316,8 +316,8 @@ namespace SabreTools.Hashing
                 HashType.Tiger2_192_3 => new MessageDigest.Tiger2_192_3(),
                 HashType.Tiger2_192_4 => new MessageDigest.Tiger2_192_4(),
 
-                HashType.XxHash32 => new XxHash.XxHash32(),
-                HashType.XxHash64 => new XxHash.XxHash64(),
+                HashType.XxHash32 => new NonCryptographicHash.XxHash32(),
+                HashType.XxHash64 => new NonCryptographicHash.XxHash64(),
 #if NET462_OR_GREATER || NETCOREAPP
                 HashType.XxHash3 => new XxHash3(),
                 HashType.XxHash128 => new XxHash128(),

@@ -1,15 +1,14 @@
 using System;
 using static SabreTools.Hashing.HashOperations;
-using static SabreTools.Hashing.XxHash.Constants;
-using static SabreTools.Hashing.XxHash.Utility;
+using static SabreTools.Hashing.NonCryptographicHash.Constants;
 
-namespace SabreTools.Hashing.XxHash
+namespace SabreTools.Hashing.NonCryptographicHash
 {
     /// <summary>
-    /// Structure for XXH64 streaming API.
+    /// Structure for xxHash-64 streaming API.
     /// </summary>
     /// <see href="https://github.com/Cyan4973/xxHash/blob/dev/xxhash.h"/> 
-    internal class XXH64State
+    internal class XxHash64State
     {
         /// <summary>
         /// Total length hashed. This is always 64-bit.
@@ -198,7 +197,23 @@ namespace SabreTools.Hashing.XxHash
                 --length;
             }
 
-            return XXH64Avalanche(hash);
+            return Avalanche(hash);
+        }
+    
+        /// <summary>
+        /// Mixes all bits to finalize the hash.
+        /// 
+        /// The final mix ensures that all input bits have a chance to impact any bit in
+        /// the output digest, resulting in an unbiased distribution.
+        /// </summary>
+        private static ulong Avalanche(ulong hash)
+        {
+            hash ^= hash >> 33;
+            hash *= XXH_PRIME64_2;
+            hash ^= hash >> 29;
+            hash *= XXH_PRIME64_3;
+            hash ^= hash >> 32;
+            return hash;
         }
     }
 }

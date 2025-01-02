@@ -1,6 +1,6 @@
 using System;
 
-namespace SabreTools.Hashing.XxHash
+namespace SabreTools.Hashing.NonCryptographicHash
 {
     public class XxHash32 : System.Security.Cryptography.HashAlgorithm
     {
@@ -10,14 +10,14 @@ namespace SabreTools.Hashing.XxHash
         private readonly uint _seed;
 
         /// <summary>
-        /// Internal xxHash32 state
+        /// Internal xxHash-32 state
         /// </summary>
-        private readonly XXH32State _state;
+        private readonly XxHash32State _state;
 
         public XxHash32(uint seed = 0)
         {
             _seed = seed;
-            _state = new XXH32State();
+            _state = new XxHash32State();
             _state.Reset(seed);
         }
 

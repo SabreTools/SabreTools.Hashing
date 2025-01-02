@@ -1,4 +1,5 @@
 using static SabreTools.Hashing.HashOperations;
+using static SabreTools.Hashing.NonCryptographicHash.Constants;
 using static SabreTools.Hashing.XxHash.Constants;
 
 namespace SabreTools.Hashing.XxHash
