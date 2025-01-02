@@ -5,9 +5,6 @@ using System.IO.Hashing;
 using System.Security.Cryptography;
 using Aaru.Checksums;
 using Aaru.CommonTypes.Interfaces;
-#if NET7_0_OR_GREATER
-using Blake3;
-#endif
 using SabreTools.Hashing.Checksum;
 using SabreTools.Hashing.CryptographicHash;
 using SabreTools.Hashing.NonCryptographicHash;
@@ -127,7 +124,7 @@ namespace SabreTools.Hashing
                 HashType.Adler32 => new Adler32(),
 
 #if NET7_0_OR_GREATER
-                HashType.BLAKE3 => new Blake3HashAlgorithm(),
+                HashType.BLAKE3 => new Blake3.Blake3HashAlgorithm(),
 #endif
 
                 HashType.CRC1_ZERO => new Crc(StandardDefinitions.CRC1_ZERO),
