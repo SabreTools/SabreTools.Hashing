@@ -9,6 +9,7 @@ using Aaru.CommonTypes.Interfaces;
 using Blake3;
 #endif
 using SabreTools.Hashing.Checksum;
+using SabreTools.Hashing.CryptographicHash;
 using SabreTools.Hashing.NonCryptographicHash;
 using static SabreTools.Hashing.HashOperations;
 
@@ -280,14 +281,14 @@ namespace SabreTools.Hashing
                 HashType.FNV1a_32 => new FNV1a_32(),
                 HashType.FNV1a_64 => new FNV1a_64(),
 
-                HashType.MD2 => new CryptographicHash.MD2(),
-                HashType.MD4 => new CryptographicHash.MD4(),
+                HashType.MD2 => new MD2(),
+                HashType.MD4 => new MD4(),
                 HashType.MD5 => MD5.Create(),
 
-                HashType.RIPEMD128 => new CryptographicHash.RipeMD128(),
+                HashType.RIPEMD128 => new RipeMD128(),
                 HashType.RIPEMD160 => new CryptographicHash.RipeMD160(),
-                HashType.RIPEMD256 => new CryptographicHash.RipeMD256(),
-                HashType.RIPEMD320 => new CryptographicHash.RipeMD320(),
+                HashType.RIPEMD256 => new RipeMD256(),
+                HashType.RIPEMD320 => new RipeMD320(),
 
                 HashType.SHA1 => SHA1.Create(),
                 HashType.SHA256 => SHA256.Create(),
@@ -303,18 +304,18 @@ namespace SabreTools.Hashing
 
                 HashType.SpamSum => new SpamSumContext(),
 
-                HashType.Tiger128_3 => new CryptographicHash.Tiger128_3(),
-                HashType.Tiger128_4 => new CryptographicHash.Tiger128_4(),
-                HashType.Tiger160_3 => new CryptographicHash.Tiger160_3(),
-                HashType.Tiger160_4 => new CryptographicHash.Tiger160_4(),
-                HashType.Tiger192_3 => new CryptographicHash.Tiger192_3(),
-                HashType.Tiger192_4 => new CryptographicHash.Tiger192_4(),
-                HashType.Tiger2_128_3 => new CryptographicHash.Tiger2_128_3(),
-                HashType.Tiger2_128_4 => new CryptographicHash.Tiger2_128_4(),
-                HashType.Tiger2_160_3 => new CryptographicHash.Tiger2_160_3(),
-                HashType.Tiger2_160_4 => new CryptographicHash.Tiger2_160_4(),
-                HashType.Tiger2_192_3 => new CryptographicHash.Tiger2_192_3(),
-                HashType.Tiger2_192_4 => new CryptographicHash.Tiger2_192_4(),
+                HashType.Tiger128_3 => new Tiger128_3(),
+                HashType.Tiger128_4 => new Tiger128_4(),
+                HashType.Tiger160_3 => new Tiger160_3(),
+                HashType.Tiger160_4 => new Tiger160_4(),
+                HashType.Tiger192_3 => new Tiger192_3(),
+                HashType.Tiger192_4 => new Tiger192_4(),
+                HashType.Tiger2_128_3 => new Tiger2_128_3(),
+                HashType.Tiger2_128_4 => new Tiger2_128_4(),
+                HashType.Tiger2_160_3 => new Tiger2_160_3(),
+                HashType.Tiger2_160_4 => new Tiger2_160_4(),
+                HashType.Tiger2_192_3 => new Tiger2_192_3(),
+                HashType.Tiger2_192_4 => new Tiger2_192_4(),
 
                 HashType.XxHash32 => new NonCryptographicHash.XxHash32(),
                 HashType.XxHash64 => new NonCryptographicHash.XxHash64(),
