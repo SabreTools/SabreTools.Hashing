@@ -1,6 +1,6 @@
 using System;
 
-namespace SabreTools.Hashing.MessageDigest
+namespace SabreTools.Hashing.CryptographicHash
 {
     public abstract class MessageDigestBase : System.Security.Cryptography.HashAlgorithm
     {

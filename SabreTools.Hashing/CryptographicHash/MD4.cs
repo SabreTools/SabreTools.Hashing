@@ -1,8 +1,8 @@
 using System;
+using static SabreTools.Hashing.CryptographicHash.Constants;
 using static SabreTools.Hashing.HashOperations;
-using static SabreTools.Hashing.MessageDigest.Constants;
 
-namespace SabreTools.Hashing.MessageDigest
+namespace SabreTools.Hashing.CryptographicHash
 {
     /// <see href="https://datatracker.ietf.org/doc/html/rfc1320"/>
     public class MD4 : MessageDigestBase<uint>

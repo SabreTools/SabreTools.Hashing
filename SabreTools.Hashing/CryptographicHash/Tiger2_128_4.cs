@@ -1,6 +1,6 @@
 using System;
 
-namespace SabreTools.Hashing.MessageDigest
+namespace SabreTools.Hashing.CryptographicHash
 {
     /// <summary>
     /// 4-pass variant of Tiger2-128

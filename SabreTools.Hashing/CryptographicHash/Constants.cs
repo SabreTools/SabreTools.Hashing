@@ -1,4 +1,4 @@
-namespace SabreTools.Hashing.MessageDigest
+namespace SabreTools.Hashing.CryptographicHash
 {
     internal static class Constants
     {

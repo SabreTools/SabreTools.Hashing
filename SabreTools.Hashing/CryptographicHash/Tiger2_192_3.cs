@@ -1,4 +1,4 @@
-namespace SabreTools.Hashing.MessageDigest
+namespace SabreTools.Hashing.CryptographicHash
 {
     /// <summary>
     /// 3-pass variant of Tiger2-192

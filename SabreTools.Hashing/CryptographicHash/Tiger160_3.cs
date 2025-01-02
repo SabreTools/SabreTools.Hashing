@@ -1,16 +1,16 @@
 using System;
 
-namespace SabreTools.Hashing.MessageDigest
+namespace SabreTools.Hashing.CryptographicHash
 {
     /// <summary>
-    /// 4-pass variant of Tiger2-160
+    /// 3-pass variant of Tiger-160
     /// </summary>
-    public class Tiger2_160_4 : TigerHashBase
+    public class Tiger160_3 : TigerHashBase
     {
-        public Tiger2_160_4() : base()
+        public Tiger160_3() : base()
         {
-            _passes = 4;
-            _padStart = 0x80;
+            _passes = 3;
+            _padStart = 0x01;
         }
 
         /// <inheritdoc/>

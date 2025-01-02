@@ -1,7 +1,7 @@
 using System;
-using static SabreTools.Hashing.MessageDigest.Constants;
+using static SabreTools.Hashing.CryptographicHash.Constants;
 
-namespace SabreTools.Hashing.MessageDigest
+namespace SabreTools.Hashing.CryptographicHash
 {
     /// <see href="https://datatracker.ietf.org/doc/html/rfc1115"/>
     public class MD2 : MessageDigestBase<uint>

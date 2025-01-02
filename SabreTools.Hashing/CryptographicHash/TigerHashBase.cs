@@ -1,8 +1,8 @@
 using System;
+using static SabreTools.Hashing.CryptographicHash.Constants;
 using static SabreTools.Hashing.HashOperations;
-using static SabreTools.Hashing.MessageDigest.Constants;
 
-namespace SabreTools.Hashing.MessageDigest
+namespace SabreTools.Hashing.CryptographicHash
 {
     /// <see href="https://biham.cs.technion.ac.il/Reports/Tiger//>
     public abstract class TigerHashBase : MessageDigestBase<ulong>
