@@ -27,17 +27,17 @@ namespace SabreTools.Hashing.Checksum
         }
 
         /// <inheritdoc/>
-        public override void Reset()
+        public override void Initialize()
         {
             _hash = Def.Init;
         }
 
         /// <inheritdoc/>
-        public override void TransformBlock(byte[] data, int offset, int length)
+        public override void HashCore(byte[] data, int offset, int length)
             => _table.TransformBlock(ref _hash, data, offset, length);
 
         /// <inheritdoc/>
-        public override byte[] Finalize()
+        public override byte[] HashFinal()
         {
             // Create a copy of the hash
             ulong localHash = _hash;

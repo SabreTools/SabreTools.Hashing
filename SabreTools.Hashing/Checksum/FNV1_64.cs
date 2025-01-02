@@ -8,11 +8,11 @@ namespace SabreTools.Hashing.Checksum
         {
             _basis = FNV64Basis;
             _prime = FNV64Prime;
-            Reset();
+            Initialize();
         }
 
         /// <inheritdoc/>
-        public override void TransformBlock(byte[] data, int offset, int length)
+        public override void HashCore(byte[] data, int offset, int length)
         {
             for (int i = offset; length > 0; i++, length--)
             {

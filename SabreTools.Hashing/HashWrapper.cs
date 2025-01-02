@@ -35,7 +35,7 @@ namespace SabreTools.Hashing
                 switch (_hasher)
                 {
                     case ChecksumBase cb:
-                        var cbArr = cb.Finalize();
+                        var cbArr = cb.HashFinal();
                         Array.Reverse(cbArr);
                         return cbArr;
 
@@ -88,7 +88,7 @@ namespace SabreTools.Hashing
                 switch (_hasher)
                 {
                     case Crc cr:
-                        var crArr = cr.Finalize();
+                        var crArr = cr.HashFinal();
                         ulong crHash = BytesToUInt64(crArr);
                         int length = cr.Def.Width / 4 + (cr.Def.Width % 4 > 0 ? 1 : 0);
                         return crHash.ToString($"x{length}");
@@ -354,7 +354,7 @@ namespace SabreTools.Hashing
             switch (_hasher)
             {
                 case ChecksumBase cb:
-                    cb.TransformBlock(buffer, offset, size);
+                    cb.HashCore(buffer, offset, size);
                     break;
 
                 case HashAlgorithm ha:

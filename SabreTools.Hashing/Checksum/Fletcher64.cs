@@ -8,11 +8,11 @@ namespace SabreTools.Hashing.Checksum
     {
         public Fletcher64()
         {
-            Reset();
+            Initialize();
         }
 
         /// <inheritdoc/>
-        public override void TransformBlock(byte[] data, int offset, int length)
+        public override void HashCore(byte[] data, int offset, int length)
         {
             // Split Fletcher-64 into component sums
             ulong c0 = _hash & 0xffffffff;

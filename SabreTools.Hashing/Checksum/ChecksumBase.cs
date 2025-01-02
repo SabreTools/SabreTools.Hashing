@@ -7,18 +7,11 @@ namespace SabreTools.Hashing.Checksum
     /// </summary>
     public abstract class ChecksumBase
     {
-        /// <summary>
-        /// Hash a block of data and append it to the existing hash
-        /// </summary>
-        /// <param name="data">Byte array representing the data</param>
-        /// <param name="offset">Offset in the byte array to include</param>
-        /// <param name="length">Length of the data to hash</param>
-        public abstract void TransformBlock(byte[] data, int offset, int length);
+        /// <inheritdoc cref="System.Security.Cryptography.HashAlgorithm.HashCore(byte[], int, int)"/>
+        public abstract void HashCore(byte[] data, int offset, int length);
 
-        /// <summary>
-        /// Finalize the hash and return as a byte array
-        /// </summary>
-        public abstract byte[] Finalize();
+        /// <inheritdoc cref="System.Security.Cryptography.HashAlgorithm.HashFinal"/>
+        public abstract byte[] HashFinal();
     }
 
     /// <summary>
@@ -31,16 +24,14 @@ namespace SabreTools.Hashing.Checksum
         /// </summary>
         protected T _hash;
 
-        /// <summary>
-        /// Reset the internal hashing state
-        /// </summary>
-        public virtual void Reset()
+        /// <inheritdoc cref="System.Security.Cryptography.HashAlgorithm.Initialize"/>
+        public virtual void Initialize()
         {
             _hash = default;
         }
 
         /// <inheritdoc/>
-        public override byte[] Finalize()
+        public override byte[] HashFinal()
         {
             return _hash switch
             {

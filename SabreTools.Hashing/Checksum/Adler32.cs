@@ -8,19 +8,19 @@ namespace SabreTools.Hashing.Checksum
     {
         public Adler32()
         {
-            Reset();
+            Initialize();
         }
 
         /// <summary>
         /// Reset the internal hashing state
         /// </summary>
-        public override void Reset()
+        public override void Initialize()
         {
             _hash = 1;
         }
 
         /// <inheritdoc/>
-        public override void TransformBlock(byte[] data, int offset, int length)
+        public override void HashCore(byte[] data, int offset, int length)
         {
             // Split Adler-32 into component sums
             uint sum2 = (_hash >> 16) & 0xffff;
@@ -131,7 +131,7 @@ namespace SabreTools.Hashing.Checksum
         }
 
         /// <inheritdoc/>
-        public override byte[] Finalize()
+        public override byte[] HashFinal()
         {
             return BitConverter.GetBytes(_hash);
         }

@@ -5,11 +5,11 @@ namespace SabreTools.Hashing.Checksum
     {
         public Fletcher16()
         {
-            Reset();
+            Initialize();
         }
 
         /// <inheritdoc/>
-        public override void TransformBlock(byte[] data, int offset, int length)
+        public override void HashCore(byte[] data, int offset, int length)
         {
             // Split the existing hash
             uint c0 = (uint)(_hash & 0x00FF);

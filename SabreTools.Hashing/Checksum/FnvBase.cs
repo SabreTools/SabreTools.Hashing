@@ -13,7 +13,7 @@ namespace SabreTools.Hashing.Checksum
         protected T _prime;
 
         /// <inheritdoc/>
-        public override void Reset()
+        public override void Initialize()
         {
             _hash = _basis;
         }
