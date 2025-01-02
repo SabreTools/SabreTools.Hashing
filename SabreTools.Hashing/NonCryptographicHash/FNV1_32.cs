@@ -4,6 +4,9 @@ namespace SabreTools.Hashing.NonCryptographicHash
 {
     public class FNV1_32 : FnvBase<uint>
     {
+        /// <inheritdoc/>
+        public override int HashSize => 32;
+
         public FNV1_32()
         {
             _basis = FNV32Basis;

@@ -6,6 +6,9 @@ namespace SabreTools.Hashing.Checksum
     /// <remarks>Uses an Adler-32-like implementation instead of the above</remarks>
     public class Fletcher64 : ChecksumBase<ulong>
     {
+        /// <inheritdoc/>
+        public override int HashSize => 64;
+
         public Fletcher64()
         {
             Initialize();

@@ -8,6 +8,9 @@ namespace SabreTools.Hashing.CryptographicHash
     /// <see href="https://homes.esat.kuleuven.be/~bosselae/ripemd160/pdf/AB-9601/AB-9601.pdf"/>
     public class RipeMD256 : MessageDigestBase<uint>
     {
+        /// <inheritdoc/>
+        public override int HashSize => 256;
+
         /// <summary>
         /// Set of 4 32-bit numbers representing the hash state
         /// </summary>

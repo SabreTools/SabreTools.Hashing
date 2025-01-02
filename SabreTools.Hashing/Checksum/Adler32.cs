@@ -6,6 +6,9 @@ namespace SabreTools.Hashing.Checksum
     /// <see href="https://github.com/madler/zlib/blob/v1.2.11/adler32.c"/> 
     public class Adler32 : ChecksumBase<uint>
     {
+        /// <inheritdoc/>
+        public override int HashSize => 32;
+
         public Adler32()
         {
             Initialize();

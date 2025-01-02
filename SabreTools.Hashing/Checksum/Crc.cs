@@ -5,6 +5,9 @@ namespace SabreTools.Hashing.Checksum
 {
     public class Crc : ChecksumBase<ulong>
     {
+        /// <inheritdoc/>
+        public override int HashSize => Def.Width;
+
         /// <summary>
         /// Definition used to create the runner
         /// </summary>

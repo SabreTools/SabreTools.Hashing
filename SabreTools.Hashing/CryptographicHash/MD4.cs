@@ -7,6 +7,9 @@ namespace SabreTools.Hashing.CryptographicHash
     /// <see href="https://datatracker.ietf.org/doc/html/rfc1320"/>
     public class MD4 : MessageDigestBase<uint>
     {
+        /// <inheritdoc/>
+        public override int HashSize => 128;
+
         /// <summary>
         /// Set of 4 32-bit numbers representing the hash state
         /// </summary>

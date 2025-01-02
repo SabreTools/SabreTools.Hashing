@@ -4,6 +4,9 @@ namespace SabreTools.Hashing.NonCryptographicHash
 {
     public class XxHash32 : System.Security.Cryptography.HashAlgorithm
     {
+        /// <inheritdoc/>
+        public override int HashSize => 32;
+
         /// <summary>
         /// The 32-bit seed to alter the hash result predictably.
         /// </summary>

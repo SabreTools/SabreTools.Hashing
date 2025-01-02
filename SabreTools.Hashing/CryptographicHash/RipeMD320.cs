@@ -8,6 +8,9 @@ namespace SabreTools.Hashing.CryptographicHash
     /// <see href="https://homes.esat.kuleuven.be/~bosselae/ripemd160/pdf/AB-9601/AB-9601.pdf"/>
     public class RipeMD320 : MessageDigestBase<uint>
     {
+        /// <inheritdoc/>
+        public override int HashSize => 320;
+
         /// <summary>
         /// Set of 10 32-bit numbers representing the hash state
         /// </summary>

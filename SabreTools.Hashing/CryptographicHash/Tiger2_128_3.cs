@@ -7,6 +7,9 @@ namespace SabreTools.Hashing.CryptographicHash
     /// </summary>
     public class Tiger2_128_3 : TigerHashBase
     {
+        /// <inheritdoc/>
+        public override int HashSize => 128;
+
         public Tiger2_128_3() : base()
         {
             _passes = 3;

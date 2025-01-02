@@ -6,6 +6,9 @@ namespace SabreTools.Hashing.CryptographicHash
     /// <see href="https://datatracker.ietf.org/doc/html/rfc1115"/>
     public class MD2 : MessageDigestBase<uint>
     {
+        /// <inheritdoc/>
+        public override int HashSize => 128;
+
         /// <summary>
         /// Buffer for forming digest in
         /// </summary>

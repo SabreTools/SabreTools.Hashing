@@ -4,6 +4,9 @@ namespace SabreTools.Hashing.NonCryptographicHash
 {
     public class FNV1_64 : FnvBase<ulong>
     {
+        /// <inheritdoc/>
+        public override int HashSize => 64;
+
         public FNV1_64()
         {
             _basis = FNV64Basis;
