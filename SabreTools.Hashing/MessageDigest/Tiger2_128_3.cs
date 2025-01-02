@@ -14,9 +14,9 @@ namespace SabreTools.Hashing.MessageDigest
         }
 
         /// <inheritdoc/>
-        public override byte[] GetHash()
+        protected override byte[] HashFinal()
         {
-            byte[] hash = base.GetHash();
+            byte[] hash = base.HashFinal();
             byte[] trimmedHash = new byte[16];
             Array.Copy(hash, trimmedHash, 16);
             return trimmedHash;

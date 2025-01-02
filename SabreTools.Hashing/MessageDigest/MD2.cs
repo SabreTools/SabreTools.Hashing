@@ -41,7 +41,7 @@ namespace SabreTools.Hashing.MessageDigest
         }
 
         /// <inheritdoc/>
-        public override void TransformBlock(byte[] data, int offset, int length)
+        protected override void HashCore(byte[] data, int offset, int length)
         {
             // Figure out how much buffer is needed
             int bufferLen = 16 - _byteCount;
@@ -116,7 +116,7 @@ namespace SabreTools.Hashing.MessageDigest
         }
 
         /// <inheritdoc/>
-        public override void Terminate()
+        protected override byte[] HashFinal()
         {
             // Determine the pad length
             byte padLength = (byte)(16 - _byteCount);
@@ -131,18 +131,14 @@ namespace SabreTools.Hashing.MessageDigest
 #else
             Array.Fill(padding, padLength);
 #endif
-            TransformBlock(padding, 0, padLength);
-            TransformBlock(_checksum, 0, _checksum.Length);
-        }
 
-        /// <inheritdoc/>
-        public override byte[] GetHash()
-        {
+            // Pad the block
+            HashCore(padding, 0, padLength);
+            HashCore(_checksum, 0, _checksum.Length);
+
+            // Get the hash
             var hash = new byte[16];
             Array.Copy(_digest, hash, 16);
-
-            // Reset the state and return
-            Reset();
             return hash;
         }
 

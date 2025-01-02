@@ -2,7 +2,7 @@ using System;
 
 namespace SabreTools.Hashing.MessageDigest
 {
-    public abstract class MessageDigestBase
+    public abstract class MessageDigestBase : System.Security.Cryptography.HashAlgorithm
     {
         /// <summary>
         /// Total number of bytes processed
@@ -19,29 +19,8 @@ namespace SabreTools.Hashing.MessageDigest
         /// </summary>
         protected abstract void ResetImpl();
 
-        /// <summary>
-        /// Hash a block of data and append it to the existing hash
-        /// </summary>
-        /// <param name="data">Byte array representing the data</param>
-        /// <param name="offset">Offset in the byte array to include</param>
-        /// <param name="length">Length of the data to hash</param>
-        public abstract void TransformBlock(byte[] data, int offset, int length);
-
-        /// <summary>
-        /// End the hashing process
-        /// </summary>
-        /// TODO: Combine this when the padding byte can be set by implementing classes
-        public abstract void Terminate();
-
-        /// <summary>
-        /// Get the current value of the hash
-        /// </summary>
-        /// <remarks>
-        /// If <see cref="Terminate"/> has not been run, this value
-        /// will not be accurate for the processed bytes so far.
-        /// </remarks>
-        /// TODO: Combine this when there's an easier way of passing the state
-        public abstract byte[] GetHash();
+        /// <inheritdoc/>
+        protected abstract override void HashCore(byte[] array, int ibStart, int cbSize);
     }
 
     public abstract class MessageDigestBase<T> : MessageDigestBase where T : struct
@@ -63,13 +42,11 @@ namespace SabreTools.Hashing.MessageDigest
             else
                 throw new InvalidOperationException();
 
-            Reset();
+            Initialize();
         }
 
-        /// <summary>
-        /// Reset the internal hashing state
-        /// </summary>
-        public void Reset()
+        /// <inheritdoc/>
+        public override void Initialize()
         {
             // Reset the seed values
             ResetImpl();

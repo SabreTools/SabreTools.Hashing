@@ -45,9 +45,6 @@ namespace SabreTools.Hashing
                     case IChecksum ic:
                         return ic.Final();
 
-                    case MessageDigest.MessageDigestBase mdb:
-                        return mdb.GetHash();
-
 #if NET462_OR_GREATER || NETCOREAPP
                     case XxHash3 xxh3:
                         return xxh3.GetCurrentHash();
@@ -370,10 +367,6 @@ namespace SabreTools.Hashing
                     ic.Update(icBlock);
                     break;
 
-                case MessageDigest.MessageDigestBase mdb:
-                    mdb.TransformBlock(buffer, offset, size);
-                    break;
-
 #if NET462_OR_GREATER || NETCOREAPP
                 case NonCryptographicHashAlgorithm ncha:
                     var nchaBufferSpan = new ReadOnlySpan<byte>(buffer, offset, size);
@@ -412,10 +405,6 @@ namespace SabreTools.Hashing
             {
                 case HashAlgorithm ha:
                     ha.TransformFinalBlock(emptyBuffer, 0, 0);
-                    break;
-
-                case MessageDigest.MessageDigestBase mdb:
-                    mdb.Terminate();
                     break;
             }
         }
