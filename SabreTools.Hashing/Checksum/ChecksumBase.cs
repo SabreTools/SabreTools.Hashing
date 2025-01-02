@@ -5,13 +5,9 @@ namespace SabreTools.Hashing.Checksum
     /// <summary>
     /// Common base class for Fletcher checksums
     /// </summary>
-    public abstract class ChecksumBase
+    public abstract class ChecksumBase : System.Security.Cryptography.HashAlgorithm
     {
-        /// <inheritdoc cref="System.Security.Cryptography.HashAlgorithm.HashCore(byte[], int, int)"/>
-        public abstract void HashCore(byte[] data, int offset, int length);
-
-        /// <inheritdoc cref="System.Security.Cryptography.HashAlgorithm.HashFinal"/>
-        public abstract byte[] HashFinal();
+        // No common, untyped functionality
     }
 
     /// <summary>
@@ -24,16 +20,16 @@ namespace SabreTools.Hashing.Checksum
         /// </summary>
         protected T _hash;
 
-        /// <inheritdoc cref="System.Security.Cryptography.HashAlgorithm.Initialize"/>
-        public virtual void Initialize()
+        /// <inheritdoc/>
+        public override void Initialize()
         {
             _hash = default;
         }
 
         /// <inheritdoc/>
-        public override byte[] HashFinal()
+        protected override byte[] HashFinal()
         {
-            return _hash switch
+            byte[] hashArr = _hash switch
             {
                 short s => BitConverter.GetBytes(s),
                 ushort s => BitConverter.GetBytes(s),
@@ -46,6 +42,9 @@ namespace SabreTools.Hashing.Checksum
 
                 _ => [],
             };
+
+            Array.Reverse(hashArr);
+            return hashArr;
         }
     }
 }

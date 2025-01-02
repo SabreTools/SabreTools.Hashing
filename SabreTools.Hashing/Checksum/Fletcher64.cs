@@ -12,7 +12,7 @@ namespace SabreTools.Hashing.Checksum
         }
 
         /// <inheritdoc/>
-        public override void HashCore(byte[] data, int offset, int length)
+        protected override void HashCore(byte[] data, int offset, int length)
         {
             // Split Fletcher-64 into component sums
             ulong c0 = _hash & 0xffffffff;

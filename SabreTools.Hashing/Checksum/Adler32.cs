@@ -20,7 +20,7 @@ namespace SabreTools.Hashing.Checksum
         }
 
         /// <inheritdoc/>
-        public override void HashCore(byte[] data, int offset, int length)
+        protected override void HashCore(byte[] data, int offset, int length)
         {
             // Split Adler-32 into component sums
             uint sum2 = (_hash >> 16) & 0xffff;
@@ -131,9 +131,11 @@ namespace SabreTools.Hashing.Checksum
         }
 
         /// <inheritdoc/>
-        public override byte[] HashFinal()
+        protected override byte[] HashFinal()
         {
-            return BitConverter.GetBytes(_hash);
+            byte[] hashArr =  BitConverter.GetBytes(_hash);
+            Array.Reverse(hashArr);
+            return hashArr;
         }
     }
 }

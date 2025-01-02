@@ -33,11 +33,11 @@ namespace SabreTools.Hashing.Checksum
         }
 
         /// <inheritdoc/>
-        public override void HashCore(byte[] data, int offset, int length)
+        protected override void HashCore(byte[] data, int offset, int length)
             => _table.TransformBlock(ref _hash, data, offset, length);
 
         /// <inheritdoc/>
-        public override byte[] HashFinal()
+        protected override byte[] HashFinal()
         {
             // Create a copy of the hash
             ulong localHash = _hash;

@@ -12,7 +12,7 @@ namespace SabreTools.Hashing.Checksum
         }
 
         /// <inheritdoc/>
-        public override void HashCore(byte[] data, int offset, int length)
+        protected override void HashCore(byte[] data, int offset, int length)
         {
             for (int i = offset; length > 0; i++, length--)
             {

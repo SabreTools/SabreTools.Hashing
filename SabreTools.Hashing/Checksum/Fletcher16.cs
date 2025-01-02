@@ -9,11 +9,11 @@ namespace SabreTools.Hashing.Checksum
         }
 
         /// <inheritdoc/>
-        public override void HashCore(byte[] data, int offset, int length)
+        protected override void HashCore(byte[] data, int offset, int length)
         {
             // Split the existing hash
-            uint c0 = (uint)(_hash & 0x00FF);
-            uint c1 = (uint)(_hash << 16);
+            uint c0 = (uint)(_hash & 0x00ff);
+            uint c1 = (uint)((_hash >> 8) & 0x00ff);
 
             // Found by solving for c1 overflow:
             // n > 0 and n * (n+1) / 2 * (2^8-1) < (2^32-1).
@@ -34,7 +34,8 @@ namespace SabreTools.Hashing.Checksum
                 c1 %= 255;
             }
 
-            _hash = (ushort)(c1 << 8 | c0);
+            // Return recombined sums
+            _hash = (ushort)((c1 << 8) | c0);
         }
     }
 }
