@@ -35,14 +35,8 @@ namespace SabreTools.Hashing
                         return ha.Hash;
 
 #if NET462_OR_GREATER || NETCOREAPP
-                    case XxHash3 xxh3:
-                        return xxh3.GetCurrentHash();
-                    case XxHash128 xxh128:
-                        return xxh128.GetCurrentHash();
                     case NonCryptographicHashAlgorithm ncha:
-                        var nchaArr = ncha.GetCurrentHash();
-                        Array.Reverse(nchaArr);
-                        return nchaArr;
+                        return ncha.GetCurrentHash();
 #endif
 
 #if NET8_0_OR_GREATER
