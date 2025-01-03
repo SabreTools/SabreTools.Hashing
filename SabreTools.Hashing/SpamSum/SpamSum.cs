@@ -4,166 +4,353 @@ using static SabreTools.Hashing.SpamSum.Constants;
 
 namespace SabreTools.Hashing.SpamSum
 {
-    /// <see href="https://download.samba.org/pub/unpacked/junkcode/spamsum/spamsum.c"/> 
-    public class SpamSum
+    /// <see href="https://github.com/ssdeep-project/ssdeep/blob/master/fuzzy.c"/> 
+    public class SpamSum : System.Security.Cryptography.HashAlgorithm
     {
-        private RollState _rollState = new();
+        private FuzzyState _state;
 
-        /// <summary>
-        /// Take a message of length 'length' and return a string representing a hash of that message,
-        /// prefixed by the selected blocksize
-        /// </summary>
-        public byte[]? GetHash(byte[] input, uint length, uint blockSize)
+        public SpamSum()
         {
-            int p;
-            uint h, h2, h3;
-            uint j, k;
-
-            // Guess a reasonable block size
-            if (blockSize == 0)
-            {
-                blockSize = MIN_BLOCKSIZE;
-                while (blockSize * SPAMSUM_LENGTH < length)
-                {
-                    blockSize *= 2;
-                }
-            }
-
-            byte[] ret = new byte[SPAMSUM_LENGTH + SPAMSUM_LENGTH / 2 + 20];
-            byte[] ret2 = new byte[SPAMSUM_LENGTH / 2 + 1];
-
-        again:
-            // Clear the arrays
-#if NET6_0_OR_GREATER
-            Array.Clear(ret);
-            Array.Clear(ret2);
-#else
-            Array.Clear(ret, 0, ret.Length);
-            Array.Clear(ret2, 0, ret2.Length);
-#endif
-
-            // The first part of the spamsum signature is the blocksize
-            string blockSizeStr = $"{blockSize}:";
-            byte[] blockSizeArr = Encoding.ASCII.GetBytes(blockSizeStr);
-            Array.Copy(blockSizeArr, ret, blockSizeArr.Length);
-            p = blockSizeArr.Length;
-
-            k = j = 0;
-            h3 = h2 = HASH_INIT;
-            h = RollReset();
-
-            for (uint i = 0; i < length; i++)
-            {
-                // At each character we update the rolling hash and the normal hash.
-                // When the rolling hash hits the reset value then we emit the normal
-                // hash as a element of the signature and reset both hashes
-                h = RollHash(input[i]);
-                h2 = SumHash(input[i], h2);
-                h3 = SumHash(input[i], h3);
-
-                if (h % blockSize == (blockSize - 1))
-                {
-                    // We have hit a reset point. We now emit a
-                    // hash which is based on all chacaters in the
-                    // piece of the message between the last reset
-                    // point and this one
-                    ret[p + j] = (byte)Base64Alphabet[(int)(h2 % 64)];
-                    if (j < SPAMSUM_LENGTH - 1)
-                    {
-                        // We can have a problem with the tail
-                        // overflowing. The easiest way to
-                        // cope with this is to only reset the
-                        // second hash if we have room for
-                        // more characters in our
-                        // signature. This has the effect of
-                        // combining the last few pieces of
-                        // the message into a single piece
-                        h2 = HASH_INIT;
-                        j++;
-                    }
-                }
-
-                // This produces a second signature with a block size
-                // of block_size*2. By producing dual signatures in
-                // this way the effect of small changes in the message
-                // size near a block size boundary is greatly reduced.
-                if (h % (blockSize * 2) == ((blockSize * 2) - 1))
-                {
-                    ret2[k] = (byte)Base64Alphabet[(int)(h3 % 64)];
-                    if (k < SPAMSUM_LENGTH / 2 - 1)
-                    {
-                        h3 = HASH_INIT;
-                        k++;
-                    }
-                }
-            }
-
-            // If we have anything left then add it to the end. This
-            // ensures that the last part of the message is always
-            // considered
-            if (h != 0)
-            {
-                ret[p + j] = (byte)Base64Alphabet[(int)(h2 % 64)];
-                ret2[k] = (byte)Base64Alphabet[(int)(h3 % 64)];
-            }
-
-            ret[p + ++j] = (byte)':';
-            Array.Copy(ret2, 0, ret, p + ++j, ret2.Length);
-
-            // Our blocksize guess may have been way off - repeat if necessary
-            if (blockSize == 0 && blockSize > MIN_BLOCKSIZE && j < SPAMSUM_LENGTH / 2)
-            {
-                blockSize /= 2;
-                goto again;
-            }
-
-            return ret;
+            _state = new();
+            Initialize();
         }
 
-        /// <summary>
-        /// A rolling hash, based on the Adler checksum. By using a rolling hash
-        /// we can perform auto resynchronisation after inserts/deletes.
-        /// 
-        /// Internally, H1 is the sum of the bytes in the window and H2
-        /// is the sum of the bytes times the index.
-        /// 
-        /// H3 is a shift/xor based rolling hash, and is mostly needed to ensure that
-        /// we can cope with large blocksize values.
-        /// </summary>
-        private uint RollHash(byte c)
+        /// <inheritdoc/>
+        public override void Initialize()
         {
-            _rollState.H2 -= _rollState.H1;
-            _rollState.H2 += ROLLING_WINDOW * c;
+            _state = new FuzzyState
+            {
+                BHStart = 0,
+                BHEnd = 1,
+                BHEndLimit = NUM_BLOCKHASHES - 1,
+                TotalSize = 0,
+                ReduceBorder = MIN_BLOCKSIZE * SPAMSUM_LENGTH,
+                Flags = 0,
+                RollMask = 0,
+            };
 
-            _rollState.H1 += c;
-            _rollState.H1 -= _rollState.Window[_rollState.N % ROLLING_WINDOW];
-
-            _rollState.Window[_rollState.N % ROLLING_WINDOW] = c;
-            _rollState.N++;
-
-            _rollState.H3 = (_rollState.H3 << 5) & 0xFFFFFFFF;
-            _rollState.H3 ^= c;
-
-            return _rollState.H1 + _rollState.H2 + _rollState.H3;
+            _state.BH[0].H = HASH_INIT;
+            _state.BH[0].HalfH = HASH_INIT;
+            _state.BH[0].Digest[0] = 0x00;
+            _state.BH[0].HalfDigest = 0x00;
+            _state.BH[0].DIndex = 0;
         }
 
-        /// <summary>
-        /// Reset the state of the rolling hash and return the initial rolling hash value
-        /// </summary>
-        private uint RollReset()
+        /// <inheritdoc/>
+        protected override void HashCore(byte[] array, int ibStart, int cbSize)
         {
-            _rollState = new RollState();
-            return 0;
+            _state.TotalSize += (ulong)cbSize;
+            for (int i = ibStart; i < cbSize; i++)
+            {
+                ProcessByte(array[i]);
+            }
+        }
+
+        /// <inheritdoc/>
+        protected override byte[] HashFinal()
+        {
+            string? digest = Finalize(0);
+            if (digest == null)
+                return [];
+
+            return Encoding.ASCII.GetBytes(digest.TrimEnd('\0'));
+        }
+
+        /// <remarks>
+        /// Originally named `fuzzy_engine_step`
+        /// </remarks>
+        private void ProcessByte(byte c)
+        {
+            // At each character we update the rolling hash and the normal hashes.
+            // When the rolling hash hits a reset value then we emit a normal hash
+            // as a element of the signature and reset the normal hash.
+            _state.Roll.RollHash(c);
+            uint horg = _state.Roll.RollSum() + 1;
+            uint h = horg / MIN_BLOCKSIZE;
+
+            uint i;
+            for (i = _state.BHStart; i < _state.BHEnd; ++i)
+            {
+                _state.BH[i].H = SumHash(c, _state.BH[i].H);
+                _state.BH[i].HalfH = SumHash(c, _state.BH[i].HalfH);
+            }
+
+            if ((_state.Flags & FUZZY_STATE_NEED_LASTHASH) != 0)
+                _state.LastH = SumHash(c, _state.LastH);
+
+            // 0xffffffff !== -1 (mod 3)
+            if (horg == 0)
+                return;
+
+            // With growing blocksize almost no runs fail the next test.
+            if ((h & _state.RollMask) != 0)
+                return;
+
+            // Delay computation of modulo as possible.
+            if ((horg % MIN_BLOCKSIZE) != 0)
+                return;
+
+            h >>= (int)_state.BHStart;
+            i = _state.BHStart;
+            do
+            {
+                // We have hit a reset point. We now emit hashes which are
+                // based on all characters in the piece of the message between
+                // the last reset point and this one
+                if (_state.BH[i].DIndex == 0)
+                {
+                    // Can only happen 30 times.
+                    // First step for this blocksize. Clone next.
+                    _state.TryForkBlockhash();
+                }
+
+                _state.BH[i].Digest[_state.BH[i].DIndex] = B64[_state.BH[i].H];
+                _state.BH[i].HalfDigest = B64[_state.BH[i].HalfH];
+
+                if (_state.BH[i].DIndex < SPAMSUM_LENGTH - 1)
+                {
+                    // We can have a problem with the tail overflowing. The
+                    // easiest way to cope with this is to only reset the
+                    // normal hash if we have room for more characters in
+                    // our signature. This has the effect of combining the
+                    // last few pieces of the message into a single piece
+                    _state.BH[i].Digest[++_state.BH[i].DIndex] = 0x00;
+                    _state.BH[i].H = HASH_INIT;
+                    if (_state.BH[i].DIndex < SPAMSUM_LENGTH / 2)
+                    {
+                        _state.BH[i].HalfH = HASH_INIT;
+                        _state.BH[i].HalfDigest = 0x00;
+                    }
+                }
+                else
+                {
+                    _state.TryReduceBlockhash();
+                }
+
+                if ((h & 1) != 0)
+                    break;
+
+                h >>= 1;
+            } while (++i < _state.BHEnd);
         }
 
         /// <summary>
         /// A simple non-rolling hash, based on the FNV hash
         /// </summary>
-        private static uint SumHash(byte c, uint h)
+        private static byte SumHash(byte c, byte h) => SUM_TABLE[h][c & 0x3f];
+
+        /// <remarks>
+        /// Originally named `fuzzy_digest`
+        /// </remarks>
+        private string? Finalize(uint flags)
         {
-            h *= HASH_PRIME;
-            h ^= c;
-            return h;
+            uint bi = _state.BHStart;
+            uint h = _state.Roll.RollSum();
+            int i;
+
+            // Exclude terminating '\0'.
+            int remain = FUZZY_MAX_RESULT - 1;
+
+            // Verify that our elimination was not overeager.
+            if (bi != 0 && (ulong)SSDEEP_BS(bi) / 2 * SPAMSUM_LENGTH >= _state.TotalSize)
+                return null;
+
+            // The input exceeds data types.
+            if (_state.TotalSize > SSDEEP_TOTAL_SIZE_MAX)
+                return null;
+
+            // Initial blocksize guess.
+            while ((ulong)SSDEEP_BS(bi) * SPAMSUM_LENGTH < _state.TotalSize)
+            {
+                ++bi;
+            }
+
+            // Adapt blocksize guess to actual digest length.
+            if (bi >= _state.BHEnd)
+                bi = _state.BHEnd - 1;
+
+            while (bi > _state.BHStart && _state.BH[bi].DIndex < SPAMSUM_LENGTH / 2)
+            {
+                --bi;
+            }
+
+            if (bi > 0 && _state.BH[bi].DIndex < SPAMSUM_LENGTH / 2)
+                return null;
+
+            byte[] result = new byte[FUZZY_MAX_RESULT];
+            int resultPtr = 0;
+
+            string prefixStr = $"{(ulong)SSDEEP_BS(bi)}:";
+            byte[] prefixArr = Encoding.ASCII.GetBytes(prefixStr);
+            Array.Copy(prefixArr, result, prefixArr.Length);
+
+            i = prefixArr.Length;
+            if (i >= remain)
+                return null;
+
+            remain -= i;
+            resultPtr += i;
+
+            i = (int)_state.BH[bi].DIndex;
+            if (i > remain)
+                return null;
+
+            if ((flags & FUZZY_FLAG_ELIMSEQ) != 0)
+                i = EliminateSequences(result, resultPtr, _state.BH[bi].Digest, 0, i);
+            else
+                Array.Copy(_state.BH[bi].Digest, 0, result, resultPtr, i);
+
+            resultPtr += i;
+            remain -= i;
+            if (h != 0)
+            {
+                if (remain <= 0)
+                    return null;
+
+                result[resultPtr] = B64[_state.BH[bi].H];
+                if ((flags & FUZZY_FLAG_ELIMSEQ) == 0
+                    || i < 3
+                    || result[resultPtr] != result[resultPtr - 1]
+                    || result[resultPtr] != result[resultPtr - 2]
+                    || result[resultPtr] != result[resultPtr - 3])
+                {
+                    ++resultPtr;
+                    --remain;
+                }
+            }
+            else if (_state.BH[bi].Digest[_state.BH[bi].DIndex] != '\0')
+            {
+                if (remain <= 0)
+                    return null;
+
+                result[resultPtr] = _state.BH[bi].Digest[_state.BH[bi].DIndex];
+                if ((flags & FUZZY_FLAG_ELIMSEQ) == 0
+                    || i < 3
+                    || result[resultPtr] != result[resultPtr - 1]
+                    || result[resultPtr] != result[resultPtr - 2]
+                    || result[resultPtr] != result[resultPtr - 3])
+                {
+                    ++resultPtr;
+                    --remain;
+                }
+            }
+
+            if (remain <= 0)
+                return null;
+
+            result[resultPtr++] = (byte)':';
+            --remain;
+
+            if (bi < _state.BHEnd - 1)
+            {
+                ++bi;
+                i = (int)_state.BH[bi].DIndex;
+                if ((flags & FUZZY_FLAG_NOTRUNC) == 0 && i > SPAMSUM_LENGTH / 2 - 1)
+                    i = SPAMSUM_LENGTH / 2 - 1;
+
+                if (i > remain)
+                    return null;
+
+                if ((flags & FUZZY_FLAG_ELIMSEQ) != 0)
+                    i = EliminateSequences(result, resultPtr, _state.BH[bi].Digest, 0, i);
+                else
+                    Array.Copy(_state.BH[bi].Digest, 0, result, resultPtr, i);
+
+                resultPtr += i;
+                remain -= i;
+                if (h != 0)
+                {
+                    if (remain <= 0)
+                        return null;
+
+                    h = (flags & FUZZY_FLAG_NOTRUNC) != 0
+                        ? _state.BH[bi].H
+                        : _state.BH[bi].HalfH;
+
+                    result[resultPtr] = B64[h];
+                    if ((flags & FUZZY_FLAG_ELIMSEQ) == 0
+                        || i < 3
+                        || result[resultPtr] != result[resultPtr - 1]
+                        || result[resultPtr] != result[resultPtr - 2]
+                        || result[resultPtr] != result[resultPtr - 3])
+                    {
+                        ++resultPtr;
+                        --remain;
+                    }
+                }
+                else
+                {
+                    i = (flags & FUZZY_FLAG_NOTRUNC) != 0
+                        ? _state.BH[bi].Digest[_state.BH[bi].DIndex]
+                        : _state.BH[bi].HalfDigest;
+
+                    if (i != 0x00)
+                    {
+                        if (remain <= 0)
+                            return null;
+
+                        result[resultPtr] = (byte)i;
+                        if ((flags & FUZZY_FLAG_ELIMSEQ) == 0
+                            || i < 3
+                            || result[resultPtr] != result[resultPtr - 1]
+                            || result[resultPtr] != result[resultPtr - 2]
+                            || result[resultPtr] != result[resultPtr - 3])
+                        {
+                            ++resultPtr;
+                            --remain;
+                        }
+                    }
+                }
+            }
+            else if (h != 0)
+            {
+                if (bi != 0 && bi != NUM_BLOCKHASHES - 1)
+                    return null;
+                if (remain <= 0)
+                    return null;
+
+                if (bi == 0)
+                    result[resultPtr++] = B64[_state.BH[bi].H];
+                else
+                    result[resultPtr++] = B64[_state.LastH];
+
+                /* No need to bother with FUZZY_FLAG_ELIMSEQ, because this
+                 * digest has length 1. */
+                --remain;
+            }
+
+            result[resultPtr] = 0x00;
+            return Encoding.ASCII.GetString(result);
+        }
+
+        /// <remarks>
+        /// Originally named `memcpy_eliminate_sequences`
+        /// </remarks>
+        private static int EliminateSequences(byte[] dst, int dstPtr, byte[] src, int srcPtr, int n)
+        {
+            int srcend = srcPtr + n;
+            if (n < 0)
+                throw new ArgumentOutOfRangeException(nameof(n));
+
+            if (srcPtr < srcend) dst[dstPtr++] = src[srcPtr++];
+            if (srcPtr < srcend) dst[dstPtr++] = src[srcPtr++];
+            if (srcPtr < srcend) dst[dstPtr++] = src[srcPtr++];
+            while (srcPtr < srcend)
+            {
+                if (src[srcPtr] == dst[dstPtr - 1]
+                    && src[srcPtr] == dst[dstPtr - 2]
+                    && src[srcPtr] == dst[dstPtr - 3])
+                {
+                    ++srcPtr;
+                    --n;
+                }
+                else
+                {
+                    dst[dstPtr++] = src[srcPtr++];
+                }
+            }
+
+            return n;
         }
     }
 }

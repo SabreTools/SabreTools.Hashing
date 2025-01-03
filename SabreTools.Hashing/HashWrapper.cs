@@ -3,8 +3,6 @@ using System;
 using System.IO.Hashing;
 #endif
 using System.Security.Cryptography;
-using Aaru.Checksums;
-using Aaru.CommonTypes.Interfaces;
 using SabreTools.Hashing.Checksum;
 using SabreTools.Hashing.CryptographicHash;
 using SabreTools.Hashing.NonCryptographicHash;
@@ -35,9 +33,6 @@ namespace SabreTools.Hashing
                 {
                     case HashAlgorithm ha:
                         return ha.Hash;
-
-                    case IChecksum ic:
-                        return ic.Final();
 
 #if NET462_OR_GREATER || NETCOREAPP
                     case XxHash3 xxh3:
@@ -72,17 +67,21 @@ namespace SabreTools.Hashing
             {
                 switch (_hasher)
                 {
+                    // Needed due to variable bit widths
                     case Crc cr:
-                        var crArr = cr.Hash;
-                        if (crArr == null)
+                        if (cr.Hash == null)
                             return null;
 
-                        ulong crHash = BytesToUInt64(crArr);
+                        ulong crHash = BytesToUInt64(cr.Hash);
                         int length = cr.Def.Width / 4 + (cr.Def.Width % 4 > 0 ? 1 : 0);
                         return crHash.ToString($"x{length}");
 
-                    case IChecksum ic:
-                        return ic.End();
+                    // Needed due to Base64 text output
+                    case SpamSum.SpamSum ss:
+                        if (ss.Hash == null)
+                            return null;
+
+                        return System.Text.Encoding.ASCII.GetString(ss.Hash);
 
                     default:
                         return ByteArrayToString(CurrentHashBytes);
@@ -299,7 +298,7 @@ namespace SabreTools.Hashing
                 HashType.SHAKE256 => Shake256.IsSupported ? new Shake256() : null,
 #endif
 
-                HashType.SpamSum => new SpamSumContext(),
+                HashType.SpamSum => new SpamSum.SpamSum(),
 
                 HashType.Tiger128_3 => new Tiger128_3(),
                 HashType.Tiger128_4 => new Tiger128_4(),
@@ -344,12 +343,6 @@ namespace SabreTools.Hashing
             {
                 case HashAlgorithm ha:
                     ha.TransformBlock(buffer, offset, size, null, 0);
-                    break;
-
-                case IChecksum ic:
-                    byte[] icBlock = new byte[size];
-                    Array.Copy(buffer, offset, icBlock, 0, size);
-                    ic.Update(icBlock);
                     break;
 
 #if NET462_OR_GREATER || NETCOREAPP

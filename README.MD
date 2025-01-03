@@ -24,6 +24,7 @@ All hash and checksum types here have been written to ensure compatibility acros
 | FNV | 32-, and 64-bit variants; 0, 1, and 1a algorithms |
 | Message Digest | MD2 and MD4 only |
 | RIPEMD | 128-, 160-, 256-, and 320-bit variants |
+| SpamSum | Based on the [SSDEEP source code](github.com/ssdeep-project/ssdeep/blob/master/fuzzy.c) |
 | Tiger | 128-, 160-, and 192-bit variants; 3- and 4-pass; `0x01` and `0x80` (Tiger2) pad-initialized |
 | xxHash | xxHash-32 and xxHash-64 only |
 
@@ -33,7 +34,6 @@ External implementations of hash and checksum types may not be compatible with a
 
 | Source | Hash / Checksum Types | Notes |
 | --- | --- | --- |
-| [Aaru.Checksums](https://github.com/aaru-dps/Aaru.Checksums) | SpamSum | Some code tweaks made to support older .NET versions |
 | [Blake3.NET](https://github.com/xoofx/Blake3.NET) | BLAKE3 | Used in `net7.0` and above |
 | [System.IO.Hashing](https://www.nuget.org/packages/System.IO.Hashing) | XXH3, XXH128 | Used in `net462` and above |
 | [System.Security.Cryptography](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography) | MD5, SHA-1, SHA-256, SHA-384, SHA-512, SHA3-256, SHA3-384, SHA3-512, SHAKE128, SHAKE256 | Built-in library; SHA3-256, SHA3-384, SHA3-512, SHAKE128, and SHAKE256 are `net8.0` and above only for [supported platforms](https://learn.microsoft.com/en-us/dotnet/standard/security/cross-platform-cryptography) |
