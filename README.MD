@@ -24,7 +24,7 @@ All hash and checksum types here have been written to ensure compatibility acros
 | FNV | 32-, and 64-bit variants; 0, 1, and 1a algorithms |
 | Message Digest | MD2 and MD4 only |
 | RIPEMD | 128-, 160-, 256-, and 320-bit variants |
-| SpamSum | Based on the [SSDEEP source code](github.com/ssdeep-project/ssdeep/blob/master/fuzzy.c) |
+| SpamSum | Based on the [SSDEEP source code](https://github.com/ssdeep-project/ssdeep/blob/master/fuzzy.c) |
 | Tiger | 128-, 160-, and 192-bit variants; 3- and 4-pass; `0x01` and `0x80` (Tiger2) pad-initialized |
 | xxHash | xxHash-32 and xxHash-64 only |
 
