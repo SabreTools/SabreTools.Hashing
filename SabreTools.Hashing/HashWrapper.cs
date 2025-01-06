@@ -29,26 +29,18 @@ namespace SabreTools.Hashing
         {
             get
             {
-                switch (_hasher)
+                return _hasher switch
                 {
-                    case HashAlgorithm ha:
-                        return ha.Hash;
-
+                    HashAlgorithm ha => ha.Hash,
 #if NET462_OR_GREATER || NETCOREAPP
-                    case NonCryptographicHashAlgorithm ncha:
-                        return ncha.GetCurrentHash();
+                    NonCryptographicHashAlgorithm ncha => ncha.GetCurrentHash(),
 #endif
-
 #if NET8_0_OR_GREATER
-                    case Shake128 s128:
-                        return s128.GetCurrentHash(32);
-                    case Shake256 s256:
-                        return s256.GetCurrentHash(64);
+                    Shake128 s128 => s128.GetCurrentHash(32),
+                    Shake256 s256 => s128.GetCurrentHash(64),
 #endif
-
-                    default:
-                        return null;
-                }
+                    _ => null,
+                };
             }
         }
 
@@ -59,27 +51,17 @@ namespace SabreTools.Hashing
         {
             get
             {
-                switch (_hasher)
+                return _hasher switch
                 {
                     // Needed due to variable bit widths
-                    case Crc cr:
-                        if (cr.Hash == null)
-                            return null;
-
-                        ulong crHash = BytesToUInt64(cr.Hash);
-                        int length = cr.Def.Width / 4 + (cr.Def.Width % 4 > 0 ? 1 : 0);
-                        return crHash.ToString($"x{length}");
+                    Crc cr => GetCRCVariableLengthString(cr),
 
                     // Needed due to Base64 text output
-                    case SpamSum.SpamSum ss:
-                        if (ss.Hash == null)
-                            return null;
+                    SpamSum.SpamSum ss => GetSpamSumBase64String(ss),
 
-                        return System.Text.Encoding.ASCII.GetString(ss.Hash);
-
-                    default:
-                        return ByteArrayToString(CurrentHashBytes);
-                }
+                    // Everything else are direct conversions
+                    _ => ByteArrayToString(CurrentHashBytes),
+                };
             }
         }
 
@@ -371,6 +353,37 @@ namespace SabreTools.Hashing
                     ha.TransformFinalBlock(emptyBuffer, 0, 0);
                     break;
             }
+        }
+
+        /// <summary>
+        /// Get the variable-length string representing a CRC value
+        /// </summary>
+        /// <param name="cr">Crc to get the value from</param>
+        /// <returns>String representing the CRC, null on error</returns>
+        private string? GetCRCVariableLengthString(Crc cr)
+        {
+            // Ignore null values
+            if (cr.Hash == null)
+                return null;
+
+            // Get the total number of characters needed
+            ulong hash = BytesToUInt64(cr.Hash);
+            int length = cr.Def.Width / 4 + (cr.Def.Width % 4 > 0 ? 1 : 0);
+            return hash.ToString($"x{length}");
+        }
+
+        /// <summary>
+        /// Get the Base64 representation of a SpamSum value
+        /// </summary>
+        /// <param name="ss">SpamSum to get the value from</param>
+        /// <returns>String representing the SpamSum, null on error</returns>
+        private string? GetSpamSumBase64String(SpamSum.SpamSum ss)
+        {
+            // Ignore null values
+            if (ss.Hash == null)
+                return null;
+
+            return System.Text.Encoding.ASCII.GetString(ss.Hash);
         }
 
         #endregion
