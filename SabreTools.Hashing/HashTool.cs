@@ -166,14 +166,11 @@ namespace SabreTools.Hashing
                 return null;
             }
 
-            // Set the file size
-            size = new FileInfo(filename).Length;
-
             // Open the input file
             var input = File.OpenRead(filename);
 
             // Return the hashes from the stream
-            return GetStreamHashes(input, hashTypes);
+            return GetStreamHashesAndSize(input, hashTypes, out size);
         }
 
         /// <summary>
@@ -191,14 +188,11 @@ namespace SabreTools.Hashing
                 return null;
             }
 
-            // Set the file size
-            size = new FileInfo(filename).Length;
-
             // Open the input file
             var input = File.OpenRead(filename);
 
             // Return the hashes from the stream
-            return GetStreamHashArrays(input, hashTypes);
+            return GetStreamHashArraysAndSize(input, hashTypes, out size);
         }
 
         #endregion
