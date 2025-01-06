@@ -37,7 +37,7 @@ namespace SabreTools.Hashing
 #endif
 #if NET8_0_OR_GREATER
                     Shake128 s128 => s128.GetCurrentHash(32),
-                    Shake256 s256 => s128.GetCurrentHash(64),
+                    Shake256 s256 => s256.GetCurrentHash(64),
 #endif
                     _ => null,
                 };
