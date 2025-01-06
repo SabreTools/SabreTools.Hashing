@@ -277,7 +277,7 @@ namespace SabreTools.Hashing
 
         #endregion
 
-        #region Stream Hashes
+        #region Stream Hashes Without Size
 
         /// <summary>
         /// Get hashes from an input Stream
@@ -308,7 +308,7 @@ namespace SabreTools.Hashing
         }
 
         /// <summary>
-        /// Get a hash and size from an input Stream
+        /// Get a hash from an input Stream
         /// </summary>
         /// <param name="input">Stream to hash</param>
         /// <param name="hashType">Hash type to get from the file</param>
@@ -320,7 +320,7 @@ namespace SabreTools.Hashing
         }
 
         /// <summary>
-        /// Get a hash and size from an input Stream
+        /// Get a hash from an input Stream
         /// </summary>
         /// <param name="input">Stream to hash</param>
         /// <param name="hashType">Hash type to get from the file</param>
@@ -358,7 +358,7 @@ namespace SabreTools.Hashing
             catch { }
 
             // Run the hashing
-            var hashers = GetStreamHashesInternal(input, hashTypes, leaveOpen);
+            var hashers = GetStreamHashesInternal(input, hashTypes, leaveOpen, out long size);
             if (hashers == null)
                 return null;
 
@@ -404,7 +404,157 @@ namespace SabreTools.Hashing
             catch { }
 
             // Run the hashing
-            var hashers = GetStreamHashesInternal(input, hashTypes, leaveOpen);
+            var hashers = GetStreamHashesInternal(input, hashTypes, leaveOpen, out long size);
+            if (hashers == null)
+                return null;
+
+            // Get the results
+            foreach (var hasher in hashers)
+            {
+                hashDict[hasher.Key] = hasher.Value.CurrentHashBytes;
+            }
+
+            // Dispose of the hashers
+            foreach (var hasher in hashers.Values)
+            {
+                hasher.Dispose();
+            }
+
+            return hashDict;
+        }
+
+        #endregion
+    
+        #region Stream Hashes With Size
+
+        /// <summary>
+        /// Get hashes and size from an input Stream
+        /// </summary>
+        /// <param name="input">Stream to hash</param>
+        /// <returns>Dictionary containing hashes on success, null on error</returns>
+        public static Dictionary<HashType, string?>? GetStreamHashesAndSize(Stream input, out long size, bool leaveOpen = false)
+        {
+            // Create a hash array for all entries
+            HashType[] hashTypes = (HashType[])Enum.GetValues(typeof(HashType));
+
+            // Get the output hashes
+            return GetStreamHashesAndSize(input, hashTypes, out size, leaveOpen);
+        }
+
+        /// <summary>
+        /// Get hashes and size from an input Stream
+        /// </summary>
+        /// <param name="input">Stream to hash</param>
+        /// <returns>Dictionary containing hashes on success, null on error</returns>
+        public static Dictionary<HashType, byte[]?>? GetStreamHashArraysAndSize(Stream input, out long size, bool leaveOpen = false)
+        {
+            // Create a hash array for all entries
+            HashType[] hashTypes = (HashType[])Enum.GetValues(typeof(HashType));
+
+            // Get the output hashes
+            return GetStreamHashArraysAndSize(input, hashTypes, out size, leaveOpen);
+        }
+
+        /// <summary>
+        /// Get a hash and size from an input Stream
+        /// </summary>
+        /// <param name="input">Stream to hash</param>
+        /// <param name="hashType">Hash type to get from the file</param>
+        /// <returns>Hash on success, null on error</returns>
+        public static string? GetStreamHashAndSize(Stream input, HashType hashType, out long size, bool leaveOpen = false)
+        {
+            var hashes = GetStreamHashesAndSize(input, [hashType], out size, leaveOpen);
+            return hashes?[hashType];
+        }
+
+        /// <summary>
+        /// Get a hash and size from an input Stream
+        /// </summary>
+        /// <param name="input">Stream to hash</param>
+        /// <param name="hashType">Hash type to get from the file</param>
+        /// <returns>Hash on success, null on error</returns>
+        public static byte[]? GetStreamHashArrayAndSize(Stream input, HashType hashType, out long size, bool leaveOpen = false)
+        {
+            var hashes = GetStreamHashArraysAndSize(input, [hashType], out size, leaveOpen);
+            return hashes?[hashType];
+        }
+
+        /// <summary>
+        /// Get hashes and size from an input Stream
+        /// </summary>
+        /// <param name="input">Stream to hash</param>
+        /// <param name="hashTypes">Array of hash types to get from the file</param>
+        /// <returns>Dictionary containing hashes on success, null on error</returns>
+        public static Dictionary<HashType, string?>? GetStreamHashesAndSize(Stream input, HashType[] hashTypes, out long size, bool leaveOpen = false)
+        {
+            // Create the output dictionary
+            var hashDict = new Dictionary<HashType, string?>();
+
+            try
+            {
+                // Shortcut if we have a 0-byte input
+                if (input.Length == 0)
+                {
+                    foreach (var hashType in hashTypes)
+                    {
+                        hashDict[hashType] = ZeroHash.GetString(hashType);
+                    }
+
+                    size = 0;
+                    return hashDict;
+                }
+            }
+            catch { }
+
+            // Run the hashing
+            var hashers = GetStreamHashesInternal(input, hashTypes, leaveOpen, out size);
+            if (hashers == null)
+                return null;
+
+            // Get the results
+            foreach (var hasher in hashers)
+            {
+                hashDict[hasher.Key] = hasher.Value.CurrentHashString;
+            }
+
+            // Dispose of the hashers
+            foreach (var hasher in hashers.Values)
+            {
+                hasher.Dispose();
+            }
+
+            return hashDict;
+        }
+
+        /// <summary>
+        /// Get hashes and size from an input Stream
+        /// </summary>
+        /// <param name="input">Stream to hash</param>
+        /// <param name="hashTypes">Array of hash types to get from the file</param>
+        /// <returns>Dictionary containing hashes on success, null on error</returns>
+        public static Dictionary<HashType, byte[]?>? GetStreamHashArraysAndSize(Stream input, HashType[] hashTypes, out long size, bool leaveOpen = false)
+        {
+            // Create the output dictionary
+            var hashDict = new Dictionary<HashType, byte[]?>();
+
+            try
+            {
+                // Shortcut if we have a 0-byte input
+                if (input.Length == 0)
+                {
+                    foreach (var hashType in hashTypes)
+                    {
+                        hashDict[hashType] = ZeroHash.GetBytes(hashType);
+                    }
+
+                    size = 0;
+                    return hashDict;
+                }
+            }
+            catch { }
+
+            // Run the hashing
+            var hashers = GetStreamHashesInternal(input, hashTypes, leaveOpen, out size);
             if (hashers == null)
                 return null;
 
@@ -430,10 +580,11 @@ namespace SabreTools.Hashing
         /// <param name="hashTypes"></param>
         /// <param name="leaveOpen"></param>
         /// <returns></returns>
-        private static Dictionary<HashType, HashWrapper>? GetStreamHashesInternal(Stream input, HashType[] hashTypes, bool leaveOpen)
+        private static Dictionary<HashType, HashWrapper>? GetStreamHashesInternal(Stream input, HashType[] hashTypes, bool leaveOpen, out long size)
         {
-            // Create the output dictionary
+            // Create the output dictionary and size counter
             var hashDict = new Dictionary<HashType, string?>();
+            size = 0;
 
             try
             {
@@ -456,6 +607,7 @@ namespace SabreTools.Hashing
                 {
                     // Load the buffer and hold the number of bytes read
                     lastRead = input.Read(buffer, 0, buffersize);
+                    size += lastRead;
                     if (lastRead == 0)
                         break;
 
