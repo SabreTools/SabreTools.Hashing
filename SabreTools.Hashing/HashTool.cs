@@ -35,6 +35,29 @@ namespace SabreTools.Hashing
             return true;
         }
 
+        /// <summary>
+        /// Get CRC-32, MD5, and SHA-1 hashes from an input stream
+        /// </summary>
+        /// <param name="stream">Input stream</param>
+        /// <returns>True if hashing was successful, false otherwise</returns>
+        public static bool GetStandardHashes(Stream stream, out long size, out string? crc32, out string? md5, out string? sha1)
+        {
+            // Set all initial values
+            crc32 = null; md5 = null; sha1 = null;
+
+            // Get all file hashes
+            HashType[] standardHashTypes = [HashType.CRC32, HashType.MD5, HashType.SHA1];
+            var fileHashes = GetStreamHashesAndSize(stream, standardHashTypes, out size);
+            if (fileHashes == null)
+                return false;
+
+            // Assign the file hashes and return
+            crc32 = fileHashes[HashType.CRC32];
+            md5 = fileHashes[HashType.MD5];
+            sha1 = fileHashes[HashType.SHA1];
+            return true;
+        }
+
         #region File Hashes Without Size
 
         /// <summary>

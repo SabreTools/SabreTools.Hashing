@@ -32,9 +32,22 @@ namespace SabreTools.Hashing.Test
         }
 
         [Fact]
-        public void GetStandardHashesTest()
+        public void GetStandardHashesFileTest()
         {
             bool gotHashes = HashTool.GetStandardHashes(_hashFilePath, out long actualSize, out string? crc32, out string? md5, out string? sha1);
+
+            Assert.True(gotHashes);
+            TestHelper.ValidateSize(actualSize);
+            TestHelper.ValidateHash(HashType.CRC32, crc32);
+            TestHelper.ValidateHash(HashType.MD5, md5);
+            TestHelper.ValidateHash(HashType.SHA1, sha1);
+        }
+
+        [Fact]
+        public void GetStandardHashesStreamTest()
+        {
+            var fileStream = File.OpenRead(_hashFilePath);
+            bool gotHashes = HashTool.GetStandardHashes(fileStream, out long actualSize, out string? crc32, out string? md5, out string? sha1);
 
             Assert.True(gotHashes);
             TestHelper.ValidateSize(actualSize);
