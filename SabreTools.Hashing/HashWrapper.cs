@@ -90,7 +90,6 @@ namespace SabreTools.Hashing
         /// <summary>
         /// Internal hasher being used for processing
         /// </summary>
-        /// <remarks>May be either a HashAlgorithm or NonCryptographicHashAlgorithm</remarks>
         private object? _hasher;
 
         #endregion
