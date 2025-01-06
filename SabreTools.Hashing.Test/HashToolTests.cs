@@ -81,5 +81,14 @@ namespace SabreTools.Hashing.Test
             var hashDict = HashTool.GetStreamHashes(fileStream);
             TestHelper.ValidateHashes(hashDict);
         }
+
+        [Fact]
+        public void GetStreamHashesAndSizeTest()
+        {
+            var fileStream = File.OpenRead(_hashFilePath);
+            var hashDict = HashTool.GetStreamHashesAndSize(fileStream, out long actualSize);
+            TestHelper.ValidateSize(actualSize);
+            TestHelper.ValidateHashes(hashDict);
+        }
     }
 }

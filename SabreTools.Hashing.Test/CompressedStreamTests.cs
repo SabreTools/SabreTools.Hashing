@@ -29,7 +29,8 @@ namespace SabreTools.Hashing.Test
         public void GetSingleGzipStreamHashesTest()
         {
             var gzipStream = new GZipStream(File.OpenRead(_singleGzipFilePath), CompressionMode.Decompress);
-            var hashDict = HashTool.GetStreamHashes(gzipStream);
+            var hashDict = HashTool.GetStreamHashesAndSize(gzipStream, out long actualSize);
+            TestHelper.ValidateSize(actualSize);
             TestHelper.ValidateHashes(hashDict);
         }
 
@@ -38,7 +39,8 @@ namespace SabreTools.Hashing.Test
         {
             var zipFile = ZipFile.OpenRead(_singleZipFilePath);
             var fileStream = zipFile.Entries[0].Open();
-            var hashDict = HashTool.GetStreamHashes(fileStream);
+            var hashDict = HashTool.GetStreamHashesAndSize(fileStream, out long actualSize);
+            TestHelper.ValidateSize(actualSize);
             TestHelper.ValidateHashes(hashDict);
         }
 
@@ -50,7 +52,8 @@ namespace SabreTools.Hashing.Test
             for (int i = 0; i < zipFile.Entries.Count; i++)
             {
                 var fileStream = zipFile.Entries[i].Open();
-                var hashDict = HashTool.GetStreamHashes(fileStream);
+                var hashDict = HashTool.GetStreamHashesAndSize(fileStream, out long actualSize);
+                TestHelper.ValidateSize(actualSize);
                 TestHelper.ValidateHashes(hashDict);
             }
         }
