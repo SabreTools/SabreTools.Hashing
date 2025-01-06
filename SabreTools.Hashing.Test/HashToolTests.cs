@@ -44,6 +44,19 @@ namespace SabreTools.Hashing.Test
         }
 
         [Fact]
+        public void GetStandardHashesArrayTest()
+        {
+            byte[] fileBytes = File.ReadAllBytes(_hashFilePath);
+            bool gotHashes = HashTool.GetStandardHashes(fileBytes, out long actualSize, out string? crc32, out string? md5, out string? sha1);
+
+            Assert.True(gotHashes);
+            TestHelper.ValidateSize(actualSize);
+            TestHelper.ValidateHash(HashType.CRC32, crc32);
+            TestHelper.ValidateHash(HashType.MD5, md5);
+            TestHelper.ValidateHash(HashType.SHA1, sha1);
+        }
+
+        [Fact]
         public void GetStandardHashesStreamTest()
         {
             var fileStream = File.OpenRead(_hashFilePath);
@@ -84,6 +97,15 @@ namespace SabreTools.Hashing.Test
         {
             byte[] fileBytes = File.ReadAllBytes(_hashFilePath);
             var hashDict = HashTool.GetByteArrayHashes(fileBytes);
+            TestHelper.ValidateHashes(hashDict);
+        }
+
+        [Fact]
+        public void GetByteArrayHashesAndSizeTest()
+        {
+            byte[] fileBytes = File.ReadAllBytes(_hashFilePath);
+            var hashDict = HashTool.GetByteArrayHashesAndSize(fileBytes, out long actualSize);
+            TestHelper.ValidateSize(actualSize);
             TestHelper.ValidateHashes(hashDict);
         }
 
