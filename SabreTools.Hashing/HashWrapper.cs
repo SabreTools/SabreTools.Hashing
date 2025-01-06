@@ -25,45 +25,33 @@ namespace SabreTools.Hashing
         /// <summary>
         /// Current hash in bytes
         /// </summary>
-        public byte[]? CurrentHashBytes
+        public byte[]? CurrentHashBytes => _hasher switch
         {
-            get
-            {
-                return _hasher switch
-                {
-                    HashAlgorithm ha => ha.Hash,
+            HashAlgorithm ha => ha.Hash,
 #if NET462_OR_GREATER || NETCOREAPP
-                    NonCryptographicHashAlgorithm ncha => ncha.GetCurrentHash(),
+            NonCryptographicHashAlgorithm ncha => ncha.GetCurrentHash(),
 #endif
 #if NET8_0_OR_GREATER
-                    Shake128 s128 => s128.GetCurrentHash(32),
-                    Shake256 s256 => s256.GetCurrentHash(64),
+            Shake128 s128 => s128.GetCurrentHash(32),
+            Shake256 s256 => s256.GetCurrentHash(64),
 #endif
-                    _ => null,
-                };
-            }
-        }
+            _ => null,
+        };
 
         /// <summary>
         /// Current hash as a string
         /// </summary>
-        public string? CurrentHashString
+        public string? CurrentHashString => _hasher switch
         {
-            get
-            {
-                return _hasher switch
-                {
-                    // Needed due to variable bit widths
-                    Crc cr => GetCRCVariableLengthString(cr),
+            // Needed due to variable bit widths
+            Crc cr => GetCRCVariableLengthString(cr),
 
-                    // Needed due to Base64 text output
-                    SpamSum.SpamSum ss => GetSpamSumBase64String(ss),
+            // Needed due to Base64 text output
+            SpamSum.SpamSum ss => GetSpamSumBase64String(ss),
 
-                    // Everything else are direct conversions
-                    _ => ByteArrayToString(CurrentHashBytes),
-                };
-            }
-        }
+            // Everything else are direct conversions
+            _ => ByteArrayToString(CurrentHashBytes),
+        };
 
         #endregion
 
