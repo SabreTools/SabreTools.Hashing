@@ -1,7 +1,4 @@
 using System;
-#if NET462_OR_GREATER || NETCOREAPP
-using System.IO.Hashing;
-#endif
 using System.Security.Cryptography;
 using SabreTools.Hashing.Checksum;
 using SabreTools.Hashing.CryptographicHash;
@@ -29,7 +26,7 @@ namespace SabreTools.Hashing
         {
             HashAlgorithm ha => ha.Hash,
 #if NET462_OR_GREATER || NETCOREAPP
-            NonCryptographicHashAlgorithm ncha => ncha.GetCurrentHash(),
+            System.IO.Hashing.NonCryptographicHashAlgorithm ncha => ncha.GetCurrentHash(),
 #endif
 #if NET8_0_OR_GREATER
             Shake128 s128 => s128.GetCurrentHash(32),
@@ -276,11 +273,11 @@ namespace SabreTools.Hashing
                 HashType.Tiger2_192_3 => new Tiger2_192_3(),
                 HashType.Tiger2_192_4 => new Tiger2_192_4(),
 
-                HashType.XxHash32 => new NonCryptographicHash.XxHash32(),
-                HashType.XxHash64 => new NonCryptographicHash.XxHash64(),
+                HashType.XxHash32 => new XxHash32(),
+                HashType.XxHash64 => new XxHash64(),
 #if NET462_OR_GREATER || NETCOREAPP
-                HashType.XxHash3 => new XxHash3(),
-                HashType.XxHash128 => new XxHash128(),
+                HashType.XxHash3 => new System.IO.Hashing.XxHash3(),
+                HashType.XxHash128 => new System.IO.Hashing.XxHash128(),
 #endif
                 _ => null,
             };
@@ -309,7 +306,7 @@ namespace SabreTools.Hashing
                     break;
 
 #if NET462_OR_GREATER || NETCOREAPP
-                case NonCryptographicHashAlgorithm ncha:
+                case System.IO.Hashing.NonCryptographicHashAlgorithm ncha:
                     var nchaBufferSpan = new ReadOnlySpan<byte>(buffer, offset, size);
                     ncha.Append(nchaBufferSpan);
                     break;
