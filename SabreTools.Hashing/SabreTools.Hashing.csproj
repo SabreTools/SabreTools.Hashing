@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <!-- Assembly Properties -->
@@ -28,12 +28,10 @@
         <None Include="../README.md" Pack="true" PackagePath="" />
     </ItemGroup>
 
-    <!-- Support for old .NET versions -->
-    <ItemGroup Condition="!$(TargetFramework.StartsWith(`net2`)) AND !$(TargetFramework.StartsWith(`net3`)) AND !$(TargetFramework.StartsWith(`net40`)) AND !$(TargetFramework.StartsWith(`net45`))">
-        <PackageReference Include="System.IO.Hashing" Version="8.0.0" />
-    </ItemGroup>
-    <ItemGroup Condition="$(TargetFramework.StartsWith(`net7`)) OR $(TargetFramework.StartsWith(`net8`)) OR $(TargetFramework.StartsWith(`net9`))">
-        <PackageReference Include="Blake3" Version="1.1.0" />
+    <ItemGroup>
+        <PackageReference Include="Blake3" Version="1.1.0" Condition="$(TargetFramework.StartsWith(`net7`))" />
+        <PackageReference Include="Blake3" Version="2.0.0" Condition="$(TargetFramework.StartsWith(`net8`)) OR $(TargetFramework.StartsWith(`net9`))" />
+        <PackageReference Include="System.IO.Hashing" Version="9.0.2" Condition="!$(TargetFramework.StartsWith(`net2`)) AND !$(TargetFramework.StartsWith(`net3`)) AND !$(TargetFramework.StartsWith(`net40`)) AND !$(TargetFramework.StartsWith(`net45`))" />
     </ItemGroup>
 
 </Project>
