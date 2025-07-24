@@ -147,7 +147,7 @@ namespace SabreTools.Hashing.NonCryptographicHash
         private static uint Round(uint acc, uint input)
         {
             acc += input * XXH_PRIME32_2;
-            acc  = RotateLeft32(acc, 13);
+            acc = RotateLeft32(acc, 13);
             acc *= XXH_PRIME32_1;
             return acc;
         }

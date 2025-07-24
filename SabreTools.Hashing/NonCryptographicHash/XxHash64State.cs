@@ -144,7 +144,7 @@ namespace SabreTools.Hashing.NonCryptographicHash
         private static ulong Round(ulong acc, ulong input)
         {
             acc += unchecked(input * XXH_PRIME64_2);
-            acc  = RotateLeft64(acc, 31);
+            acc = RotateLeft64(acc, 31);
             acc *= XXH_PRIME64_1;
             return acc;
         }
@@ -199,7 +199,7 @@ namespace SabreTools.Hashing.NonCryptographicHash
 
             return Avalanche(hash);
         }
-    
+
         /// <summary>
         /// Mixes all bits to finalize the hash.
         /// 

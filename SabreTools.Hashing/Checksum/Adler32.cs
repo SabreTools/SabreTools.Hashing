@@ -136,7 +136,7 @@ namespace SabreTools.Hashing.Checksum
         /// <inheritdoc/>
         protected override byte[] HashFinal()
         {
-            byte[] hashArr =  BitConverter.GetBytes(_hash);
+            byte[] hashArr = BitConverter.GetBytes(_hash);
             Array.Reverse(hashArr);
             return hashArr;
         }

@@ -1,9 +1,9 @@
 namespace SabreTools.Hashing.XxHash
 {
     // Handle unused private fields
-    #pragma warning disable CS0169
-    #pragma warning disable CS0414
-    #pragma warning disable CS0649
+#pragma warning disable CS0169
+#pragma warning disable CS0414
+#pragma warning disable CS0649
 
     /// <summary>
     /// Structure for XXH3 streaming API.
@@ -106,7 +106,7 @@ namespace SabreTools.Hashing.XxHash
         {
             // TODO: XXH3_128bits_reset_withSecret
         }
-    
+
         /// <summary>
         /// Hash a block of data and append it to the existing hash
         /// </summary>

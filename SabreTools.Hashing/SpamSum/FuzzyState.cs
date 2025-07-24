@@ -63,7 +63,7 @@ namespace SabreTools.Hashing.SpamSum
                 LastH = BH[obh].H;
             }
         }
-    
+
         public void TryReduceBlockhash()
         {
             if (BHStart >= BHEnd)

@@ -47,7 +47,7 @@ namespace SabreTools.Hashing.SpamSum
             H3 <<= 5;
             H3 ^= c;
         }
-    
+
         /// <summary>
         /// Return the current rolling sum
         /// </summary>
