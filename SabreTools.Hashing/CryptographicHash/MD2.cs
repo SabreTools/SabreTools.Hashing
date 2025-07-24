@@ -126,7 +126,7 @@ namespace SabreTools.Hashing.CryptographicHash
 
             // Pad the block
             byte[] padding = new byte[padLength];
-#if NETFRAMEWORK
+#if NETFRAMEWORK || NETSTANDARD2_0
             for (int i = 0; i < padLength; i++)
             {
                 padding[i] = padLength;
