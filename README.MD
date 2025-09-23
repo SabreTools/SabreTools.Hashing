@@ -12,6 +12,25 @@ For the most recent stable build, download the latest release here: [Releases Pa
 
 For the latest WIP build here: [Rolling Release](https://github.com/SabreTools/SabreTools.Hashing/releases/rolling)
 
+## Hasher
+
+**Hasher** is a reference implementation for hashing and checksumming features of the library, packaged as a standalone executable for all supported platforms. It will attempt to select the correct hashing types based on input and then print the calculated values to standard output.
+
+```
+Hasher <options> file|directory ...
+
+Options:
+-?, -h, --help           Display this help text and quit
+-d, --debug              Enable debug mode
+-l, --list               List all available hashes and quit
+-t, --type [TYPE]        Output file hashes
+
+If no hash types are provided, this tool will default
+to outputting CRC-32, MD5, SHA-1, and SHA-256.
+Optionally, all supported hashes can be output
+by specifying a value of 'all'.
+```
+
 ## Internal Implementations
 
 All hash and checksum types here have been written to ensure compatibility across all .NET versions. Some may have been adapted to ensure this compatibility. These can be treated as reference implementations, not always optimized.
@@ -39,22 +58,3 @@ External implementations of hash and checksum types may not be compatible with a
 | [System.Security.Cryptography](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography) | MD5, SHA-1, SHA-256, SHA-384, SHA-512, SHA3-256, SHA3-384, SHA3-512, SHAKE128, SHAKE256 | Built-in library; SHA3-256, SHA3-384, SHA3-512, SHAKE128, and SHAKE256 are `net8.0` and above only for [supported platforms](https://learn.microsoft.com/en-us/dotnet/standard/security/cross-platform-cryptography) |
 
 **Note:** If all you care about is performance, I encourage you to forego this library and use the ones listed above directly instead.
-
-## Hasher
-
-**Hasher** is a reference implementation for hashing and checksumming features of the library, packaged as a standalone executable for all supported platforms. It will attempt to select the correct hashing types based on input and then print the calculated values to standard output.
-
-```
-Hasher <options> file|directory ...
-
-Options:
--?, -h, --help           Display this help text and quit
--d, --debug              Enable debug mode
--l, --list               List all available hashes and quit
--t, --type [TYPE]        Output file hashes
-
-If no hash types are provided, this tool will default
-to outputting CRC-32, MD5, SHA-1, and SHA-256.
-Optionally, all supported hashes can be output
-by specifying a value of 'all'.
-```
