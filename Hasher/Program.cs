@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text;
 using SabreTools.Hashing;
+using SabreTools.Hashing.SpamSum;
 
 namespace Hasher
 {
@@ -23,6 +24,13 @@ namespace Hasher
             if (options.PrintAvailableHashes)
             {
                 PrintAvailableHashes();
+                return;
+            }
+            
+            // If a printing option was defined
+            if (options.PrintCompareSpamSum)
+            {
+                PrintCompareSpamSum(options.InputSpamSumHashes[0], options.InputSpamSumHashes[1]);
                 return;
             }
 
@@ -55,6 +63,22 @@ namespace Hasher
 
                 Console.WriteLine($"{hashType.GetHashName()?.PadRight(39, ' ')} {paramName}");
             }
+        }
+        
+        /// <summary>
+        /// Print all available hashes along with their short names
+        /// </summary>
+        /// TODO: Print all supported variants of names?
+        private static void PrintCompareSpamSum(string stringOne, string stringTwo)
+        {
+            Console.WriteLine("Hash Entered                                                  ");
+            Console.WriteLine("--------------------------------------------------------------");
+            Console.WriteLine($"{stringOne}");
+            Console.WriteLine($"{stringTwo}");
+            Console.WriteLine("Similarity score:                                                  ");
+            Console.WriteLine("--------------------------------------------------------------");
+            var score = SpamSum.FuzzyCompare(stringOne, stringTwo);
+            Console.WriteLine($"{score}");
         }
 
         /// <summary>

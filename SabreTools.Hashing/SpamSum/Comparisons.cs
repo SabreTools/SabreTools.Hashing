@@ -42,7 +42,7 @@ internal static class Comparisons
 
         // Get the spamSum strings starting past the blocksize prefix.
         var stringOnePrefixOnwards = firstHash.Substring(stringOnePrefixIndex + 1);
-        var stringTwoPrefixOnwards = firstHash.Substring(stringTwoPrefixIndex + 1);
+        var stringTwoPrefixOnwards = secondHash.Substring(stringTwoPrefixIndex + 1);
 
         // Make sure there's something there
         if (string.IsNullOrEmpty(stringOnePrefixOnwards) || string.IsNullOrEmpty(stringTwoPrefixOnwards))
