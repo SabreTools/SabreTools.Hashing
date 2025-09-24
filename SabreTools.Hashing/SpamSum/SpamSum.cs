@@ -353,7 +353,7 @@ namespace SabreTools.Hashing.SpamSum
             return n;
         }
 
-        public int FuzzyCompare(string? firstHash, string? secondHash)
+        public static int FuzzyCompare(string? firstHash, string? secondHash)
         {
             return Comparisons.FuzzyCompare(firstHash, secondHash);
         }

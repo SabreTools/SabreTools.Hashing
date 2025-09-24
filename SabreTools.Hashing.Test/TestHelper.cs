@@ -216,6 +216,24 @@ namespace SabreTools.Hashing.Test
 #endif
         };
 
+        public static readonly Dictionary<(string, string), int> _knownCompareHashes = new()
+        {
+            {
+                ("3:hMCPQCE6AFQxWyENFACBE+rW6Tj7SMQmKozr9MVERkL:hZRdxZENFs+rPSromekL",
+                    "3:hMCERJAFQxWyENFACBE+rW6Tj7SMQmKozr9MVERkL:huRJdxZENFs+rPSromekL"),
+                41
+            },
+            {
+                ("12:Y+VH/3Ckg3xqMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMn:xHqVwMMMMMMMMMMMMMMMMMMMMMMMMMM0", 
+                    "12:Oqkg3xqMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMu:OqVwMMMMMMMMMMMMMMMMMMMMMMMMMMMd"),
+                44 
+            },
+            {
+                ("6:l+lq/MtlM8pJ0gt6lXWogE61UlT1Uqj1akMD5n:l+l6Mtl/n0gtOXmEuUl5UqpakM9n", 
+                    "6:mTj3qJskr+V+1o21+n0rtD2noPWKlAyjllZmMt6120EK+wlsS6T1oLwXuk4tk7:m/bk/1oQrJL3jTu20EK+wlsp5oO4tk7"),
+                0
+            },
+        };
         #endregion
 
         /// <summary>
@@ -241,5 +259,23 @@ namespace SabreTools.Hashing.Test
         /// </summary>
         public static void ValidateSize(long fileSize)
             => Assert.Equal(_hashFileSize, fileSize);
+        
+        /// <summary>
+        /// Validate the compared SpamSum hashes in a dictionary
+        /// </summary>
+        public static void ValidateFuzzyCompares(Dictionary<(string, string), int> compareDict)
+        {
+            Assert.NotNull(compareDict);
+            foreach (var hashes in _knownCompareHashes.Keys)
+            {
+                ValidateFuzzyCompare(hashes, compareDict![hashes]);
+            }
+        }
+
+        /// <summary>
+        /// Validate a single pair of compared SpamSum hashes
+        /// </summary>
+        public static void ValidateFuzzyCompare((string, string) hashes, int score)
+            => Assert.Equal(_knownCompareHashes[hashes], score);
     }
 }
