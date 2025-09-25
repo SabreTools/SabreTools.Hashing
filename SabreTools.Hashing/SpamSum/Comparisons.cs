@@ -145,7 +145,7 @@ internal static class Comparisons
         const uint replaceCost = 2;
 
         var firstTraverse = new uint[maxLength + 1];
-        var secondTravers = new uint[maxLength + 1];
+        var secondTraverse = new uint[maxLength + 1];
 
         for (uint secondIndex = 0; secondIndex <= second.Length; secondIndex++)
         {
@@ -154,18 +154,18 @@ internal static class Comparisons
 
         for (uint firstIndex = 0; firstIndex < first.Length; firstIndex++)
         {
-            secondTravers[0] = (firstIndex + 1) * insertCost;
+            secondTraverse[0] = (firstIndex + 1) * insertCost;
             for (uint secondIndex = 0; secondIndex < second.Length; secondIndex++)
             {
                 var costA = firstTraverse[secondIndex + 1] + insertCost;
-                var costD = secondTravers[secondIndex] + removeCost;
+                var costD = secondTraverse[secondIndex] + removeCost;
                 var costR = firstTraverse[secondIndex] + (first[(int)firstIndex] == second[(int)secondIndex] ? 0 : replaceCost);
-                secondTravers[secondIndex + 1] = Math.Min(Math.Min(costA, costD), costR);
+                secondTraverse[secondIndex + 1] = Math.Min(Math.Min(costA, costD), costR);
             }
 
             var tempArray = firstTraverse;
-            firstTraverse = secondTravers;
-            secondTravers = tempArray;
+            firstTraverse = secondTraverse;
+            secondTraverse = tempArray;
         }
 
         long score = firstTraverse[second.Length];
