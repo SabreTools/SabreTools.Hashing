@@ -6,6 +6,11 @@ namespace SabreTools.Hashing.SpamSum;
 internal static class Comparisons
 {
     /// <summary>
+    /// Regex to reduce any sequences longer than 3
+    /// </summary>
+    private static Regex _reduceRegex = new("(.)(?<=\\1\\1\\1\\1)", RegexOptions.Compiled);
+
+    /// <summary>
     /// Compares how similar two SpamSums are to each other
     /// </summary>
     /// <param name="first">First hash to compare</param>
@@ -15,86 +20,61 @@ internal static class Comparisons
     /// <see href="https://github.com/ssdeep-project/ssdeep/blob/df3b860f8918261b3faeec9c7d2c8a241089e6e6/fuzzy.c#L860"/> 
     public static int FuzzyCompare(string? first, string? second)
     {
-        if (first == null || second == null)
+        // If either input is invalid
+        if (string.IsNullOrEmpty(first) || string.IsNullOrEmpty(second))
+            return -1;
+
+        // Split the string into 3 parts for processing
+        var firstSplit = first!.Split(':');
+        var secondSplit = second!.Split(':');
+        if (firstSplit.Length != 3 || secondSplit.Length != 3)
+            return -1;
+
+        // If any of the required parts are empty
+        if (firstSplit[0].Length == 0 || firstSplit[2].Length == 0)
+            return -1;
+        if (secondSplit[0].Length == 0 || secondSplit[2].Length == 0)
             return -1;
 
         // Each SpamSum string starts with its block size before the first semicolon.
-        // Verify it's there and return otherwise.
-
-        int firstPrefixIndex = first.IndexOf(':');
-        if (firstPrefixIndex == -1)
+        if (!uint.TryParse(firstSplit[0], out uint firstBlockSize))
             return -1;
-        if (!uint.TryParse(first.Substring(0, firstPrefixIndex), out uint firstBlockSize))
+        if (!uint.TryParse(secondSplit[0], out uint secondBlockSize))
             return -1;
 
-        int secondPrefixIndex = second.IndexOf(':');
-        if (secondPrefixIndex == -1)
-            return -1;
-        if (!uint.TryParse(second.Substring(0, secondPrefixIndex), out uint secondBlockSize))
-            return -1;
-
-        // Check if blocksizes don't match. Each spamSum is broken up into two blocks. fuzzy_compare allows you to
-        // compare if one block in one hash is the same size as one block in the other hash, even if the other two are
-        // non-matching, so that's also checked for.
-        if (firstBlockSize != secondBlockSize &&
-            (firstBlockSize > uint.MaxValue / 2 || firstBlockSize * 2 != secondBlockSize) &&
-            (firstBlockSize % 2 == 1 || firstBlockSize / 2 != secondBlockSize))
+        // Check if blocksizes don't match. Each spamSum is broken up into two blocks.
+        // fuzzy_compare allows you to compare if one block in one hash is the same
+        // size as one block in the other hash, even if the other two are non-matching,
+        // so that's also checked for.
+        if (firstBlockSize != secondBlockSize
+            && (firstBlockSize > uint.MaxValue / 2 || firstBlockSize * 2 != secondBlockSize)
+            && (firstBlockSize % 2 == 1 || firstBlockSize / 2 != secondBlockSize))
         {
             return 0;
         }
 
-        // Get the spamSum strings starting past the blocksize prefix.
-        first = first.Substring(firstPrefixIndex + 1);
-        second = second.Substring(secondPrefixIndex + 1);
+        // Ensure only second block data before a comma is used
+        string firstBlockTwo = firstSplit[2].Split(',')[0];
+        string secondBlockTwo = secondSplit[2].Split(',')[0];
 
-        // Make sure there's something there
-        if (string.IsNullOrEmpty(first) || string.IsNullOrEmpty(second))
-            return -1;
-
-        // Split each spamSum into two blocks.
-        // Unclear why the second blocks must end before commas, but it is what fuzzy_compare does.
-        // If a spamSum doesn't have two parts past the prefix, it's malformed and must be returned.
-
-        var tempSplit = first.Split(':');
-        var firstBlockOne = tempSplit[0];
-        if (tempSplit.Length == 1 || string.IsNullOrEmpty(tempSplit[1]))
-            return -1;
-        var firstBlockTwo = tempSplit[1].Split(',')[0];
-
-        tempSplit = second.Split(':');
-        var secondBlockOne = tempSplit[0];
-        if (tempSplit.Length == 1 || string.IsNullOrEmpty(tempSplit[1]))
-            return -1;
-        var secondBlockTwo = tempSplit[1].Split(',')[0];
-
-        // The comments for fuzzy_compare say to "Eliminate any sequences [of the same character] longer than 3".
-        // What this actually means is that any sequences of the same character longer than 3 need to be reduced to size 3,
-        // i.e. "9AgX87HAAAAAOKG5/Dqj3C2o/jlqW7Yn/nmcwlcKCwA9aJo9FcAKwf" becomes "9AgX87HAAAOKG5/Dqj3C2o/jlqW7Yn/nmcwlcKCwA9aJo9FcAKwf"
-        // The reason for doing this is that these sequences contain very little info, so cutting them down helps with
-        // part of scoring the strings later.
-        var r = new Regex("(.)(?<=\\1\\1\\1\\1)", RegexOptions.Compiled);
-
-        firstBlockOne = r.Replace(firstBlockOne, string.Empty);
-        firstBlockTwo = r.Replace(firstBlockTwo, string.Empty);
-        secondBlockOne = r.Replace(secondBlockOne, string.Empty);
-        secondBlockTwo = r.Replace(secondBlockTwo, string.Empty);
+        // Reduce any sequences longer than 3
+        // These sequences contain very little info and can be reduced as a result
+        string firstBlockOne = _reduceRegex.Replace(firstSplit[1], string.Empty);
+        firstBlockTwo = _reduceRegex.Replace(firstBlockTwo, string.Empty);
+        string secondBlockOne = _reduceRegex.Replace(secondSplit[1], string.Empty);
+        secondBlockTwo = _reduceRegex.Replace(secondBlockTwo, string.Empty);
 
         // Return 100 immediately if both spamSums are identical.
-        if (firstBlockSize == secondBlockSize
-            && firstBlockOne.Length == secondBlockOne.Length
-            && firstBlockTwo.Length == secondBlockTwo.Length)
-        {
-            if (firstBlockOne == secondBlockOne && firstBlockTwo == secondBlockTwo)
-                return 100;
-        }
+        if (firstBlockSize == secondBlockSize && firstBlockOne == secondBlockOne && firstBlockTwo == secondBlockTwo)
+            return 100;
 
         // Choose different scoring combinations depending on block sizes present.
         if (firstBlockSize <= uint.MaxValue / 2)
         {
             if (firstBlockSize == secondBlockSize)
             {
-                var score1 = ScoreStrings(firstBlockOne, secondBlockOne, firstBlockSize);
-                var score2 = ScoreStrings(firstBlockTwo, secondBlockTwo, firstBlockSize * 2);
+                uint score1 = ScoreStrings(firstBlockOne, secondBlockOne, firstBlockSize);
+                uint score2 = ScoreStrings(firstBlockTwo, secondBlockTwo, firstBlockSize * 2);
                 return (int)Math.Max(score1, score2);
             }
             else if (firstBlockSize * 2 == secondBlockSize)

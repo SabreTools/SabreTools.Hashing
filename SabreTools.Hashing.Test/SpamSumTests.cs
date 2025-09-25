@@ -26,6 +26,9 @@ namespace SabreTools.Hashing.Test
         [InlineData("24576:fCQxhkAcV6cUdRxczoyVQQFDSVRNihk24vXDj20sq:6Q/q6bazwMgRNihk24jtsq", "24576:p+QxhkAcV6cUdRxczoy3NmO0ne3HFVjSeQ229SVjeONr+v:YQ/q6baz5Nqe3H2eQzStBa", 54)]
         // Duplicate sequence truncation
         [InlineData("500:AAAAAAAAAAAAAAAAAAAAAAAAyENFACBE+rW6Tj7SMQmK:4", "500:AAAyENFACBE+rW6Tj7SMQmK:4", 100)]
+        // Trailing data ignored
+        [InlineData("6:l+lq/MtlM8pJ0gt6lXWogE61UlT1Uqj1akMD5n:l+l6Mtl/n0gtOXmEuUl5UqpakM9n,ANYTHING", "6:mTj3qJskr+V+1o21+n0rtD2noPWKlAyjllZmMt6120EK+wlsS6T1oLwXuk4tk7:m/bk/1oQrJL3jTu20EK+wlsp5oO4tk7,NOTHING", 0)]
+        [InlineData("6:mTj3qJskr+V+1o21+n0rtD2noPWKlAyjllZmMt6120EK+wlsS6T1oLwXuk4tk7:m/bk/1oQrJL3jTu20EK+wlsp5oO4tk7,NOTHING", "6:l+lq/MtlM8pJ0gt6lXWogE61UlT1Uqj1akMD5n:l+l6Mtl/n0gtOXmEuUl5UqpakM9n,ANYTHING", 0)]
         // Rolling window - larger than 7
         [InlineData("500:7SMQmKa:3", "500:7SMQmKr:3", 0)]
         // Rolling window - smaller than 7
