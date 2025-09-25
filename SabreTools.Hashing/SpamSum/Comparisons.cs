@@ -109,11 +109,11 @@ internal static class Comparisons
         if (first.Length < 7 || second.Length < 7)
             return false;
 
-        for (var i = 0; i < first.Length; i++)
+        for (int i = 0; i < first.Length; i++)
         {
-            for (var j = 0; j < second.Length; j++)
+            for (int j = 0; j < second.Length; j++)
             {
-                var currentIndex = 0;
+                int currentIndex = 0;
                 while ((i + currentIndex) < first.Length && (j + currentIndex) < second.Length && first[i + currentIndex] == second[j + currentIndex])
                 {
                     currentIndex++;
