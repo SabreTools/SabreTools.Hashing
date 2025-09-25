@@ -36,6 +36,10 @@ namespace SabreTools.Hashing.SpamSum
             _state.BH[0].DIndex = 0;
         }
 
+        /// <inheritdoc cref="Comparisons.FuzzyCompare(string?, string?)"/>
+        public static int FuzzyCompare(string? firstHash, string? secondHash)
+            => Comparisons.FuzzyCompare(firstHash, secondHash);
+
         /// <inheritdoc/>
         protected override void HashCore(byte[] array, int ibStart, int cbSize)
         {
@@ -352,9 +356,5 @@ namespace SabreTools.Hashing.SpamSum
 
             return n;
         }
-
-        /// <inheritdoc cref="Comparisons.FuzzyCompare(string?, string?)"/>
-        public static int FuzzyCompare(string? firstHash, string? secondHash)
-            => Comparisons.FuzzyCompare(firstHash, secondHash);
     }
 }
