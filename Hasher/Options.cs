@@ -32,17 +32,6 @@ namespace Hasher
         /// </summary>
         /// <remarks>Ignores all other flags if found</remarks>
         public bool PrintAvailableHashes { get; private set; } = false;
-        
-        /// <summary>
-        /// Print SpamSum fuzzy comparison and then quit
-        /// </summary>
-        /// <remarks>Ignores all other flags if found</remarks>
-        public bool PrintCompareSpamSum { get; private set; } = false;
-        
-        /// <summary>
-        /// Set of input hashes to be used for SpamSum comparisons
-        /// </summary>
-        public List<string> InputSpamSumHashes { get; private set; } = [];
 
         #endregion
 
@@ -96,10 +85,6 @@ namespace Hasher
                 string arg = args[index];
                 switch (arg)
                 {
-                    case "-c":
-                        options.PrintCompareSpamSum = true;
-                        break;
-                    
                     case "-d":
                     case "--debug":
                         options.Debug = true;
@@ -129,30 +114,17 @@ namespace Hasher
                         break;
 
                     default:
-                        if (options.PrintCompareSpamSum)
-                        {
-                            options.InputSpamSumHashes.Add(item: arg);
-                            break;
-                        }
                         options.InputPaths.Add(arg);
                         break;
                 }
             }
 
             // Validate we have any input paths to work on
-            if (options.InputPaths.Count == 0 && !options.PrintCompareSpamSum)
+            if (options.InputPaths.Count == 0)
             {
                 Console.WriteLine("At least one path is required!");
                 return null;
             }
-            
-            // Validate we have any input paths to work on
-            if (options.PrintCompareSpamSum && options.InputSpamSumHashes.Count != 2)
-            {
-                Console.WriteLine("Two SpamSum hashes are required for comparison!");
-                return null;
-            }
-
 
             // If the all hashes flag was enabled
             if (options._allHashTypesEnabled)
@@ -183,7 +155,6 @@ namespace Hasher
             Console.WriteLine();
             Console.WriteLine("Options:");
             Console.WriteLine("-?, -h, --help           Display this help text and quit");
-            Console.WriteLine("-c,                      Compare two SpamSum hashes");
             Console.WriteLine("-d, --debug              Enable debug mode");
             Console.WriteLine("-l, --list               List all available hashes and quit");
             Console.WriteLine("-t, --type [TYPE]        Output file hashes");
