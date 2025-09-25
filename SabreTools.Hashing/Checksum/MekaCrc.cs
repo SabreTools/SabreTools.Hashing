@@ -40,7 +40,7 @@ namespace SabreTools.Hashing.Checksum
             }
 
             // Convert the hash back into a value
-            _hash = Convert.ToUInt64(temp);
+            _hash = BitConverter.ToUInt64(temp, 0);
         }
     }
 }
