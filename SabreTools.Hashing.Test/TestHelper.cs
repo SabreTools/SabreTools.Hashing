@@ -215,6 +215,7 @@ namespace SabreTools.Hashing.Test
             {HashType.XxHash128, "e811cdfb1280efae1be1e1a5b4b434d9"},
 #endif
         };
+
         #endregion
 
         /// <summary>
@@ -240,7 +241,5 @@ namespace SabreTools.Hashing.Test
         /// </summary>
         public static void ValidateSize(long fileSize)
             => Assert.Equal(_hashFileSize, fileSize);
-        
-
     }
 }
