@@ -172,6 +172,8 @@ namespace SabreTools.Hashing.Test
             {HashType.FNV1a_32, "9086769b"},
             {HashType.FNV1a_64, "399dd1cd965b73db"},
 
+            {HashType.MekaCrc, "0a0a0b1174052f22"},
+
             {HashType.MD2, "362e1a6931668e6a9de5c159c52c71b5"},
             {HashType.MD4, "61bef59d7a754874fccbd67b4ec2fb10"},
             {HashType.MD5, "b722871eaa950016296184d026c5dec9"},

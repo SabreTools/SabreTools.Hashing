@@ -756,6 +756,11 @@ namespace SabreTools.Hashing
 
         #endregion
 
+        /// <summary>
+        /// Custom checksum used by MEKA
+        /// </summary>
+        MekaCrc,
+
         #region Message Digest
 
         /// <summary>

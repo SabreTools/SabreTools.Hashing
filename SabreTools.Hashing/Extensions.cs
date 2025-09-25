@@ -167,6 +167,8 @@ namespace SabreTools.Hashing
                 HashType.FNV1a_32 => "FNV hash (Variant 1a, 32-bit)",
                 HashType.FNV1a_64 => "FNV hash (Variant 1a, 64-bit)",
 
+                HashType.MekaCrc => "Custom MEKA checksum",
+
                 HashType.MD2 => "MD2 message-digest algorithm",
                 HashType.MD4 => "MD4 message-digest algorithm",
                 HashType.MD5 => "MD5 message-digest algorithm",
@@ -390,6 +392,8 @@ namespace SabreTools.Hashing
                 "fnv1_64" => HashType.FNV1_64,
                 "fnv1a_32" => HashType.FNV1a_32,
                 "fnv1a_64" => HashType.FNV1a_64,
+
+                "meka" or "mekacrc" or "meka_crc" => HashType.MekaCrc,
 
                 "md2" => HashType.MD2,
                 "md4" => HashType.MD4,

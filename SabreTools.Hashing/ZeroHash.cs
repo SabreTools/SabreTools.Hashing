@@ -250,6 +250,8 @@ namespace SabreTools.Hashing
             {HashType.FNV1a_32, [0x81, 0x1c, 0x9d, 0xc5]},
             {HashType.FNV1a_64, [0xcb, 0xf2, 0x9c, 0xe4, 0x84, 0x22, 0x23, 0x25]},
 
+            {HashType.MekaCrc, [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]},
+
             {HashType.MD2, [0x83, 0x50, 0xe5, 0xa3, 0xe2, 0x4c, 0x15, 0x3d,
                             0xf2, 0x27, 0x5c, 0x9f, 0x80, 0x69, 0x27, 0x73]},
             {HashType.MD4, [0x31, 0xd6, 0xcf, 0xe0, 0xd1, 0x6a, 0xe9, 0x31,
@@ -549,6 +551,8 @@ namespace SabreTools.Hashing
             {HashType.FNV1_64, "cbf29ce484222325"},
             {HashType.FNV1a_32, "811c9dc5"},
             {HashType.FNV1a_64, "cbf29ce484222325"},
+
+            {HashType.MekaCrc, "0000000000000000"},
 
             {HashType.MD2, "8350e5a3e24c153df2275c9f80692773"},
             {HashType.MD4, "31d6cfe0d16ae931b73c59d7e0c089c0"},

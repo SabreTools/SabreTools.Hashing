@@ -237,12 +237,14 @@ namespace SabreTools.Hashing
                 HashType.FNV1a_32 => new FNV1a_32(),
                 HashType.FNV1a_64 => new FNV1a_64(),
 
+                HashType.MekaCrc => new MekaCrc(),
+
                 HashType.MD2 => new MD2(),
                 HashType.MD4 => new MD4(),
                 HashType.MD5 => MD5.Create(),
 
                 HashType.RIPEMD128 => new RipeMD128(),
-                HashType.RIPEMD160 => new CryptographicHash.RipeMD160(),
+                HashType.RIPEMD160 => new RipeMD160(),
                 HashType.RIPEMD256 => new RipeMD256(),
                 HashType.RIPEMD320 => new RipeMD320(),
 
