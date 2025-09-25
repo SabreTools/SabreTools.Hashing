@@ -3,7 +3,6 @@ using System.Text.RegularExpressions;
 
 namespace SabreTools.Hashing.SpamSum;
 
-// 
 internal static class Comparisons
 {
     /// <summary>
@@ -12,8 +11,7 @@ internal static class Comparisons
     /// <param name="firstHash">First hash to compare</param>
     /// <param name="secondHash">Second hash to compare</param>
     /// <returns>-1 on validity failure, 0 if they're not comparable, score from 0 (least similar) to 100 (most similar) otherwise.</returns>
-    /// <link>https://github.com/ssdeep-project/ssdeep/blob/df3b860f8918261b3faeec9c7d2c8a241089e6e6/fuzzy.c#L860</link>
-
+    /// <see href="https://github.com/ssdeep-project/ssdeep/blob/df3b860f8918261b3faeec9c7d2c8a241089e6e6/fuzzy.c#L860"/> 
     public static int FuzzyCompare(string? firstHash, string? secondHash)
     {
         if (firstHash == null || secondHash == null)

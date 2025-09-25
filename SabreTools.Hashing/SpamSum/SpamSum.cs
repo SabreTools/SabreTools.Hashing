@@ -354,8 +354,6 @@ namespace SabreTools.Hashing.SpamSum
         }
 
         public static int FuzzyCompare(string? firstHash, string? secondHash)
-        {
-            return Comparisons.FuzzyCompare(firstHash, secondHash);
-        }
+            => Comparisons.FuzzyCompare(firstHash, secondHash);
     }
 }

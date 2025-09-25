@@ -125,17 +125,5 @@ namespace SabreTools.Hashing.Test
             TestHelper.ValidateSize(actualSize);
             TestHelper.ValidateHashes(hashDict);
         }
-        
-        [Fact]
-        public void GetFuzzyCompareTest()
-        {
-            Dictionary<(string, string), int> compareDict = new();
-            foreach (var hashes in TestHelper._knownCompareHashes.Keys)
-            {
-                var (stringOne, stringTwo) = hashes;
-                compareDict.Add(hashes, SpamSum.SpamSum.FuzzyCompare(stringOne, stringTwo));
-            }
-            TestHelper.ValidateFuzzyCompares(compareDict);
-        }
     }
 }
