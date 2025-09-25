@@ -105,26 +105,24 @@ internal static class Comparisons
     /// <returns>False if there is no common substring of 7 or more characters, true if there is.</returns>
     private static bool HasCommmonSubstring(string first, string second)
     {
-        var firstLength = first.Length;
-        var secondLength = second.Length;
-        var largestSubstring = 0;
+        // If either string is less than 7 characters
+        if (first.Length < 7 || second.Length < 7)
+            return false;
 
-        for (var i = 0; i < firstLength; i++)
+        for (var i = 0; i < first.Length; i++)
         {
-            for (var j = 0; j < secondLength; j++)
+            for (var j = 0; j < second.Length; j++)
             {
                 var currentIndex = 0;
-                while ((i + currentIndex) < firstLength && (j + currentIndex) < secondLength && first[i + currentIndex] == second[j + currentIndex])
+                while ((i + currentIndex) < first.Length && (j + currentIndex) < second.Length && first[i + currentIndex] == second[j + currentIndex])
                 {
                     currentIndex++;
                 }
 
-                largestSubstring = Math.Max(largestSubstring, currentIndex);
+                if (currentIndex >= 7)
+                    return true;
             }
         }
-
-        if (largestSubstring >= 7)
-            return true;
 
         return false;
     }
