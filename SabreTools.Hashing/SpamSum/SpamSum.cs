@@ -352,5 +352,15 @@ namespace SabreTools.Hashing.SpamSum
 
             return n;
         }
+
+        /// <summary>
+        /// Compares how similar two SpamSums are to each other. Implements ssdeep's fuzzy_compare.
+        /// </summary>
+        /// <param name="firstHash">First hash to compare</param>
+        /// <param name="secondHash">Second hash to compare</param>
+        /// <returns>-1 on validity failure, 0 if they're not comparable, score from 0 (least similar) to 100 (most similar) otherwise.</returns>
+        /// <see href="https://github.com/ssdeep-project/ssdeep/blob/df3b860f8918261b3faeec9c7d2c8a241089e6e6/fuzzy.c#L860"/> 
+        public static int FuzzyCompare(string? firstHash, string? secondHash)
+            => Comparisons.FuzzyCompare(firstHash, secondHash);
     }
 }
