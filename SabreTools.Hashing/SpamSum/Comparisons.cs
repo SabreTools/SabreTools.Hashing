@@ -36,6 +36,10 @@ internal static class Comparisons
         if (secondSplit[0].Length == 0 || secondSplit[2].Length == 0)
             return -1;
 
+        // Ensure only second block data before a comma is used
+        firstSplit[2] = firstSplit[2].Split(',')[0];
+        secondSplit[2] = secondSplit[2].Split(',')[0];
+
         // Each SpamSum string starts with its block size before the first semicolon.
         if (!uint.TryParse(firstSplit[0], out uint firstBlockSize))
             return -1;
@@ -53,16 +57,12 @@ internal static class Comparisons
             return 0;
         }
 
-        // Ensure only second block data before a comma is used
-        string firstBlockTwo = firstSplit[2].Split(',')[0];
-        string secondBlockTwo = secondSplit[2].Split(',')[0];
-
         // Reduce any sequences longer than 3
         // These sequences contain very little info and can be reduced as a result
         string firstBlockOne = _reduceRegex.Replace(firstSplit[1], string.Empty);
-        firstBlockTwo = _reduceRegex.Replace(firstBlockTwo, string.Empty);
+        string firstBlockTwo = _reduceRegex.Replace(firstSplit[2], string.Empty);
         string secondBlockOne = _reduceRegex.Replace(secondSplit[1], string.Empty);
-        secondBlockTwo = _reduceRegex.Replace(secondBlockTwo, string.Empty);
+        string secondBlockTwo = _reduceRegex.Replace(secondSplit[2], string.Empty);
 
         // Return 100 immediately if both spamSums are identical.
         if (firstBlockSize == secondBlockSize && firstBlockOne == secondBlockOne && firstBlockTwo == secondBlockTwo)
