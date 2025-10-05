@@ -1,5 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using SabreTools.CommandLine;
+using SabreTools.CommandLine.Inputs;
 using SabreTools.Hashing;
 
 namespace Hasher
@@ -8,145 +12,108 @@ namespace Hasher
     /// Set of options for the test executable
     /// </summary>
     /// TODO: Add file output
-    internal sealed class Options
+    internal sealed class Options : Feature
     {
-        #region Properties
+        #region Feature Definition
+
+        public const string DisplayName = "options";
+
+        /// <remarks>Default feature does not use flags</remarks>
+        private static readonly string[] _flags = [];
+
+        /// <remarks>Default feature does not use description</remarks>
+        private const string _description = "";
+
+        #endregion
+
+        #region Cached Inputs
 
         /// <summary>
         /// Enable debug output for relevant operations
         /// </summary>
-        public bool Debug { get; private set; } = false;
+        private bool _debug = false;
 
         /// <summary>
         /// List of all hash types to process
         /// </summary>
-        public List<HashType> HashTypes { get; private set; } = [];
-
-        /// <summary>
-        /// Set of input paths to use for operations
-        /// </summary>
-        public List<string> InputPaths { get; private set; } = [];
-
-        /// <summary>
-        /// Print all available hashes and then quit
-        /// </summary>
-        /// <remarks>Ignores all other flags if found</remarks>
-        public bool PrintAvailableHashes { get; private set; } = false;
+        private List<HashType> _hashTypes = [];
 
         #endregion
 
-        #region Instance Variables
+        #region Constructors
 
-        /// <summary>
-        /// Special flag to enable all hash types
-        /// </summary>
-        /// <remarks>Skips adding hash types specified otherwise</remarks>
-        private bool _allHashTypesEnabled = false;
-
-        #endregion
-
-        /// <summary>
-        /// Parse commandline arguments into an Options object
-        /// </summary>
-        public static Options? ParseOptions(string[] args)
+        public Options()
+            : base(DisplayName, _flags, _description)
         {
-            // If we have invalid arguments
-            if (args == null || args.Length == 0)
-                return null;
+            RequiresInputs = true;
 
-            // Create an Options object
-            var options = new Options();
+            Add(new FlagInput("debug", ["-d", "--debug"], "Enable debug mode"));
+            Add(new StringListInput("type", ["-t", "--type"], "Output file hashes"));
+        }
 
-            // Parse the features
-            int index = 0;
-            for (; index < args.Length; index++)
+        #endregion
+
+        /// <inheritdoc/>
+        public override bool ProcessArgs(string[] args, int index)
+        {
+            // Process the arguments normally first
+            if (!base.ProcessArgs(args, index))
+                return false;
+
+            // Set the debug flag for easier access
+            _debug = GetBoolean("debug");
+
+            // Get hash types list
+            var hashTypes = GetStringList("type");
+            if (hashTypes.Count == 0)
             {
-                string arg = args[index];
-                bool featureFound = false;
-                switch (arg)
-                {
-                    case "-?":
-                    case "-h":
-                    case "--help":
-                        return null;
-
-                    default:
-                        break;
-                }
-
-                // If the flag wasn't a feature
-                if (!featureFound)
-                    break;
+                _hashTypes.Add(HashType.CRC32);
+                _hashTypes.Add(HashType.MD5);
+                _hashTypes.Add(HashType.SHA1);
+                _hashTypes.Add(HashType.SHA256);
             }
-
-            // Parse the options and paths
-            for (; index < args.Length; index++)
+            else if (hashTypes.Contains("all"))
             {
-                string arg = args[index];
-                switch (arg)
+                _hashTypes = [.. (HashType[])Enum.GetValues(typeof(HashType))];
+            }
+            else
+            {
+                foreach (string typeString in hashTypes)
                 {
-                    case "-d":
-                    case "--debug":
-                        options.Debug = true;
-                        break;
-
-                    case "-l":
-                    case "--list":
-                        options.PrintAvailableHashes = true;
-                        break;
-
-                    case "-t":
-                    case "--type":
-                        string value = index + 1 < args.Length ? args[++index] : string.Empty;
-                        if (value.Equals("all", StringComparison.OrdinalIgnoreCase))
-                        {
-                            options._allHashTypesEnabled = true;
-                            break;
-                        }
-
-                        if (!options._allHashTypesEnabled)
-                        {
-                            HashType? hashType = value.GetHashType();
-                            if (hashType != null && !options.HashTypes.Contains(hashType.Value))
-                                options.HashTypes.Add(item: hashType.Value);
-                        }
-
-                        break;
-
-                    default:
-                        options.InputPaths.Add(arg);
-                        break;
+                    HashType? hashType = typeString.GetHashType();
+                    if (hashType != null && !_hashTypes.Contains(hashType.Value))
+                        _hashTypes.Add(item: hashType.Value);
                 }
             }
 
             // Validate we have any input paths to work on
-            if (options.InputPaths.Count == 0)
+            if (!VerifyInputs())
             {
                 Console.WriteLine("At least one path is required!");
-                return null;
+                return false;
             }
 
-            // If the all hashes flag was enabled
-            if (options._allHashTypesEnabled)
+            return true;
+        }
+
+        /// <inheritdoc/>
+        public override bool VerifyInputs() => Inputs.Count > 0;
+
+        /// <inheritdoc/>
+        public override bool Execute()
+        {
+            foreach (string inputPath in Inputs)
             {
-                options.HashTypes = [.. (HashType[])Enum.GetValues(typeof(HashType))];
+                PrintPathHashes(inputPath);
             }
 
-            // If no hash types are provided, set defaults
-            if (options.HashTypes.Count == 0)
-            {
-                options.HashTypes.Add(HashType.CRC32);
-                options.HashTypes.Add(HashType.MD5);
-                options.HashTypes.Add(HashType.SHA1);
-                options.HashTypes.Add(HashType.SHA256);
-            }
-
-            return options;
+            return true;
         }
 
         /// <summary>
         /// Display help text
         /// </summary>
+        /// TODO: Replace this with standard help output
         public static void DisplayHelp()
         {
             Console.WriteLine("File Hashing Program");
@@ -163,6 +130,78 @@ namespace Hasher
             Console.WriteLine("to outputting CRC-32, MD5, SHA-1, and SHA-256.");
             Console.WriteLine("Optionally, all supported hashes can be output");
             Console.WriteLine("by specifying a value of 'all'.");
+        }
+
+        /// <summary>
+        /// Wrapper to print hashes for a single path
+        /// </summary>
+        /// <param name="path">File or directory path</param>
+        private void PrintPathHashes(string path)
+        {
+            Console.WriteLine($"Checking possible path: {path}");
+
+            // Check if the file or directory exists
+            if (File.Exists(path))
+            {
+                PrintFileHashes(path);
+            }
+            else if (Directory.Exists(path))
+            {
+                foreach (string file in Directory.GetFiles(path, "*", SearchOption.AllDirectories))
+                {
+                    PrintFileHashes(file);
+                }
+            }
+            else
+            {
+                Console.WriteLine($"{path} does not exist, skipping...");
+            }
+        }
+
+        /// <summary>
+        /// Print information for a single file, if possible
+        /// </summary>
+        /// <param name="file">File path</param>
+        private void PrintFileHashes(string file)
+        {
+            Console.WriteLine($"Attempting to hash {file}, this may take a while...");
+            Console.WriteLine();
+
+            // If the file doesn't exist
+            if (!File.Exists(file))
+            {
+                Console.WriteLine($"{file} does not exist, skipping...");
+                return;
+            }
+
+            try
+            {
+                // Get all file hashes for flexibility
+                var hashes = HashTool.GetFileHashes(file);
+                if (hashes == null)
+                {
+                    if (_debug) Console.WriteLine($"Hashes for {file} could not be retrieved");
+                    return;
+                }
+
+                // Output subset of available hashes
+                var builder = new StringBuilder();
+                foreach (HashType hashType in _hashTypes)
+                {
+                    // TODO: Make helper to pretty-print hash type names
+                    if (hashes.TryGetValue(hashType, out string? hash) && hash != null)
+                        builder.AppendLine($"{hashType}: {hash}");
+                }
+
+                // Create and print the output data
+                string hashData = builder.ToString();
+                Console.WriteLine(hashData);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(_debug ? ex : "[Exception opening file, please try again]");
+                return;
+            }
         }
     }
 }

@@ -1,134 +1,76 @@
-﻿using System;
-using System.IO;
-using System.Text;
-using SabreTools.Hashing;
+﻿using System.Collections.Generic;
+using SabreTools.CommandLine;
+using SabreTools.CommandLine.Features;
 
 namespace Hasher
 {
     public static class Program
     {
+        #region Features
+
+        /// <summary>
+        /// Help header
+        /// </summary>
+        private static readonly List<string> _header = [
+            "File Hashing Program",
+            string.Empty,
+            "Hasher <options> file|directory ...",
+            string.Empty,
+        ];
+
+        /// <summary>
+        /// Help footer
+        /// </summary>
+        private static readonly List<string> _footer = [
+            "If no hash types are provided, this tool will default",
+            "to outputting CRC-32, MD5, SHA-1, and SHA-256.",
+            "Optionally, all supported hashes can be output",
+            "by specifying a value of 'all'.",
+        ];
+
+        #endregion
+
         public static void Main(string[] args)
         {
-            // Get the options from the arguments
-            var options = Options.ParseOptions(args);
+            // Build the command set
+            var commandSet = new CommandSet(_header, _footer);
+            commandSet.Add(new Help(["-?", "-h", "--help"]));
+            commandSet.Add(new ListFeature());
+            var options = new Options();
+            commandSet.Add(options);
 
-            // If we have an invalid state
-            if (options == null)
+            // If there are no arguments
+            if (args.Length == 0)
             {
                 Options.DisplayHelp();
                 return;
             }
 
-            // If a printing option was defined
-            if (options.PrintAvailableHashes)
+            // Cache the first argument
+            string featureName = args[0];
+
+            // Check if the feature is recognized
+            var feature = commandSet.GetTopLevel(featureName);
+            if (feature is Help)
             {
-                PrintAvailableHashes();
+                Options.DisplayHelp();
+                return;
+            }
+            else if (feature is ListFeature lf)
+            {
+                lf.Execute();
                 return;
             }
 
-            // Loop through the input paths
-            foreach (string inputPath in options.InputPaths)
+            // Otherwise, process the arguments normally
+            if (!options.ProcessArgs(args, 0))
             {
-                PrintPathHashes(inputPath, options);
-            }
-        }
-
-        /// <summary>
-        /// Print all available hashes along with their short names
-        /// </summary>
-        /// TODO: Print all supported variants of names?
-        private static void PrintAvailableHashes()
-        {
-            Console.WriteLine("Hash Name                               Parameter Name        ");
-            Console.WriteLine("--------------------------------------------------------------");
-
-            var hashTypes = (HashType[])Enum.GetValues(typeof(HashType));
-            foreach (var hashType in hashTypes)
-            {
-                // Derive the parameter name
-                string paramName = $"{hashType}";
-                paramName = paramName.Replace("-", string.Empty);
-                paramName = paramName.Replace(" ", string.Empty);
-                paramName = paramName.Replace("/", "_");
-                paramName = paramName.Replace("\\", "_");
-                paramName = paramName.ToLowerInvariant();
-
-                Console.WriteLine($"{hashType.GetHashName()?.PadRight(39, ' ')} {paramName}");
-            }
-        }
-
-        /// <summary>
-        /// Wrapper to print hashes for a single path
-        /// </summary>
-        /// <param name="path">File or directory path</param>
-        /// <param name="options">User-defined options</param>
-        private static void PrintPathHashes(string path, Options options)
-        {
-            Console.WriteLine($"Checking possible path: {path}");
-
-            // Check if the file or directory exists
-            if (File.Exists(path))
-            {
-                PrintFileHashes(path, options);
-            }
-            else if (Directory.Exists(path))
-            {
-                foreach (string file in Directory.GetFiles(path, "*", SearchOption.AllDirectories))
-                {
-                    PrintFileHashes(file, options);
-                }
-            }
-            else
-            {
-                Console.WriteLine($"{path} does not exist, skipping...");
-            }
-        }
-
-        /// <summary>
-        /// Print information for a single file, if possible
-        /// </summary>
-        /// <param name="file">File path</param>
-        /// <param name="options">User-defined options</param>
-        private static void PrintFileHashes(string file, Options options)
-        {
-            Console.WriteLine($"Attempting to hash {file}, this may take a while...");
-            Console.WriteLine();
-
-            // If the file doesn't exist
-            if (!File.Exists(file))
-            {
-                Console.WriteLine($"{file} does not exist, skipping...");
+                commandSet.OutputGenericHelp();
                 return;
             }
 
-            try
-            {
-                // Get all file hashes for flexibility
-                var hashes = HashTool.GetFileHashes(file);
-                if (hashes == null)
-                {
-                    if (options.Debug) Console.WriteLine($"Hashes for {file} could not be retrieved");
-                    return;
-                }
-
-                // Output subset of available hashes
-                var builder = new StringBuilder();
-                foreach (HashType hashType in options.HashTypes)
-                {
-                    // TODO: Make helper to pretty-print hash type names
-                    if (hashes.TryGetValue(hashType, out string? hash) && hash != null)
-                        builder.AppendLine($"{hashType}: {hash}");
-                }
-
-                // Create and print the output data
-                string hashData = builder.ToString();
-                Console.WriteLine(hashData);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(options.Debug ? ex : "[Exception opening file, please try again]");
-                return;
-            }
+            // Execute based on the options set
+            options.Execute();
         }
     }
 }
