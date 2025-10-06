@@ -22,14 +22,11 @@ Hasher <options> file|directory ...
 Available options:
   ?, h, help                  Show this help
   list                        List all available hashes and quit
-  hash                        Hash all input paths (default)
-      -d, --debug                 Enable debug mode
-      -t=, --type=                Select included hashes
+  -d, --debug                 Enable debug mode
+  -t=, --type=                Select included hashes
 
 If no hash types are provided, this tool will default to
 outputting CRC-32, MD5, SHA-1, and SHA-256.
-Optionally, all supported hashes can be output by
-specifying a value of 'all'.
 ```
 
 ## Internal Implementations
