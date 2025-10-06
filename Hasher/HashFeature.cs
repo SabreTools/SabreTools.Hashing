@@ -12,17 +12,15 @@ namespace Hasher
     /// Set of options for the test executable
     /// </summary>
     /// TODO: Add file output
-    internal sealed class Options : Feature
+    internal sealed class HashFeature : Feature
     {
         #region Feature Definition
 
         public const string DisplayName = "options";
 
-        /// <remarks>Default feature does not use flags</remarks>
-        private static readonly string[] _flags = [];
+        private static readonly string[] _flags = ["hash"];
 
-        /// <remarks>Default feature does not use description</remarks>
-        private const string _description = "";
+        private const string _description = "Hash all input paths (default)";
 
         #endregion
 
@@ -42,13 +40,13 @@ namespace Hasher
 
         #region Constructors
 
-        public Options()
+        public HashFeature()
             : base(DisplayName, _flags, _description)
         {
             RequiresInputs = true;
 
             Add(new FlagInput("debug", ["-d", "--debug"], "Enable debug mode"));
-            Add(new StringListInput("type", ["-t", "--type"], "Output file hashes"));
+            Add(new StringListInput("type", ["-t", "--type"], "Select included hashes"));
         }
 
         #endregion
@@ -86,13 +84,6 @@ namespace Hasher
                 }
             }
 
-            // Validate we have any input paths to work on
-            if (!VerifyInputs())
-            {
-                Console.WriteLine("At least one path is required!");
-                return false;
-            }
-
             return true;
         }
 
@@ -108,28 +99,6 @@ namespace Hasher
             }
 
             return true;
-        }
-
-        /// <summary>
-        /// Display help text
-        /// </summary>
-        /// TODO: Replace this with standard help output
-        public static void DisplayHelp()
-        {
-            Console.WriteLine("File Hashing Program");
-            Console.WriteLine();
-            Console.WriteLine("Hasher <options> file|directory ...");
-            Console.WriteLine();
-            Console.WriteLine("Options:");
-            Console.WriteLine("-?, -h, --help           Display this help text and quit");
-            Console.WriteLine("-d, --debug              Enable debug mode");
-            Console.WriteLine("-l, --list               List all available hashes and quit");
-            Console.WriteLine("-t, --type [TYPE]        Output file hashes");
-            Console.WriteLine();
-            Console.WriteLine("If no hash types are provided, this tool will default");
-            Console.WriteLine("to outputting CRC-32, MD5, SHA-1, and SHA-256.");
-            Console.WriteLine("Optionally, all supported hashes can be output");
-            Console.WriteLine("by specifying a value of 'all'.");
         }
 
         /// <summary>

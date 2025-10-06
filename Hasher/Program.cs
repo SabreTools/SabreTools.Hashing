@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using SabreTools.CommandLine;
-using SabreTools.CommandLine.Features;
 
 namespace Hasher
 {
@@ -22,10 +22,11 @@ namespace Hasher
         /// Help footer
         /// </summary>
         private static readonly List<string> _footer = [
-            "If no hash types are provided, this tool will default",
-            "to outputting CRC-32, MD5, SHA-1, and SHA-256.",
-            "Optionally, all supported hashes can be output",
-            "by specifying a value of 'all'.",
+            string.Empty,
+            "If no hash types are provided, this tool will default to",
+            "outputting CRC-32, MD5, SHA-1, and SHA-256.",
+            "Optionally, all supported hashes can be output by",
+            "specifying a value of 'all'.",
         ];
 
         #endregion
@@ -34,15 +35,15 @@ namespace Hasher
         {
             // Build the command set
             var commandSet = new CommandSet(_header, _footer);
-            commandSet.Add(new Help(["-?", "-h", "--help"]));
+            commandSet.Add(new HelpFeature());
             commandSet.Add(new ListFeature());
-            var options = new Options();
-            commandSet.Add(options);
+            var hashFeature = new HashFeature();
+            commandSet.Add(hashFeature);
 
             // If there are no arguments
             if (args.Length == 0)
             {
-                Options.DisplayHelp();
+                commandSet.OutputAllHelp();
                 return;
             }
 
@@ -51,26 +52,29 @@ namespace Hasher
 
             // Check if the feature is recognized
             var feature = commandSet.GetTopLevel(featureName);
-            if (feature is Help)
+            switch (feature)
             {
-                Options.DisplayHelp();
-                return;
-            }
-            else if (feature is ListFeature lf)
-            {
-                lf.Execute();
-                return;
+                case HelpFeature: commandSet.OutputAllHelp(); return;
+                case ListFeature lf: lf.Execute(); return;
             }
 
             // Otherwise, process the arguments normally
-            if (!options.ProcessArgs(args, 0))
+            if (!hashFeature.ProcessArgs(args, 0))
             {
-                commandSet.OutputGenericHelp();
+                commandSet.OutputAllHelp();
+                return;
+            }
+
+            // If there are no valid inputs
+            if (hashFeature.RequiresInputs && !hashFeature.VerifyInputs())
+            {
+                Console.WriteLine("At least one path is required!");
+                commandSet.OutputAllHelp();
                 return;
             }
 
             // Execute based on the options set
-            options.Execute();
+            hashFeature.Execute();
         }
     }
 }

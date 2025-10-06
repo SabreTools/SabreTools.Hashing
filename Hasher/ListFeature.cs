@@ -4,7 +4,7 @@ using SabreTools.Hashing;
 
 namespace Hasher
 {
-    internal class ListFeature : Feature
+    internal sealed class ListFeature : Feature
     {
         #region Feature Definition
 

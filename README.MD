@@ -19,16 +19,17 @@ For the latest WIP build here: [Rolling Release](https://github.com/SabreTools/S
 ```
 Hasher <options> file|directory ...
 
-Options:
--?, -h, --help           Display this help text and quit
--d, --debug              Enable debug mode
--l, --list               List all available hashes and quit
--t, --type [TYPE]        Output file hashes
+Available options:
+  -?, -h, --help              Show this help
+  -l, --list                  List all available hashes and quit
+  hash                        Hash all input paths (default)
+      -d, --debug                 Enable debug mode
+      -t=, --type=                Select included hashes
 
-If no hash types are provided, this tool will default
-to outputting CRC-32, MD5, SHA-1, and SHA-256.
-Optionally, all supported hashes can be output
-by specifying a value of 'all'.
+If no hash types are provided, this tool will default to
+outputting CRC-32, MD5, SHA-1, and SHA-256.
+Optionally, all supported hashes can be output by
+specifying a value of 'all'.
 ```
 
 ## Internal Implementations
