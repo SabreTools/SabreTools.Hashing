@@ -1,80 +1,96 @@
 ﻿using System;
 using System.Collections.Generic;
+using Hasher.Features;
 using SabreTools.CommandLine;
+using SabreTools.CommandLine.Features;
 
 namespace Hasher
 {
     public static class Program
     {
-        #region Features
-
-        /// <summary>
-        /// Help header
-        /// </summary>
-        private static readonly List<string> _header = [
-            "File Hashing Program",
-            string.Empty,
-            "Hasher <options> file|directory ...",
-            string.Empty,
-        ];
-
-        /// <summary>
-        /// Help footer
-        /// </summary>
-        private static readonly List<string> _footer = [
-            string.Empty,
-            "If no hash types are provided, this tool will default to",
-            "outputting CRC-32, MD5, SHA-1, and SHA-256.",
-            "Optionally, all supported hashes can be output by",
-            "specifying a value of 'all'.",
-        ];
-
-        #endregion
-
         public static void Main(string[] args)
         {
-            // Build the command set
-            var commandSet = new CommandSet(_header, _footer);
-            commandSet.Add(new HelpFeature());
-            commandSet.Add(new ListFeature());
-            var hashFeature = new HashFeature();
-            commandSet.Add(hashFeature);
+            // Create the command set
+            var commandSet = CreateCommands();
 
-            // If there are no arguments
-            if (args.Length == 0)
+            // If we have no args, show the help and quit
+            if (args == null || args.Length == 0)
             {
                 commandSet.OutputAllHelp();
                 return;
             }
 
-            // Cache the first argument
+            // Cache the first argument and starting index
             string featureName = args[0];
+            int index = 1;
 
-            // Check if the feature is recognized
-            var feature = commandSet.GetTopLevel(featureName);
-            switch (feature)
+            // Get the associated feature
+            var topLevel = commandSet.GetTopLevel(featureName);
+            if (topLevel == null || topLevel is not Feature feature)
             {
-                case HelpFeature: commandSet.OutputAllHelp(); return;
-                case ListFeature lf: lf.Execute(); return;
+                index = 0;
+                feature = commandSet.GetFeature(HashFeature.DisplayName)!;
             }
 
-            // Otherwise, process the arguments normally
-            if (!hashFeature.ProcessArgs(args, 0))
+            // Handle default help functionality
+            if (topLevel is Help helpFeature)
+            {
+                helpFeature.ProcessArgs(args, 0, commandSet);
+                return;
+            }
+
+            // Now verify that all other flags are valid
+            if (!feature.ProcessArgs(args, index))
             {
                 commandSet.OutputAllHelp();
                 return;
             }
 
             // If there are no valid inputs
-            if (hashFeature.RequiresInputs && !hashFeature.VerifyInputs())
+            if (feature.RequiresInputs && !feature.VerifyInputs())
             {
                 Console.WriteLine("At least one path is required!");
                 commandSet.OutputAllHelp();
                 return;
             }
 
-            // Execute based on the options set
-            hashFeature.Execute();
+            // Now execute the current feature
+            if (!feature.Execute())
+            {
+                Console.Error.WriteLine("An error occurred during processing!");
+                commandSet.OutputFeatureHelp(feature.Name);
+            }
         }
+
+
+        /// <summary>
+        /// Create the command set for the program
+        /// </summary>
+        private static CommandSet CreateCommands()
+        {
+            List<string> header = [
+                "File Hashing Program",
+                string.Empty,
+                "Hasher <options> file|directory ...",
+                string.Empty,
+            ];
+
+            List<string> footer = [
+                string.Empty,
+                "If no hash types are provided, this tool will default to",
+                "outputting CRC-32, MD5, SHA-1, and SHA-256.",
+                "Optionally, all supported hashes can be output by",
+                "specifying a value of 'all'.",
+            ];
+
+            var commandSet = new CommandSet(header, footer);
+
+            commandSet.Add(new Help());
+            commandSet.Add(new ListFeature());
+            commandSet.Add(new HashFeature());
+
+            return commandSet;
+        }
+    
     }
 }

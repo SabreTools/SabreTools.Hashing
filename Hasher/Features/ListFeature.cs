@@ -2,7 +2,7 @@ using System;
 using SabreTools.CommandLine;
 using SabreTools.Hashing;
 
-namespace Hasher
+namespace Hasher.Features
 {
     internal sealed class ListFeature : Feature
     {
@@ -10,7 +10,7 @@ namespace Hasher
 
         public const string DisplayName = "list";
 
-        private static readonly string[] _flags = ["-l", "--list"];
+        private static readonly string[] _flags = ["list"];
 
         private const string _description = "List all available hashes and quit";
 

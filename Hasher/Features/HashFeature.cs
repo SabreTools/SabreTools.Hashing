@@ -6,7 +6,7 @@ using SabreTools.CommandLine;
 using SabreTools.CommandLine.Inputs;
 using SabreTools.Hashing;
 
-namespace Hasher
+namespace Hasher.Features
 {
     /// <summary>
     /// Set of options for the test executable
