@@ -16,7 +16,7 @@ For the latest WIP build here: [Rolling Release](https://github.com/SabreTools/S
 
 **Hasher** is a reference implementation for hashing and checksumming features of the library, packaged as a standalone executable for all supported platforms. It will attempt to select the correct hashing types based on input and then print the calculated values to standard output.
 
-```
+```text
 Hasher <options> file|directory ...
 
 Available options:
