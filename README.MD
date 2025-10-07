@@ -27,6 +27,8 @@ Available options:
 
 If no hash types are provided, this tool will default to
 outputting CRC-32, MD5, SHA-1, and SHA-256.
+Optionally, all supported hashes can be output by
+specifying a value of 'all'.
 ```
 
 ## Internal Implementations
