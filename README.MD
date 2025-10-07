@@ -20,8 +20,8 @@ For the latest WIP build here: [Rolling Release](https://github.com/SabreTools/S
 Hasher <options> file|directory ...
 
 Available options:
-  ?, h, help                  Show this help
-  list                        List all available hashes and quit
+  -?, -h, --help              Show this help
+  --list                      List all available hashes and quit
   -d, --debug                 Enable debug mode
   -t=, --type=                Select included hashes
 

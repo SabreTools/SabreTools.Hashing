@@ -10,7 +10,7 @@ namespace Hasher.Features
 
         public const string DisplayName = "list";
 
-        private static readonly string[] _flags = ["list"];
+        private static readonly string[] _flags = ["--list"];
 
         private const string _description = "List all available hashes and quit";
 
