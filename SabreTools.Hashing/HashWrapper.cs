@@ -347,7 +347,7 @@ namespace SabreTools.Hashing
         /// </summary>
         /// <param name="cr">Crc to get the value from</param>
         /// <returns>String representing the CRC, null on error</returns>
-        private string? GetCRCVariableLengthString(Crc cr)
+        private static string? GetCRCVariableLengthString(Crc cr)
         {
             // Ignore null values
             if (cr.Hash == null)
@@ -364,7 +364,7 @@ namespace SabreTools.Hashing
         /// </summary>
         /// <param name="ss">SpamSum to get the value from</param>
         /// <returns>String representing the SpamSum, null on error</returns>
-        private string? GetSpamSumBase64String(SpamSum.SpamSum ss)
+        private static string? GetSpamSumBase64String(SpamSum.SpamSum ss)
         {
             // Ignore null values
             if (ss.Hash == null)
