@@ -3,7 +3,7 @@ using static SabreTools.Hashing.SpamSum.Constants;
 
 namespace SabreTools.Hashing.SpamSum
 {
-    /// <see href="https://github.com/ssdeep-project/ssdeep/blob/master/fuzzy.c"/> 
+    /// <see href="https://github.com/ssdeep-project/ssdeep/blob/master/fuzzy.c"/>
     internal class FuzzyState
     {
         public ulong TotalSize { get; set; }

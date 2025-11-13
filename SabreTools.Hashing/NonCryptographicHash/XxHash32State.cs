@@ -7,7 +7,7 @@ namespace SabreTools.Hashing.NonCryptographicHash
     /// <summary>
     /// Structure for xxHash-32 streaming API.
     /// </summary>
-    /// <see href="https://github.com/Cyan4973/xxHash/blob/dev/xxhash.h"/> 
+    /// <see href="https://github.com/Cyan4973/xxHash/blob/dev/xxhash.h"/>
     internal class XxHash32State
     {
         /// <summary>
@@ -137,7 +137,7 @@ namespace SabreTools.Hashing.NonCryptographicHash
 
         /// <summary>
         /// Normal stripe processing routine.
-        /// 
+        ///
         /// This shuffles the bits so that any bit from <paramref name="input"/> impacts
         /// several bits in <paramref name="acc"/>.
         /// </summary>
@@ -154,7 +154,7 @@ namespace SabreTools.Hashing.NonCryptographicHash
 
         /// <summary>
         /// Mixes all bits to finalize the hash.
-        /// 
+        ///
         /// The final mix ensures that all input bits have a chance to impact any bit in
         /// the output digest, resulting in an unbiased distribution.
         /// </summary>
@@ -170,7 +170,7 @@ namespace SabreTools.Hashing.NonCryptographicHash
 
         /// <summary>
         /// Processes the last 0-15 bytes of @p ptr.
-        /// 
+        ///
         /// There may be up to 15 bytes remaining to consume from the input.
         /// This final stage will digest them to ensure that all input bytes are present
         /// in the final mix.

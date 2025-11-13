@@ -2,7 +2,7 @@ using System;
 
 namespace SabreTools.Hashing.Checksum
 {
-    /// <see href="https://github.com/ocornut/meka/blob/master/meka/srcs/checksum.cpp"/> 
+    /// <see href="https://github.com/ocornut/meka/blob/master/meka/srcs/checksum.cpp"/>
     public class MekaCrc : ChecksumBase<ulong>
     {
         /// <inheritdoc/>

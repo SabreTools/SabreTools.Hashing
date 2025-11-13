@@ -6,7 +6,7 @@ namespace SabreTools.Hashing.SpamSum
     /// A blockhash contains a signature state for a specific (implicit) blocksize.
     /// The blocksize is given by <see cref="SSDEEP_BS(uint)"/>
     /// </summary>
-    /// <see href="https://github.com/ssdeep-project/ssdeep/blob/master/fuzzy.c"/> 
+    /// <see href="https://github.com/ssdeep-project/ssdeep/blob/master/fuzzy.c"/>
     internal class BlockhashContext
     {
         /// <summary>
@@ -20,7 +20,7 @@ namespace SabreTools.Hashing.SpamSum
         public byte[] Digest { get; set; }
 
         /// <summary>
-        /// Digest value at <see cref="HalfH"/> 
+        /// Digest value at <see cref="HalfH"/>
         /// </summary>
         public byte HalfDigest { get; set; }
 

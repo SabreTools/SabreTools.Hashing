@@ -8,7 +8,7 @@ internal static class Comparisons
     /// <summary>
     /// Regex to reduce any sequences longer than 3
     /// </summary>
-    private static Regex _reduceRegex = new("(.)(?<=\\1\\1\\1\\1)", RegexOptions.Compiled);
+    private static readonly Regex _reduceRegex = new("(.)(?<=\\1\\1\\1\\1)", RegexOptions.Compiled);
 
     /// <summary>
     /// Compares how similar two SpamSums are to each other
@@ -17,7 +17,7 @@ internal static class Comparisons
     /// <param name="second">Second hash to compare</param>
     /// <returns>-1 on validity failure, 0 if they're not comparable, score from 0 (least similar) to 100 (most similar) otherwise.</returns>
     /// <remarks>Implements ssdeep's fuzzy_compare</remarks>
-    /// <see href="https://github.com/ssdeep-project/ssdeep/blob/df3b860f8918261b3faeec9c7d2c8a241089e6e6/fuzzy.c#L860"/> 
+    /// <see href="https://github.com/ssdeep-project/ssdeep/blob/df3b860f8918261b3faeec9c7d2c8a241089e6e6/fuzzy.c#L860"/>
     public static int FuzzyCompare(string? first, string? second)
     {
         // If either input is invalid
@@ -163,9 +163,13 @@ internal static class Comparisons
                 secondTraverse[secondIndex + 1] = Math.Min(Math.Min(costA, costD), costR);
             }
 
+#if NETCOREAPP || NETSTANDARD2_0_OR_GREATER
+            (secondTraverse, firstTraverse) = (firstTraverse, secondTraverse);
+#else
             var tempArray = firstTraverse;
             firstTraverse = secondTraverse;
             secondTraverse = tempArray;
+#endif
         }
 
         long score = firstTraverse[second.Length];

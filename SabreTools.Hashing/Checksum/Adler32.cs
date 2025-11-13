@@ -3,7 +3,7 @@ using static SabreTools.Hashing.Checksum.Constants;
 
 namespace SabreTools.Hashing.Checksum
 {
-    /// <see href="https://github.com/madler/zlib/blob/v1.2.11/adler32.c"/> 
+    /// <see href="https://github.com/madler/zlib/blob/v1.2.11/adler32.c"/>
     public class Adler32 : ChecksumBase<uint>
     {
         /// <inheritdoc/>

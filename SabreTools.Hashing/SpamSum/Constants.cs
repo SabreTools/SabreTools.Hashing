@@ -2,8 +2,8 @@ using System.Text;
 
 namespace SabreTools.Hashing.SpamSum
 {
-    /// <see href="github.com/ssdeep-project/ssdeep/blob/master/fuzzy.c"/> 
-    /// <see href="github.com/ssdeep-project/ssdeep/blob/master/fuzzy.h"/> 
+    /// <see href="github.com/ssdeep-project/ssdeep/blob/master/fuzzy.c"/>
+    /// <see href="github.com/ssdeep-project/ssdeep/blob/master/fuzzy.h"/>
     internal static class Constants
     {
         /// <summary>

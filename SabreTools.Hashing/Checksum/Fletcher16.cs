@@ -1,6 +1,6 @@
 namespace SabreTools.Hashing.Checksum
 {
-    /// <see href="https://en.wikipedia.org/wiki/Fletcher%27s_checksum#Optimizations"/> 
+    /// <see href="https://en.wikipedia.org/wiki/Fletcher%27s_checksum#Optimizations"/>
     public class Fletcher16 : ChecksumBase<ushort>
     {
         /// <inheritdoc/>

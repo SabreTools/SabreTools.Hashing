@@ -4,7 +4,7 @@ using static SabreTools.Hashing.SpamSum.Constants;
 
 namespace SabreTools.Hashing.SpamSum
 {
-    /// <see href="https://github.com/ssdeep-project/ssdeep/blob/master/fuzzy.c"/> 
+    /// <see href="https://github.com/ssdeep-project/ssdeep/blob/master/fuzzy.c"/>
     public class SpamSum : System.Security.Cryptography.HashAlgorithm
     {
         private FuzzyState _state;

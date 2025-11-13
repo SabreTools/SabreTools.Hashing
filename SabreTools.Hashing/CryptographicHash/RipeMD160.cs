@@ -133,7 +133,7 @@ namespace SabreTools.Hashing.CryptographicHash
         /// The official specification for RIPEMD-160 includes tables
         /// and instructions that represent a loop. Most standard implementations
         /// use the unrolled version of that loop to make it more efficient.
-        /// 
+        ///
         /// The below code started with the looped version but has been converted
         /// to the more standard implementation instead.
         /// </remarks>

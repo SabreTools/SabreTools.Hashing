@@ -2,7 +2,7 @@ using static SabreTools.Hashing.Checksum.Constants;
 
 namespace SabreTools.Hashing.Checksum
 {
-    /// <see href="https://en.wikipedia.org/wiki/Fletcher%27s_checksum#Optimizations"/> 
+    /// <see href="https://en.wikipedia.org/wiki/Fletcher%27s_checksum#Optimizations"/>
     /// <remarks>Uses an Adler-32-like implementation instead of the above</remarks>
     public class Fletcher32 : ChecksumBase<uint>
     {

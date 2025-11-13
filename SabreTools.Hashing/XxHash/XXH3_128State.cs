@@ -8,7 +8,7 @@ namespace SabreTools.Hashing.XxHash
     /// <summary>
     /// Structure for XXH3 streaming API.
     /// </summary>
-    /// <see href="https://github.com/Cyan4973/xxHash/blob/dev/xxhash.h"/> 
+    /// <see href="https://github.com/Cyan4973/xxHash/blob/dev/xxhash.h"/>
     internal class XXH3_128State
     {
         /// <summary>
@@ -27,7 +27,7 @@ namespace SabreTools.Hashing.XxHash
         private readonly byte[] _buffer = new byte[Constants.XXH3_INTERNALBUFFER_SIZE];
 
         /// <summary>
-        /// The amount of memory in <see cref="_buffer"/>, <see cref="XXH32State._memsize"/> 
+        /// The amount of memory in <see cref="_buffer"/>, <see cref="XXH32State._memsize"/>
         /// </summary>
         private uint _bufferedSize;
 

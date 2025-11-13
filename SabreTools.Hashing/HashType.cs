@@ -133,7 +133,7 @@ namespace SabreTools.Hashing
         /// <summary>
         /// CRC 8-bit checksum
         /// </summary>
-        /// <remarks>Identical to <see cref="CRC8_SMBUS"/> 
+        /// <remarks>Identical to <see cref="CRC8_SMBUS"/>
         CRC8,
 
         /// <summary>
@@ -337,7 +337,7 @@ namespace SabreTools.Hashing
         /// <summary>
         /// CRC 16-bit checksum
         /// </summary>
-        /// <remarks>Identical to <see cref="CRC16_ARC"/> 
+        /// <remarks>Identical to <see cref="CRC16_ARC"/>
         CRC16,
 
         /// <summary>
@@ -582,7 +582,7 @@ namespace SabreTools.Hashing
         /// <summary>
         /// CRC 32-bit checksum
         /// </summary>
-        /// <remarks>Identical to <see cref="CRC32_ISOHDLC"/> 
+        /// <remarks>Identical to <see cref="CRC32_ISOHDLC"/>
         CRC32,
 
         /// <summary>
@@ -661,7 +661,7 @@ namespace SabreTools.Hashing
         /// <summary>
         /// CRC 64-bit checksum
         /// </summary>
-        /// <remarks>Identical to <see cref="CRC64_ECMA182"/> 
+        /// <remarks>Identical to <see cref="CRC64_ECMA182"/>
         CRC64,
 
         /// <summary>
@@ -840,7 +840,7 @@ namespace SabreTools.Hashing
         /// <summary>
         /// SHA3-512 hash
         /// </summary>
-        SHA3_512, 
+        SHA3_512,
 
         /// <summary>
         /// SHAKE128 SHA-3 family hash

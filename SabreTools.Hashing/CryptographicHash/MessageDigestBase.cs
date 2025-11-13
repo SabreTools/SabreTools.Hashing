@@ -10,7 +10,7 @@ namespace SabreTools.Hashing.CryptographicHash
         protected long _totalBytes;
 
         /// <summary>
-        /// Internal byte buffer to accumulate before <see cref="_block"/> 
+        /// Internal byte buffer to accumulate before <see cref="_block"/>
         /// </summary>
         protected readonly byte[] _buffer = new byte[64];
 

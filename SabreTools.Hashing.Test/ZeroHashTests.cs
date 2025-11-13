@@ -14,7 +14,7 @@ namespace SabreTools.Hashing.Test
         {
             get
             {
-                var values = Enum.GetValues(typeof(HashType));
+                var values = Enum.GetValues<HashType>();
                 var set = new List<object[]>();
                 foreach (var value in values)
                 {

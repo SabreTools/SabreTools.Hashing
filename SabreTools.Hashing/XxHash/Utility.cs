@@ -63,7 +63,7 @@ namespace SabreTools.Hashing.XxHash
 
         /// <summary>
         /// Mixes all bits to finalize the hash.
-        /// 
+        ///
         /// The final mix ensures that all input bits have a chance to impact any bit in
         /// the output digest, resulting in an unbiased distribution.
         /// </summary>

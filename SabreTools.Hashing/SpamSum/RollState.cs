@@ -2,7 +2,7 @@ using static SabreTools.Hashing.SpamSum.Constants;
 
 namespace SabreTools.Hashing.SpamSum
 {
-    /// <see href="https://github.com/ssdeep-project/ssdeep/blob/master/fuzzy.c"/> 
+    /// <see href="https://github.com/ssdeep-project/ssdeep/blob/master/fuzzy.c"/>
     internal class RollState
     {
         public byte[] Window { get; set; }
@@ -23,10 +23,10 @@ namespace SabreTools.Hashing.SpamSum
         /// <summary>
         /// A rolling hash, based on the Adler checksum. By using a rolling hash
         /// we can perform auto resynchronisation after inserts/deletes.
-        /// 
+        ///
         /// Internally, H1 is the sum of the bytes in the window and H2
         /// is the sum of the bytes times the index.
-        /// 
+        ///
         /// H3 is a shift/xor based rolling hash, and is mostly needed to ensure that
         /// we can cope with large blocksize values.
         /// </summary>
