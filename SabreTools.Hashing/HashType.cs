@@ -616,6 +616,11 @@ namespace SabreTools.Hashing
         CRC32_CKSUM,
 
         /// <summary>
+        /// CRC 32-bit checksum (CRC-32/DVD-ROM-EDC)
+        /// </summary>
+        CRC32_DVDROMEDC,
+
+        /// <summary>
         /// CRC 32-bit checksum (CRC-32/ISCSI)
         /// </summary>
         CRC32_ISCSI,

@@ -208,6 +208,7 @@ namespace SabreTools.Hashing
                 HashType.CRC32_BZIP2 => new Crc(StandardDefinitions.CRC32_BZIP2),
                 HashType.CRC32_CDROMEDC => new Crc(StandardDefinitions.CRC32_CDROMEDC),
                 HashType.CRC32_CKSUM => new Crc(StandardDefinitions.CRC32_CKSUM),
+                HashType.CRC32_DVDROMEDC => new Crc(StandardDefinitions.CRC32_DVDROMEDC),
                 HashType.CRC32_ISCSI => new Crc(StandardDefinitions.CRC32_ISCSI),
                 HashType.CRC32_ISOHDLC => new Crc(StandardDefinitions.CRC32_ISOHDLC),
                 HashType.CRC32_JAMCRC => new Crc(StandardDefinitions.CRC32_JAMCRC),

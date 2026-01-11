@@ -6,7 +6,7 @@ namespace SabreTools.Hashing.Test
     /// <summary>
     /// Helper class for tests
     /// </summary>
-    /// CRC values confirmed with <see href="https://emn178.github.io/online-tools/crc/"/> 
+    /// CRC values confirmed with <see href="https://emn178.github.io/online-tools/crc/"/>
     internal static class TestHelper
     {
         #region Known File Information
@@ -143,6 +143,7 @@ namespace SabreTools.Hashing.Test
             {HashType.CRC32_BZIP2, "18aa4603"},
             {HashType.CRC32_CDROMEDC, "b8ced467"},
             {HashType.CRC32_CKSUM, "f27b3c27"},
+            {HashType.CRC32_DVDROMEDC, "b538afc0"},
             {HashType.CRC32_ISCSI, "544d37db"},
             {HashType.CRC32_ISOHDLC, "ba02a660"},
             {HashType.CRC32_JAMCRC, "45fd599f"},

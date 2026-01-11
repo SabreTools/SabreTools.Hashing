@@ -1482,6 +1482,20 @@ namespace SabreTools.Hashing.Checksum
         };
 
         /// <summary>
+        /// CRC-32/DVD-ROM-EDC
+        /// </summary>
+        public static readonly CrcDefinition CRC32_DVDROMEDC = new()
+        {
+            Name = "CRC-32/DVD-ROM-EDC",
+            Width = 32,
+            Poly = 0x80000011,
+            Init = 0x00000000,
+            ReflectIn = false,
+            ReflectOut = false,
+            XorOut = 0x00000000,
+        };
+
+        /// <summary>
         /// CRC-32/ISCSI
         /// </summary>
         public static readonly CrcDefinition CRC32_ISCSI = new()
