@@ -204,17 +204,17 @@ namespace SabreTools.Hashing.Checksum
                 while (offset < end)
                 {
                     ulong low = local ^ (uint)(
-                          (data[offset + 0])
+                          data[offset + 0]
                         + (data[offset + 1] << 8)
                         + (data[offset + 2] << 16)
                         + (data[offset + 3] << 24));
                     offset += 4;
 
-                    local = _table[3, (byte)(low)]
+                    local = _table[3, (byte)low]
                           ^ _table[2, (byte)(low >> 8)]
                           ^ _table[1, (byte)(low >> 16)]
                           ^ _table[0, (byte)(low >> 24)]
-                          ^ local >> 32;
+                          ^ (local >> 32);
                 }
             }
 
@@ -246,26 +246,26 @@ namespace SabreTools.Hashing.Checksum
                 while (offset < end)
                 {
                     ulong low = local ^ (uint)(
-                          (data[offset + 0])
+                          data[offset + 0]
                         + (data[offset + 1] << 8)
                         + (data[offset + 2] << 16)
                         + (data[offset + 3] << 24));
                     ulong high = (uint)(
-                          (data[offset + 4])
+                          data[offset + 4]
                         + (data[offset + 5] << 8)
                         + (data[offset + 6] << 16)
                         + (data[offset + 7] << 24));
                     offset += 8;
 
-                    local = _table[7, (byte)(low)]
+                    local = _table[7, (byte)low]
                           ^ _table[6, (byte)(low >> 8)]
                           ^ _table[5, (byte)(low >> 16)]
                           ^ _table[4, (byte)(low >> 24)]
-                          ^ _table[3, (byte)(high)]
+                          ^ _table[3, (byte)high]
                           ^ _table[2, (byte)(high >> 8)]
                           ^ _table[1, (byte)(high >> 16)]
                           ^ _table[0, (byte)(high >> 24)]
-                          ^ local >> 32;
+                          ^ (local >> 32);
                 }
             }
 
@@ -297,26 +297,26 @@ namespace SabreTools.Hashing.Checksum
                 while (offset < end)
                 {
                     ulong low = local ^ (uint)(
-                          (data[offset + 3])
+                          data[offset + 3]
                         + (data[offset + 2] << 8)
                         + (data[offset + 1] << 16)
                         + (data[offset + 0] << 24));
                     ulong high = (uint)(
-                          (data[offset + 7])
+                          data[offset + 7]
                         + (data[offset + 6] << 8)
                         + (data[offset + 5] << 16)
                         + (data[offset + 4] << 24));
                     offset += 8;
 
-                    local = _table[4, (byte)(low)]
+                    local = _table[4, (byte)low]
                           ^ _table[5, (byte)(low >> 8)]
                           ^ _table[6, (byte)(low >> 16)]
                           ^ _table[7, (byte)(low >> 24)]
-                          ^ _table[0, (byte)(high)]
+                          ^ _table[0, (byte)high]
                           ^ _table[1, (byte)(high >> 8)]
                           ^ _table[2, (byte)(high >> 16)]
                           ^ _table[3, (byte)(high >> 24)]
-                          ^ local << 32;
+                          ^ (local << 32);
                 }
             }
 

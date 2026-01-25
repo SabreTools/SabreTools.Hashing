@@ -32,7 +32,7 @@ namespace SabreTools.Hashing.Checksum
                 if (c1 >= F32BASE)
                     c1 -= F32BASE;
 
-                _hash = (uint)((c1 << 16) | c0);
+                _hash = (c1 << 16) | c0;
                 return;
             }
 
@@ -50,7 +50,7 @@ namespace SabreTools.Hashing.Checksum
 
                 // Only added so many BASE's
                 c1 %= F32BASE;
-                _hash = (uint)((c1 << 16) | c0);
+                _hash = (c1 << 16) | c0;
                 return;
             }
 

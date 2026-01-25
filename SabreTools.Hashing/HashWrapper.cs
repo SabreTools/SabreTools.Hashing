@@ -325,6 +325,10 @@ namespace SabreTools.Hashing
                     s256.AppendData(s256BufferSpan);
                     break;
 #endif
+
+                default:
+                    // No-op
+                    break;
             }
         }
 
@@ -339,6 +343,9 @@ namespace SabreTools.Hashing
             {
                 case HashAlgorithm ha:
                     ha.TransformFinalBlock(emptyBuffer, 0, 0);
+                    break;
+                default:
+                    // No-op
                     break;
             }
         }
@@ -356,7 +363,7 @@ namespace SabreTools.Hashing
 
             // Get the total number of characters needed
             ulong hash = BytesToUInt64(cr.Hash);
-            int length = cr.Def.Width / 4 + (cr.Def.Width % 4 > 0 ? 1 : 0);
+            int length = (cr.Def.Width / 4) + (cr.Def.Width % 4 > 0 ? 1 : 0);
             return hash.ToString($"x{length}");
         }
 

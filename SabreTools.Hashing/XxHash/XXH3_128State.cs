@@ -4,6 +4,9 @@ namespace SabreTools.Hashing.XxHash
 #pragma warning disable CS0169
 #pragma warning disable CS0414
 #pragma warning disable CS0649
+#pragma warning disable IDE0044
+#pragma warning disable IDE0051
+#pragma warning disable IDE0052
 
     /// <summary>
     /// Structure for XXH3 streaming API.

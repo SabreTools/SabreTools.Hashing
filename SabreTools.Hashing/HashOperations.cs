@@ -60,9 +60,9 @@ namespace SabreTools.Hashing
         public static uint ReadBE32(byte[] data, int offset)
         {
             return (uint)(data[offset + 3]
-                        | data[offset + 2] << 8
-                        | data[offset + 1] << 16
-                        | data[offset + 0] << 24);
+                        | (data[offset + 2] << 8)
+                        | (data[offset + 1] << 16)
+                        | (data[offset + 0] << 24));
         }
 
         /// <summary>
@@ -71,13 +71,13 @@ namespace SabreTools.Hashing
         public static ulong ReadBE64(byte[] data, int offset)
         {
             return data[offset + 7]
-          | (ulong)data[offset + 6] << 8
-          | (ulong)data[offset + 5] << 16
-          | (ulong)data[offset + 4] << 24
-          | (ulong)data[offset + 3] << 32
-          | (ulong)data[offset + 2] << 40
-          | (ulong)data[offset + 1] << 48
-          | (ulong)data[offset + 0] << 56;
+          | ((ulong)data[offset + 6] << 8)
+          | ((ulong)data[offset + 5] << 16)
+          | ((ulong)data[offset + 4] << 24)
+          | ((ulong)data[offset + 3] << 32)
+          | ((ulong)data[offset + 2] << 40)
+          | ((ulong)data[offset + 1] << 48)
+          | ((ulong)data[offset + 0] << 56);
         }
 
         #endregion
@@ -90,9 +90,9 @@ namespace SabreTools.Hashing
         public static uint ReadLE32(byte[] data, int offset)
         {
             return (uint)(data[offset + 0]
-                        | data[offset + 1] << 8
-                        | data[offset + 2] << 16
-                        | data[offset + 3] << 24);
+                        | (data[offset + 1] << 8)
+                        | (data[offset + 2] << 16)
+                        | (data[offset + 3] << 24));
         }
 
         /// <summary>
@@ -101,13 +101,13 @@ namespace SabreTools.Hashing
         public static ulong ReadLE64(byte[] data, int offset)
         {
             return data[offset + 0]
-          | (ulong)data[offset + 1] << 8
-          | (ulong)data[offset + 2] << 16
-          | (ulong)data[offset + 3] << 24
-          | (ulong)data[offset + 4] << 32
-          | (ulong)data[offset + 5] << 40
-          | (ulong)data[offset + 6] << 48
-          | (ulong)data[offset + 7] << 56;
+          | ((ulong)data[offset + 1] << 8)
+          | ((ulong)data[offset + 2] << 16)
+          | ((ulong)data[offset + 3] << 24)
+          | ((ulong)data[offset + 4] << 32)
+          | ((ulong)data[offset + 5] << 40)
+          | ((ulong)data[offset + 6] << 48)
+          | ((ulong)data[offset + 7] << 56);
         }
 
         #endregion

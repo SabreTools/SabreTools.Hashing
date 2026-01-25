@@ -27,7 +27,7 @@ namespace SabreTools.Hashing.SpamSum
         /// The longest possible length for a fuzzy hash signature
         /// (without the filename)
         /// </summary>
-        public const int FUZZY_MAX_RESULT = 2 * SPAMSUM_LENGTH + 20;
+        public const int FUZZY_MAX_RESULT = (2 * SPAMSUM_LENGTH) + 20;
 
         public const uint ROLLING_WINDOW = 7;
 

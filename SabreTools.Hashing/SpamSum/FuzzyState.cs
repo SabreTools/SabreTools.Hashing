@@ -85,7 +85,7 @@ namespace SabreTools.Hashing.SpamSum
             // start_blocksize. Get rid of it.
             ++BHStart;
             ReduceBorder *= 2;
-            RollMask = RollMask * 2 + 1;
+            RollMask = (RollMask * 2) + 1;
         }
     }
 }

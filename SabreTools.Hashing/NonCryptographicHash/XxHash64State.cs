@@ -153,7 +153,7 @@ namespace SabreTools.Hashing.NonCryptographicHash
         {
             val = Round(0, val);
             acc ^= val;
-            acc = acc * XXH_PRIME64_1 + XXH_PRIME64_4;
+            acc = (acc * XXH_PRIME64_1) + XXH_PRIME64_4;
             return acc;
         }
 
@@ -178,7 +178,7 @@ namespace SabreTools.Hashing.NonCryptographicHash
                 ulong k1 = Round(0, ReadLE64(data, offset));
                 offset += 8;
                 hash ^= k1;
-                hash = RotateLeft64(hash, 27) * XXH_PRIME64_1 + XXH_PRIME64_4;
+                hash = (RotateLeft64(hash, 27) * XXH_PRIME64_1) + XXH_PRIME64_4;
                 length -= 8;
             }
 
@@ -186,7 +186,7 @@ namespace SabreTools.Hashing.NonCryptographicHash
             {
                 hash ^= ReadLE32(data, offset) * XXH_PRIME64_1;
                 offset += 4;
-                hash = RotateLeft64(hash, 23) * XXH_PRIME64_2 + XXH_PRIME64_3;
+                hash = (RotateLeft64(hash, 23) * XXH_PRIME64_2) + XXH_PRIME64_3;
                 length -= 4;
             }
 

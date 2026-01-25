@@ -249,8 +249,8 @@ namespace SabreTools.Hashing.SpamSum
             {
                 ++bi;
                 i = (int)_state.BH[bi].DIndex;
-                if ((flags & FUZZY_FLAG_NOTRUNC) == 0 && i > SPAMSUM_LENGTH / 2 - 1)
-                    i = SPAMSUM_LENGTH / 2 - 1;
+                if ((flags & FUZZY_FLAG_NOTRUNC) == 0 && i > (SPAMSUM_LENGTH / 2) - 1)
+                    i = (SPAMSUM_LENGTH / 2) - 1;
 
                 if (i > remain)
                     return null;

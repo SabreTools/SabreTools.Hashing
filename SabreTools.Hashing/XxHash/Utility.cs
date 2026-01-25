@@ -172,7 +172,7 @@ namespace SabreTools.Hashing.XxHash
             if (length > 0)
                 return Len1To3Out64(data, offset, length, secret, seed);
 
-            return XXH64Avalanche(seed ^ (ReadLE64(secret, 56) ^ ReadLE64(secret, 64)));
+            return XXH64Avalanche(seed ^ ReadLE64(secret, 56) ^ ReadLE64(secret, 64));
         }
 
         public static ulong Mix16B(byte[] data, int offset, byte[] secret, int secretOffset, ulong seed)

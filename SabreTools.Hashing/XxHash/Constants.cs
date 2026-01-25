@@ -63,7 +63,9 @@ namespace SabreTools.Hashing.XxHash
         /// </summary>
         public const int XXH_SECRET_CONSUME_RATE = 8;
 
+#pragma warning disable IDE0051
         private const int XXH_ACC_NB = XXH_STRIPE_LEN / sizeof(ulong);
+#pragma warning restore IDE0051
 
         #endregion
     }

@@ -177,13 +177,13 @@ internal static class Comparisons
         const int spamSumLength = 64;
         const int rollingWindow = 7;
         const int minBlocksize = 3;
-        score = (score * spamSumLength) / (first.Length + second.Length);
+        score = score * spamSumLength / (first.Length + second.Length);
 
         // Currently, the score ranges from 0-64 (64 being the length of a spamsum), with 0 being the strongest match
         // and 64 being the weakest match.
 
         // Change scale to 0-100
-        score = (100 * score) / spamSumLength;
+        score = 100 * score / spamSumLength;
 
         // Invert scale so 0 is the weakest possible match and 100 is the strongest
         score = 100 - score;
