@@ -31,7 +31,7 @@ namespace SabreTools.Hashing
             // Get all file hashes
             HashType[] standardHashTypes = [HashType.CRC32, HashType.MD5, HashType.SHA1];
             var fileHashes = GetFileHashesAndSize(filename, standardHashTypes, out size);
-            if (fileHashes == null)
+            if (fileHashes is null)
                 return false;
 
             // Assign the file hashes and return
@@ -58,7 +58,7 @@ namespace SabreTools.Hashing
             // Get all file hashes
             HashType[] standardHashTypes = [HashType.CRC32, HashType.MD5, HashType.SHA1];
             var fileHashes = GetByteArrayHashesAndSize(array, standardHashTypes, out size);
-            if (fileHashes == null)
+            if (fileHashes is null)
                 return false;
 
             // Assign the file hashes and return
@@ -85,7 +85,7 @@ namespace SabreTools.Hashing
             // Get all file hashes
             HashType[] standardHashTypes = [HashType.CRC32, HashType.MD5, HashType.SHA1];
             var fileHashes = GetStreamHashesAndSize(stream, standardHashTypes, out size);
-            if (fileHashes == null)
+            if (fileHashes is null)
                 return false;
 
             // Assign the file hashes and return
@@ -598,7 +598,7 @@ namespace SabreTools.Hashing
 
             // Run the hashing
             var hashers = GetStreamHashesInternal(input, hashTypes, leaveOpen, out size);
-            if (hashers == null)
+            if (hashers is null)
                 return null;
 
             // Get the results
@@ -657,7 +657,7 @@ namespace SabreTools.Hashing
 
             // Run the hashing
             var hashers = GetStreamHashesInternal(input, hashTypes, leaveOpen, out size);
-            if (hashers == null)
+            if (hashers is null)
                 return null;
 
             // Get the results

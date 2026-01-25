@@ -83,7 +83,7 @@ namespace Hasher.Features
                 foreach (string typeString in types)
                 {
                     HashType? hashType = typeString.GetHashType();
-                    if (hashType != null && !hashTypes.Contains(hashType.Value))
+                    if (hashType is not null && !hashTypes.Contains(hashType.Value))
                         hashTypes.Add(item: hashType.Value);
                 }
             }
@@ -141,7 +141,7 @@ namespace Hasher.Features
             {
                 // Get all file hashes for flexibility
                 var hashes = HashTool.GetFileHashes(file);
-                if (hashes == null)
+                if (hashes is null)
                 {
                     if (debug) Console.WriteLine($"Hashes for {file} could not be retrieved");
                     return;
@@ -152,7 +152,7 @@ namespace Hasher.Features
                 foreach (HashType hashType in hashTypes)
                 {
                     // TODO: Make helper to pretty-print hash type names
-                    if (hashes.TryGetValue(hashType, out string? hash) && hash != null)
+                    if (hashes.TryGetValue(hashType, out string? hash) && hash is not null)
                         builder.AppendLine($"{hashType}: {hash}");
                 }
 

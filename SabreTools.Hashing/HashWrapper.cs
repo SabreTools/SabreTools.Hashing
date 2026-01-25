@@ -358,7 +358,7 @@ namespace SabreTools.Hashing
         private static string? GetCRCVariableLengthString(Crc cr)
         {
             // Ignore null values
-            if (cr.Hash == null)
+            if (cr.Hash is null)
                 return null;
 
             // Get the total number of characters needed
@@ -375,7 +375,7 @@ namespace SabreTools.Hashing
         private static string? GetSpamSumBase64String(SpamSum.SpamSum ss)
         {
             // Ignore null values
-            if (ss.Hash == null)
+            if (ss.Hash is null)
                 return null;
 
             return System.Text.Encoding.ASCII.GetString(ss.Hash);

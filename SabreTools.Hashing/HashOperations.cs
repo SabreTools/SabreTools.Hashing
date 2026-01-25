@@ -15,7 +15,7 @@ namespace SabreTools.Hashing
         public static string? ByteArrayToString(byte[]? bytes)
         {
             // If we get null in, we send null out
-            if (bytes == null)
+            if (bytes is null)
                 return null;
 
             try
@@ -38,7 +38,7 @@ namespace SabreTools.Hashing
         public static ulong BytesToUInt64(byte[]? bytes)
         {
             // If we get null in, we send 0 out
-            if (bytes == null)
+            if (bytes is null)
                 return default;
 
             ulong result = 0;

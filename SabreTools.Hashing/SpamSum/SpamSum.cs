@@ -54,7 +54,7 @@ namespace SabreTools.Hashing.SpamSum
         protected override byte[] HashFinal()
         {
             string? digest = Finalize(0);
-            if (digest == null)
+            if (digest is null)
                 return [];
 
             return Encoding.ASCII.GetBytes(digest.TrimEnd('\0'));
