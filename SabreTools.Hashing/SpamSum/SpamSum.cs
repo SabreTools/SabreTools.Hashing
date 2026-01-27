@@ -2,6 +2,7 @@ using System;
 using System.Text;
 using static SabreTools.Hashing.SpamSum.Constants;
 
+#pragma warning disable IDE0059 // Unnecessary assignment of a value
 namespace SabreTools.Hashing.SpamSum
 {
     /// <see href="https://github.com/ssdeep-project/ssdeep/blob/master/fuzzy.c"/>

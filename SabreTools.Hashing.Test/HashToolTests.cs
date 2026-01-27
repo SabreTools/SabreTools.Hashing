@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using Xunit;
 
@@ -16,15 +15,15 @@ namespace SabreTools.Hashing.Test
         /// <summary>
         /// Get an array of all hash types
         /// </summary>
-        public static List<object[]> AllHashTypes
+        public static TheoryData<HashType> AllHashTypes
         {
             get
             {
                 var values = Enum.GetValues<HashType>();
-                var set = new List<object[]>();
+                var set = new TheoryData<HashType>();
                 foreach (var value in values)
                 {
-                    set.Add([value]);
+                    set.Add(value);
                 }
 
                 return set;

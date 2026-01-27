@@ -163,6 +163,7 @@ internal static class Comparisons
                 secondTraverse[secondIndex + 1] = Math.Min(Math.Min(costA, costD), costR);
             }
 
+#pragma warning disable IDE0180 // Use tuple to swap values
 #if NETCOREAPP || NETSTANDARD2_0_OR_GREATER
             (secondTraverse, firstTraverse) = (firstTraverse, secondTraverse);
 #else
@@ -170,6 +171,7 @@ internal static class Comparisons
             firstTraverse = secondTraverse;
             secondTraverse = tempArray;
 #endif
+#pragma warning restore IDE0180
         }
 
         long score = firstTraverse[second.Length];
