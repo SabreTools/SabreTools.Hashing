@@ -18,6 +18,13 @@ namespace SabreTools.Hashing.Checksum
         /// </summary>
         private readonly CrcTable _table;
 
+        /// <summary>
+        /// Create a new Crc from a <see cref="CrcDefinition"/>
+        /// </summary>
+        /// <param name="def">CRC definition</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when the bit width is not between 0 and 64.
+        /// </exception>
         public Crc(CrcDefinition def)
         {
             // Check for a valid bit width

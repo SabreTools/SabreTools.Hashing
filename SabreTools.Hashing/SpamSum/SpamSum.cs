@@ -331,6 +331,9 @@ namespace SabreTools.Hashing.SpamSum
         /// <remarks>
         /// Originally named `memcpy_eliminate_sequences`
         /// </remarks>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="n"/> is less than 0.
+        /// </exception>
         private static int EliminateSequences(byte[] dst, int dstPtr, byte[] src, int srcPtr, int n)
         {
             int srcend = srcPtr + n;

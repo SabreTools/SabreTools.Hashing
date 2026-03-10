@@ -1,3 +1,4 @@
+using System;
 using static SabreTools.Hashing.HashOperations;
 
 namespace SabreTools.Hashing.Checksum
@@ -102,6 +103,11 @@ namespace SabreTools.Hashing.Checksum
         /// <param name="data">Byte array representing the data</param>
         /// <param name="offset">Offset in the byte array to include</param>
         /// <param name="length">Length of the data to hash</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown when <paramref name="offset"/> is greater than the data length
+        /// or when <paramref name="offset"/> + <paramref name="length"/> is greater
+        /// than the data length.
+        /// </exception>
         public void TransformBlock(ref ulong hash, byte[] data, int offset, int length)
         {
             // Empty data just returns
@@ -110,9 +116,9 @@ namespace SabreTools.Hashing.Checksum
 
             // Check for valid offset and length
             if (offset > data.Length)
-                throw new System.ArgumentOutOfRangeException(nameof(offset));
+                throw new ArgumentOutOfRangeException(nameof(offset));
             else if (offset + length > data.Length)
-                throw new System.ArgumentOutOfRangeException(nameof(length));
+                throw new ArgumentOutOfRangeException(nameof(length));
 
             // Try transforming fast first
             if (TransformBlockFast(ref hash, data, offset, length))

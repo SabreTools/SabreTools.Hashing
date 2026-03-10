@@ -30,6 +30,10 @@ namespace SabreTools.Hashing.CryptographicHash
         /// </summary>
         protected readonly T[] _block;
 
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if <typeparamref name="T"/> is not one of:
+        /// short, ushort, int, uint, long, ulong
+        /// </exception>
         public MessageDigestBase()
         {
             if (typeof(T) == typeof(short) || typeof(T) == typeof(ushort))

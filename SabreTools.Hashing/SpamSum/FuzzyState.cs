@@ -39,11 +39,14 @@ namespace SabreTools.Hashing.SpamSum
             Roll = new RollState();
         }
 
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <see cref="BHEnd"/> is non-positive.
+        /// </exception>
         public void TryForkBlockhash()
         {
             uint obh, nbh;
             if (BHEnd <= 0)
-                throw new Exception("assert(BHEnd > 0)");
+                throw new ArgumentOutOfRangeException("assert(BHEnd > 0)");
 
             obh = BHEnd - 1;
             if (BHEnd <= BHEndLimit)
@@ -64,10 +67,13 @@ namespace SabreTools.Hashing.SpamSum
             }
         }
 
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <see cref="BHEnd"/> less than or equal to <see cref="BHStart"/>.
+        /// </exception>
         public void TryReduceBlockhash()
         {
             if (BHStart >= BHEnd)
-                throw new Exception("assert(BHStart < BHEnd)");
+                throw new ArgumentOutOfRangeException("assert(BHStart < BHEnd)");
 
             // Need at least two working hashes.
             if (BHEnd - BHStart < 2)
