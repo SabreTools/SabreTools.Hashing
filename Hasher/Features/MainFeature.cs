@@ -46,7 +46,7 @@ namespace Hasher.Features
         {
             // Get the required variables
             bool debug = GetBoolean(_debugName);
-            List<string> hashTypes = GetHashTypes(GetStringList(_typeName));
+            List<HashType> hashTypes = GetHashTypes(GetStringList(_typeName));
 
             // Loop through all of the input files
             for (int i = 0; i < Inputs.Count; i++)
@@ -64,9 +64,9 @@ namespace Hasher.Features
         /// <summary>
         /// Derive a list of hash types from a list of strings
         /// </summary>
-        private static List<string> GetHashTypes(List<string> types)
+        private static List<HashType> GetHashTypes(List<string> types)
         {
-            List<string> hashTypes = [];
+            List<HashType> hashTypes = [];
             if (types.Count == 0)
             {
                 hashTypes.Add(HashType.CRC32);
@@ -82,7 +82,7 @@ namespace Hasher.Features
             {
                 foreach (string typeString in types)
                 {
-                    string? hashType = typeString.GetHashType();
+                    HashType? hashType = typeString.ToHashType();
                     if (hashType is not null && !hashTypes.Contains(hashType))
                         hashTypes.Add(item: hashType);
                 }
@@ -97,7 +97,7 @@ namespace Hasher.Features
         /// <param name="path">File or directory path</param>
         /// <param name="hashTypes">Set of hashes to retrieve</param>
         /// <param name="debug">Enable debug output</param>
-        private static void PrintPathHashes(string path, List<string> hashTypes, bool debug)
+        private static void PrintPathHashes(string path, List<HashType> hashTypes, bool debug)
         {
             Console.WriteLine($"Checking possible path: {path}");
 
@@ -125,7 +125,7 @@ namespace Hasher.Features
         /// <param name="file">File path</param>
         /// <param name="hashTypes">Set of hashes to retrieve</param>
         /// <param name="debug">Enable debug output</param>
-        private static void PrintFileHashes(string file, List<string> hashTypes, bool debug)
+        private static void PrintFileHashes(string file, List<HashType> hashTypes, bool debug)
         {
             Console.WriteLine($"Attempting to hash {file}, this may take a while...");
             Console.WriteLine();
@@ -149,7 +149,7 @@ namespace Hasher.Features
 
                 // Output subset of available hashes
                 var builder = new StringBuilder();
-                foreach (string hashType in hashTypes)
+                foreach (HashType hashType in hashTypes)
                 {
                     // TODO: Make helper to pretty-print hash type names
                     if (hashes.TryGetValue(hashType, out string? hash) && hash is not null)

@@ -13,7 +13,7 @@ namespace SabreTools.Hashing.Test
 
         private const long _hashFileSize = 125;
 
-        private static readonly Dictionary<string, string> _knownHashes = new()
+        private static readonly Dictionary<HashType, string> _knownHashes = new()
         {
             {HashType.Adler32, "08562d95"},
 
@@ -224,7 +224,7 @@ namespace SabreTools.Hashing.Test
         /// <summary>
         /// Validate the hashes in a hash dictionary
         /// </summary>
-        public static void ValidateHashes(Dictionary<string, string?>? hashDict)
+        public static void ValidateHashes(Dictionary<HashType, string?>? hashDict)
         {
             Assert.NotNull(hashDict);
             foreach (var hashType in _knownHashes.Keys)
@@ -236,7 +236,7 @@ namespace SabreTools.Hashing.Test
         /// <summary>
         /// Validate a single hash
         /// </summary>
-        public static void ValidateHash(string hashType, string? hashValue)
+        public static void ValidateHash(HashType hashType, string? hashValue)
             => Assert.Equal(_knownHashes[hashType], hashValue);
 
         /// <summary>

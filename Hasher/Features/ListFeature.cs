@@ -32,14 +32,14 @@ namespace Hasher.Features
             foreach (var hashType in HashType.AllHashes)
             {
                 // Derive the parameter name
-                string paramName = $"{hashType}";
+                string paramName = hashType.Name;
                 paramName = paramName.Replace("-", string.Empty);
                 paramName = paramName.Replace(" ", string.Empty);
                 paramName = paramName.Replace("/", "_");
                 paramName = paramName.Replace("\\", "_");
                 paramName = paramName.ToLowerInvariant();
 
-                Console.WriteLine($"{hashType.GetHashName()?.PadRight(39, ' ')} {paramName}");
+                Console.WriteLine($"{hashType.Description,-39} {paramName}");
             }
 
             return true;

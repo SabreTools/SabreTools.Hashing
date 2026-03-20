@@ -15,11 +15,11 @@ namespace SabreTools.Hashing.Test
         /// <summary>
         /// Get an array of all hash types
         /// </summary>
-        public static TheoryData<string> AllHashTypes
+        public static TheoryData<HashType> AllHashTypes
         {
             get
             {
-                var set = new TheoryData<string>();
+                var set = new TheoryData<HashType>();
                 foreach (var value in HashType.AllHashes)
                 {
                     set.Add(value);
@@ -76,7 +76,7 @@ namespace SabreTools.Hashing.Test
 
         [Theory]
         [MemberData(nameof(AllHashTypes))]
-        public void GetFileHashesSerialTest(string hashType)
+        public void GetFileHashesSerialTest(HashType hashType)
         {
             var hashValue = HashTool.GetFileHash(_hashFilePath, hashType);
             TestHelper.ValidateHash(hashType, hashValue);

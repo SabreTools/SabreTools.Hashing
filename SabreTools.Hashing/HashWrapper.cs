@@ -17,7 +17,7 @@ namespace SabreTools.Hashing
         /// <summary>
         /// Hash type associated with the current state
         /// </summary>
-        public readonly string HashName;
+        public readonly HashType HashType;
 
         /// <summary>
         /// Current hash in bytes
@@ -67,9 +67,9 @@ namespace SabreTools.Hashing
         /// Constructor
         /// </summary>
         /// <param name="hashType">Hash type to instantiate</param>
-        public HashWrapper(string hashType)
+        public HashWrapper(HashType hashType)
         {
-            HashName = hashType.GetHashType() ?? string.Empty;
+            HashType = hashType;
             GetHasher();
         }
 
@@ -78,212 +78,372 @@ namespace SabreTools.Hashing
         /// </summary>
         private void GetHasher()
         {
-            _hasher = HashName switch
-            {
-                HashType.Adler32 => new Adler32(),
+            if (HashType == HashType.Adler32)
+                _hasher = new Adler32();
 
 #if NET7_0_OR_GREATER
-                HashType.BLAKE3 => new Blake3.Blake3HashAlgorithm(),
+            else if (HashType == HashType.BLAKE3)
+                _hasher = new Blake3.Blake3HashAlgorithm();
 #endif
 
-                HashType.CRC1_ZERO => new Crc(StandardDefinitions.CRC1_ZERO),
-                HashType.CRC1_ONE => new Crc(StandardDefinitions.CRC1_ONE),
+            else if (HashType == HashType.CRC1_ZERO)
+                _hasher = new Crc(StandardDefinitions.CRC1_ZERO);
+            else if (HashType == HashType.CRC1_ONE)
+                _hasher = new Crc(StandardDefinitions.CRC1_ONE);
 
-                HashType.CRC3_GSM => new Crc(StandardDefinitions.CRC3_GSM),
-                HashType.CRC3_ROHC => new Crc(StandardDefinitions.CRC3_ROHC),
+            else if (HashType == HashType.CRC3_GSM)
+                _hasher = new Crc(StandardDefinitions.CRC3_GSM);
+            else if (HashType == HashType.CRC3_ROHC)
+                _hasher = new Crc(StandardDefinitions.CRC3_ROHC);
 
-                HashType.CRC4_G704 => new Crc(StandardDefinitions.CRC4_G704),
-                HashType.CRC4_INTERLAKEN => new Crc(StandardDefinitions.CRC4_INTERLAKEN),
+            else if (HashType == HashType.CRC4_G704)
+                _hasher = new Crc(StandardDefinitions.CRC4_G704);
+            else if (HashType == HashType.CRC4_INTERLAKEN)
+                _hasher = new Crc(StandardDefinitions.CRC4_INTERLAKEN);
 
-                HashType.CRC5_EPCC1G2 => new Crc(StandardDefinitions.CRC5_EPCC1G2),
-                HashType.CRC5_G704 => new Crc(StandardDefinitions.CRC5_G704),
-                HashType.CRC5_USB => new Crc(StandardDefinitions.CRC5_USB),
+            else if (HashType == HashType.CRC5_EPCC1G2)
+                _hasher = new Crc(StandardDefinitions.CRC5_EPCC1G2);
+            else if (HashType == HashType.CRC5_G704)
+                _hasher = new Crc(StandardDefinitions.CRC5_G704);
+            else if (HashType == HashType.CRC5_USB)
+                _hasher = new Crc(StandardDefinitions.CRC5_USB);
 
-                HashType.CRC6_CDMA2000A => new Crc(StandardDefinitions.CRC6_CDMA2000A),
-                HashType.CRC6_CDMA2000B => new Crc(StandardDefinitions.CRC6_CDMA2000B),
-                HashType.CRC6_DARC => new Crc(StandardDefinitions.CRC6_DARC),
-                HashType.CRC6_G704 => new Crc(StandardDefinitions.CRC6_G704),
-                HashType.CRC6_GSM => new Crc(StandardDefinitions.CRC6_GSM),
+            else if (HashType == HashType.CRC6_CDMA2000A)
+                _hasher = new Crc(StandardDefinitions.CRC6_CDMA2000A);
+            else if (HashType == HashType.CRC6_CDMA2000B)
+                _hasher = new Crc(StandardDefinitions.CRC6_CDMA2000B);
+            else if (HashType == HashType.CRC6_DARC)
+                _hasher = new Crc(StandardDefinitions.CRC6_DARC);
+            else if (HashType == HashType.CRC6_G704)
+                _hasher = new Crc(StandardDefinitions.CRC6_G704);
+            else if (HashType == HashType.CRC6_GSM)
+                _hasher = new Crc(StandardDefinitions.CRC6_GSM);
 
-                HashType.CRC7_MMC => new Crc(StandardDefinitions.CRC7_MMC),
-                HashType.CRC7_ROHC => new Crc(StandardDefinitions.CRC7_ROHC),
-                HashType.CRC7_UMTS => new Crc(StandardDefinitions.CRC7_UMTS),
+            else if (HashType == HashType.CRC7_MMC)
+                _hasher = new Crc(StandardDefinitions.CRC7_MMC);
+            else if (HashType == HashType.CRC7_ROHC)
+                _hasher = new Crc(StandardDefinitions.CRC7_ROHC);
+            else if (HashType == HashType.CRC7_UMTS)
+                _hasher = new Crc(StandardDefinitions.CRC7_UMTS);
 
-                HashType.CRC8 => new Crc(StandardDefinitions.CRC8_SMBUS),
-                HashType.CRC8_AUTOSAR => new Crc(StandardDefinitions.CRC8_AUTOSAR),
-                HashType.CRC8_BLUETOOTH => new Crc(StandardDefinitions.CRC8_BLUETOOTH),
-                HashType.CRC8_CDMA2000 => new Crc(StandardDefinitions.CRC8_CDMA2000),
-                HashType.CRC8_DARC => new Crc(StandardDefinitions.CRC8_DARC),
-                HashType.CRC8_DVBS2 => new Crc(StandardDefinitions.CRC8_DVBS2),
-                HashType.CRC8_GSMA => new Crc(StandardDefinitions.CRC8_GSMA),
-                HashType.CRC8_GSMB => new Crc(StandardDefinitions.CRC8_GSMB),
-                HashType.CRC8_HITAG => new Crc(StandardDefinitions.CRC8_HITAG),
-                HashType.CRC8_I4321 => new Crc(StandardDefinitions.CRC8_I4321),
-                HashType.CRC8_ICODE => new Crc(StandardDefinitions.CRC8_ICODE),
-                HashType.CRC8_LTE => new Crc(StandardDefinitions.CRC8_LTE),
-                HashType.CRC8_MAXIMDOW => new Crc(StandardDefinitions.CRC8_MAXIMDOW),
-                HashType.CRC8_MIFAREMAD => new Crc(StandardDefinitions.CRC8_MIFAREMAD),
-                HashType.CRC8_NRSC5 => new Crc(StandardDefinitions.CRC8_NRSC5),
-                HashType.CRC8_OPENSAFETY => new Crc(StandardDefinitions.CRC8_OPENSAFETY),
-                HashType.CRC8_ROHC => new Crc(StandardDefinitions.CRC8_ROHC),
-                HashType.CRC8_SAEJ1850 => new Crc(StandardDefinitions.CRC8_SAEJ1850),
-                HashType.CRC8_SMBUS => new Crc(StandardDefinitions.CRC8_SMBUS),
-                HashType.CRC8_TECH3250 => new Crc(StandardDefinitions.CRC8_TECH3250),
-                HashType.CRC8_WCDMA => new Crc(StandardDefinitions.CRC8_WCDMA),
+            else if (HashType == HashType.CRC8)
+                _hasher = new Crc(StandardDefinitions.CRC8_SMBUS);
+            else if (HashType == HashType.CRC8_AUTOSAR)
+                _hasher = new Crc(StandardDefinitions.CRC8_AUTOSAR);
+            else if (HashType == HashType.CRC8_BLUETOOTH)
+                _hasher = new Crc(StandardDefinitions.CRC8_BLUETOOTH);
+            else if (HashType == HashType.CRC8_CDMA2000)
+                _hasher = new Crc(StandardDefinitions.CRC8_CDMA2000);
+            else if (HashType == HashType.CRC8_DARC)
+                _hasher = new Crc(StandardDefinitions.CRC8_DARC);
+            else if (HashType == HashType.CRC8_DVBS2)
+                _hasher = new Crc(StandardDefinitions.CRC8_DVBS2);
+            else if (HashType == HashType.CRC8_GSMA)
+                _hasher = new Crc(StandardDefinitions.CRC8_GSMA);
+            else if (HashType == HashType.CRC8_GSMB)
+                _hasher = new Crc(StandardDefinitions.CRC8_GSMB);
+            else if (HashType == HashType.CRC8_HITAG)
+                _hasher = new Crc(StandardDefinitions.CRC8_HITAG);
+            else if (HashType == HashType.CRC8_I4321)
+                _hasher = new Crc(StandardDefinitions.CRC8_I4321);
+            else if (HashType == HashType.CRC8_ICODE)
+                _hasher = new Crc(StandardDefinitions.CRC8_ICODE);
+            else if (HashType == HashType.CRC8_LTE)
+                _hasher = new Crc(StandardDefinitions.CRC8_LTE);
+            else if (HashType == HashType.CRC8_MAXIMDOW)
+                _hasher = new Crc(StandardDefinitions.CRC8_MAXIMDOW);
+            else if (HashType == HashType.CRC8_MIFAREMAD)
+                _hasher = new Crc(StandardDefinitions.CRC8_MIFAREMAD);
+            else if (HashType == HashType.CRC8_NRSC5)
+                _hasher = new Crc(StandardDefinitions.CRC8_NRSC5);
+            else if (HashType == HashType.CRC8_OPENSAFETY)
+                _hasher = new Crc(StandardDefinitions.CRC8_OPENSAFETY);
+            else if (HashType == HashType.CRC8_ROHC)
+                _hasher = new Crc(StandardDefinitions.CRC8_ROHC);
+            else if (HashType == HashType.CRC8_SAEJ1850)
+                _hasher = new Crc(StandardDefinitions.CRC8_SAEJ1850);
+            else if (HashType == HashType.CRC8_SMBUS)
+                _hasher = new Crc(StandardDefinitions.CRC8_SMBUS);
+            else if (HashType == HashType.CRC8_TECH3250)
+                _hasher = new Crc(StandardDefinitions.CRC8_TECH3250);
+            else if (HashType == HashType.CRC8_WCDMA)
+                _hasher = new Crc(StandardDefinitions.CRC8_WCDMA);
 
-                HashType.CRC10_ATM => new Crc(StandardDefinitions.CRC10_ATM),
-                HashType.CRC10_CDMA2000 => new Crc(StandardDefinitions.CRC10_CDMA2000),
-                HashType.CRC10_GSM => new Crc(StandardDefinitions.CRC10_GSM),
+            else if (HashType == HashType.CRC10_ATM)
+                _hasher = new Crc(StandardDefinitions.CRC10_ATM);
+            else if (HashType == HashType.CRC10_CDMA2000)
+                _hasher = new Crc(StandardDefinitions.CRC10_CDMA2000);
+            else if (HashType == HashType.CRC10_GSM)
+                _hasher = new Crc(StandardDefinitions.CRC10_GSM);
 
-                HashType.CRC11_FLEXRAY => new Crc(StandardDefinitions.CRC11_FLEXRAY),
-                HashType.CRC11_UMTS => new Crc(StandardDefinitions.CRC11_UMTS),
+            else if (HashType == HashType.CRC11_FLEXRAY)
+                _hasher = new Crc(StandardDefinitions.CRC11_FLEXRAY);
+            else if (HashType == HashType.CRC11_UMTS)
+                _hasher = new Crc(StandardDefinitions.CRC11_UMTS);
 
-                HashType.CRC12_CDMA2000 => new Crc(StandardDefinitions.CRC12_CDMA2000),
-                HashType.CRC12_DECT => new Crc(StandardDefinitions.CRC12_DECT),
-                HashType.CRC12_GSM => new Crc(StandardDefinitions.CRC12_GSM),
-                HashType.CRC12_UMTS => new Crc(StandardDefinitions.CRC12_UMTS),
+            else if (HashType == HashType.CRC12_CDMA2000)
+                _hasher = new Crc(StandardDefinitions.CRC12_CDMA2000);
+            else if (HashType == HashType.CRC12_DECT)
+                _hasher = new Crc(StandardDefinitions.CRC12_DECT);
+            else if (HashType == HashType.CRC12_GSM)
+                _hasher = new Crc(StandardDefinitions.CRC12_GSM);
+            else if (HashType == HashType.CRC12_UMTS)
+                _hasher = new Crc(StandardDefinitions.CRC12_UMTS);
 
-                HashType.CRC13_BBC => new Crc(StandardDefinitions.CRC13_BBC),
+            else if (HashType == HashType.CRC13_BBC)
+                _hasher = new Crc(StandardDefinitions.CRC13_BBC);
 
-                HashType.CRC14_DARC => new Crc(StandardDefinitions.CRC14_DARC),
-                HashType.CRC14_GSM => new Crc(StandardDefinitions.CRC14_GSM),
+            else if (HashType == HashType.CRC14_DARC)
+                _hasher = new Crc(StandardDefinitions.CRC14_DARC);
+            else if (HashType == HashType.CRC14_GSM)
+                _hasher = new Crc(StandardDefinitions.CRC14_GSM);
 
-                HashType.CRC15_CAN => new Crc(StandardDefinitions.CRC15_CAN),
-                HashType.CRC15_MPT1327 => new Crc(StandardDefinitions.CRC15_MPT1327),
+            else if (HashType == HashType.CRC15_CAN)
+                _hasher = new Crc(StandardDefinitions.CRC15_CAN);
+            else if (HashType == HashType.CRC15_MPT1327)
+                _hasher = new Crc(StandardDefinitions.CRC15_MPT1327);
 
-                HashType.CRC16 => new Crc(StandardDefinitions.CRC16_ARC),
-                HashType.CRC16_ARC => new Crc(StandardDefinitions.CRC16_ARC),
-                HashType.CRC16_CDMA2000 => new Crc(StandardDefinitions.CRC16_CDMA2000),
-                HashType.CRC16_CMS => new Crc(StandardDefinitions.CRC16_CMS),
-                HashType.CRC16_DDS110 => new Crc(StandardDefinitions.CRC16_DDS110),
-                HashType.CRC16_DECTR => new Crc(StandardDefinitions.CRC16_DECTR),
-                HashType.CRC16_DECTX => new Crc(StandardDefinitions.CRC16_DECTX),
-                HashType.CRC16_DNP => new Crc(StandardDefinitions.CRC16_DNP),
-                HashType.CRC16_EN13757 => new Crc(StandardDefinitions.CRC16_EN13757),
-                HashType.CRC16_GENIBUS => new Crc(StandardDefinitions.CRC16_GENIBUS),
-                HashType.CRC16_GSM => new Crc(StandardDefinitions.CRC16_GSM),
-                HashType.CRC16_IBM3740 => new Crc(StandardDefinitions.CRC16_IBM3740),
-                HashType.CRC16_IBMSDLC => new Crc(StandardDefinitions.CRC16_IBMSDLC),
-                HashType.CRC16_ISOIEC144433A => new Crc(StandardDefinitions.CRC16_ISOIEC144433A),
-                HashType.CRC16_KERMIT => new Crc(StandardDefinitions.CRC16_KERMIT),
-                HashType.CRC16_LJ1200 => new Crc(StandardDefinitions.CRC16_LJ1200),
-                HashType.CRC16_M17 => new Crc(StandardDefinitions.CRC16_M17),
-                HashType.CRC16_MAXIMDOW => new Crc(StandardDefinitions.CRC16_MAXIMDOW),
-                HashType.CRC16_MCRF4XX => new Crc(StandardDefinitions.CRC16_MCRF4XX),
-                HashType.CRC16_MODBUS => new Crc(StandardDefinitions.CRC16_MODBUS),
-                HashType.CRC16_NRSC5 => new Crc(StandardDefinitions.CRC16_NRSC5),
-                HashType.CRC16_OPENSAFETYA => new Crc(StandardDefinitions.CRC16_OPENSAFETYA),
-                HashType.CRC16_OPENSAFETYB => new Crc(StandardDefinitions.CRC16_OPENSAFETYB),
-                HashType.CRC16_PROFIBUS => new Crc(StandardDefinitions.CRC16_PROFIBUS),
-                HashType.CRC16_RIELLO => new Crc(StandardDefinitions.CRC16_RIELLO),
-                HashType.CRC16_SPIFUJITSU => new Crc(StandardDefinitions.CRC16_SPIFUJITSU),
-                HashType.CRC16_T10DIF => new Crc(StandardDefinitions.CRC16_T10DIF),
-                HashType.CRC16_TELEDISK => new Crc(StandardDefinitions.CRC16_TELEDISK),
-                HashType.CRC16_TMS37157 => new Crc(StandardDefinitions.CRC16_TMS37157),
-                HashType.CRC16_UMTS => new Crc(StandardDefinitions.CRC16_UMTS),
-                HashType.CRC16_USB => new Crc(StandardDefinitions.CRC16_USB),
-                HashType.CRC16_XMODEM => new Crc(StandardDefinitions.CRC16_XMODEM),
+            else if (HashType == HashType.CRC16)
+                _hasher = new Crc(StandardDefinitions.CRC16_ARC);
+            else if (HashType == HashType.CRC16_ARC)
+                _hasher = new Crc(StandardDefinitions.CRC16_ARC);
+            else if (HashType == HashType.CRC16_CDMA2000)
+                _hasher = new Crc(StandardDefinitions.CRC16_CDMA2000);
+            else if (HashType == HashType.CRC16_CMS)
+                _hasher = new Crc(StandardDefinitions.CRC16_CMS);
+            else if (HashType == HashType.CRC16_DDS110)
+                _hasher = new Crc(StandardDefinitions.CRC16_DDS110);
+            else if (HashType == HashType.CRC16_DECTR)
+                _hasher = new Crc(StandardDefinitions.CRC16_DECTR);
+            else if (HashType == HashType.CRC16_DECTX)
+                _hasher = new Crc(StandardDefinitions.CRC16_DECTX);
+            else if (HashType == HashType.CRC16_DNP)
+                _hasher = new Crc(StandardDefinitions.CRC16_DNP);
+            else if (HashType == HashType.CRC16_EN13757)
+                _hasher = new Crc(StandardDefinitions.CRC16_EN13757);
+            else if (HashType == HashType.CRC16_GENIBUS)
+                _hasher = new Crc(StandardDefinitions.CRC16_GENIBUS);
+            else if (HashType == HashType.CRC16_GSM)
+                _hasher = new Crc(StandardDefinitions.CRC16_GSM);
+            else if (HashType == HashType.CRC16_IBM3740)
+                _hasher = new Crc(StandardDefinitions.CRC16_IBM3740);
+            else if (HashType == HashType.CRC16_IBMSDLC)
+                _hasher = new Crc(StandardDefinitions.CRC16_IBMSDLC);
+            else if (HashType == HashType.CRC16_ISOIEC144433A)
+                _hasher = new Crc(StandardDefinitions.CRC16_ISOIEC144433A);
+            else if (HashType == HashType.CRC16_KERMIT)
+                _hasher = new Crc(StandardDefinitions.CRC16_KERMIT);
+            else if (HashType == HashType.CRC16_LJ1200)
+                _hasher = new Crc(StandardDefinitions.CRC16_LJ1200);
+            else if (HashType == HashType.CRC16_M17)
+                _hasher = new Crc(StandardDefinitions.CRC16_M17);
+            else if (HashType == HashType.CRC16_MAXIMDOW)
+                _hasher = new Crc(StandardDefinitions.CRC16_MAXIMDOW);
+            else if (HashType == HashType.CRC16_MCRF4XX)
+                _hasher = new Crc(StandardDefinitions.CRC16_MCRF4XX);
+            else if (HashType == HashType.CRC16_MODBUS)
+                _hasher = new Crc(StandardDefinitions.CRC16_MODBUS);
+            else if (HashType == HashType.CRC16_NRSC5)
+                _hasher = new Crc(StandardDefinitions.CRC16_NRSC5);
+            else if (HashType == HashType.CRC16_OPENSAFETYA)
+                _hasher = new Crc(StandardDefinitions.CRC16_OPENSAFETYA);
+            else if (HashType == HashType.CRC16_OPENSAFETYB)
+                _hasher = new Crc(StandardDefinitions.CRC16_OPENSAFETYB);
+            else if (HashType == HashType.CRC16_PROFIBUS)
+                _hasher = new Crc(StandardDefinitions.CRC16_PROFIBUS);
+            else if (HashType == HashType.CRC16_RIELLO)
+                _hasher = new Crc(StandardDefinitions.CRC16_RIELLO);
+            else if (HashType == HashType.CRC16_SPIFUJITSU)
+                _hasher = new Crc(StandardDefinitions.CRC16_SPIFUJITSU);
+            else if (HashType == HashType.CRC16_T10DIF)
+                _hasher = new Crc(StandardDefinitions.CRC16_T10DIF);
+            else if (HashType == HashType.CRC16_TELEDISK)
+                _hasher = new Crc(StandardDefinitions.CRC16_TELEDISK);
+            else if (HashType == HashType.CRC16_TMS37157)
+                _hasher = new Crc(StandardDefinitions.CRC16_TMS37157);
+            else if (HashType == HashType.CRC16_UMTS)
+                _hasher = new Crc(StandardDefinitions.CRC16_UMTS);
+            else if (HashType == HashType.CRC16_USB)
+                _hasher = new Crc(StandardDefinitions.CRC16_USB);
+            else if (HashType == HashType.CRC16_XMODEM)
+                _hasher = new Crc(StandardDefinitions.CRC16_XMODEM);
 
-                HashType.CRC17_CANFD => new Crc(StandardDefinitions.CRC17_CANFD),
+            else if (HashType == HashType.CRC17_CANFD)
+                _hasher = new Crc(StandardDefinitions.CRC17_CANFD);
 
-                HashType.CRC21_CANFD => new Crc(StandardDefinitions.CRC21_CANFD),
+            else if (HashType == HashType.CRC21_CANFD)
+                _hasher = new Crc(StandardDefinitions.CRC21_CANFD);
 
-                HashType.CRC24_BLE => new Crc(StandardDefinitions.CRC24_BLE),
-                HashType.CRC24_FLEXRAYA => new Crc(StandardDefinitions.CRC24_FLEXRAYA),
-                HashType.CRC24_FLEXRAYB => new Crc(StandardDefinitions.CRC24_FLEXRAYB),
-                HashType.CRC24_INTERLAKEN => new Crc(StandardDefinitions.CRC24_INTERLAKEN),
-                HashType.CRC24_LTEA => new Crc(StandardDefinitions.CRC24_LTEA),
-                HashType.CRC24_LTEB => new Crc(StandardDefinitions.CRC24_LTEB),
-                HashType.CRC24_OPENPGP => new Crc(StandardDefinitions.CRC24_OPENPGP),
-                HashType.CRC24_OS9 => new Crc(StandardDefinitions.CRC24_OS9),
+            else if (HashType == HashType.CRC24_BLE)
+                _hasher = new Crc(StandardDefinitions.CRC24_BLE);
+            else if (HashType == HashType.CRC24_FLEXRAYA)
+                _hasher = new Crc(StandardDefinitions.CRC24_FLEXRAYA);
+            else if (HashType == HashType.CRC24_FLEXRAYB)
+                _hasher = new Crc(StandardDefinitions.CRC24_FLEXRAYB);
+            else if (HashType == HashType.CRC24_INTERLAKEN)
+                _hasher = new Crc(StandardDefinitions.CRC24_INTERLAKEN);
+            else if (HashType == HashType.CRC24_LTEA)
+                _hasher = new Crc(StandardDefinitions.CRC24_LTEA);
+            else if (HashType == HashType.CRC24_LTEB)
+                _hasher = new Crc(StandardDefinitions.CRC24_LTEB);
+            else if (HashType == HashType.CRC24_OPENPGP)
+                _hasher = new Crc(StandardDefinitions.CRC24_OPENPGP);
+            else if (HashType == HashType.CRC24_OS9)
+                _hasher = new Crc(StandardDefinitions.CRC24_OS9);
 
-                HashType.CRC30_CDMA => new Crc(StandardDefinitions.CRC30_CDMA),
+            else if (HashType == HashType.CRC30_CDMA)
+                _hasher = new Crc(StandardDefinitions.CRC30_CDMA);
 
-                HashType.CRC31_PHILIPS => new Crc(StandardDefinitions.CRC31_PHILIPS),
+            else if (HashType == HashType.CRC31_PHILIPS)
+                _hasher = new Crc(StandardDefinitions.CRC31_PHILIPS);
 
-                HashType.CRC32 => new Crc(StandardDefinitions.CRC32_ISOHDLC),
-                HashType.CRC32_AIXM => new Crc(StandardDefinitions.CRC32_AIXM),
-                HashType.CRC32_AUTOSAR => new Crc(StandardDefinitions.CRC32_AUTOSAR),
-                HashType.CRC32_BASE91D => new Crc(StandardDefinitions.CRC32_BASE91D),
-                HashType.CRC32_BZIP2 => new Crc(StandardDefinitions.CRC32_BZIP2),
-                HashType.CRC32_CDROMEDC => new Crc(StandardDefinitions.CRC32_CDROMEDC),
-                HashType.CRC32_CKSUM => new Crc(StandardDefinitions.CRC32_CKSUM),
-                HashType.CRC32_DVDROMEDC => new Crc(StandardDefinitions.CRC32_DVDROMEDC),
-                HashType.CRC32_ISCSI => new Crc(StandardDefinitions.CRC32_ISCSI),
-                HashType.CRC32_ISOHDLC => new Crc(StandardDefinitions.CRC32_ISOHDLC),
-                HashType.CRC32_JAMCRC => new Crc(StandardDefinitions.CRC32_JAMCRC),
-                HashType.CRC32_MEF => new Crc(StandardDefinitions.CRC32_MEF),
-                HashType.CRC32_MPEG2 => new Crc(StandardDefinitions.CRC32_MPEG2),
-                HashType.CRC32_XFER => new Crc(StandardDefinitions.CRC32_XFER),
+            else if (HashType == HashType.CRC32)
+                _hasher = new Crc(StandardDefinitions.CRC32_ISOHDLC);
+            else if (HashType == HashType.CRC32_AIXM)
+                _hasher = new Crc(StandardDefinitions.CRC32_AIXM);
+            else if (HashType == HashType.CRC32_AUTOSAR)
+                _hasher = new Crc(StandardDefinitions.CRC32_AUTOSAR);
+            else if (HashType == HashType.CRC32_BASE91D)
+                _hasher = new Crc(StandardDefinitions.CRC32_BASE91D);
+            else if (HashType == HashType.CRC32_BZIP2)
+                _hasher = new Crc(StandardDefinitions.CRC32_BZIP2);
+            else if (HashType == HashType.CRC32_CDROMEDC)
+                _hasher = new Crc(StandardDefinitions.CRC32_CDROMEDC);
+            else if (HashType == HashType.CRC32_CKSUM)
+                _hasher = new Crc(StandardDefinitions.CRC32_CKSUM);
+            else if (HashType == HashType.CRC32_DVDROMEDC)
+                _hasher = new Crc(StandardDefinitions.CRC32_DVDROMEDC);
+            else if (HashType == HashType.CRC32_ISCSI)
+                _hasher = new Crc(StandardDefinitions.CRC32_ISCSI);
+            else if (HashType == HashType.CRC32_ISOHDLC)
+                _hasher = new Crc(StandardDefinitions.CRC32_ISOHDLC);
+            else if (HashType == HashType.CRC32_JAMCRC)
+                _hasher = new Crc(StandardDefinitions.CRC32_JAMCRC);
+            else if (HashType == HashType.CRC32_MEF)
+                _hasher = new Crc(StandardDefinitions.CRC32_MEF);
+            else if (HashType == HashType.CRC32_MPEG2)
+                _hasher = new Crc(StandardDefinitions.CRC32_MPEG2);
+            else if (HashType == HashType.CRC32_XFER)
+                _hasher = new Crc(StandardDefinitions.CRC32_XFER);
 
-                HashType.CRC40_GSM => new Crc(StandardDefinitions.CRC40_GSM),
+            else if (HashType == HashType.CRC40_GSM)
+                _hasher = new Crc(StandardDefinitions.CRC40_GSM);
 
-                HashType.CRC64 => new Crc(StandardDefinitions.CRC64_ECMA182),
-                HashType.CRC64_ECMA182 => new Crc(StandardDefinitions.CRC64_ECMA182),
-                HashType.CRC64_GOISO => new Crc(StandardDefinitions.CRC64_GOISO),
-                HashType.CRC64_MS => new Crc(StandardDefinitions.CRC64_MS),
-                HashType.CRC64_NVME => new Crc(StandardDefinitions.CRC64_NVME),
-                HashType.CRC64_REDIS => new Crc(StandardDefinitions.CRC64_REDIS),
-                HashType.CRC64_WE => new Crc(StandardDefinitions.CRC64_WE),
-                HashType.CRC64_XZ => new Crc(StandardDefinitions.CRC64_XZ),
+            else if (HashType == HashType.CRC64)
+                _hasher = new Crc(StandardDefinitions.CRC64_ECMA182);
+            else if (HashType == HashType.CRC64_ECMA182)
+                _hasher = new Crc(StandardDefinitions.CRC64_ECMA182);
+            else if (HashType == HashType.CRC64_GOISO)
+                _hasher = new Crc(StandardDefinitions.CRC64_GOISO);
+            else if (HashType == HashType.CRC64_MS)
+                _hasher = new Crc(StandardDefinitions.CRC64_MS);
+            else if (HashType == HashType.CRC64_NVME)
+                _hasher = new Crc(StandardDefinitions.CRC64_NVME);
+            else if (HashType == HashType.CRC64_REDIS)
+                _hasher = new Crc(StandardDefinitions.CRC64_REDIS);
+            else if (HashType == HashType.CRC64_WE)
+                _hasher = new Crc(StandardDefinitions.CRC64_WE);
+            else if (HashType == HashType.CRC64_XZ)
+                _hasher = new Crc(StandardDefinitions.CRC64_XZ);
 
-                HashType.Fletcher16 => new Fletcher16(),
-                HashType.Fletcher32 => new Fletcher32(),
-                HashType.Fletcher64 => new Fletcher64(),
+            else if (HashType == HashType.Fletcher16)
+                _hasher = new Fletcher16();
+            else if (HashType == HashType.Fletcher32)
+                _hasher = new Fletcher32();
+            else if (HashType == HashType.Fletcher64)
+                _hasher = new Fletcher64();
 
-                HashType.FNV0_32 => new FNV0_32(),
-                HashType.FNV0_64 => new FNV0_64(),
-                HashType.FNV1_32 => new FNV1_32(),
-                HashType.FNV1_64 => new FNV1_64(),
-                HashType.FNV1a_32 => new FNV1a_32(),
-                HashType.FNV1a_64 => new FNV1a_64(),
+            else if (HashType == HashType.FNV0_32)
+                _hasher = new FNV0_32();
+            else if (HashType == HashType.FNV0_64)
+                _hasher = new FNV0_64();
+            else if (HashType == HashType.FNV1_32)
+                _hasher = new FNV1_32();
+            else if (HashType == HashType.FNV1_64)
+                _hasher = new FNV1_64();
+            else if (HashType == HashType.FNV1a_32)
+                _hasher = new FNV1a_32();
+            else if (HashType == HashType.FNV1a_64)
+                _hasher = new FNV1a_64();
 
-                HashType.MekaCrc => new MekaCrc(),
+            else if (HashType == HashType.MekaCrc)
+                _hasher = new MekaCrc();
 
-                HashType.MD2 => new MD2(),
-                HashType.MD4 => new MD4(),
-                HashType.MD5 => MD5.Create(),
+            else if (HashType == HashType.MD2)
+                _hasher = new MD2();
+            else if (HashType == HashType.MD4)
+                _hasher = new MD4();
+            else if (HashType == HashType.MD5)
+                _hasher = MD5.Create();
 
-                HashType.RIPEMD128 => new RipeMD128(),
-                HashType.RIPEMD160 => new RipeMD160(),
-                HashType.RIPEMD256 => new RipeMD256(),
-                HashType.RIPEMD320 => new RipeMD320(),
+            else if (HashType == HashType.RIPEMD128)
+                _hasher = new RipeMD128();
+            else if (HashType == HashType.RIPEMD160)
+                _hasher = new RipeMD160();
+            else if (HashType == HashType.RIPEMD256)
+                _hasher = new RipeMD256();
+            else if (HashType == HashType.RIPEMD320)
+                _hasher = new RipeMD320();
 
-                HashType.SHA1 => SHA1.Create(),
-                HashType.SHA256 => SHA256.Create(),
-                HashType.SHA384 => SHA384.Create(),
-                HashType.SHA512 => SHA512.Create(),
+            else if (HashType == HashType.SHA1)
+                _hasher = SHA1.Create();
+            else if (HashType == HashType.SHA256)
+                _hasher = SHA256.Create();
+            else if (HashType == HashType.SHA384)
+                _hasher = SHA384.Create();
+            else if (HashType == HashType.SHA512)
+                _hasher = SHA512.Create();
 #if NET8_0_OR_GREATER
-                HashType.SHA3_256 => SHA3_256.IsSupported ? SHA3_256.Create() : null,
-                HashType.SHA3_384 => SHA3_384.IsSupported ? SHA3_384.Create() : null,
-                HashType.SHA3_512 => SHA3_512.IsSupported ? SHA3_512.Create() : null,
-                HashType.SHAKE128 => Shake128.IsSupported ? new Shake128() : null,
-                HashType.SHAKE256 => Shake256.IsSupported ? new Shake256() : null,
+            else if (HashType == HashType.SHA3_256)
+                _hasher = SHA3_256.IsSupported ? SHA3_256.Create() : null;
+            else if (HashType == HashType.SHA3_384)
+                _hasher = SHA3_384.IsSupported ? SHA3_384.Create() : null;
+            else if (HashType == HashType.SHA3_512)
+                _hasher = SHA3_512.IsSupported ? SHA3_512.Create() : null;
+            else if (HashType == HashType.SHAKE128)
+                _hasher = Shake128.IsSupported ? new Shake128() : null;
+            else if (HashType == HashType.SHAKE256)
+                _hasher = Shake256.IsSupported ? new Shake256() : null;
 #endif
 
-                HashType.SpamSum => new SpamSum.SpamSum(),
+            else if (HashType == HashType.SpamSum)
+                _hasher = new SpamSum.SpamSum();
 
-                HashType.Tiger128_3 => new Tiger128_3(),
-                HashType.Tiger128_4 => new Tiger128_4(),
-                HashType.Tiger160_3 => new Tiger160_3(),
-                HashType.Tiger160_4 => new Tiger160_4(),
-                HashType.Tiger192_3 => new Tiger192_3(),
-                HashType.Tiger192_4 => new Tiger192_4(),
-                HashType.Tiger2_128_3 => new Tiger2_128_3(),
-                HashType.Tiger2_128_4 => new Tiger2_128_4(),
-                HashType.Tiger2_160_3 => new Tiger2_160_3(),
-                HashType.Tiger2_160_4 => new Tiger2_160_4(),
-                HashType.Tiger2_192_3 => new Tiger2_192_3(),
-                HashType.Tiger2_192_4 => new Tiger2_192_4(),
+            else if (HashType == HashType.Tiger128_3)
+                _hasher = new Tiger128_3();
+            else if (HashType == HashType.Tiger128_4)
+                _hasher = new Tiger128_4();
+            else if (HashType == HashType.Tiger160_3)
+                _hasher = new Tiger160_3();
+            else if (HashType == HashType.Tiger160_4)
+                _hasher = new Tiger160_4();
+            else if (HashType == HashType.Tiger192_3)
+                _hasher = new Tiger192_3();
+            else if (HashType == HashType.Tiger192_4)
+                _hasher = new Tiger192_4();
+            else if (HashType == HashType.Tiger2_128_3)
+                _hasher = new Tiger2_128_3();
+            else if (HashType == HashType.Tiger2_128_4)
+                _hasher = new Tiger2_128_4();
+            else if (HashType == HashType.Tiger2_160_3)
+                _hasher = new Tiger2_160_3();
+            else if (HashType == HashType.Tiger2_160_4)
+                _hasher = new Tiger2_160_4();
+            else if (HashType == HashType.Tiger2_192_3)
+                _hasher = new Tiger2_192_3();
+            else if (HashType == HashType.Tiger2_192_4)
+                _hasher = new Tiger2_192_4();
 
-                HashType.XxHash32 => new XxHash32(),
-                HashType.XxHash64 => new XxHash64(),
+            else if (HashType == HashType.XxHash32)
+                _hasher = new XxHash32();
+            else if (HashType == HashType.XxHash64)
+                _hasher = new XxHash64();
 #if NET462_OR_GREATER || NETCOREAPP
-                HashType.XxHash3 => new System.IO.Hashing.XxHash3(),
-                HashType.XxHash128 => new System.IO.Hashing.XxHash128(),
+            else if (HashType == HashType.XxHash3)
+                _hasher = new System.IO.Hashing.XxHash3();
+            else if (HashType == HashType.XxHash128)
+                _hasher = new System.IO.Hashing.XxHash128();
 #endif
-                _ => null,
-            };
         }
 
         /// <inheritdoc/>

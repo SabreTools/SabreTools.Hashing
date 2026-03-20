@@ -88,7 +88,7 @@ namespace SabreTools.Hashing
         /// <summary>
         /// Set of all known 0-byte outputs as strings
         /// </summary>
-        private static readonly Dictionary<string, byte[]> _bytes = new()
+        private static readonly Dictionary<HashType, byte[]> _bytes = new()
         {
             {HashType.Adler32, [0x00, 0x00, 0x00, 0x01]},
 
@@ -394,7 +394,7 @@ namespace SabreTools.Hashing
         /// <summary>
         /// Set of all known 0-byte outputs as strings
         /// </summary>
-        private static readonly Dictionary<string, string> _strings = new()
+        private static readonly Dictionary<HashType, string> _strings = new()
         {
             {HashType.Adler32, "00000001"},
 
@@ -605,7 +605,7 @@ namespace SabreTools.Hashing
         /// </summary>
         /// <param name="hashType">Hash type to get the value for</param>
         /// <returns>Non-empty array containing the value on success, empty array on failure</returns>
-        public static byte[] GetBytes(string hashType)
+        public static byte[] GetBytes(HashType hashType)
         {
             if (!_bytes.TryGetValue(hashType, out byte[]? value))
                 return [];
@@ -618,7 +618,7 @@ namespace SabreTools.Hashing
         /// </summary>
         /// <param name="hashType">Hash type to get the value for</param>
         /// <returns>Non-empty string containing the value on success, empty string on failure</returns>
-        public static string GetString(string hashType)
+        public static string GetString(HashType hashType)
         {
             if (!_strings.TryGetValue(hashType, out string? value))
                 return string.Empty;
