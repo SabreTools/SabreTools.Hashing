@@ -44,6 +44,13 @@ namespace Hasher.Features
         /// <inheritdoc/>
         public override bool Execute()
         {
+            // If there are no inputs
+            if (Inputs.Count == 0)
+            {
+                Console.WriteLine("No inputs were provided");
+                return false;
+            }
+
             // Get the required variables
             bool debug = GetBoolean(_debugName);
             List<HashType> hashTypes = GetHashTypes(GetStringList(_typeName));
