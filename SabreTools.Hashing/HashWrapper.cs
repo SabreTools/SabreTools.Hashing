@@ -10,7 +10,7 @@ namespace SabreTools.Hashing
     /// <summary>
     /// Wrapper for a single hashing algorithm
     /// </summary>
-    public class HashWrapper : IDisposable
+    public sealed class HashWrapper : IDisposable
     {
         #region Properties
 
