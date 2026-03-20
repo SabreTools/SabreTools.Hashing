@@ -28,8 +28,7 @@ namespace SabreTools.Hashing
             crc32 = null; md5 = null; sha1 = null;
 
             // Get all file hashes
-            HashType[] standardHashTypes = [HashType.CRC32, HashType.MD5, HashType.SHA1];
-            var fileHashes = GetFileHashesAndSize(filename, standardHashTypes, out size);
+            var fileHashes = GetFileHashesAndSize(filename, HashType.StandardHashes, out size);
             if (fileHashes is null)
                 return false;
 
@@ -55,8 +54,7 @@ namespace SabreTools.Hashing
             crc32 = null; md5 = null; sha1 = null;
 
             // Get all file hashes
-            HashType[] standardHashTypes = [HashType.CRC32, HashType.MD5, HashType.SHA1];
-            var fileHashes = GetByteArrayHashesAndSize(array, standardHashTypes, out size);
+            var fileHashes = GetByteArrayHashesAndSize(array, HashType.StandardHashes, out size);
             if (fileHashes is null)
                 return false;
 
@@ -82,8 +80,7 @@ namespace SabreTools.Hashing
             crc32 = null; md5 = null; sha1 = null;
 
             // Get all file hashes
-            HashType[] standardHashTypes = [HashType.CRC32, HashType.MD5, HashType.SHA1];
-            var fileHashes = GetStreamHashesAndSize(stream, standardHashTypes, out size);
+            var fileHashes = GetStreamHashesAndSize(stream, HashType.StandardHashes, out size);
             if (fileHashes is null)
                 return false;
 

@@ -36,7 +36,7 @@ namespace SabreTools.Hashing
 
         #endregion
 
-        #region Static Definitions
+        #region Static Instances
 
         /// <summary>
         /// Mark Adler's 32-bit checksum
@@ -990,10 +990,13 @@ namespace SabreTools.Hashing
 
         #endregion
 
+        #endregion
+
+        #region Static Collections
+
         /// <summary>
         /// All supported hashes
         /// </summary>
-        /// TODO: This shouldn't be hardcoded
         public static readonly HashType[] AllHashes =
         [
             Adler32,
@@ -1198,6 +1201,17 @@ namespace SabreTools.Hashing
             XxHash3,
             XxHash128,
 #endif
+        ];
+
+        /// <summary>
+        /// Common collection of hash types
+        /// </summary>
+        /// <remarks><see cref="CRC32"/>, <see cref="MD5"/>, <see cref="SHA1"/>
+        public static readonly HashType[] StandardHashes =
+        [
+            CRC32,
+            MD5,
+            SHA1
         ];
 
         #endregion

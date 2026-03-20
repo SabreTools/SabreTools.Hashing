@@ -151,9 +151,8 @@ namespace Hasher.Features
                 var builder = new StringBuilder();
                 foreach (HashType hashType in hashTypes)
                 {
-                    // TODO: Make helper to pretty-print hash type names
                     if (hashes.TryGetValue(hashType, out string? hash) && hash is not null)
-                        builder.AppendLine($"{hashType}: {hash}");
+                        builder.AppendLine($"{hashType.Description}: {hash}");
                 }
 
                 // Create and print the output data
