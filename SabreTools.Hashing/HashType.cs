@@ -3,6 +3,8 @@ namespace SabreTools.Hashing
     /// <summary>
     /// Available hashing and checksumming types
     /// </summary>
+    /// TODO: Investigate ways of dealing with consistent ordering
+    /// TODO: Investigate turning this into a string enum analogue
     public enum HashType
     {
         /// <summary>
