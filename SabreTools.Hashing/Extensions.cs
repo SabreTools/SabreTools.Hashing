@@ -6,7 +6,7 @@ namespace SabreTools.Hashing
         /// Get the name of a given hash type, if possible
         /// </summary>
         /// TODO: This should be automated instead of hardcoded
-        public static string? GetHashName(this HashType hashType)
+        public static string? GetHashName(this string hashType)
         {
             return hashType switch
             {
@@ -221,7 +221,7 @@ namespace SabreTools.Hashing
         /// Get the hash type associated to a string, if possible
         /// </summary>
         /// TODO: This should be automated instead of hardcoded
-        public static HashType? GetHashType(this string? str)
+        public static string? GetHashType(this string? str)
         {
             // Ignore invalid strings
             if (string.IsNullOrEmpty(str))

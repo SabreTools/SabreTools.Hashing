@@ -9,13 +9,12 @@ namespace SabreTools.Hashing.Test
         /// <summary>
         /// Get an array of all hash types
         /// </summary>
-        public static TheoryData<HashType> AllHashTypes
+        public static TheoryData<string> AllHashTypes
         {
             get
             {
-                var values = Enum.GetValues<HashType>();
-                var set = new TheoryData<HashType>();
-                foreach (var value in values)
+                var set = new TheoryData<string>();
+                foreach (var value in HashType.AllHashes)
                 {
                     set.Add(value);
                 }
@@ -26,7 +25,7 @@ namespace SabreTools.Hashing.Test
 
         [Theory]
         [MemberData(nameof(AllHashTypes))]
-        public void GetZeroByteHashes(HashType hashType)
+        public void GetZeroByteHashes(string hashType)
         {
             var expected = ZeroHash.GetBytes(hashType);
             var actual = HashTool.GetByteArrayHashArray([], hashType);
@@ -38,7 +37,7 @@ namespace SabreTools.Hashing.Test
 
         [Theory]
         [MemberData(nameof(AllHashTypes))]
-        public void GetZeroStringHashes(HashType hashType)
+        public void GetZeroStringHashes(string hashType)
         {
             var expected = ZeroHash.GetString(hashType);
             var actual = HashTool.GetByteArrayHash([], hashType);

@@ -17,7 +17,7 @@ namespace SabreTools.Hashing
         /// <summary>
         /// Hash type associated with the current state
         /// </summary>
-        public readonly HashType HashType;
+        public readonly string HashName;
 
         /// <summary>
         /// Current hash in bytes
@@ -67,9 +67,9 @@ namespace SabreTools.Hashing
         /// Constructor
         /// </summary>
         /// <param name="hashType">Hash type to instantiate</param>
-        public HashWrapper(HashType hashType)
+        public HashWrapper(string hashType)
         {
-            HashType = hashType;
+            HashName = hashType.GetHashType() ?? string.Empty;
             GetHasher();
         }
 
@@ -78,7 +78,7 @@ namespace SabreTools.Hashing
         /// </summary>
         private void GetHasher()
         {
-            _hasher = HashType switch
+            _hasher = HashName switch
             {
                 HashType.Adler32 => new Adler32(),
 

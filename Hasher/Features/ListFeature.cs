@@ -29,8 +29,7 @@ namespace Hasher.Features
             Console.WriteLine("Hash Name                               Parameter Name        ");
             Console.WriteLine("--------------------------------------------------------------");
 
-            var hashTypes = (HashType[])Enum.GetValues(typeof(HashType));
-            foreach (var hashType in hashTypes)
+            foreach (var hashType in HashType.AllHashes)
             {
                 // Derive the parameter name
                 string paramName = $"{hashType}";

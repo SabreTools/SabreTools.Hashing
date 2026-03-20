@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 #if NET40_OR_GREATER || NETCOREAPP || NETSTANDARD2_0_OR_GREATER
@@ -29,7 +28,7 @@ namespace SabreTools.Hashing
             crc32 = null; md5 = null; sha1 = null;
 
             // Get all file hashes
-            HashType[] standardHashTypes = [HashType.CRC32, HashType.MD5, HashType.SHA1];
+            string[] standardHashTypes = [HashType.CRC32, HashType.MD5, HashType.SHA1];
             var fileHashes = GetFileHashesAndSize(filename, standardHashTypes, out size);
             if (fileHashes is null)
                 return false;
@@ -56,7 +55,7 @@ namespace SabreTools.Hashing
             crc32 = null; md5 = null; sha1 = null;
 
             // Get all file hashes
-            HashType[] standardHashTypes = [HashType.CRC32, HashType.MD5, HashType.SHA1];
+            string[] standardHashTypes = [HashType.CRC32, HashType.MD5, HashType.SHA1];
             var fileHashes = GetByteArrayHashesAndSize(array, standardHashTypes, out size);
             if (fileHashes is null)
                 return false;
@@ -83,7 +82,7 @@ namespace SabreTools.Hashing
             crc32 = null; md5 = null; sha1 = null;
 
             // Get all file hashes
-            HashType[] standardHashTypes = [HashType.CRC32, HashType.MD5, HashType.SHA1];
+            string[] standardHashTypes = [HashType.CRC32, HashType.MD5, HashType.SHA1];
             var fileHashes = GetStreamHashesAndSize(stream, standardHashTypes, out size);
             if (fileHashes is null)
                 return false;
@@ -104,7 +103,7 @@ namespace SabreTools.Hashing
         /// </summary>
         /// <param name="filename">Path to the input file</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
-        public static Dictionary<HashType, string?>? GetFileHashes(string filename)
+        public static Dictionary<string, string?>? GetFileHashes(string filename)
             => GetFileHashesAndSize(filename, out _);
 
         /// <summary>
@@ -112,7 +111,7 @@ namespace SabreTools.Hashing
         /// </summary>
         /// <param name="filename">Path to the input file</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
-        public static Dictionary<HashType, byte[]?>? GetFileHashArrays(string filename)
+        public static Dictionary<string, byte[]?>? GetFileHashArrays(string filename)
             => GetFileHashArraysAndSize(filename, out _);
 
         /// <summary>
@@ -121,7 +120,7 @@ namespace SabreTools.Hashing
         /// <param name="filename">Path to the input file</param>
         /// <param name="hashType">Hash type to get from the file</param>
         /// <returns>Hash on success, null on error</returns>
-        public static string? GetFileHash(string filename, HashType hashType)
+        public static string? GetFileHash(string filename, string hashType)
             => GetFileHashAndSize(filename, hashType, out _);
 
         /// <summary>
@@ -130,7 +129,7 @@ namespace SabreTools.Hashing
         /// <param name="filename">Path to the input file</param>
         /// <param name="hashType">Hash type to get from the file</param>
         /// <returns>Hash on success, null on error</returns>
-        public static byte[]? GetFileHashArray(string filename, HashType hashType)
+        public static byte[]? GetFileHashArray(string filename, string hashType)
             => GetFileHashArrayAndSize(filename, hashType, out _);
 
         /// <summary>
@@ -139,7 +138,7 @@ namespace SabreTools.Hashing
         /// <param name="filename">Path to the input file</param>
         /// <param name="hashTypes">Array of hash types to get from the file</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
-        public static Dictionary<HashType, string?>? GetFileHashes(string filename, HashType[] hashTypes)
+        public static Dictionary<string, string?>? GetFileHashes(string filename, string[] hashTypes)
             => GetFileHashesAndSize(filename, hashTypes, out _);
 
         /// <summary>
@@ -148,7 +147,7 @@ namespace SabreTools.Hashing
         /// <param name="filename">Path to the input file</param>
         /// <param name="hashTypes">Array of hash types to get from the file</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
-        public static Dictionary<HashType, byte[]?>? GetFileHashArrays(string filename, HashType[] hashTypes)
+        public static Dictionary<string, byte[]?>? GetFileHashArrays(string filename, string[] hashTypes)
             => GetFileHashArraysAndSize(filename, hashTypes, out _);
 
         #endregion
@@ -161,14 +160,8 @@ namespace SabreTools.Hashing
         /// <param name="filename">Path to the input file</param>
         /// <param name="size">Amount of bytes read during hashing</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
-        public static Dictionary<HashType, string?>? GetFileHashesAndSize(string filename, out long size)
-        {
-            // Create a hash array for all entries
-            HashType[] hashTypes = (HashType[])Enum.GetValues(typeof(HashType));
-
-            // Return the hashes from the stream
-            return GetFileHashesAndSize(filename, hashTypes, out size);
-        }
+        public static Dictionary<string, string?>? GetFileHashesAndSize(string filename, out long size)
+            => GetFileHashesAndSize(filename, HashType.AllHashes, out size);
 
         /// <summary>
         /// Get hashes and size from an input file path
@@ -176,14 +169,8 @@ namespace SabreTools.Hashing
         /// <param name="filename">Path to the input file</param>
         /// <param name="size">Amount of bytes read during hashing</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
-        public static Dictionary<HashType, byte[]?>? GetFileHashArraysAndSize(string filename, out long size)
-        {
-            // Create a hash array for all entries
-            HashType[] hashTypes = (HashType[])Enum.GetValues(typeof(HashType));
-
-            // Return the hashes from the stream
-            return GetFileHashArraysAndSize(filename, hashTypes, out size);
-        }
+        public static Dictionary<string, byte[]?>? GetFileHashArraysAndSize(string filename, out long size)
+            => GetFileHashArraysAndSize(filename, HashType.AllHashes, out size);
 
         /// <summary>
         /// Get a hash and size from an input file path
@@ -192,7 +179,7 @@ namespace SabreTools.Hashing
         /// <param name="hashType">Hash type to get from the file</param>
         /// <param name="size">Amount of bytes read during hashing</param>
         /// <returns>Hash and size on success, null on error</returns>
-        public static string? GetFileHashAndSize(string filename, HashType hashType, out long size)
+        public static string? GetFileHashAndSize(string filename, string hashType, out long size)
         {
             var hashes = GetFileHashesAndSize(filename, [hashType], out size);
             return hashes?[hashType];
@@ -205,7 +192,7 @@ namespace SabreTools.Hashing
         /// <param name="hashType">Hash type to get from the file</param>
         /// <param name="size">Amount of bytes read during hashing</param>
         /// <returns>Hash and size on success, null on error</returns>
-        public static byte[]? GetFileHashArrayAndSize(string filename, HashType hashType, out long size)
+        public static byte[]? GetFileHashArrayAndSize(string filename, string hashType, out long size)
         {
             var hashes = GetFileHashArraysAndSize(filename, [hashType], out size);
             return hashes?[hashType];
@@ -218,7 +205,7 @@ namespace SabreTools.Hashing
         /// <param name="hashTypes">Array of hash types to get from the file</param>
         /// <param name="size">Amount of bytes read during hashing</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
-        public static Dictionary<HashType, string?>? GetFileHashesAndSize(string filename, HashType[] hashTypes, out long size)
+        public static Dictionary<string, string?>? GetFileHashesAndSize(string filename, string[] hashTypes, out long size)
         {
             // If the file doesn't exist, we can't do anything
             if (!File.Exists(filename))
@@ -241,7 +228,7 @@ namespace SabreTools.Hashing
         /// <param name="hashTypes">Array of hash types to get from the file</param>
         /// <param name="size">Amount of bytes read during hashing</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
-        public static Dictionary<HashType, byte[]?>? GetFileHashArraysAndSize(string filename, HashType[] hashTypes, out long size)
+        public static Dictionary<string, byte[]?>? GetFileHashArraysAndSize(string filename, string[] hashTypes, out long size)
         {
             // If the file doesn't exist, we can't do anything
             if (!File.Exists(filename))
@@ -266,7 +253,7 @@ namespace SabreTools.Hashing
         /// </summary>
         /// <param name="input">Byte array to hash</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
-        public static Dictionary<HashType, string?>? GetByteArrayHashes(byte[] input)
+        public static Dictionary<string, string?>? GetByteArrayHashes(byte[] input)
             => GetByteArrayHashesAndSize(input, out _);
 
         /// <summary>
@@ -274,7 +261,7 @@ namespace SabreTools.Hashing
         /// </summary>
         /// <param name="input">Byte array to hash</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
-        public static Dictionary<HashType, byte[]?>? GetByteArrayHashArrays(byte[] input)
+        public static Dictionary<string, byte[]?>? GetByteArrayHashArrays(byte[] input)
             => GetByteArrayHashArraysAndSize(input, out _);
 
         /// <summary>
@@ -283,7 +270,7 @@ namespace SabreTools.Hashing
         /// <param name="input">Byte array to hash</param>
         /// <param name="hashType">Hash type to get from the file</param>
         /// <returns>Hash on success, null on error</returns>
-        public static string? GetByteArrayHash(byte[] input, HashType hashType)
+        public static string? GetByteArrayHash(byte[] input, string hashType)
             => GetByteArrayHashAndSize(input, hashType, out _);
 
         /// <summary>
@@ -292,7 +279,7 @@ namespace SabreTools.Hashing
         /// <param name="input">Byte array to hash</param>
         /// <param name="hashType">Hash type to get from the file</param>
         /// <returns>Hash on success, null on error</returns>
-        public static byte[]? GetByteArrayHashArray(byte[] input, HashType hashType)
+        public static byte[]? GetByteArrayHashArray(byte[] input, string hashType)
             => GetByteArrayHashArrayAndSize(input, hashType, out _);
 
         /// <summary>
@@ -301,7 +288,7 @@ namespace SabreTools.Hashing
         /// <param name="input">Byte array to hash</param>
         /// <param name="hashTypes">Array of hash types to get from the file</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
-        public static Dictionary<HashType, string?>? GetByteArrayHashes(byte[] input, HashType[] hashTypes)
+        public static Dictionary<string, string?>? GetByteArrayHashes(byte[] input, string[] hashTypes)
             => GetByteArrayHashesAndSize(input, hashTypes, out _);
 
         /// <summary>
@@ -310,7 +297,7 @@ namespace SabreTools.Hashing
         /// <param name="input">Byte array to hash</param>
         /// <param name="hashTypes">Array of hash types to get from the file</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
-        public static Dictionary<HashType, byte[]?>? GetByteArrayHashArrays(byte[] input, HashType[] hashTypes)
+        public static Dictionary<string, byte[]?>? GetByteArrayHashArrays(byte[] input, string[] hashTypes)
             => GetByteArrayHashArraysAndSize(input, hashTypes, out _);
 
         #endregion
@@ -323,14 +310,8 @@ namespace SabreTools.Hashing
         /// <param name="input">Byte array to hash</param>
         /// <param name="size">Amount of bytes read during hashing</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
-        public static Dictionary<HashType, string?>? GetByteArrayHashesAndSize(byte[] input, out long size)
-        {
-            // Create a hash array for all entries
-            HashType[] hashTypes = (HashType[])Enum.GetValues(typeof(HashType));
-
-            // Return the hashes from the stream
-            return GetStreamHashesAndSize(new MemoryStream(input), hashTypes, out size);
-        }
+        public static Dictionary<string, string?>? GetByteArrayHashesAndSize(byte[] input, out long size)
+            => GetStreamHashesAndSize(new MemoryStream(input), HashType.AllHashes, out size);
 
         /// <summary>
         /// Get hashes from an input byte array
@@ -338,14 +319,8 @@ namespace SabreTools.Hashing
         /// <param name="input">Byte array to hash</param>
         /// <param name="size">Amount of bytes read during hashing</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
-        public static Dictionary<HashType, byte[]?>? GetByteArrayHashArraysAndSize(byte[] input, out long size)
-        {
-            // Create a hash array for all entries
-            HashType[] hashTypes = (HashType[])Enum.GetValues(typeof(HashType));
-
-            // Return the hashes from the stream
-            return GetStreamHashArraysAndSize(new MemoryStream(input), hashTypes, out size);
-        }
+        public static Dictionary<string, byte[]?>? GetByteArrayHashArraysAndSize(byte[] input, out long size)
+            => GetStreamHashArraysAndSize(new MemoryStream(input), HashType.AllHashes, out size);
 
         /// <summary>
         /// Get a hash from an input byte array
@@ -354,7 +329,7 @@ namespace SabreTools.Hashing
         /// <param name="hashType">Hash type to get from the file</param>
         /// <param name="size">Amount of bytes read during hashing</param>
         /// <returns>Hash on success, null on error</returns>
-        public static string? GetByteArrayHashAndSize(byte[] input, HashType hashType, out long size)
+        public static string? GetByteArrayHashAndSize(byte[] input, string hashType, out long size)
         {
             var hashes = GetStreamHashesAndSize(new MemoryStream(input), [hashType], out size);
             return hashes?[hashType];
@@ -367,7 +342,7 @@ namespace SabreTools.Hashing
         /// <param name="hashType">Hash type to get from the file</param>
         /// <param name="size">Amount of bytes read during hashing</param>
         /// <returns>Hash on success, null on error</returns>
-        public static byte[]? GetByteArrayHashArrayAndSize(byte[] input, HashType hashType, out long size)
+        public static byte[]? GetByteArrayHashArrayAndSize(byte[] input, string hashType, out long size)
         {
             var hashes = GetStreamHashArraysAndSize(new MemoryStream(input), [hashType], out size);
             return hashes?[hashType];
@@ -380,7 +355,7 @@ namespace SabreTools.Hashing
         /// <param name="hashTypes">Array of hash types to get from the file</param>
         /// <param name="size">Amount of bytes read during hashing</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
-        public static Dictionary<HashType, string?>? GetByteArrayHashesAndSize(byte[] input, HashType[] hashTypes, out long size)
+        public static Dictionary<string, string?>? GetByteArrayHashesAndSize(byte[] input, string[] hashTypes, out long size)
             => GetStreamHashesAndSize(new MemoryStream(input), hashTypes, out size);
 
         /// <summary>
@@ -390,7 +365,7 @@ namespace SabreTools.Hashing
         /// <param name="hashTypes">Array of hash types to get from the file</param>
         /// <param name="size">Amount of bytes read during hashing</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
-        public static Dictionary<HashType, byte[]?>? GetByteArrayHashArraysAndSize(byte[] input, HashType[] hashTypes, out long size)
+        public static Dictionary<string, byte[]?>? GetByteArrayHashArraysAndSize(byte[] input, string[] hashTypes, out long size)
             => GetStreamHashArraysAndSize(new MemoryStream(input), hashTypes, out size);
 
         #endregion
@@ -403,7 +378,7 @@ namespace SabreTools.Hashing
         /// <param name="input">Stream to hash</param>
         /// <param name="leaveOpen">Indicates if the source stream should be left open after hashing</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
-        public static Dictionary<HashType, string?>? GetStreamHashes(Stream input, bool leaveOpen = false)
+        public static Dictionary<string, string?>? GetStreamHashes(Stream input, bool leaveOpen = false)
             => GetStreamHashesAndSize(input, leaveOpen, out _);
 
         /// <summary>
@@ -412,7 +387,7 @@ namespace SabreTools.Hashing
         /// <param name="input">Stream to hash</param>
         /// <param name="leaveOpen">Indicates if the source stream should be left open after hashing</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
-        public static Dictionary<HashType, byte[]?>? GetStreamHashArrays(Stream input, bool leaveOpen = false)
+        public static Dictionary<string, byte[]?>? GetStreamHashArrays(Stream input, bool leaveOpen = false)
             => GetStreamHashArraysAndSize(input, leaveOpen, out _);
 
         /// <summary>
@@ -422,7 +397,7 @@ namespace SabreTools.Hashing
         /// <param name="hashType">Hash type to get from the file</param>
         /// <param name="leaveOpen">Indicates if the source stream should be left open after hashing</param>
         /// <returns>Hash on success, null on error</returns>
-        public static string? GetStreamHash(Stream input, HashType hashType, bool leaveOpen = false)
+        public static string? GetStreamHash(Stream input, string hashType, bool leaveOpen = false)
             => GetStreamHashAndSize(input, hashType, leaveOpen, out _);
 
         /// <summary>
@@ -432,7 +407,7 @@ namespace SabreTools.Hashing
         /// <param name="hashType">Hash type to get from the file</param>
         /// <param name="leaveOpen">Indicates if the source stream should be left open after hashing</param>
         /// <returns>Hash on success, null on error</returns>
-        public static byte[]? GetStreamHashArray(Stream input, HashType hashType, bool leaveOpen = false)
+        public static byte[]? GetStreamHashArray(Stream input, string hashType, bool leaveOpen = false)
             => GetStreamHashArrayAndSize(input, hashType, leaveOpen, out _);
 
         /// <summary>
@@ -442,7 +417,7 @@ namespace SabreTools.Hashing
         /// <param name="hashTypes">Array of hash types to get from the file</param>
         /// <param name="leaveOpen">Indicates if the source stream should be left open after hashing</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
-        public static Dictionary<HashType, string?>? GetStreamHashes(Stream input, HashType[] hashTypes, bool leaveOpen = false)
+        public static Dictionary<string, string?>? GetStreamHashes(Stream input, string[] hashTypes, bool leaveOpen = false)
             => GetStreamHashesAndSize(input, hashTypes, leaveOpen, out _);
 
         /// <summary>
@@ -452,7 +427,7 @@ namespace SabreTools.Hashing
         /// <param name="hashTypes">Array of hash types to get from the file</param>
         /// <param name="leaveOpen">Indicates if the source stream should be left open after hashing</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
-        public static Dictionary<HashType, byte[]?>? GetStreamHashArrays(Stream input, HashType[] hashTypes, bool leaveOpen = false)
+        public static Dictionary<string, byte[]?>? GetStreamHashArrays(Stream input, string[] hashTypes, bool leaveOpen = false)
             => GetStreamHashArraysAndSize(input, hashTypes, leaveOpen, out _);
 
         #endregion
@@ -465,7 +440,7 @@ namespace SabreTools.Hashing
         /// <param name="input">Stream to hash</param>
         /// <param name="size">Amount of bytes read during hashing</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
-        public static Dictionary<HashType, string?>? GetStreamHashesAndSize(Stream input, out long size)
+        public static Dictionary<string, string?>? GetStreamHashesAndSize(Stream input, out long size)
             => GetStreamHashesAndSize(input, leaveOpen: false, out size);
 
         /// <summary>
@@ -475,14 +450,8 @@ namespace SabreTools.Hashing
         /// <param name="leaveOpen">Indicates if the source stream should be left open after hashing</param>
         /// <param name="size">Amount of bytes read during hashing</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
-        public static Dictionary<HashType, string?>? GetStreamHashesAndSize(Stream input, bool leaveOpen, out long size)
-        {
-            // Create a hash array for all entries
-            HashType[] hashTypes = (HashType[])Enum.GetValues(typeof(HashType));
-
-            // Get the output hashes
-            return GetStreamHashesAndSize(input, hashTypes, leaveOpen, out size);
-        }
+        public static Dictionary<string, string?>? GetStreamHashesAndSize(Stream input, bool leaveOpen, out long size)
+            => GetStreamHashesAndSize(input, HashType.AllHashes, leaveOpen, out size);
 
         /// <summary>
         /// Get hashes and size from an input Stream
@@ -490,7 +459,7 @@ namespace SabreTools.Hashing
         /// <param name="input">Stream to hash</param>
         /// <param name="size">Amount of bytes read during hashing</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
-        public static Dictionary<HashType, byte[]?>? GetStreamHashArraysAndSize(Stream input, out long size)
+        public static Dictionary<string, byte[]?>? GetStreamHashArraysAndSize(Stream input, out long size)
             => GetStreamHashArraysAndSize(input, leaveOpen: false, out size);
 
         /// <summary>
@@ -500,14 +469,8 @@ namespace SabreTools.Hashing
         /// <param name="leaveOpen">Indicates if the source stream should be left open after hashing</param>
         /// <param name="size">Amount of bytes read during hashing</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
-        public static Dictionary<HashType, byte[]?>? GetStreamHashArraysAndSize(Stream input, bool leaveOpen, out long size)
-        {
-            // Create a hash array for all entries
-            HashType[] hashTypes = (HashType[])Enum.GetValues(typeof(HashType));
-
-            // Get the output hashes
-            return GetStreamHashArraysAndSize(input, hashTypes, leaveOpen, out size);
-        }
+        public static Dictionary<string, byte[]?>? GetStreamHashArraysAndSize(Stream input, bool leaveOpen, out long size)
+            => GetStreamHashArraysAndSize(input, HashType.AllHashes, leaveOpen, out size);
 
         /// <summary>
         /// Get a hash and size from an input Stream
@@ -516,7 +479,7 @@ namespace SabreTools.Hashing
         /// <param name="hashType">Hash type to get from the file</param>
         /// <param name="size">Amount of bytes read during hashing</param>
         /// <returns>Hash on success, null on error</returns>
-        public static string? GetStreamHashAndSize(Stream input, HashType hashType, out long size)
+        public static string? GetStreamHashAndSize(Stream input, string hashType, out long size)
             => GetStreamHashAndSize(input, hashType, leaveOpen: false, out size);
 
         /// <summary>
@@ -527,7 +490,7 @@ namespace SabreTools.Hashing
         /// <param name="leaveOpen">Indicates if the source stream should be left open after hashing</param>
         /// <param name="size">Amount of bytes read during hashing</param>
         /// <returns>Hash on success, null on error</returns>
-        public static string? GetStreamHashAndSize(Stream input, HashType hashType, bool leaveOpen, out long size)
+        public static string? GetStreamHashAndSize(Stream input, string hashType, bool leaveOpen, out long size)
         {
             var hashes = GetStreamHashesAndSize(input, [hashType], leaveOpen, out size);
             return hashes?[hashType];
@@ -540,7 +503,7 @@ namespace SabreTools.Hashing
         /// <param name="hashType">Hash type to get from the file</param>
         /// <param name="size">Amount of bytes read during hashing</param>
         /// <returns>Hash on success, null on error</returns>
-        public static byte[]? GetStreamHashArrayAndSize(Stream input, HashType hashType, out long size)
+        public static byte[]? GetStreamHashArrayAndSize(Stream input, string hashType, out long size)
             => GetStreamHashArrayAndSize(input, hashType, leaveOpen: false, out size);
 
         /// <summary>
@@ -551,7 +514,7 @@ namespace SabreTools.Hashing
         /// <param name="leaveOpen">Indicates if the source stream should be left open after hashing</param>
         /// <param name="size">Amount of bytes read during hashing</param>
         /// <returns>Hash on success, null on error</returns>
-        public static byte[]? GetStreamHashArrayAndSize(Stream input, HashType hashType, bool leaveOpen, out long size)
+        public static byte[]? GetStreamHashArrayAndSize(Stream input, string hashType, bool leaveOpen, out long size)
         {
             var hashes = GetStreamHashArraysAndSize(input, [hashType], leaveOpen, out size);
             return hashes?[hashType];
@@ -564,7 +527,7 @@ namespace SabreTools.Hashing
         /// <param name="hashTypes">Array of hash types to get from the file</param>
         /// <param name="size">Amount of bytes read during hashing</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
-        public static Dictionary<HashType, string?>? GetStreamHashesAndSize(Stream input, HashType[] hashTypes, out long size)
+        public static Dictionary<string, string?>? GetStreamHashesAndSize(Stream input, string[] hashTypes, out long size)
             => GetStreamHashesAndSize(input, hashTypes, leaveOpen: false, out size);
 
         /// <summary>
@@ -575,10 +538,10 @@ namespace SabreTools.Hashing
         /// <param name="leaveOpen">Indicates if the source stream should be left open after hashing</param>
         /// <param name="size">Amount of bytes read during hashing</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
-        public static Dictionary<HashType, string?>? GetStreamHashesAndSize(Stream input, HashType[] hashTypes, bool leaveOpen, out long size)
+        public static Dictionary<string, string?>? GetStreamHashesAndSize(Stream input, string[] hashTypes, bool leaveOpen, out long size)
         {
             // Create the output dictionary
-            var hashDict = new Dictionary<HashType, string?>();
+            var hashDict = new Dictionary<string, string?>();
 
             try
             {
@@ -623,7 +586,7 @@ namespace SabreTools.Hashing
         /// <param name="hashTypes">Array of hash types to get from the file</param>
         /// <param name="size">Amount of bytes read during hashing</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
-        public static Dictionary<HashType, byte[]?>? GetStreamHashArraysAndSize(Stream input, HashType[] hashTypes, out long size)
+        public static Dictionary<string, byte[]?>? GetStreamHashArraysAndSize(Stream input, string[] hashTypes, out long size)
             => GetStreamHashArraysAndSize(input, hashTypes, leaveOpen: false, out size);
 
         /// <summary>
@@ -634,10 +597,10 @@ namespace SabreTools.Hashing
         /// <param name="leaveOpen">Indicates if the source stream should be left open after hashing</param>
         /// <param name="size">Amount of bytes read during hashing</param>
         /// <returns>Dictionary containing hashes on success, null on error</returns>
-        public static Dictionary<HashType, byte[]?>? GetStreamHashArraysAndSize(Stream input, HashType[] hashTypes, bool leaveOpen, out long size)
+        public static Dictionary<string, byte[]?>? GetStreamHashArraysAndSize(Stream input, string[] hashTypes, bool leaveOpen, out long size)
         {
             // Create the output dictionary
-            var hashDict = new Dictionary<HashType, byte[]?>();
+            var hashDict = new Dictionary<string, byte[]?>();
 
             try
             {
@@ -683,19 +646,19 @@ namespace SabreTools.Hashing
         /// <param name="leaveOpen">Indicates if the source stream should be left open after hashing</param>
         /// <param name="size">Amount of bytes read during hashing</param>
         /// <returns></returns>
-        private static Dictionary<HashType, HashWrapper>? GetStreamHashesInternal(Stream input, HashType[] hashTypes, bool leaveOpen, out long size)
+        private static Dictionary<string, HashWrapper>? GetStreamHashesInternal(Stream input, string[] hashTypes, bool leaveOpen, out long size)
         {
             // Create the output dictionary and size counter
-            var hashDict = new Dictionary<HashType, string?>();
+            var hashDict = new Dictionary<string, string?>();
             size = 0;
 
             try
             {
                 // Get a list of hashers to run over the buffer
-                var hashers = new Dictionary<HashType, HashWrapper>();
+                var hashers = new Dictionary<string, HashWrapper>();
 
                 // Add hashers based on requested types
-                foreach (HashType hashType in hashTypes)
+                foreach (string hashType in hashTypes)
                 {
                     hashers[hashType] = new HashWrapper(hashType);
                 }
