@@ -162,7 +162,7 @@ namespace Hasher.Features
                 foreach (HashType hashType in hashTypes)
                 {
                     if (hashes.TryGetValue(hashType, out string? hash) && hash is not null)
-                        builder.AppendLine($"{hashType.Description}: {hash}");
+                        builder.AppendLine($"{hashType.Name}: {hash}");
                 }
 
                 // Create and print the output data

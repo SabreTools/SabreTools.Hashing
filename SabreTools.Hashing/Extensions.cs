@@ -205,12 +205,12 @@ namespace SabreTools.Hashing
 
                 "spamsum" => HashType.SpamSum,
 
-                "tiger128_3" => HashType.Tiger128_3,
-                "tiger128_4" => HashType.Tiger128_4,
-                "tiger160_3" => HashType.Tiger160_3,
-                "tiger160_4" => HashType.Tiger160_4,
-                "tiger192_3" => HashType.Tiger192_3,
-                "tiger192_4" => HashType.Tiger192_4,
+                "tiger128_3" or "tiger_128_3" => HashType.Tiger128_3,
+                "tiger128_4" or "tiger_128_4" => HashType.Tiger128_4,
+                "tiger160_3" or "tiger_160_3" => HashType.Tiger160_3,
+                "tiger160_4" or "tiger_160_4" => HashType.Tiger160_4,
+                "tiger192_3" or "tiger_192_3" => HashType.Tiger192_3,
+                "tiger192_4" or "tiger_192_4" => HashType.Tiger192_4,
                 "tiger2_128_3" => HashType.Tiger2_128_3,
                 "tiger2_128_4" => HashType.Tiger2_128_4,
                 "tiger2_160_3" => HashType.Tiger2_160_3,
