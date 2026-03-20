@@ -547,7 +547,7 @@ namespace SabreTools.Hashing
                 {
                     foreach (var hashType in hashTypes)
                     {
-                        hashDict[hashType] = ZeroHash.GetString(hashType);
+                        hashDict[hashType] = hashType.ZeroString;
                     }
 
                     size = 0;
@@ -606,7 +606,7 @@ namespace SabreTools.Hashing
                 {
                     foreach (var hashType in hashTypes)
                     {
-                        hashDict[hashType] = ZeroHash.GetBytes(hashType);
+                        hashDict[hashType] = hashType.ZeroBytes;
                     }
 
                     size = 0;
