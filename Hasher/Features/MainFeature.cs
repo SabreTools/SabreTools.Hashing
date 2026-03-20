@@ -268,6 +268,10 @@ namespace Hasher.Features
                 "crc64_we" => HashType.CRC64_WE,
                 "crc64_xz" => HashType.CRC64_XZ,
 
+#if NET7_0_OR_GREATER
+                "crc82_darc" => HashType.CRC82_DARC,
+#endif
+
                 "fletcher16" => HashType.Fletcher16,
                 "fletcher32" => HashType.Fletcher32,
                 "fletcher64" => HashType.Fletcher64,

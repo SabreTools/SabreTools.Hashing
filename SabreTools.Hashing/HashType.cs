@@ -1116,6 +1116,20 @@ namespace SabreTools.Hashing
 
         #endregion
 
+        #region CRC-82
+
+#if NET7_0_OR_GREATER
+        /// <summary>
+        /// CRC 82-bit checksum (CRC-82/DARC)
+        /// </summary>
+        public static readonly HashType CRC82_DARC = new("CRC-82/DARC",
+            "CRC 82-bit checksum (CRC-82/DARC)",
+            [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00],
+            "000000000000000000000");
+#endif
+
+        #endregion
+
         #endregion
 
         #region Fletcher
@@ -1652,6 +1666,10 @@ namespace SabreTools.Hashing
             CRC64_WE,
             CRC64_XZ,
 
+#if NET7_0_OR_GREATER
+            CRC82_DARC,
+#endif
+
             Fletcher16,
             Fletcher32,
             Fletcher64,
@@ -1999,6 +2017,11 @@ namespace SabreTools.Hashing
                 return new Crc(StandardDefinitions.CRC64_WE);
             else if (hashType == CRC64_XZ)
                 return new Crc(StandardDefinitions.CRC64_XZ);
+
+#if NET7_0_OR_GREATER
+            else if (hashType == CRC82_DARC)
+                return new Crc(StandardDefinitions.CRC82_DARC);
+#endif
 
             else if (hashType == Fletcher16)
                 return new Fletcher16();

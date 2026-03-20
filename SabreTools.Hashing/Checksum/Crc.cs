@@ -32,7 +32,11 @@ namespace SabreTools.Hashing.Checksum
         public Crc(CrcDefinition def)
         {
             // Check for a valid bit width
+#if NET7_0_OR_GREATER
+            if (def.Width < 0 || def.Width > 128)
+#else
             if (def.Width < 0 || def.Width > 64)
+#endif
                 throw new ArgumentOutOfRangeException(nameof(def));
 
             Def = def;

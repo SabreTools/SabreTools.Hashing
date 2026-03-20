@@ -24,7 +24,7 @@ namespace SabreTools.Hashing.Checksum
         /// Bit mask based on the CRC width
         /// </summary>
 #if NET7_0_OR_GREATER
-        private UInt128 BitMask => 1UL << (_definition.Width - 1);
+        private UInt128 BitMask => UInt128.Parse("1") << (_definition.Width - 1);
 #else
         private ulong BitMask => 1UL << (_definition.Width - 1);
 #endif
@@ -87,7 +87,11 @@ namespace SabreTools.Hashing.Checksum
                     point = ReverseBits(point, def.Width);
 
                 // Shift back to account for storage
+#if NET7_0_OR_GREATER
+                point &= UInt128.MaxValue >> (128 - def.Width);
+#else
                 point &= ulong.MaxValue >> (64 - def.Width);
+#endif
 
                 // Assign to the table
                 _table[0, i] = point;

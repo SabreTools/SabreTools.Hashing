@@ -38,7 +38,7 @@ All hash and checksum types here have been written to ensure compatibility acros
 | Hash / Checksum Type | Notes |
 | --- | --- |
 | Adler-32 | Based on the [zlib source code](https://github.com/madler/zlib/blob/v1.2.11/adler32.c) |
-| CRC | All CRC values documented [here](https://reveng.sourceforge.io/crc-catalogue/all.htm) except for CRC-82 due to bit-length restrictions |
+| CRC | All CRC values documented [here](https://reveng.sourceforge.io/crc-catalogue/all.htm), with CRC-82 only supported in `net7.0` and above |
 | Fletcher | 16-, 32-, and 64-bit variants |
 | FNV | 32-, and 64-bit variants; 0, 1, and 1a algorithms |
 | Message Digest | MD2 and MD4 only |

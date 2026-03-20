@@ -162,6 +162,10 @@ namespace SabreTools.Hashing.Test
             {HashType.CRC64_WE, "91812be748f941c4"},
             {HashType.CRC64_XZ, "fb49044e8331f6e5"},
 
+#if NET7_0_OR_GREATER
+            { HashType.CRC82_DARC, "14a892baa6688e66f55f3"},
+#endif
+
             {HashType.Fletcher16, "46c1"},
             {HashType.Fletcher32, "073f2d94"},
             {HashType.Fletcher64, "000b073400002d94"},

@@ -11,7 +11,11 @@ namespace SabreTools.Hashing.Checksum
         public static byte[] ClampValueToBytes(ulong value, int bitWidth)
 #endif
         {
+#if NET7_0_OR_GREATER
+            value &= System.UInt128.MaxValue >> (128 - bitWidth);
+#else
             value &= ulong.MaxValue >> (64 - bitWidth);
+#endif
             byte[] bytes = new byte[(bitWidth + 7) / 8];
 
             for (int i = 0; i < bytes.Length; i++)

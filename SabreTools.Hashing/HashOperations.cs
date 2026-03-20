@@ -50,6 +50,29 @@ namespace SabreTools.Hashing
             return result;
         }
 
+#if NET7_0_OR_GREATER
+        /// <summary>
+        /// Convert a byte array to a UInt64
+        /// </summary>
+        /// <param name="bytes">Byte array to convert</param>
+        /// <returns>UInt64 representing the byte array</returns>
+        /// <link>https://stackoverflow.com/questions/66750224/how-to-convert-a-byte-array-of-any-size-to-ulong-in-c</link>
+        public static UInt128 BytesToUInt128(byte[]? bytes)
+        {
+            // If we get null in, we send 0 out
+            if (bytes is null)
+                return default;
+
+            UInt128 result = 0;
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                result |= (UInt128)bytes[i] << (i * 8);
+            }
+
+            return result;
+        }
+#endif
+
         #endregion
 
         #region Read Big-Endian

@@ -147,7 +147,11 @@ namespace SabreTools.Hashing
                 return null;
 
             // Get the total number of characters needed
+#if NET7_0_OR_GREATER
+            UInt128 hash = BytesToUInt128(cr.Hash);
+#else
             ulong hash = BytesToUInt64(cr.Hash);
+#endif
             int length = (cr.Def.Width / 4) + (cr.Def.Width % 4 > 0 ? 1 : 0);
             return hash.ToString($"x{length}");
         }
