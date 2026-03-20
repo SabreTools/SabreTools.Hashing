@@ -117,9 +117,17 @@ namespace SabreTools.Hashing
         /// <summary>
         /// Reverse the endianness of a value
         /// </summary>
+#if NET7_0_OR_GREATER
+        public static UInt128 ReverseBits(UInt128 value, int bitWidth)
+#else
         public static ulong ReverseBits(ulong value, int bitWidth)
+#endif
         {
+#if NET7_0_OR_GREATER
+            UInt128 reverse = 0;
+#else
             ulong reverse = 0;
+#endif
             for (int i = 0; i < bitWidth; i++)
             {
                 reverse <<= 1;

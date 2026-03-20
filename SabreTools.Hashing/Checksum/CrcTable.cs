@@ -23,12 +23,20 @@ namespace SabreTools.Hashing.Checksum
         /// <summary>
         /// Bit mask based on the CRC width
         /// </summary>
+#if NET7_0_OR_GREATER
+        private UInt128 BitMask => 1UL << (_definition.Width - 1);
+#else
         private ulong BitMask => 1UL << (_definition.Width - 1);
+#endif
 
         /// <summary>
         /// Mapping table
         /// </summary>
+#if NET7_0_OR_GREATER
+        private readonly UInt128[,] _table;
+#else
         private readonly ulong[,] _table;
+#endif
 
         /// <summary>
         /// Definition used to build the table
@@ -44,13 +52,21 @@ namespace SabreTools.Hashing.Checksum
         {
             // Initialize the internal
             _definition = def;
+#if NET7_0_OR_GREATER
+            _table = new UInt128[SliceCount, 1 << BitsPerStep];
+#else
             _table = new ulong[SliceCount, 1 << BitsPerStep];
+#endif
 
             // Build the standard table
             for (uint i = 0; i < (1 << BitsPerStep); i++)
             {
                 // Get the starting value for this index
+#if NET7_0_OR_GREATER
+                UInt128 point = i;
+#else
                 ulong point = i;
+#endif
                 if (!Bitwise && def.ReflectIn)
                     point = ReverseBits(point, BitsPerStep);
 
@@ -87,7 +103,11 @@ namespace SabreTools.Hashing.Checksum
                 // Build each slice from the previous
                 for (int j = 0; j < 1 << BitsPerStep; j++)
                 {
+#if NET7_0_OR_GREATER
+                    UInt128 last = _table[i - 1, j];
+#else
                     ulong last = _table[i - 1, j];
+#endif
                     if (_definition.ReflectIn)
                         _table[i, j] = (last >> BitsPerStep) ^ _table[0, (byte)last];
                     else
@@ -108,7 +128,11 @@ namespace SabreTools.Hashing.Checksum
         /// or when <paramref name="offset"/> + <paramref name="length"/> is greater
         /// than the data length.
         /// </exception>
+#if NET7_0_OR_GREATER
+        public void TransformBlock(ref UInt128 hash, byte[] data, int offset, int length)
+#else
         public void TransformBlock(ref ulong hash, byte[] data, int offset, int length)
+#endif
         {
             // Empty data just returns
             if (data.Length == 0)
@@ -137,7 +161,11 @@ namespace SabreTools.Hashing.Checksum
         /// <param name="hash">Current hash value, updated on run</param>
         /// <param name="data">Byte array representing the data</param>
         /// <param name="offset">Offset in the data to process</param>
+#if NET7_0_OR_GREATER
+        private void PerformChecksumStep(ref UInt128 hash, byte[] data, int offset)
+#else
         private void PerformChecksumStep(ref ulong hash, byte[] data, int offset)
+#endif
         {
             // Per-bit processing
             if (Bitwise)
@@ -164,7 +192,11 @@ namespace SabreTools.Hashing.Checksum
         /// <summary>
         /// Perform an optimized transform step
         /// </summary>
+#if NET7_0_OR_GREATER
+        private bool TransformBlockFast(ref UInt128 hash, byte[] data, int offset, int length)
+#else
         private bool TransformBlockFast(ref ulong hash, byte[] data, int offset, int length)
+#endif
         {
             // Bitwise transformations are not optimized
             if (Bitwise)
@@ -196,10 +228,18 @@ namespace SabreTools.Hashing.Checksum
         /// Optimized transformation for CRC with reflection
         /// </summary>
         /// <remarks>Reads 4 bytes at a time</remarks>
+#if NET7_0_OR_GREATER
+        private void TransformBlockFast4Reflect(ref UInt128 hash, byte[] data, int offset, int length)
+#else
         private void TransformBlockFast4Reflect(ref ulong hash, byte[] data, int offset, int length)
+#endif
         {
             // Process on a copy of the hash
+#if NET7_0_OR_GREATER
+            UInt128 local = hash;
+#else
             ulong local = hash;
+#endif
 
             // Process aligned data
             if (length > 4)
@@ -209,11 +249,20 @@ namespace SabreTools.Hashing.Checksum
 
                 while (offset < end)
                 {
+#if NET7_0_OR_GREATER
+                    UInt128 low = local ^ (uint)(
+                          data[offset + 0]
+                        + (data[offset + 1] << 8)
+                        + (data[offset + 2] << 16)
+                        + (data[offset + 3] << 24));
+#else
                     ulong low = local ^ (uint)(
                           data[offset + 0]
                         + (data[offset + 1] << 8)
                         + (data[offset + 2] << 16)
                         + (data[offset + 3] << 24));
+#endif
+
                     offset += 4;
 
                     local = _table[3, (byte)low]
@@ -238,10 +287,18 @@ namespace SabreTools.Hashing.Checksum
         /// Optimized transformation for CRC with reflection
         /// </summary>
         /// <remarks>Reads 8 bytes at a time</remarks>
+#if NET7_0_OR_GREATER
+        private void TransformBlockFast8Reflect(ref UInt128 hash, byte[] data, int offset, int length)
+#else
         private void TransformBlockFast8Reflect(ref ulong hash, byte[] data, int offset, int length)
+#endif
         {
             // Process on a copy of the hash
+#if NET7_0_OR_GREATER
+            UInt128 local = hash;
+#else
             ulong local = hash;
+#endif
 
             // Process aligned data
             if (length > 8)
@@ -251,6 +308,18 @@ namespace SabreTools.Hashing.Checksum
 
                 while (offset < end)
                 {
+#if NET7_0_OR_GREATER
+                    UInt128 low = local ^ (uint)(
+                          data[offset + 0]
+                        + (data[offset + 1] << 8)
+                        + (data[offset + 2] << 16)
+                        + (data[offset + 3] << 24));
+                    UInt128 high = (uint)(
+                          data[offset + 4]
+                        + (data[offset + 5] << 8)
+                        + (data[offset + 6] << 16)
+                        + (data[offset + 7] << 24));
+#else
                     ulong low = local ^ (uint)(
                           data[offset + 0]
                         + (data[offset + 1] << 8)
@@ -261,6 +330,7 @@ namespace SabreTools.Hashing.Checksum
                         + (data[offset + 5] << 8)
                         + (data[offset + 6] << 16)
                         + (data[offset + 7] << 24));
+#endif
                     offset += 8;
 
                     local = _table[7, (byte)low]
@@ -289,10 +359,18 @@ namespace SabreTools.Hashing.Checksum
         /// Optimized transformation for 32-bit CRC with no reflection
         /// </summary>
         /// <remarks>Reads 8 bytes at a time</remarks>
+#if NET7_0_OR_GREATER
+        private void TransformBlockFast8NoReflect(ref UInt128 hash, byte[] data, int offset, int length)
+#else
         private void TransformBlockFast8NoReflect(ref ulong hash, byte[] data, int offset, int length)
+#endif
         {
             // Process on a copy of the hash
+#if NET7_0_OR_GREATER
+            UInt128 local = hash;
+#else
             ulong local = hash;
+#endif
 
             // Process aligned data
             if (length > 8)
@@ -302,6 +380,18 @@ namespace SabreTools.Hashing.Checksum
 
                 while (offset < end)
                 {
+#if NET7_0_OR_GREATER
+                    UInt128 low = local ^ (uint)(
+                          data[offset + 3]
+                        + (data[offset + 2] << 8)
+                        + (data[offset + 1] << 16)
+                        + (data[offset + 0] << 24));
+                    UInt128 high = (uint)(
+                          data[offset + 7]
+                        + (data[offset + 6] << 8)
+                        + (data[offset + 5] << 16)
+                        + (data[offset + 4] << 24));
+#else
                     ulong low = local ^ (uint)(
                           data[offset + 3]
                         + (data[offset + 2] << 8)
@@ -312,6 +402,7 @@ namespace SabreTools.Hashing.Checksum
                         + (data[offset + 6] << 8)
                         + (data[offset + 5] << 16)
                         + (data[offset + 4] << 24));
+#endif
                     offset += 8;
 
                     local = _table[4, (byte)low]

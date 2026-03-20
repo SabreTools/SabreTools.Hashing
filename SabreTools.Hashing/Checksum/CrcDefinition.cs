@@ -21,7 +21,11 @@ namespace SabreTools.Hashing.Checksum
         /// corresponds to the inward end of the shift register, and is always
         /// set. The highest-order term is omitted.
         /// </summary>
+#if NET7_0_OR_GREATER
+        public System.UInt128 Poly { get; set; }
+#else
         public ulong Poly { get; set; }
+#endif
 
         /// <summary>
         /// The settings of the bit cells at the start of each calculation,
@@ -29,7 +33,11 @@ namespace SabreTools.Hashing.Checksum
         /// hexadecimal, direct notation found in MSB-first code. The least
         /// significant bit corresponds to the inward end of the shift register.
         /// </summary>
+#if NET7_0_OR_GREATER
+        public System.UInt128 Init { get; set; }
+#else
         public ulong Init { get; set; }
+#endif
 
         /// <summary>
         /// If equal to false, specifies that the characters of the message
@@ -60,6 +68,10 @@ namespace SabreTools.Hashing.Checksum
         /// is written in hexadecimal notation, having the same endianness as
         /// the CRC such that its true image appears in the characters of the CRC.
         /// </summary>
+#if NET7_0_OR_GREATER
+        public System.UInt128 XorOut { get; set; }
+#else
         public ulong XorOut { get; set; }
+#endif
     }
 }

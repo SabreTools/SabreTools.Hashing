@@ -3,7 +3,11 @@ using static SabreTools.Hashing.HashOperations;
 
 namespace SabreTools.Hashing.Checksum
 {
+#if NET7_0_OR_GREATER
+    public class Crc : ChecksumBase<UInt128>
+#else
     public class Crc : ChecksumBase<ulong>
+#endif
     {
         /// <inheritdoc/>
         public override int HashSize => Def.Width;
@@ -50,7 +54,11 @@ namespace SabreTools.Hashing.Checksum
         protected override byte[] HashFinal()
         {
             // Create a copy of the hash
+#if NET7_0_OR_GREATER
+            UInt128 localHash = _hash;
+#else
             ulong localHash = _hash;
+#endif
 
             // Handle mutual reflection
             if (Def.ReflectIn ^ Def.ReflectOut)
