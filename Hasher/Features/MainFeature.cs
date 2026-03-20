@@ -53,7 +53,15 @@ namespace Hasher.Features
 
             // Get the required variables
             bool debug = GetBoolean(_debugName);
-            List<HashType> hashTypes = GetHashTypes(GetStringList(_typeName));
+            var hashTypeStrings = GetStringList(_typeName);
+
+            // Get the hash types from the inputs
+            List<HashType> hashTypes = GetHashTypes(hashTypeStrings);
+            if (hashTypes.Count == 0)
+            {
+                Console.WriteLine($"The provided hash types were not recognized: {string.Join(", ", [.. hashTypeStrings])}");
+                return false;
+            }
 
             // Loop through all of the input files
             for (int i = 0; i < Inputs.Count; i++)
@@ -73,26 +81,21 @@ namespace Hasher.Features
         /// </summary>
         private static List<HashType> GetHashTypes(List<string> types)
         {
-            List<HashType> hashTypes = [];
+            // No provided types
             if (types.Count == 0)
+                return [.. HashType.StandardHashes];
+
+            // All possible hashes
+            if (types.Contains("all"))
+                return [.. HashType.AllHashes];
+
+            // If a list is defined
+            List<HashType> hashTypes = [];
+            foreach (string typeString in types)
             {
-                hashTypes.Add(HashType.CRC32);
-                hashTypes.Add(HashType.MD5);
-                hashTypes.Add(HashType.SHA1);
-                hashTypes.Add(HashType.SHA256);
-            }
-            else if (types.Contains("all"))
-            {
-                hashTypes = [.. HashType.AllHashes];
-            }
-            else
-            {
-                foreach (string typeString in types)
-                {
-                    HashType? hashType = typeString.ToHashType();
-                    if (hashType is not null && !hashTypes.Contains(hashType))
-                        hashTypes.Add(item: hashType);
-                }
+                HashType? hashType = typeString.ToHashType();
+                if (hashType is not null && !hashTypes.Contains(hashType))
+                    hashTypes.Add(item: hashType);
             }
 
             return hashTypes;

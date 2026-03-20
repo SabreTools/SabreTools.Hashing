@@ -1206,12 +1206,13 @@ namespace SabreTools.Hashing
         /// <summary>
         /// Common collection of hash types
         /// </summary>
-        /// <remarks><see cref="CRC32"/>, <see cref="MD5"/>, <see cref="SHA1"/>
+        /// <remarks><see cref="CRC32"/>, <see cref="MD5"/>, <see cref="SHA1"/>, <see cref="SHA256"/></remarks>
         public static readonly HashType[] StandardHashes =
         [
             CRC32,
             MD5,
-            SHA1
+            SHA1,
+            SHA256,
         ];
 
         #endregion
