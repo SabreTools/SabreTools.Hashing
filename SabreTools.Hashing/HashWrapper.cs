@@ -68,7 +68,7 @@ namespace SabreTools.Hashing
         public HashWrapper(HashType hashType)
         {
             HashType = hashType;
-            _hasher = HashType.CreateHasher(hashType);
+            _hasher = hashType.CreateHasher();
         }
 
         /// <inheritdoc/>
