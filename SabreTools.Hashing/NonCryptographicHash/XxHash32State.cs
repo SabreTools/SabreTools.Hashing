@@ -83,10 +83,10 @@ namespace SabreTools.Hashing.NonCryptographicHash
                 Array.Copy(data, offset, _mem32, _memsize, 16 - _memsize);
 
                 int p32 = 0;
-                _acc[0] = Round(_acc[0], ReadLE32(_mem32, p32)); p32 += 4;
-                _acc[1] = Round(_acc[1], ReadLE32(_mem32, p32)); p32 += 4;
-                _acc[2] = Round(_acc[2], ReadLE32(_mem32, p32)); p32 += 4;
-                _acc[3] = Round(_acc[3], ReadLE32(_mem32, p32));
+                _acc[0] = Round(_acc[0], ToUInt32LittleEndian(_mem32, p32)); p32 += 4;
+                _acc[1] = Round(_acc[1], ToUInt32LittleEndian(_mem32, p32)); p32 += 4;
+                _acc[2] = Round(_acc[2], ToUInt32LittleEndian(_mem32, p32)); p32 += 4;
+                _acc[3] = Round(_acc[3], ToUInt32LittleEndian(_mem32, p32));
 
                 offset += 16 - _memsize;
                 _memsize = 0;
@@ -97,10 +97,10 @@ namespace SabreTools.Hashing.NonCryptographicHash
                 int limit = bEnd - 16;
                 do
                 {
-                    _acc[0] = Round(_acc[0], ReadLE32(data, offset)); offset += 4;
-                    _acc[1] = Round(_acc[1], ReadLE32(data, offset)); offset += 4;
-                    _acc[2] = Round(_acc[2], ReadLE32(data, offset)); offset += 4;
-                    _acc[3] = Round(_acc[3], ReadLE32(data, offset)); offset += 4;
+                    _acc[0] = Round(_acc[0], ToUInt32LittleEndian(data, offset)); offset += 4;
+                    _acc[1] = Round(_acc[1], ToUInt32LittleEndian(data, offset)); offset += 4;
+                    _acc[2] = Round(_acc[2], ToUInt32LittleEndian(data, offset)); offset += 4;
+                    _acc[3] = Round(_acc[3], ToUInt32LittleEndian(data, offset)); offset += 4;
                 } while (offset <= limit);
             }
 
@@ -185,7 +185,7 @@ namespace SabreTools.Hashing.NonCryptographicHash
             length &= 15;
             while (length >= 4)
             {
-                hash += ReadLE32(data, offset) * XXH_PRIME32_3;
+                hash += ToUInt32LittleEndian(data, offset) * XXH_PRIME32_3;
                 offset += 4;
                 hash = RotateLeft32(hash, 17) * XXH_PRIME32_4;
                 length -= 4;

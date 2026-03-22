@@ -29,27 +29,6 @@ namespace SabreTools.Hashing
             }
         }
 
-        /// <summary>
-        /// Convert a byte array to a UInt64
-        /// </summary>
-        /// <param name="bytes">Byte array to convert</param>
-        /// <returns>UInt64 representing the byte array</returns>
-        /// <link>https://stackoverflow.com/questions/66750224/how-to-convert-a-byte-array-of-any-size-to-ulong-in-c</link>
-        public static ulong BytesToUInt64(byte[]? bytes)
-        {
-            // If we get null in, we send 0 out
-            if (bytes is null)
-                return default;
-
-            ulong result = 0;
-            for (int i = 0; i < bytes.Length; i++)
-            {
-                result |= (ulong)bytes[i] << (i * 8);
-            }
-
-            return result;
-        }
-
 #if NET7_0_OR_GREATER
         /// <summary>
         /// Convert a byte array to a UInt64
@@ -71,66 +50,59 @@ namespace SabreTools.Hashing
 
             return result;
         }
+#else
+        /// <summary>
+        /// Convert a byte array to a UInt64
+        /// </summary>
+        /// <param name="bytes">Byte array to convert</param>
+        /// <returns>UInt64 representing the byte array</returns>
+        /// <link>https://stackoverflow.com/questions/66750224/how-to-convert-a-byte-array-of-any-size-to-ulong-in-c</link>
+        public static ulong BytesToUInt64(byte[]? bytes)
+        {
+            // If we get null in, we send 0 out
+            if (bytes is null)
+                return default;
+
+            ulong result = 0;
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                result |= (ulong)bytes[i] << (i * 8);
+            }
+
+            return result;
+        }
 #endif
-
-        #endregion
-
-        #region Read Big-Endian
-
-        /// <summary>
-        /// 32-bit big-endian read
-        /// </summary>
-        public static uint ReadBE32(byte[] data, int offset)
-        {
-            return (uint)(data[offset + 3]
-                        | (data[offset + 2] << 8)
-                        | (data[offset + 1] << 16)
-                        | (data[offset + 0] << 24));
-        }
-
-        /// <summary>
-        /// 64-bit big-endian read
-        /// </summary>
-        public static ulong ReadBE64(byte[] data, int offset)
-        {
-            return data[offset + 7]
-          | ((ulong)data[offset + 6] << 8)
-          | ((ulong)data[offset + 5] << 16)
-          | ((ulong)data[offset + 4] << 24)
-          | ((ulong)data[offset + 3] << 32)
-          | ((ulong)data[offset + 2] << 40)
-          | ((ulong)data[offset + 1] << 48)
-          | ((ulong)data[offset + 0] << 56);
-        }
 
         #endregion
 
         #region Read Litte-Endian
 
         /// <summary>
-        /// 32-bit little-endian read
+        /// Convert a byte array at an offset to a UInt32
         /// </summary>
-        public static uint ReadLE32(byte[] data, int offset)
+        /// <remarks>Reads in little-endian format</remarks>
+        public static uint ToUInt32LittleEndian(byte[] value, int offset)
         {
-            return (uint)(data[offset + 0]
-                        | (data[offset + 1] << 8)
-                        | (data[offset + 2] << 16)
-                        | (data[offset + 3] << 24));
+            return (uint)(value[offset + 0]
+                       | (value[offset + 1] << 8)
+                       | (value[offset + 2] << 16)
+                       | (value[offset + 3] << 24));
         }
 
         /// <summary>
-        /// 64-bit little-endian read
+        /// Convert a byte array at an offset to a UInt64
         /// </summary>
-        public static ulong ReadLE64(byte[] data, int offset)
+        /// <remarks>Reads in little-endian format</remarks>
+        public static ulong ToUInt64LittleEndian(byte[] value, int offset)
         {
-            return data[offset + 0]
-          | ((ulong)data[offset + 1] << 8)
-          | ((ulong)data[offset + 2] << 16)
-          | ((ulong)data[offset + 3] << 24)
-          | ((ulong)data[offset + 4] << 32)
-          | ((ulong)data[offset + 5] << 40)
-          | ((ulong)data[offset + 6] << 48)
-          | ((ulong)data[offset + 7] << 56);
+            return value[offset + 0]
+                | ((ulong)value[offset + 1] << 8)
+                | ((ulong)value[offset + 2] << 16)
+                | ((ulong)value[offset + 3] << 24)
+                | ((ulong)value[offset + 4] << 32)
+                | ((ulong)value[offset + 5] << 40)
+                | ((ulong)value[offset + 6] << 48)
+                | ((ulong)value[offset + 7] << 56);
         }
 
         #endregion

@@ -121,7 +121,7 @@ namespace SabreTools.Hashing.XxHash
                           | ((uint)c2 << 24)
                           | ((uint)c3 << 0)
                           | ((uint)length << 8);
-            ulong bitflip = (ReadLE32(secret, 0) ^ ReadLE32(secret, 4)) + seed;
+            ulong bitflip = (ToUInt32LittleEndian(secret, 0) ^ ToUInt32LittleEndian(secret, 4)) + seed;
             ulong keyed = combined ^ bitflip;
 
             return XXH64Avalanche(keyed);
@@ -134,9 +134,9 @@ namespace SabreTools.Hashing.XxHash
         {
             seed ^= (ulong)Swap32((uint)seed) << 32;
 
-            uint input1 = ReadLE32(data, offset);
-            uint input2 = ReadLE32(data, offset + length - 4);
-            ulong bitflip = (ReadLE64(secret, 8) ^ ReadLE64(secret, 16)) - seed;
+            uint input1 = ToUInt32LittleEndian(data, offset);
+            uint input2 = ToUInt32LittleEndian(data, offset + length - 4);
+            ulong bitflip = (ToUInt64LittleEndian(secret, 8) ^ ToUInt64LittleEndian(secret, 16)) - seed;
             ulong input64 = input2 + (((ulong)input1) << 32);
             ulong keyed = input64 ^ bitflip;
 
@@ -148,10 +148,10 @@ namespace SabreTools.Hashing.XxHash
         /// </summary>
         public static ulong Len9To16Out64(byte[] data, int offset, int length, byte[] secret, ulong seed)
         {
-            ulong bitflip1 = (ReadLE64(secret, 24) ^ ReadLE64(secret, 32)) + seed;
-            ulong bitflip2 = (ReadLE64(secret, 40) ^ ReadLE64(secret, 48)) - seed;
-            ulong input_lo = ReadLE64(data, offset) ^ bitflip1;
-            ulong input_hi = ReadLE64(data, offset + length - 8) ^ bitflip2;
+            ulong bitflip1 = (ToUInt64LittleEndian(secret, 24) ^ ToUInt64LittleEndian(secret, 32)) + seed;
+            ulong bitflip2 = (ToUInt64LittleEndian(secret, 40) ^ ToUInt64LittleEndian(secret, 48)) - seed;
+            ulong input_lo = ToUInt64LittleEndian(data, offset) ^ bitflip1;
+            ulong input_hi = ToUInt64LittleEndian(data, offset + length - 8) ^ bitflip2;
 
             ulong acc = (ulong)length
                       + Swap64(input_lo) + input_hi
@@ -172,17 +172,17 @@ namespace SabreTools.Hashing.XxHash
             if (length > 0)
                 return Len1To3Out64(data, offset, length, secret, seed);
 
-            return XXH64Avalanche(seed ^ ReadLE64(secret, 56) ^ ReadLE64(secret, 64));
+            return XXH64Avalanche(seed ^ ToUInt64LittleEndian(secret, 56) ^ ToUInt64LittleEndian(secret, 64));
         }
 
         public static ulong Mix16B(byte[] data, int offset, byte[] secret, int secretOffset, ulong seed)
         {
-            ulong input_lo = ReadLE64(data, offset + 0);
-            ulong input_hi = ReadLE64(data, offset + 8);
+            ulong input_lo = ToUInt64LittleEndian(data, offset + 0);
+            ulong input_hi = ToUInt64LittleEndian(data, offset + 8);
 
             return MultiplyTo128Fold64(
-                input_lo ^ (ReadLE64(secret, secretOffset + 0) + seed),
-                input_hi ^ (ReadLE64(secret, secretOffset + 8) - seed)
+                input_lo ^ (ToUInt64LittleEndian(secret, secretOffset + 0) + seed),
+                input_hi ^ (ToUInt64LittleEndian(secret, secretOffset + 8) - seed)
             );
         }
 

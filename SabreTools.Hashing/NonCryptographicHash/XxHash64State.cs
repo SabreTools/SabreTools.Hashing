@@ -76,10 +76,10 @@ namespace SabreTools.Hashing.NonCryptographicHash
                 Array.Copy(data, offset, _mem64, _memsize, 32 - _memsize);
 
                 int p64 = 0;
-                _acc[0] = Round(_acc[0], ReadLE64(_mem64, p64)); p64 += 8;
-                _acc[1] = Round(_acc[1], ReadLE64(_mem64, p64)); p64 += 8;
-                _acc[2] = Round(_acc[2], ReadLE64(_mem64, p64)); p64 += 8;
-                _acc[3] = Round(_acc[3], ReadLE64(_mem64, p64));
+                _acc[0] = Round(_acc[0], ToUInt64LittleEndian(_mem64, p64)); p64 += 8;
+                _acc[1] = Round(_acc[1], ToUInt64LittleEndian(_mem64, p64)); p64 += 8;
+                _acc[2] = Round(_acc[2], ToUInt64LittleEndian(_mem64, p64)); p64 += 8;
+                _acc[3] = Round(_acc[3], ToUInt64LittleEndian(_mem64, p64));
 
                 offset += 32 - _memsize;
                 _memsize = 0;
@@ -90,10 +90,10 @@ namespace SabreTools.Hashing.NonCryptographicHash
                 int limit = bEnd - 32;
                 do
                 {
-                    _acc[0] = Round(_acc[0], ReadLE64(data, offset)); offset += 8;
-                    _acc[1] = Round(_acc[1], ReadLE64(data, offset)); offset += 8;
-                    _acc[2] = Round(_acc[2], ReadLE64(data, offset)); offset += 8;
-                    _acc[3] = Round(_acc[3], ReadLE64(data, offset)); offset += 8;
+                    _acc[0] = Round(_acc[0], ToUInt64LittleEndian(data, offset)); offset += 8;
+                    _acc[1] = Round(_acc[1], ToUInt64LittleEndian(data, offset)); offset += 8;
+                    _acc[2] = Round(_acc[2], ToUInt64LittleEndian(data, offset)); offset += 8;
+                    _acc[3] = Round(_acc[3], ToUInt64LittleEndian(data, offset)); offset += 8;
                 } while (offset <= limit);
             }
 
@@ -175,7 +175,7 @@ namespace SabreTools.Hashing.NonCryptographicHash
             length &= 31;
             while (length >= 8)
             {
-                ulong k1 = Round(0, ReadLE64(data, offset));
+                ulong k1 = Round(0, ToUInt64LittleEndian(data, offset));
                 offset += 8;
                 hash ^= k1;
                 hash = (RotateLeft64(hash, 27) * XXH_PRIME64_1) + XXH_PRIME64_4;
@@ -184,7 +184,7 @@ namespace SabreTools.Hashing.NonCryptographicHash
 
             if (length >= 4)
             {
-                hash ^= ReadLE32(data, offset) * XXH_PRIME64_1;
+                hash ^= ToUInt32LittleEndian(data, offset) * XXH_PRIME64_1;
                 offset += 4;
                 hash = (RotateLeft64(hash, 23) * XXH_PRIME64_2) + XXH_PRIME64_3;
                 length -= 4;

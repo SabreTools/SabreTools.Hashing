@@ -56,7 +56,7 @@ namespace SabreTools.Hashing.CryptographicHash
                 // Split the buffer for the round
                 for (int i = 0; i < 8; i++)
                 {
-                    _block[i] = ReadLE64(_buffer, i * 8);
+                    _block[i] = ToUInt64LittleEndian(_buffer, i * 8);
                 }
 
                 // Run the round
@@ -77,7 +77,7 @@ namespace SabreTools.Hashing.CryptographicHash
                 // Split the buffer for the round
                 for (int i = 0; i < 8; i++)
                 {
-                    _block[i] = ReadLE64(_buffer, i * 8);
+                    _block[i] = ToUInt64LittleEndian(_buffer, i * 8);
                 }
 
                 // Run the round
