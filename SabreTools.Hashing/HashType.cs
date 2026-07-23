@@ -68,7 +68,6 @@ namespace SabreTools.Hashing
             "00000001",
             static () => new Adler32());
 
-#if NET7_0_OR_GREATER
         /// <summary>
         /// BLAKE3 512-bit digest
         /// </summary>
@@ -76,7 +75,10 @@ namespace SabreTools.Hashing
             "BLAKE3 512-bit digest",
             [0xaf, 0x13, 0x49, 0xb9, 0xf5, 0xf9, 0xa1, 0xa6, 0xa0, 0x40, 0x4d, 0xea, 0x36, 0xdc, 0xc9, 0x49, 0x9b, 0xcb, 0x25, 0xc9, 0xad, 0xc1, 0x12, 0xb7, 0xcc, 0x9a, 0x93, 0xca, 0xe4, 0x1f, 0x32, 0x62],
             "af1349b9f5f9a1a6a0404dea36dcc9499bcb25c9adc112b7cc9a93cae41f3262",
+#if NET7_0_OR_GREATER
             static () => new Blake3.Blake3HashAlgorithm());
+#else
+            static () => throw new NotImplementedException());
 #endif
 
         #region CRC
@@ -1246,7 +1248,6 @@ namespace SabreTools.Hashing
 
         #region CRC-82
 
-#if NET7_0_OR_GREATER
         /// <summary>
         /// CRC 82-bit checksum (CRC-82/DARC)
         /// </summary>
@@ -1254,7 +1255,10 @@ namespace SabreTools.Hashing
             "CRC 82-bit checksum (CRC-82/DARC)",
             [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00],
             "000000000000000000000",
+#if NET7_0_OR_GREATER
             static () => new Crc(StandardDefinitions.CRC82_DARC));
+#else
+            static () => throw new NotImplementedException());
 #endif
 
         #endregion
@@ -1468,7 +1472,6 @@ namespace SabreTools.Hashing
             "cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e",
             static () => System.Security.Cryptography.SHA512.Create());
 
-#if NET8_0_OR_GREATER
         /// <summary>
         /// SHA3-256 hash
         /// </summary>
@@ -1476,7 +1479,11 @@ namespace SabreTools.Hashing
             "SHA3-256 hash",
             [0xa7, 0xff, 0xc6, 0xf8, 0xbf, 0x1e, 0xd7, 0x66, 0x51, 0xc1, 0x47, 0x56, 0xa0, 0x61, 0xd6, 0x62, 0xf5, 0x80, 0xff, 0x4d, 0xe4, 0x3b, 0x49, 0xfa, 0x82, 0xd8, 0x0a, 0x4b, 0x80, 0xf8, 0x43, 0x4a],
             "a7ffc6f8bf1ed76651c14756a061d662f580ff4de43b49fa82d80a4b80f8434a",
+#if NET8_0_OR_GREATER
             static () => System.Security.Cryptography.SHA3_256.IsSupported ? System.Security.Cryptography.SHA3_256.Create() : null);
+#else
+            static () => throw new NotImplementedException());
+#endif
 
         /// <summary>
         /// SHA3-384 hash
@@ -1485,7 +1492,11 @@ namespace SabreTools.Hashing
             "SHA3-384 hash",
             [0x0c, 0x63, 0xa7, 0x5b, 0x84, 0x5e, 0x4f, 0x7d, 0x01, 0x10, 0x7d, 0x85, 0x2e, 0x4c, 0x24, 0x85, 0xc5, 0x1a, 0x50, 0xaa, 0xaa, 0x94, 0xfc, 0x61, 0x99, 0x5e, 0x71, 0xbb, 0xee, 0x98, 0x3a, 0x2a, 0xc3, 0x71, 0x38, 0x31, 0x26, 0x4a, 0xdb, 0x47, 0xfb, 0x6b, 0xd1, 0xe0, 0x58, 0xd5, 0xf0, 0x04],
             "0c63a75b845e4f7d01107d852e4c2485c51a50aaaa94fc61995e71bbee983a2ac3713831264adb47fb6bd1e058d5f004",
+#if NET8_0_OR_GREATER
             static () => System.Security.Cryptography.SHA3_384.IsSupported ? System.Security.Cryptography.SHA3_384.Create() : null);
+#else
+            static () => throw new NotImplementedException());
+#endif
 
         /// <summary>
         /// SHA3-512 hash
@@ -1494,7 +1505,11 @@ namespace SabreTools.Hashing
             "SHA3-512 hash",
             [0xa6, 0x9f, 0x73, 0xcc, 0xa2, 0x3a, 0x9a, 0xc5, 0xc8, 0xb5, 0x67, 0xdc, 0x18, 0x5a, 0x75, 0x6e, 0x97, 0xc9, 0x82, 0x16, 0x4f, 0xe2, 0x58, 0x59, 0xe0, 0xd1, 0xdc, 0xc1, 0x47, 0x5c, 0x80, 0xa6, 0x15, 0xb2, 0x12, 0x3a, 0xf1, 0xf5, 0xf9, 0x4c, 0x11, 0xe3, 0xe9, 0x40, 0x2c, 0x3a, 0xc5, 0x58, 0xf5, 0x00, 0x19, 0x9d, 0x95, 0xb6, 0xd3, 0xe3, 0x01, 0x75, 0x85, 0x86, 0x28, 0x1d, 0xcd, 0x26],
             "a69f73cca23a9ac5c8b567dc185a756e97c982164fe25859e0d1dcc1475c80a615b2123af1f5f94c11e3e9402c3ac558f500199d95b6d3e301758586281dcd26",
+#if NET8_0_OR_GREATER
             static () => System.Security.Cryptography.SHA3_512.IsSupported ? System.Security.Cryptography.SHA3_512.Create() : null);
+#else
+            static () => throw new NotImplementedException());
+#endif
 
         /// <summary>
         /// SHAKE128 SHA-3 family hash
@@ -1504,7 +1519,11 @@ namespace SabreTools.Hashing
             "SHAKE128 SHA-3 family hash (256-bit)",
             [0x7f, 0x9c, 0x2b, 0xa4, 0xe8, 0x8f, 0x82, 0x7d, 0x61, 0x60, 0x45, 0x50, 0x76, 0x05, 0x85, 0x3e, 0xd7, 0x3b, 0x80, 0x93, 0xf6, 0xef, 0xbc, 0x88, 0xeb, 0x1a, 0x6e, 0xac, 0xfa, 0x66, 0xef, 0x26],
             "7f9c2ba4e88f827d616045507605853ed73b8093f6efbc88eb1a6eacfa66ef26",
+#if NET8_0_OR_GREATER
             static () => System.Security.Cryptography.Shake128.IsSupported ? new System.Security.Cryptography.Shake128() : null);
+#else
+            static () => throw new NotImplementedException());
+#endif
 
         /// <summary>
         /// SHAKE256 SHA-3 family hash
@@ -1514,7 +1533,10 @@ namespace SabreTools.Hashing
             "SHAKE256 SHA-3 family hash (512-bit)",
             [0x46, 0xb9, 0xdd, 0x2b, 0x0b, 0xa8, 0x8d, 0x13, 0x23, 0x3b, 0x3f, 0xeb, 0x74, 0x3e, 0xeb, 0x24, 0x3f, 0xcd, 0x52, 0xea, 0x62, 0xb8, 0x1b, 0x82, 0xb5, 0x0c, 0x27, 0x64, 0x6e, 0xd5, 0x76, 0x2f, 0xd7, 0x5d, 0xc4, 0xdd, 0xd8, 0xc0, 0xf2, 0x00, 0xcb, 0x05, 0x01, 0x9d, 0x67, 0xb5, 0x92, 0xf6, 0xfc, 0x82, 0x1c, 0x49, 0x47, 0x9a, 0xb4, 0x86, 0x40, 0x29, 0x2e, 0xac, 0xb3, 0xb7, 0xc4, 0xbe],
             "46b9dd2b0ba88d13233b3feb743eeb243fcd52ea62b81b82b50c27646ed5762fd75dc4ddd8c0f200cb05019d67b592f6fc821c49479ab48640292eacb3b7c4be",
+#if NET8_0_OR_GREATER
             static () => System.Security.Cryptography.Shake256.IsSupported ? new System.Security.Cryptography.Shake256() : null);
+#else
+            static () => throw new NotImplementedException());
 #endif
 
         #endregion
@@ -1660,7 +1682,6 @@ namespace SabreTools.Hashing
             "ef46db3751d8e999",
             static () => new XxHash64());
 
-#if NET462_OR_GREATER || NETCOREAPP
         /// <summary>
         /// XXH3 64-bit hash
         /// </summary>
@@ -1668,7 +1689,11 @@ namespace SabreTools.Hashing
             "XXH3 64-bit hash",
             [0x2d, 0x06, 0x80, 0x05, 0x38, 0xd3, 0x94, 0xc2],
             "2d06800538d394c2",
+#if NET462_OR_GREATER || NETCOREAPP
             static () => new System.IO.Hashing.XxHash3());
+#else
+            static () => throw new NotImplementedException());
+#endif
 
         /// <summary>
         /// XXH128 128-bit hash
@@ -1677,7 +1702,10 @@ namespace SabreTools.Hashing
             "XXH128 128-bit hash",
             [0x99, 0xaa, 0x06, 0xd3, 0x01, 0x47, 0x98, 0xd8, 0x60, 0x01, 0xc3, 0x24, 0x46, 0x8d, 0x49, 0x7f],
             "99aa06d3014798d86001c324468d497f",
+#if NET462_OR_GREATER || NETCOREAPP
             static () => new System.IO.Hashing.XxHash128());
+#else
+            static () => throw new NotImplementedException());
 #endif
 
         #endregion

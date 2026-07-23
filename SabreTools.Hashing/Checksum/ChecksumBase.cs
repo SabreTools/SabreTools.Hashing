@@ -7,7 +7,7 @@ namespace SabreTools.Hashing.Checksum
     /// </summary>
     public abstract class ChecksumBase : System.Security.Cryptography.HashAlgorithm
     {
-        #if NET7_0_OR_GREATER
+#if NET7_0_OR_GREATER
         /// <summary>
         /// Convert an Int64 to a byte array
         /// </summary>

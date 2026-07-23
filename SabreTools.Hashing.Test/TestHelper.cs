@@ -17,9 +17,7 @@ namespace SabreTools.Hashing.Test
         {
             {HashType.Adler32, "08562d95"},
 
-#if NET7_0_OR_GREATER
             {HashType.BLAKE3, "d4bd7ca6f1ebea9580d9381106b248eb5b6069170d0bfd00b17d659fcd10dcdc"},
-#endif
 
             {HashType.CRC1_ZERO, "0"},
             {HashType.CRC1_ONE, "1"},
@@ -162,9 +160,7 @@ namespace SabreTools.Hashing.Test
             {HashType.CRC64_WE, "91812be748f941c4"},
             {HashType.CRC64_XZ, "fb49044e8331f6e5"},
 
-#if NET7_0_OR_GREATER
             { HashType.CRC82_DARC, "14a892baa6688e66f55f3"},
-#endif
 
             {HashType.Fletcher16, "46c1"},
             {HashType.Fletcher32, "073f2d94"},
@@ -192,13 +188,11 @@ namespace SabreTools.Hashing.Test
             {HashType.SHA256, "fdb02dee8c319c52087382c45f099c90d0b6cc824850aff28c1bfb2884b7b855"},
             {HashType.SHA384, "e276c49618fff25bc1fe2e0659cd0ef0e7c1186563b063e07c52323b9899f3ce9b091be04d6208444b3ef1265e879074"},
             {HashType.SHA512, "15d69514eb628c2403e945a7cafd1d27e557f6e336c69b63ea17e7ed9d256cc374ee662f09305836d6de37fdae59d83883b982aa8446e4ff26346b6b6b50b240"},
-#if NET8_0_OR_GREATER
             {HashType.SHA3_256, "1d76459e68c865b5911ada5104067cc604c5c60b345c4e81b3905e916a43c868"},
             {HashType.SHA3_384, "1bcbed87b73f25c0adf486c3afbf0ea3105763c387af3f8b2bd79b0a1964d42832b1d7c6a2225f9153ead26f442e8b67"},
             {HashType.SHA3_512, "89852144df37c58d01f5912124f1942dd00bac0346eb3971943416699c3094cff087fb42c356019c3d91f8e8f55b9254c8caec48e9414af6817297d06725ffeb"},
             {HashType.SHAKE128, "e5f88d0db79a71c39490beb9ebac21eaf4a5d6368438fca20f5e4ce77cfee9aa"},
             {HashType.SHAKE256, "24d9e83198bbc7baf4dcd293bfc35ae3fff05399786c37318f1b1ef85f41970c66926f8a2a1f912d96e2d8e45535af88a301a1c200697437c1a65d7e980344bc"},
-#endif
 
             {HashType.SpamSum, "3:hMCPQCE6AFQxWyENFACBE+rW6Tj7SMQmKozr9MVERkL:hZRdxZENFs+rPSromekL"},
 
@@ -217,10 +211,8 @@ namespace SabreTools.Hashing.Test
 
             {HashType.XxHash32, "aa1d338e"},
             {HashType.XxHash64, "181e9ea4f0f62b08"},
-#if NET462_OR_GREATER || NETCOREAPP
             {HashType.XxHash3, "f29fda0eeb740404"},
             {HashType.XxHash128, "e811cdfb1280efae1be1e1a5b4b434d9"},
-#endif
         };
 
         #endregion

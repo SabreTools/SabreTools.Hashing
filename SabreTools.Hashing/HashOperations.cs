@@ -31,10 +31,10 @@ namespace SabreTools.Hashing
 
 #if NET7_0_OR_GREATER
         /// <summary>
-        /// Convert a byte array to a UInt64
+        /// Convert a byte array to a UInt128
         /// </summary>
         /// <param name="bytes">Byte array to convert</param>
-        /// <returns>UInt64 representing the byte array</returns>
+        /// <returns>UInt128 representing the byte array</returns>
         /// <link>https://stackoverflow.com/questions/66750224/how-to-convert-a-byte-array-of-any-size-to-ulong-in-c</link>
         public static UInt128 BytesToUInt128(byte[]? bytes)
         {
