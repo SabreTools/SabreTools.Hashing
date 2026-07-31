@@ -37,6 +37,7 @@ namespace SabreTools.Hashing
         /// <summary>
         /// Function used to generate the correct hashing class for the hash type
         /// </summary>
+        /// <remarks>If the algorithm is unsupported, this will return null</remarks>
         public readonly Func<object?> CreateHasher;
 
         #endregion
@@ -78,7 +79,7 @@ namespace SabreTools.Hashing
 #if NET7_0_OR_GREATER
             static () => new Blake3.Blake3HashAlgorithm());
 #else
-            static () => throw new NotImplementedException());
+            static () => null);
 #endif
 
         #region CRC
@@ -1258,7 +1259,7 @@ namespace SabreTools.Hashing
 #if NET7_0_OR_GREATER
             static () => new Crc(StandardDefinitions.CRC82_DARC));
 #else
-            static () => throw new NotImplementedException());
+            static () => null);
 #endif
 
         #endregion
@@ -1482,7 +1483,7 @@ namespace SabreTools.Hashing
 #if NET8_0_OR_GREATER
             static () => System.Security.Cryptography.SHA3_256.IsSupported ? System.Security.Cryptography.SHA3_256.Create() : null);
 #else
-            static () => throw new NotImplementedException());
+            static () => null);
 #endif
 
         /// <summary>
@@ -1495,7 +1496,7 @@ namespace SabreTools.Hashing
 #if NET8_0_OR_GREATER
             static () => System.Security.Cryptography.SHA3_384.IsSupported ? System.Security.Cryptography.SHA3_384.Create() : null);
 #else
-            static () => throw new NotImplementedException());
+            static () => null);
 #endif
 
         /// <summary>
@@ -1508,7 +1509,7 @@ namespace SabreTools.Hashing
 #if NET8_0_OR_GREATER
             static () => System.Security.Cryptography.SHA3_512.IsSupported ? System.Security.Cryptography.SHA3_512.Create() : null);
 #else
-            static () => throw new NotImplementedException());
+            static () => null);
 #endif
 
         /// <summary>
@@ -1522,7 +1523,7 @@ namespace SabreTools.Hashing
 #if NET8_0_OR_GREATER
             static () => System.Security.Cryptography.Shake128.IsSupported ? new System.Security.Cryptography.Shake128() : null);
 #else
-            static () => throw new NotImplementedException());
+            static () => null);
 #endif
 
         /// <summary>
@@ -1536,7 +1537,7 @@ namespace SabreTools.Hashing
 #if NET8_0_OR_GREATER
             static () => System.Security.Cryptography.Shake256.IsSupported ? new System.Security.Cryptography.Shake256() : null);
 #else
-            static () => throw new NotImplementedException());
+            static () => null);
 #endif
 
         #endregion
@@ -1692,7 +1693,7 @@ namespace SabreTools.Hashing
 #if NET462_OR_GREATER || NETCOREAPP
             static () => new System.IO.Hashing.XxHash3());
 #else
-            static () => throw new NotImplementedException());
+            static () => null);
 #endif
 
         /// <summary>
@@ -1705,7 +1706,7 @@ namespace SabreTools.Hashing
 #if NET462_OR_GREATER || NETCOREAPP
             static () => new System.IO.Hashing.XxHash128());
 #else
-            static () => throw new NotImplementedException());
+            static () => null);
 #endif
 
         #endregion
