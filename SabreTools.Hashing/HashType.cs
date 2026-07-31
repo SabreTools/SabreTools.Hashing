@@ -1722,9 +1722,7 @@ namespace SabreTools.Hashing
         [
             Adler32,
 
-    #if NET7_0_OR_GREATER
             BLAKE3,
-    #endif
 
             CRC1_ZERO,
             CRC1_ONE,
@@ -1867,9 +1865,7 @@ namespace SabreTools.Hashing
             CRC64_WE,
             CRC64_XZ,
 
-#if NET7_0_OR_GREATER
             CRC82_DARC,
-#endif
 
             Fletcher16,
             Fletcher32,
@@ -1897,13 +1893,11 @@ namespace SabreTools.Hashing
             SHA256,
             SHA384,
             SHA512,
-#if NET8_0_OR_GREATER
             SHA3_256,
             SHA3_384,
             SHA3_512,
             SHAKE128,
             SHAKE256,
-#endif
 
             SpamSum,
 
@@ -1922,10 +1916,8 @@ namespace SabreTools.Hashing
 
             XxHash32,
             XxHash64,
-#if NET462_OR_GREATER || NETCOREAPP
             XxHash3,
             XxHash128,
-#endif
         ];
 
         /// <summary>
