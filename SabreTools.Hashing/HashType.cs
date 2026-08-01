@@ -1690,7 +1690,7 @@ namespace SabreTools.Hashing
             "XXH3 64-bit hash",
             [0x2d, 0x06, 0x80, 0x05, 0x38, 0xd3, 0x94, 0xc2],
             "2d06800538d394c2",
-#if NET462_OR_GREATER || NETCOREAPP
+#if NET462_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NETCOREAPP
             static () => new System.IO.Hashing.XxHash3());
 #else
             static () => null);
@@ -1703,7 +1703,7 @@ namespace SabreTools.Hashing
             "XXH128 128-bit hash",
             [0x99, 0xaa, 0x06, 0xd3, 0x01, 0x47, 0x98, 0xd8, 0x60, 0x01, 0xc3, 0x24, 0x46, 0x8d, 0x49, 0x7f],
             "99aa06d3014798d86001c324468d497f",
-#if NET462_OR_GREATER || NETCOREAPP
+#if NET462_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NETCOREAPP
             static () => new System.IO.Hashing.XxHash128());
 #else
             static () => null);

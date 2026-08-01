@@ -23,7 +23,7 @@ namespace SabreTools.Hashing
         public byte[]? CurrentHashBytes => _hasher switch
         {
             HashAlgorithm ha => ha.Hash,
-#if NET462_OR_GREATER || NETCOREAPP
+#if NET462_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NETCOREAPP
             System.IO.Hashing.NonCryptographicHashAlgorithm ncha => ncha.GetCurrentHash(),
 #endif
 #if NET8_0_OR_GREATER
@@ -93,7 +93,7 @@ namespace SabreTools.Hashing
                     ha.TransformBlock(buffer, offset, size, null, 0);
                     break;
 
-#if NET462_OR_GREATER || NETCOREAPP
+#if NET462_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NETCOREAPP
                 case System.IO.Hashing.NonCryptographicHashAlgorithm ncha:
                     var nchaBufferSpan = new ReadOnlySpan<byte>(buffer, offset, size);
                     ncha.Append(nchaBufferSpan);
