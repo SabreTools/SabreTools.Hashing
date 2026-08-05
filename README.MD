@@ -54,7 +54,7 @@ External implementations of hash and checksum types may not be compatible with a
 | Source | Hash / Checksum Types | Notes |
 | --- | --- | --- |
 | [Blake3.NET](https://github.com/xoofx/Blake3.NET) | BLAKE3 | Used in `net7.0` and above |
-| [System.IO.Hashing](https://www.nuget.org/packages/System.IO.Hashing) | XXH3, XXH128 | Used in `net462` and above |
+| [System.IO.Hashing](https://www.nuget.org/packages/System.IO.Hashing) | XXH3, XXH128 | Package used in `net462` and above; modified imported code used in `net20` to `net452` |
 | [System.Security.Cryptography](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography) | MD5, SHA-1, SHA-256, SHA-384, SHA-512, SHA3-256, SHA3-384, SHA3-512, SHAKE128, SHAKE256 | Built-in library; SHA3-256, SHA3-384, SHA3-512, SHAKE128, and SHAKE256 are `net8.0` and above only for [supported platforms](https://learn.microsoft.com/en-us/dotnet/standard/security/cross-platform-cryptography) |
 
 **Note:** If all you care about is performance, I encourage you to forego this library and use the ones listed above directly instead.

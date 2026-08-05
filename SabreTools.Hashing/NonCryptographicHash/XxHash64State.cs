@@ -206,7 +206,7 @@ namespace SabreTools.Hashing.NonCryptographicHash
         /// The final mix ensures that all input bits have a chance to impact any bit in
         /// the output digest, resulting in an unbiased distribution.
         /// </summary>
-        private static ulong Avalanche(ulong hash)
+        internal static ulong Avalanche(ulong hash)
         {
             hash ^= hash >> 33;
             hash *= XXH_PRIME64_2;

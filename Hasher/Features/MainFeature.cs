@@ -323,10 +323,8 @@ namespace Hasher.Features
 
                 "xxh" or "xxh32" or "xxh_32" or "xxhash" or "xxhash32" or "xxhash_32" => HashType.XxHash32,
                 "xxh64" or "xxh_64" or "xxhash64" or "xxhash_64" => HashType.XxHash64,
-#if NET462_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NETCOREAPP
                 "xxh3" or "xxh3_64" or "xxhash3" or "xxhash_3" => HashType.XxHash3,
                 "xxh128" or "xxh_128" or "xxhash128" or "xxhash_128" => HashType.XxHash128,
-#endif
 
                 _ => null,
             };

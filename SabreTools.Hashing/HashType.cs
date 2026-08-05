@@ -1693,7 +1693,7 @@ namespace SabreTools.Hashing
 #if NET462_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NETCOREAPP
             static () => new System.IO.Hashing.XxHash3());
 #else
-            static () => null);
+            static () => new XxHash3());
 #endif
 
         /// <summary>
@@ -1706,7 +1706,7 @@ namespace SabreTools.Hashing
 #if NET462_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NETCOREAPP
             static () => new System.IO.Hashing.XxHash128());
 #else
-            static () => null);
+            static () => new XxHash128());
 #endif
 
         #endregion
