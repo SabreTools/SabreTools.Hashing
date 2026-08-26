@@ -33,7 +33,7 @@
         <PackageReference Include="Blake3" Version="1.1.0" Condition="$(TargetFramework.StartsWith(`net7`))" />
         <PackageReference Include="Blake3" Version="3.0.2" Condition="$(TargetFramework.StartsWith(`net8`)) OR $(TargetFramework.StartsWith(`net9`)) OR $(TargetFramework.StartsWith(`net10`))" />
         <PackageReference Include="Net30.LinqBridge" Version="1.6.0.2" Condition="$(TargetFramework.StartsWith(`net2`))" />
-        <PackageReference Include="System.IO.Hashing" Version="10.0.10" Condition="!$(TargetFramework.StartsWith(`net2`)) AND !$(TargetFramework.StartsWith(`net3`)) AND !$(TargetFramework.StartsWith(`net40`)) AND !$(TargetFramework.StartsWith(`net45`))" />
+        <PackageReference Include="System.IO.Hashing" Version="10.0.11" Condition="!$(TargetFramework.StartsWith(`net2`)) AND !$(TargetFramework.StartsWith(`net3`)) AND !$(TargetFramework.StartsWith(`net40`)) AND !$(TargetFramework.StartsWith(`net45`))" />
     </ItemGroup>
 
 </Project>
